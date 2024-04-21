@@ -11,5 +11,6 @@ CHIP Not {
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    (in=0, out=1)
+    (in=1, out=0)
 }
