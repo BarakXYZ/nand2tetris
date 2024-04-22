@@ -11,5 +11,12 @@ CHIP And {
     OUT out;
     
     PARTS:
-    //// Replace this comment with your code.
+    Nand(a=a, b=b, out=aNANDb);
+    Not(in=aNANDb, out=out);
 }
+
+/**
+* And, in the end of the day, is just the negation of Nand.
+
+BarakXYZ 2024
+*/
