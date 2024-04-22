@@ -13,10 +13,29 @@ CHIP DMux4Way {
     IN in, sel[2];
     OUT a, b, c, d;
 
-    DMux(in, sel[0], out=Dmux1);
-
-    
     PARTS:
-
-
+    DMux(in=in, sel=sel[1], a=AB, b=CD);
+    DMux(in=AB, sel=sel[0], a=a, b=b);
+    DMux(in=CD, sel=sel[0], a=c, b=d);
 }
+
+/**
+    Or(a=sel[0], b=sel[1], out=OrAB);
+    Not(in=OrAB, out=NotOrAB);
+    And(a=in, b=NotOrAB, out=a);
+    
+    And(a=sel[0], b=sel[1], out=AndCD);
+    And(a=in, b=AndCD, out=d);
+    
+    Not(in=sel[1], out=NotSel1);
+    And(a=sel[0], b=NotSel1, out=AndSel0NotSel1);
+    And(a=in, b=AndSel0NotSel1, out=b);
+
+    Not(in=sel[0], out=NotSel0);
+    And(a=sel[1], b=NotSel0, out=AndSel1NotSel0);
+    And(a=in, b=AndSel1NotSel0, out=c);
+
+* Perhaps I should understand how I can use the DMux cheaps?
+
+* BarakXYZ 2024
+*/
