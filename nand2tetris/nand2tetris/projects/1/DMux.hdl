@@ -12,5 +12,15 @@ CHIP DMux {
     OUT a, b;
 
     PARTS:
-    //// Replace this comment with your code.
+    Not(in=sel, out=Notsel);
+    And(a=in, b=Notsel, out=a);  /** [in, 0] if sel=0 */
+    And(a=in, b=sel, out=b);  /** [0, in] if sel=1 */
 }
+
+/**
+* By negating the input, we essentially control
+* instant assignmnet of 0, for the first or second parameters.
+* And afterwards, leaving the choice for 'in' for the next parameters.
+
+* BarakXYZ 2024
+*/

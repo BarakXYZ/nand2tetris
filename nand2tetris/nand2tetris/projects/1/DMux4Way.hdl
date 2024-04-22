@@ -13,6 +13,10 @@ CHIP DMux4Way {
     IN in, sel[2];
     OUT a, b, c, d;
 
+    DMux(in, sel[0], out=Dmux1);
+
+    
     PARTS:
-    //// Replace this comment with your code.
+
+
 }

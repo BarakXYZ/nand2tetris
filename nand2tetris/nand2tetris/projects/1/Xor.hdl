@@ -11,5 +11,16 @@ CHIP Xor {
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    Not(in=a, out=Nota);
+    Not(in=b, out=Notb);
+    And(a=a, b=Notb, out=aAndNotb);
+    And(a=Nota, b=b, out=NotaAndb);
+    Or(a=aAndNotb, b=NotaAndb, out=out);
 }
+
+/**
+* Honestly just followed the specification.
+* We've already implemented And, Not & Or, so we can
+* quite simply implement that directly.
+
+BarakXYZ 2024 */

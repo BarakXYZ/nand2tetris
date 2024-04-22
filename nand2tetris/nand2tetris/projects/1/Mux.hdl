@@ -11,5 +11,14 @@ CHIP Mux {
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    Not(in=sel, out=Notsel);
+    And(a=a, b=Notsel, out=aAndNotsel);  /** Passing a if sel=0 */
+    And(a=b, b=sel, out=bAndsel);  /** Else, pass whatever's b */
+    Or(a=aAndNotsel, b=bAndsel, out=out);
 }
+
+/** 
+* One main concept to think about is the idea that we are playing with only 0's and 1's.
+* Therefore, if a=0, and we're eventually outputting 0, we've essentially satisified and outputted a!
+
+/** BarakXYZ 2024 */
