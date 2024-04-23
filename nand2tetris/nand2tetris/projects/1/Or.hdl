@@ -10,15 +10,36 @@ CHIP Or {
     IN a, b;
     OUT out;
     PARTS:
-    Not(in=a, out=NOTa);
-    Not(in=b, out=NOTb);
-    Nand(a=NOTa, b=NOTb, out=out);
+    Not(in=a, out=NotA);
+    Not(in=b, out=NotB);
+    Nand(a=NotA, b=NotB, out=out);
    
 }
 
 /**
-Or isn't satified only when 0,0 & 1,1 meets Nand; 0, 1, respectively.
-Therefore, we just need to negate both edges to achieve Or.
-It won't effect the 0,1 & 1,0, since we're still ending up with 1
+Not like 'And', 'Or' is is different than 'Nand' only where:
+0,0 (Nand 1, Or 0), 1,1 (Nand 0, Or 1).
+We can negate both inputs to change the behavior of Nand only in 0,0 and 1,1
+to output Or.
+The middle (0,1 1,0) won't change be the negation since they'll still stay opposite.
+
+And
+0 0 = 0
+0 1 = 0
+1 0 = 0
+1 1 = 1
+
+Or
+0 0 = 0
+0 1 = 1
+1 0 = 1
+1 1 = 1
+
+Nand
+0 0 = 1
+0 1 = 1
+1 0 = 1
+1 1 = 0
+
 
 /** BarakXYZ 2024 */

@@ -18,9 +18,9 @@ CHIP DMux {
 }
 
 /**
-* By negating the input, we essentially control
-* instant assignmnet of 0, for the first or second parameters.
-* And afterwards, leaving the choice for 'in' for the next parameters.
+* By negating the input ('sel') and using 'And' we control the flow to be as follows:
+* if sel=0, we negate it to 1, thus letting 'in' pass as 1 if needed, or 0.
+* then for b it will always output as zero (since sel=0 without the negation).
 
 * BarakXYZ 2024
 */

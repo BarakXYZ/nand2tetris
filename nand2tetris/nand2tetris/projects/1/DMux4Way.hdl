@@ -21,6 +21,11 @@ CHIP DMux4Way {
 }
 
 /**
+    * Implementation v2:
+    After digesting these concepts a bit further, it's easy to simplify the implementation further.
+    Firstly filtering via the second bit to 2 halfes.
+    Then filtering via the first bitl to the final result.
+
     * Implementation v1 *
     Or(a=sel[0], b=sel[1], out=OrAB);
     Not(in=OrAB, out=NotOrAB);

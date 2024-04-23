@@ -18,18 +18,18 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    DMux4Way(in=in, sel=sel[1..2], a=ab, b=cd, c=ef, d=gh);
-    DMux(in=ab, sel=sel[0], a=a, b=b);
-    DMux(in=cd, sel=sel[0], a=c, b=d);
-    DMux(in=ef, sel=sel[0], a=e, b=f);
-    DMux(in=gh, sel=sel[0], a=g, b=h);
+    DMux4Way(in=in, sel=sel[1..2], a=AB, b=CD, c=EF, d=GH);
+    DMux(in=AB, sel=sel[0], a=a, b=b);
+    DMux(in=CD, sel=sel[0], a=c, b=d);
+    DMux(in=EF, sel=sel[0], a=e, b=f);
+    DMux(in=GH, sel=sel[0], a=g, b=h);
 
-    /*
-    Honestly, followed some intution here, not necessarily fully understanding this
-    step-by-step.
-    TODO: Try to understand this step-by-step.
-    (Mainly followed intution from DMux4Way)
+/*
+Firstly filtering using the second and third bits; grouping all outs to pairs.
+At this point, we've essentially grouped our final selection to ab, cd, ef or gh.
+We've still haven't detemined where the final output should go to.
+Using the first bit, we can filter to receive our final output.
 
-    * BarakXYZ 2024
-    */
+* BarakXYZ 2024
+*/
 }
