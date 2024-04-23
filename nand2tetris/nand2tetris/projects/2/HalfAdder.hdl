@@ -11,5 +11,15 @@ CHIP HalfAdder {
         carry;  // Left bit of a + b
 
     PARTS:
-    //// Replace this comment with your code.
+    Xor(a=a, b=b, out=sum);
+    And(a=a, b=b, out=carry);
 }
+
+/**
+* Simply, Xor fits the output truth table of 'sum',
+* And fits the output truth table of 'carry',
+* thus using both and pluggin them to 'sum' & 'carry',
+* we can get the functionality description of an HalfAdder chip.
+
+* BarakXYZ 2024
+*/
