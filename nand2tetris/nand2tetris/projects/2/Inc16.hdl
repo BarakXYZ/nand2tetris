@@ -11,13 +11,32 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-    Not16(in=in[0..15], out=out[0..15]);
+    Add16(a=in, b[0]=true, out=out);
 }
 
 /**
+Took a few minutes to realize the syntax (lol) but pretty straight forward;
+Just literally adding 1 via Add16.
+
 Test 1
 10100011
+=
+10100100
 
 Test 2
 01011100
+=
+01011101
+
+Test 3
+11011111
+=
+11100000
+
+Test 4
+11011011
+=
+11011100
+
+* BarakXYZ 2024
 */

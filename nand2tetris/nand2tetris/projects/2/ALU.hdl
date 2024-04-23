@@ -34,12 +34,44 @@ CHIP ALU {
         zy, // zero the y input?
         ny, // negate the y input?
         f,  // compute (out = x + y) or (out = x & y)?
-        no; // negate the out output?
+        no; // negate the outAdd16.tst output?
     OUT 
         out[16], // 16-bit output
         zr,      // if (out == 0) equals 1, else 0
         ng;      // if (out < 0)  equals 1, else 0
 
     PARTS:
-    //// Replace this comment with your code.
+    Mux16(a=x, b=false, sel=zx, out=postZX); /** Calculate zx */
+
+    Not16(in=postZX, out=notPostZX);
+    Mux16(a=postZX, b=notPostZX, sel=nx, out=postNX);
+
+    Mux16(a=y, b=false, sel=zy, out=postZY);  /** Calculate zy */
+
+    Not16(in=postZY, out=notPostZY);
+    Mux16(a=postZY, b=notPostZY, sel=ny, out=postNY);
+    
+    Add16(a=postNX, b=postNY, out=addXY);
+    And16(a=postNX, b=postNY, out=andXY);
+    Mux16(a=andXY, b=addXY, sel=f, out=postF);
+    
+    Not16(in=postF, out=notPostF);
+    Mux16(a=postF, b=notPostF, sel=no, out=out, out=finalOutput, out[15]=checkNG);
+    
+    Not16(in=finalOutput, out=notFinalOutput);
+    Or16(a=finalOutput, b=notFinalOutput, out[0]=checkZR);
+    Not(in=checkZR, out=negCheckZR);
+    Or(a=negCheckZR, b=false, out=zr);
+    
+    Mux(a=false, b=true, sel=checkNG, out=ng);
 }
+/**
+Finally realized I can actually output (out) a few things from the same chip (haha :()
+For some reason the Basic Alu test works, but the other one doesn't?
+In the website it also works... so... not sure.
+
+Anyways, it was very interesting to implement this one, for some reason the zr & ng took the longest for me.
+Also, in this implementation I really realized how powerful is the Mux and how to use it in more ways than I thought.
+
+* BarakXYZ 2024
+*/
