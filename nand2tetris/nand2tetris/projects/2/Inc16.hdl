@@ -11,5 +11,13 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-    //// Replace this comment with your code.
+    Not16(in=in[0..15], out=out[0..15]);
 }
+
+/**
+Test 1
+10100011
+
+Test 2
+01011100
+*/

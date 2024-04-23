@@ -55,3 +55,12 @@ The abstract definition will be easier to grasp and less technical (hopefully) s
 ########### CONTINUE ###############
 https://www.coursera.org/learn/build-a-computer/lecture/jmAls/unit-1-5-hardware-simulation
 (14min)
+
+## Week 2:
+Findng the binary representation of any negative number:
+    Find the Positive Representation: Determine the binary representation for the positive version of the number (e.g., for −13−13, start with 1313, which is 0000110100001101 in an 8-bit binary system).
+
+    Invert All Bits: Flip each bit in the binary representation (0's become 1's and 1's become 0's). For 0000110100001101, this results in 1111001011110010.
+
+    Add One: Add 1 to the inverted binary number. Adding 1 to 1111001011110010 gives you 1111001111110011.
+
