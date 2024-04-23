@@ -59,13 +59,50 @@ CHIP ALU {
     Mux16(a=postF, b=notPostF, sel=no, out=out, out=finalOutput, out[15]=checkNG);
     
     Not16(in=finalOutput, out=notFinalOutput);
-    Or16(a=finalOutput, b=notFinalOutput, out[0]=checkZR);
-    Not(in=checkZR, out=negCheckZR);
-    Or(a=negCheckZR, b=false, out=zr);
-    
-    Mux(a=false, b=true, sel=checkNG, out=ng);
+    Or16(a=finalOutput, b=notFinalOutput, out=checkZR);
+    Inc16(in=checkZR, out[0]=zr0, out[15]=zr15);
+    Or(a=zr0, b=zr15, out=zrcheck);
+    Not(in=zrcheck, out=zr);
+
+    Mux(a=false, b=true, sel=checkNG, out=ng, out=myng);
 }
 /**
+0000 1111 0101 0111
+
+1111 0000 1010 1000
+
+0000 0000 0010 0000
+1111 1111 1110 0000
+check first last bit = 1 (positive non-zero, zr=0)
+
+1100 1010 0000 1000
+0011 0101 0000 0110
+
+
+0000 0000 0000 0000
+1111 1111 1111 1111
+
+Or(a=in[15], b=notin[15], out=)
+
+1111 1111 0101 0100
++
+0000 0000 1010 1000 (NOT)
+=
+0000 0000 0000 0000
+
+1111 1111 0101 0100
++
+0000 0000 1010 1101 (NOT+1)
+=
+0000 0000 0000 0001
+
+1111 1111 0101 0100
++
+0000 0000 1010 1011 (NOT-1)
+=
+1111 1111 1111 1111
+
+
 Finally realized I can actually output (out) a few things from the same chip (haha :()
 For some reason the Basic Alu test works, but the other one doesn't?
 In the website it also works... so... not sure.
