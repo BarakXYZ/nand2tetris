@@ -18,7 +18,7 @@ CHIP Not {
 * inserting both only 0's, or both only 1's 
 * (achieved by duplicated the input 2 times), 
 * will always negate our end product using NAND. 
-* Therefore, achieving NOT.
+* Therefore, producing NOT.
 
 * BarakXYZ 2024 
 */

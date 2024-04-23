@@ -14,6 +14,18 @@ CHIP Mux4Way16 {
     OUT out[16];
     
     PARTS:
+    /** Implementation v2 */
+    Mux16(a=a, b=b, sel=sel[0], out=MuxAB);
+    Mux16(a=c, b=d, sel=sel[0], out=MuxCD);
+    Mux16(a=MuxAB, b=MuxCD, sel=sel[1], out=out);
+}
+
+/**
+    Implementation v2:
+    After finishing all cheaps, I've realized how much I over complicated things.
+    haha:)(:(
+--------------------------------------------------------------------------------
+    Implementation v1
     Or(a=sel[0], b=sel[1], out=OrSel);
     Mux16(a=a, b=b, sel=OrSel, out=MuxAB);
 
@@ -21,9 +33,7 @@ CHIP Mux4Way16 {
     Mux16(a=c, b=d, sel=AndSel, out=MuxCD);
     
     Mux16(a=MuxAB, b=MuxCD, sel=sel[1], out=out);
-}
 
-/**
 I was over thinking this one so hard, omg.
 In the end it was just realizing, if sel[1]=0, it will just pick AB
 else, it will pick CB.
