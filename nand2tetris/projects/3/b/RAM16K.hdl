@@ -13,5 +13,28 @@ CHIP RAM16K {
     OUT out[16];
 
     PARTS:
-    //// Replace this comment with your code.
+    DMux8Way(in=load, sel=address[11..13], a=ram0, b=ram1, c=ram2, d=ram3, e=ram4, f=ram5, g=ram6, h=ram7);
+    RAM4K(in=in, load=ram0, address=address[0..11], out=outRam0);
+    RAM4K(in=in, load=ram1, address=address[0..11], out=outRam1);
+    RAM4K(in=in, load=ram2, address=address[0..11], out=outRam2);
+    RAM4K(in=in, load=ram3, address=address[0..11], out=outRam3);
+    RAM4K(in=in, load=ram4, address=address[0..11], out=outRam4);
+    RAM4K(in=in, load=ram5, address=address[0..11], out=outRam5);
+    RAM4K(in=in, load=ram6, address=address[0..11], out=outRam6);
+    RAM4K(in=in, load=ram7, address=address[0..11], out=outRam7);
+    Mux8Way16(
+    a=outRam0, b=outRam1, c=outRam2, d=outRam3,
+    e=outRam4, f=outRam5, g=outRam6, h=outRam7,
+    sel=address[11..13],
+    out=out
+    );
 }
+
+/**
+This is so satisfying and amazing <3
+Same explanation as RAM4K, just slicing msb and lsb to access first the high-level RAM, then accessing the deeper RAM... eventually the registers themselves.
+One small note: the address bits here are a bit different when slicing, notice we're using 11..13, and 0..11 (instead of 0..10), because of the log calculation, it works out like that.
+
+BarakXYZ 2024
+*/
+
