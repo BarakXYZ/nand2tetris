@@ -33,32 +33,26 @@ CHIP CPU {
 
     PARTS:
 
+    Mux16(a=instruction, b=alu_out, sel=instruction[15],
+    out=mux_inst_alu, writeM=instruction[3])  // Instruction 3 == writeM (RAM[A])
+    // if inst[15] == 1, it's a C-inst -> ALU = A-Reg
+    // else it's an A-inst -> A-inst = A-Reg
+
+    ARegister(in=mux_inst_alu, load=instruction[5], out=reg_a, out[0..14]=addressM)
+    // ?Questioning the addressM at this point specifically?
+
+    DRegister(in=alu_out, load=instruction[4], out=reg_d)
+    // Getting input from the ALU, control-bit taken from the instruction 'dest' c-bit 4
+
+    Mux16(a=inM, b=reg_a, sel=instruction[15], out=mux_inM_regA)
+    // ?? Big question on the sel bit here ??
+
     ALU(x=reg_d, y=mux_inM_regA,
         zx=instruction[11], nx=instruction[10],
         zy=instruction[9], ny=instruction[8],
         f=instruction[7], no=instruction[6],
         zr=out_zr, ng=out_ng,
-        out=alu_out, out=outM);
-
-
-    Mux16(a=instruction, b=alu_out, sel=instruction[15], out=mux_inst_alu);
-
-    // if inst[15] == 1, it's a C-inst -> ALU = A-Reg
-    // else it's an A-inst -> A-inst = A-Reg
-
-    Mux(a=instruction[3], b=instruction[3], sel=false, out=writeM);
-    // Instruction 3 == writeM (RAM[A])
-
-
-    ARegister(in=mux_inst_alu, load=instruction[5], out=reg_a, out[0..14]=addressM);
-    // ?Questioning the addressM at this point specifically?
-
-    DRegister(in=alu_out, load=instruction[4], out=reg_d);
-    // Getting input from the ALU, control-bit taken from the instruction 'dest' c-bit 4
-
-    Mux16(a=inM, b=reg_a, sel=instruction[15], out=mux_inM_regA);
-    // ?? Big question on the sel bit here ??
-
+        out=alu_out, out=outM)
 
     // ----------------------------------------
     // Setting all possible jump-conditions:
@@ -66,12 +60,12 @@ CHIP CPU {
     // No jump == false == null == 000 (this is set directly in the DMux)
     // Unconditional jump == true == JMP == 111 (set as 'reg_a' in the DMux)
 
-    Or(a=out_zr, b=out_ng, out=zr_or_ng);  // JLE == 110
-    Not(in=zr_or_ng, out=not_zr_or_ng);  // JGT == 001
+    Or(a=out_zr, b=out_ng, out=zr_or_ng)  // JLE == 110
+    Not(in=zr_or_ng, out=not_zr_or_ng)  // JGT == 001
 
-    Not(in=out_ng, out=not_ng);
-    Or(a=not_ng, b=out_zr, out=not_ng_or_zr);  // JGE == 011
-    Not(in=out_zr, out=not_zr);  // JNE == 101
+    Not(in=out_ng, out=not_ng)
+    Or(a=not_ng, b=out_zr, out=not_ng_or_zr)  // JGE == 011
+    Not(in=out_zr, out=not_zr)  // JNE == 101
 
     // ALU's zr & ng (control bits)
     // out_zr is simply JEQ == 010
@@ -80,20 +74,16 @@ CHIP CPU {
     DMux8Way(
         a=false, b=not_zr_or_ng, c=out_zr, d=not_ng_or_zr,
         e=out_ng, f=not_zr, g=zr_or_ng, h=reg_a,
-        sel=instruction[0..2], out=jump_out);
-    // This is not how to use DMux <3 fix this
+        sel=instruction[0..2], out=jump_out)
     // ----------------------------------------
 
-    // Inc16?
-    Inc16(in=reg_a, out=inc_reg_a);
-    // Mux16?
-    Mux16(a=inc_reg_a, b=reg_a, sel=jump_out, out=inc_reg_a_mux_reg_a);
-
     // Check if 'reset' is asserted
-    Mux(a=jump_out, b=true, sel=reset, out=pc_control);  // if reset; load 0
-    Mux16(a=inc_reg_a_mux_reg_a, b=false, sel=reset, out=pc_input);  // if reset; address = 0
+    Mux(a=jump_out, b=true, sel=reset, out=pc_control)  // if reset; load 0
+    Mux16(a=reg_a, b=false, sel=reset, out=pc_input)    // if reset; address = 0
 
-    PC(in=pc_input, load=pc_control, out[0..14]=pc);
+    PC(in=pc_input, load=pc_control, out[0..14]=pc)
+
+
 
     // subscript the instruction control bits use them for the ALU
     // right to left : (most right is no, most left is zx)
