@@ -32,5 +32,57 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    RAM16()
+
+    Mux16(a=instruction, b=alu_out, sel=instruction[15], out=muxInstALU,
+    writeM=instruction[3])
+
+    ARegister(in=muxInstALU, load=instruction[5], out=reg_a, out=addressM)
+
+    DRegister(in=alu_out, load=instruction[4], out=reg_d)
+    Mux16(a=inM, b=reg_a, sel=???, out=muxInMreg_a)
+
+    Inc16(in=reg_a, out=incRegA)
+
+    Or(a=out_zr, b=out_ng, out=zr_or_ng)
+    Not(in=zr_or_ng, out=not_zr_or_ng)
+    Not(in=out_ng, out=not_ng)
+    Or(a=not_ng, b=out_zr, out=not_ng_or_zr)
+    Not(in=out_zr, out=not_zr)
+
+    DMux8Way(
+    a=false, b=not_zr_or_ng, c=out_zr, d=not_ng_or_zr,
+    e=out_ng, f=not_zr, g=zr_or_ng, h=reg_a, 
+    sel=instruction[0..2], out=jump_out)
+
+    Mux(a=jump_out, b=true, sel=reset, out=pc_control)  // if reset; load 0
+    Mux16(a=reg_a, b=false, sel=reset, out=pc_input)    // if reset; address = 0
+
+    PC(in=pc_input, load=pc_control, out=pc)
+
+
+    ALU(x=reg_d, y=muxInMreg_a, zx=, nx=, zy=, ny=, f=, no=, zr=out_zr, ng=out_ng, out=alu_out, out=outM)
+
+    // subscript the instruction control bits use them for the ALU
+    // right to left : (most right is no, most left is zx)
+    // We have the option to use zx and zy to zero the inputs
+    // zr; is 1 if output ALU == 0
+    // ng; is 1 if output ALU < 0
+    // Probably we want to use one of them for PC
+    // Using the destination bits to control the A, D and writeM registers.
+    // 000; none will load the new values, 111; all load
+
+    // PC:
+    // We want to use the ALU zr & ng to understand if we have a jump (conditional)
+    // We want to brute force PC=0 in case of a reset
+    // We might want to use increment (Inc16) to perform PC++
+
+
 }
+/*
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute (out = x + y) or (out = x & y)?
+        no; // negate the outAdd16.tst output?
+*/
