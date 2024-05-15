@@ -5,14 +5,22 @@
 /**
  * The Hack Central Processing unit (CPU).
  * Parses the binary code in the instruction input and executes it according to the
- * Hack machine language specification. In the case of a C-instruction, computes the
- * function specified by the instruction. If the instruction specifies to read a memory
- * value, the inM input is expected to contain this value. If the instruction specifies
- * to write a value to the memory, sets the outM output to this value, sets the addressM
- * output to the target address, and asserts the writeM output (when writeM = 0, any
- * value may appear in outM).
+ * Hack machine language specification.
+
+ * In the case of a C-instruction;
+ * computes the function specified by the instruction.
+ * If the instruction specifies to read a memory value, the inM input is expected to contain this value.
+
+ * If the instruction specifies to write a value to the memory, 
+ * sets the outM output to this value, 
+ * sets the addressM output to the target address,
+ * and asserts the writeM output.
+ * (when writeM = 0, any value may appear in outM).
+
  * If the reset input is 0, computes the address of the next instruction and sets the
- * pc output to that value. If the reset input is 1, sets pc to 0.
+ * pc output to that value. 
+ * If the reset input is 1, sets pc to 0.
+
  * Note: The outM and writeM outputs are combinational: they are affected by the
  * instruction's execution during the current cycle. The addressM and pc outputs are
  * clocked: although they are affected by the instruction's execution, they commit to
@@ -33,79 +41,142 @@ CHIP CPU {
 
     PARTS:
 
-    ALU(x=reg_d, y=mux_inM_regA,
+    // if inst[15] == 1, C-inst -> aluOut = A-Register
+    // else A-inst -> instruction = A-Register
+    Mux16(a=instruction, b=aluOut, sel=instruction[15], out=instMuxALU);  // Certainty 10/10
+
+    And(a=instruction[15], b=instruction[3], out=writeM);  // Certainty 10/10
+    // if C-Instruction and instruction[3] == 1 -> writeM
+
+    // --------------------------------------  // Certainty 7/10
+    // A Register:
+
+    // This make sense to double validate the loading using both i15 & i5, but for some reason it's passing less tests.
+    // More specifically D=A test I think
+    And(a=instruction[15], b=instruction[5], out=loadAReg);
+    // ARegister(in=instMuxALU, load=loadAReg, out=AReg, out[0..14]=addressM);
+    
+    // This for some reason is passing more tests
+    ARegister(in=instMuxALU, load=instruction[5], out=AReg, out[0..14]=addressM);
+
+    // This is very weird also, I guess it's not clear to me when we want to populate the ALU with inM
+    // Let's try to verify this and see if they mention when should we use inM vs. AReg for this Mux going to the ALU
+    Mux16(a=inM, b=AReg, sel=instruction[15], out=ARegMuxInM);
+    // Mux16(a=AReg, b=inM, sel=instruction[15], out=ARegMuxInM);
+    // --------------------------------------
+
+    // --------------------------------------  // Certainty 7/10
+    // D Register:
+    // Not sure again, if we should validate with i[15] & i[4] or just i[4]
+    // This doesn't seem to influence the fail on line 15 in the comparision
+    // And(a=instruction[15], b=instruction[4], out=loadDReg);
+    // DRegister(in=aluOut, load=loadDReg, out=DReg);
+
+    DRegister(in=aluOut, load=instruction[4], out=DReg);
+    //  input -> ALU | instruction 'dest' c-bit[4]
+    // --------------------------------------
+
+
+    // --------------------------------------  // Certainty 10/10
+    // Arithmetic Logical Unit:
+    // x -> D Register | y -> A Register mux inM
+    // [6]c-bits from the instruction 
+    // Outputs to outM | aluOut (to mux and feed to other registers)
+    ALU(x=DReg, y=ARegMuxInM,
         zx=instruction[11], nx=instruction[10],
         zy=instruction[9], ny=instruction[8],
         f=instruction[7], no=instruction[6],
-        zr=out_zr, ng=out_ng,
-        out=alu_out, out=outM);
+        out=aluOut, out=outM,
+        zr=outZR, ng=outNG);
 
 
-    Mux16(a=instruction, b=alu_out, sel=instruction[15], out=mux_inst_alu);
-
-    // if inst[15] == 1, it's a C-inst -> ALU = A-Reg
-    // else it's an A-inst -> A-inst = A-Reg
-
-    Mux(a=instruction[3], b=instruction[3], sel=false, out=writeM);
-    // Instruction 3 == writeM (RAM[A])
-
-
-    ARegister(in=mux_inst_alu, load=instruction[5], out=reg_a, out[0..14]=addressM);
-    // ?Questioning the addressM at this point specifically?
-
-    DRegister(in=alu_out, load=instruction[4], out=reg_d);
-    // Getting input from the ALU, control-bit taken from the instruction 'dest' c-bit 4
-
-    Mux16(a=inM, b=reg_a, sel=instruction[15], out=mux_inM_regA);
-    // ?? Big question on the sel bit here ??
-
-
-    // ----------------------------------------
+    // ----------------------------------------  Certainty 9/10
     // Setting all possible jump-conditions:
 
-    // No jump == false == null == 000 (this is set directly in the DMux)
-    // Unconditional jump == true == JMP == 111 (set as 'reg_a' in the DMux)
+    Not(in=outZR, out=notZR);
+    Not(in=outNG, out=notNG);
 
-    Or(a=out_zr, b=out_ng, out=zr_or_ng);  // JLE == 110
-    Not(in=zr_or_ng, out=not_zr_or_ng);  // JGT == 001
+    // null -> no jump (000)
+    // if no other jump condition are met, 'no jump' will be the organic side-effect.
 
-    Not(in=out_ng, out=not_ng);
-    Or(a=not_ng, b=out_zr, out=not_ng_or_zr);  // JGE == 011
-    Not(in=out_zr, out=not_zr);  // JNE == 101
+    And(a=notZR, b=notNG, out=notZRandNotNG);  // out > 0 -> JGT (001)
+    And(a=instruction[0], b=notZRandNotNG, out=JGT);
 
-    // ALU's zr & ng (control bits)
-    // out_zr is simply JEQ == 010
-    // out_ng is simply JLT == 100
+    // outZR is simply == 0 -> JEQ (010)
+    And(a=outZR, b=instruction[1], out=JEQ);
 
-    DMux8Way(
-        a=false, b=not_zr_or_ng, c=out_zr, d=not_ng_or_zr,
-        e=out_ng, f=not_zr, g=zr_or_ng, h=reg_a,
-        sel=instruction[0..2], out=jump_out);
-    // This is not how to use DMux <3 fix this
+    Or(a=notNG, b=outZR, out=notNGorZR);  // out >= 0 -> JGE (011)
+    And(a=instruction[0], b=instruction[1], out=instJGE);
+    And(a=notNGorZR, b=instJGE, out=JGE);
+
+    // outNG is simply out < 0 -> JLT (100)
+    And(a=outNG, b=instruction[2], out=JLT);
+
+    // out != 0 -> JNE (101)
+    And(a=instruction[0], b=instruction[2], out=instJNE);
+    And(a=notZR, b=instJNE, out=JNE);
+
+    // out <= 0 -> JLE (110)
+    Or(a=outZR, b=outNG, out=ZRorNG);
+    And(a=instruction[1], b=instruction[2], out=instJLE);
+    And(a=ZRorNG, b=instJLE, out=JLE);
+
+    // Unconditional jump -> JMP (111)
+    And(a=instruction[0], b=instruction[1], out=inst0AndInst1);
+    And(a=inst0AndInst1, b=instruction[2], out=JMP);
+
+    // Check if any of the conditions are met:
+    Or8Way(in[0]=false, in[1]=JGT, in[2]=JEQ, in[3]=JGE,
+        in[4]=JLT, in[5]=JNE, in[6]=JLE, in[7]=JMP, out=outJump);
+
+    /*
+    // I think my alternative is actually way cleaner. But not sure if it actually works yet.
+    Mux8Way(
+        a=false, b=notZRandNotNG, c=outZR, d=notNGorZR,
+        e=outNG, f=notZR, g=ZRorNG, h=true,
+        sel=instruction[0..2],
+        out=outJump);
+    */
+
+    // This is also passing less tests, but makes sense as a concept to verify the jump
+    // I thought we are  supposed to jump only when it's a C-instruction, but maybe it's also coming from the ALU
+    // sometimes? Therefore checking with i[15] isn't needed? Not sure.
+    Not(in=outJump, out=notJump);
+    And(a=notJump, b=instruction[15], out=finNotJump);
+    And(a=outJump, b=instruction[15], out=finJump);
     // ----------------------------------------
-
-    // Inc16?
-    Inc16(in=reg_a, out=inc_reg_a);
-    // Mux16?
-    Mux16(a=inc_reg_a, b=reg_a, sel=jump_out, out=inc_reg_a_mux_reg_a);
-
-    // Check if 'reset' is asserted
-    Mux(a=jump_out, b=true, sel=reset, out=pc_control);  // if reset; load 0
-    Mux16(a=inc_reg_a_mux_reg_a, b=false, sel=reset, out=pc_input);  // if reset; address = 0
-
-    PC(in=pc_input, load=pc_control, out[0..14]=pc);
-
-    // subscript the instruction control bits use them for the ALU
-    // right to left : (most right is no, most left is zx)
-    // We have the option to use zx and zy to zero the inputs
-    // zr; is 1 if output ALU == 0
-    // ng; is 1 if output ALU < 0
-    // Probably we want to use one of them for PC
-    // Using the destination bits to control the A, D and writeM registers.
-    // 000; none will load the new values, 111; all load
-
-    // PC:
-    // We want to use the ALU zr & ng to understand if we have a jump (conditional)
-    // We want to brute force PC=0 in case of a reset
-    // We might want to use increment (Inc16) to perform PC++
+    // PC(in=AReg, inc=finNotJump, load=finJump, reset=reset, out[0..14]=pc);
+    PC(in=AReg, inc=notJump, load=outJump, reset=reset, out[0..14]=pc);
 }
+
+
+/**
+Xor is another alternative chip probably, essentially to check if they're the same or not.
+There are probably many ways to achieve that though.
+This is probably not the problem right now anyway :(
+
+101     011     000     000     111
+100     011     001     000     111
+
+General Notes:
+in:
+
+inM (Data Memory) - the data to operate on.
+
+instruction (ROM) - The current instruction (what should we do with the inM), can be either a C-instruction, or an A-instruction.
+
+reset (USER) - Coming from the user; should we reset the current running program?
+
+out:
+
+Data Memory:
+outM - what do we wanna write to the Data Memory
+writeM - Should we actually load // write the memory
+addressM - Where do we want to write this memory to (inside the Data Memory), and address that specifies that location.
+
+ROM:
+pc - the program counter will hold the next instruction to be fetchted and executed for the next cycle. Outputs to ROM.
+
+*/
+
+
