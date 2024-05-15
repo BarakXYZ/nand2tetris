@@ -25,5 +25,28 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-	//// Replace this comment with your code.
+	DMux4Way(in=load, sel=address[13..14],
+	a=loadRamA, b=loadRamB, c=loadScreen, d=loadKeyboard);
+	Or(a=loadRamA, b=loadRamB, out=loadRam);
+
+	RAM16K(in=in ,load=loadRam ,address=address[0..13] ,out=outRam);
+
+	Screen(in=in ,load=loadScreen ,address=address[2..14] ,out=outScreen);
+
+	Keyboard(out=outKeyboard);
+	// Keyboard(out=outKeyboard1);
+	// Register(in=outKeyboard1 ,load=loadKeyboard ,out=outKeyboard);
+	// Mux16(a=false, b=outKeyboard1, sel=loadKeyboard, out=outKeyboard);
+
+	Mux4Way16(a=outRam, b=outRam, c=outScreen, d=outKeyboard, sel=address[13..14], out=out);
+
+	// Mux4Way16(a=outRam, b=outRam, c=outScreen, d=outKeyboard, sel=address[13..14], out=lastOut);
+	// Register(in=lastOut ,load=load ,out=out);
 }
+
+/*
+432109876543210
+011111111111111  == 16,383
+100000000000000  == 16,384
+110000000000000  == 24,576
+*/
