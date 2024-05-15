@@ -10,6 +10,7 @@
  * In the case of a C-instruction;
  * computes the function specified by the instruction.
  * If the instruction specifies to read a memory value, the inM input is expected to contain this value.
+ // BarakXYZ: This is determined by the 12-bit of a C-Instruction. aka cAluAorM in the hdl below.
 
  * If the instruction specifies to write a value to the memory, 
  * sets the outM output to this value, 
@@ -40,143 +41,127 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
+    // BarakXYZ 2024
 
-    // if inst[15] == 1, C-inst -> aluOut = A-Register
-    // else A-inst -> instruction = A-Register
-    Mux16(a=instruction, b=aluOut, sel=instruction[15], out=instMuxALU);  // Certainty 10/10
+    // In case of an A-instruction, all Control-Bits should be ignored:
+    Mux16(a=false, b=instruction, sel=instruction[15],
+    out[0]=cJump0, out[1]=cJump1, out[2]=cJump2,
+    out[3]=writeM, out[4]=cDestD, out[5]=cDestA,
+    out[6]=cAluNo, out[7]=cAluF, out[8]=cAluNy, out[9]=cAluZy, out[10]=cAluNx, out[11]=cAluZx, out[12]=cAluAorM,
+    out[15]=cInstType);
 
-    And(a=instruction[15], b=instruction[3], out=writeM);  // Certainty 10/10
-    // if C-Instruction and instruction[3] == 1 -> writeM
-
-    // --------------------------------------  // Certainty 7/10
-    // A Register:
-
-    // This make sense to double validate the loading using both i15 & i5, but for some reason it's passing less tests.
-    // More specifically D=A test I think
-    And(a=instruction[15], b=instruction[5], out=loadAReg);
-    // ARegister(in=instMuxALU, load=loadAReg, out=AReg, out[0..14]=addressM);
-    
-    // This for some reason is passing more tests
-    ARegister(in=instMuxALU, load=instruction[5], out=AReg, out[0..14]=addressM);
-
-    // This is very weird also, I guess it's not clear to me when we want to populate the ALU with inM
-    // Let's try to verify this and see if they mention when should we use inM vs. AReg for this Mux going to the ALU
-    Mux16(a=inM, b=AReg, sel=instruction[15], out=ARegMuxInM);
-    // Mux16(a=AReg, b=inM, sel=instruction[15], out=ARegMuxInM);
     // --------------------------------------
 
-    // --------------------------------------  // Certainty 7/10
-    // D Register:
-    // Not sure again, if we should validate with i[15] & i[4] or just i[4]
-    // This doesn't seem to influence the fail on line 15 in the comparision
-    // And(a=instruction[15], b=instruction[4], out=loadDReg);
-    // DRegister(in=aluOut, load=loadDReg, out=DReg);
-
-    DRegister(in=aluOut, load=instruction[4], out=DReg);
-    //  input -> ALU | instruction 'dest' c-bit[4]
-    // --------------------------------------
-
-
-    // --------------------------------------  // Certainty 10/10
     // Arithmetic Logical Unit:
-    // x -> D Register | y -> A Register mux inM
-    // [6]c-bits from the instruction 
-    // Outputs to outM | aluOut (to mux and feed to other registers)
-    ALU(x=DReg, y=ARegMuxInM,
-        zx=instruction[11], nx=instruction[10],
-        zy=instruction[9], ny=instruction[8],
-        f=instruction[7], no=instruction[6],
+
+    ALU(x=DRegOutAluX, y=ARegOutAluY,
+        zx=cAluZx, nx=cAluNx,
+        zy=cAluZy, ny=cAluNy,
+        f=cAluF, no=cAluNo,
         out=aluOut, out=outM,
-        zr=outZR, ng=outNG);
+        zr=outZr, ng=outNg);
 
+    // --------------------------------------
 
-    // ----------------------------------------  Certainty 9/10
-    // Setting all possible jump-conditions:
+    // A & D Registers:
 
-    Not(in=outZR, out=notZR);
-    Not(in=outNG, out=notNG);
+    // if C-Type: use ALU's output | e.g. dest=comp;jump
+    // else: A-Instruction | e.g. @value
+    Mux16(a=instruction, b=aluOut, sel=instruction[15], out=instMuxAlu);
 
-    // null -> no jump (000)
+    // We want to load the A-register either when it's an A-instruction | e.g. @value
+    // or when cDestA == 1, in that case it's a C-instruction | e.g. A = comp
+    Not(in=cInstType, out=notCInstType);  // Using Not to invert A-Instruction 15's bit (0)
+    Or(a=notCInstType, b=cDestA, out=loadAReg);  // Either A-Instruction or cDestA to load Register A
+
+    ARegister(in=instMuxAlu, load=loadAReg, out=outAReg, out[0..14]=addressM);  // in=either A-Inst or ALU output
+
+    // if we want to use the address value directly, cAluAorM == 0 (outAReg) | e.g. D = A
+    // else, we will use the value within that address (inM) | e.g. D = M
+    // Remember that inM always reflects the value held in memory at the address specified by the A Register
+    Mux16(a=outAReg, b=inM, sel=cAluAorM, out=ARegOutAluY);
+
+    // cDestD == 1 -> D = comp, in that case we want to store the new value in the D Register
+    // cDestD == 0 -> A or M = comp
+    DRegister(in=aluOut, load=cDestD, out=DRegOutAluX);
+
+    // --------------------------------------
+
+    // Jump-Conditions:
+
+    // null -> no jump (000) == (False) **
+    // Side-effect when no jump conditions are met
+
+    // out > 0 -> JGT (001) **
+    Not(in=outNg, out=notNG);
+    And(a=NotZr, b=notNG, out=notZrAndNotNg);
+
+    // outZr is simply == 0 -> JEQ (010) **
+
+    // out >= 0 -> JGE (011) **
+    Or(a=notNG, b=outZr, out=notNgOrZr);
+
+    // outNg is simply out < 0 -> JLT (100) **
+
+    // out != 0 -> JNE (101) **
+    Not(in=outZr, out=NotZr);
+
+    // out <= 0 -> JLE (110) **
+    Or(a=outZr, b=outNg, out=ZrOrNg);
+
+    // Unconditional -> JMP (111) == (True) **
+
+    // Mux8Way is not a built-in chip. I've implemented it because it's cleaner IMO.
+    // There's a built-in implementation I've made in the comments below.
+    Mux8Way(
+        a=false, b=notZrAndNotNg, c=outZr, d=notNgOrZr,
+        e=outNg, f=NotZr, g=ZrOrNg, h=true,
+        sel[0]=cJump0, sel[1]=cJump1, sel[2]=cJump2,
+        out=outJump);
+    // ---------------------------------------- 
+
+    // Program Counter:
+    PC(in=outAReg, inc=true, load=outJump, reset=reset, out[0..14]=pc);
+}
+
+/*
+                     BarkXYZ 2024
+    // ---------------------------------------- 
+    // Jump-Condition (Built-In-Chips only):
+
+    Not(in=outZr, out=NotZr);
+    Not(in=outNg, out=notNG);
+
+    // null -> no jump (000) == (False)
     // if no other jump condition are met, 'no jump' will be the organic side-effect.
 
-    And(a=notZR, b=notNG, out=notZRandNotNG);  // out > 0 -> JGT (001)
-    And(a=instruction[0], b=notZRandNotNG, out=JGT);
+    And(a=NotZr, b=notNG, out=notZrAndNotNg);  // out > 0 -> JGT (001)
+    And(a=cJump0, b=notZrAndNotNg, out=JGT);
 
-    // outZR is simply == 0 -> JEQ (010)
-    And(a=outZR, b=instruction[1], out=JEQ);
+    // outZr is simply == 0 -> JEQ (010)
+    And(a=outZr, b=cJump1, out=JEQ);
 
-    Or(a=notNG, b=outZR, out=notNGorZR);  // out >= 0 -> JGE (011)
-    And(a=instruction[0], b=instruction[1], out=instJGE);
-    And(a=notNGorZR, b=instJGE, out=JGE);
+    Or(a=notNG, b=outZr, out=notNgOrZr);  // out >= 0 -> JGE (011)
+    And(a=cJump0, b=cJump1, out=instJGE);
+    And(a=notNgOrZr, b=instJGE, out=JGE);
 
-    // outNG is simply out < 0 -> JLT (100)
-    And(a=outNG, b=instruction[2], out=JLT);
+    // outNg is simply out < 0 -> JLT (100)
+    And(a=outNg, b=cJump2, out=JLT);
 
     // out != 0 -> JNE (101)
-    And(a=instruction[0], b=instruction[2], out=instJNE);
-    And(a=notZR, b=instJNE, out=JNE);
+    And(a=cJump0, b=cJump2, out=instJNE);
+    And(a=NotZr, b=instJNE, out=JNE);
 
     // out <= 0 -> JLE (110)
-    Or(a=outZR, b=outNG, out=ZRorNG);
-    And(a=instruction[1], b=instruction[2], out=instJLE);
-    And(a=ZRorNG, b=instJLE, out=JLE);
+    Or(a=outZr, b=outNg, out=ZrOrNg);
+    And(a=cJump1, b=cJump2, out=instJLE);
+    And(a=ZrOrNg, b=instJLE, out=JLE);
 
-    // Unconditional jump -> JMP (111)
-    And(a=instruction[0], b=instruction[1], out=inst0AndInst1);
-    And(a=inst0AndInst1, b=instruction[2], out=JMP);
+    // Unconditional jump -> JMP (111) == (True)
+    And(a=cJump0, b=cJump1, out=cJump0AndcJump1);
+    And(a=cJump0AndcJump1, b=cJump2, out=JMP);
 
     // Check if any of the conditions are met:
     Or8Way(in[0]=false, in[1]=JGT, in[2]=JEQ, in[3]=JGE,
         in[4]=JLT, in[5]=JNE, in[6]=JLE, in[7]=JMP, out=outJump);
-
-    /*
-    // I think my alternative is actually way cleaner. But not sure if it actually works yet.
-    Mux8Way(
-        a=false, b=notZRandNotNG, c=outZR, d=notNGorZR,
-        e=outNG, f=notZR, g=ZRorNG, h=true,
-        sel=instruction[0..2],
-        out=outJump);
-    */
-
-    // This is also passing less tests, but makes sense as a concept to verify the jump
-    // I thought we are  supposed to jump only when it's a C-instruction, but maybe it's also coming from the ALU
-    // sometimes? Therefore checking with i[15] isn't needed? Not sure.
-    Not(in=outJump, out=notJump);
-    And(a=notJump, b=instruction[15], out=finNotJump);
-    And(a=outJump, b=instruction[15], out=finJump);
-    // ----------------------------------------
-    // PC(in=AReg, inc=finNotJump, load=finJump, reset=reset, out[0..14]=pc);
-    PC(in=AReg, inc=notJump, load=outJump, reset=reset, out[0..14]=pc);
-}
-
-
-/**
-Xor is another alternative chip probably, essentially to check if they're the same or not.
-There are probably many ways to achieve that though.
-This is probably not the problem right now anyway :(
-
-101     011     000     000     111
-100     011     001     000     111
-
-General Notes:
-in:
-
-inM (Data Memory) - the data to operate on.
-
-instruction (ROM) - The current instruction (what should we do with the inM), can be either a C-instruction, or an A-instruction.
-
-reset (USER) - Coming from the user; should we reset the current running program?
-
-out:
-
-Data Memory:
-outM - what do we wanna write to the Data Memory
-writeM - Should we actually load // write the memory
-addressM - Where do we want to write this memory to (inside the Data Memory), and address that specifies that location.
-
-ROM:
-pc - the program counter will hold the next instruction to be fetchted and executed for the next cycle. Outputs to ROM.
-
 */
-
-
