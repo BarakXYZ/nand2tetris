@@ -16,8 +16,8 @@ CHIP HalfAdder {
 }
 
 /**
-* Simply, Xor fits the output truth table of 'sum',
-* And fits the output truth table of 'carry',
+* Simply, 'Xor' fits the output truth table of 'sum',
+* 'And' fits the output truth table of 'carry',
 * thus using both and pluggin them to 'sum' & 'carry',
 * we can get the functionality description of an HalfAdder chip.
 
