@@ -24,29 +24,34 @@ CHIP Memory {
     IN in[16], load, address[15];
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
-	DMux4Way(in=load, sel=address[13..14],
-	a=loadRamA, b=loadRamB, c=loadScreen, d=loadKeyboard);
-	Or(a=loadRamA, b=loadRamB, out=loadRam);
 
-	RAM16K(in=in ,load=loadRam ,address=address[0..13] ,out=outRam);
+	// if (14-bit): in=loadScreen | else: in=loadRam
+	DMux(in=load, sel=address[14], a=loadRam, b=loadScreen);
 
-	Screen(in=in ,load=loadScreen ,address=address[2..14] ,out=outScreen);
+	RAM16K(in=in ,load=loadRam ,address=address[0..13] ,out=outRam);  // 14-bit address (0-16,383)
 
-	Keyboard(out=outKeyboard);
-	// Keyboard(out=outKeyboard1);
-	// Register(in=outKeyboard1 ,load=loadKeyboard ,out=outKeyboard);
-	// Mux16(a=false, b=outKeyboard1, sel=loadKeyboard, out=outKeyboard);
+	Screen(in=in ,load=loadScreen ,address=address[0..12] ,out=outScreen);  // 13-bit address (0-8,191)
 
-	Mux4Way16(a=outRam, b=outRam, c=outScreen, d=outKeyboard, sel=address[13..14], out=out);
+	Keyboard(out=outKeyboard);  // Simply outputs the current pressed key or 0 if none are pressed
 
-	// Mux4Way16(a=outRam, b=outRam, c=outScreen, d=outKeyboard, sel=address[13..14], out=lastOut);
-	// Register(in=lastOut ,load=load ,out=out);
+	// Checking if 13-bit to store Screen or Keyboard (Screen will always have 0 at 13's bit, keyboard always will have 1)
+	// Then checking if 14-bit (Ram will always have 0 at 14's, Screen or Keyboard will always have 1)
+	Mux16(a=outScreen, b=outKeyboard, sel=address[13], out=outScreenOrKeyboard);
+	Mux16(a=outRam, b=outScreenOrKeyboard, sel=address[14], out=out);
 }
 
-/*
+/* -----------------------------------------------------------------------
 432109876543210
-011111111111111  == 16,383
-100000000000000  == 16,384
-110000000000000  == 24,576
-*/
+!!
+011111111111111  == 16,383 (RAM)
+100000000000000  == 16,384 (Screen)
+110000000000000  == 24,576 (Keyboard)
+
+Note:
+The MSBits of those chips are the way to separate between them, but they will still
+behave regularly in terms of their address space;
+which means we still need to insert [0..12] to screen, and not [2..14]
+
+BarakXYZ 2024 ---------------------------------------------------------  */
