@@ -19,12 +19,27 @@
   D=M
   @OUTPUT_D
   0;JMP
-(ITSR0)
+
+  // My test
+  @sum
+  M=1
+  D=M
+  // My test
+
+
+(ITSR0)  // Associated with line 10
   @R0
   D=M
 (OUTPUT_D)
   @R2
   M=D
+
+  // My test
+  @sum
+  M=0
+  D=M+D
+  // My test
+
 (END)
   @END
   0;JMP
