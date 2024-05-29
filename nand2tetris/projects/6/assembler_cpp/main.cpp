@@ -17,20 +17,19 @@ class SymbolTable {
     // Retrieve the address associated with a symbol
     // Adds the symbol and return an address if it wasn't found
     static size_t unique_symbols_counter;
-    static size_t parse_variable(const std::string &symbol, bool debug = 1)
+    static size_t parse_variable(const std::string &symbol)
     {
         auto it = table.find(symbol);
-        if (it != table.end()) {
-            if (debug)
-                std::cout << "Parsed recognized variable '" << symbol << "', returning address: " << it->second << '\n';
-            return it->second;
-        }
-        else {
+        if (it == table.end()) {
             std::cout << "Parsed unrecognized variable '" << symbol
                       << "' assigning & returning address: " << SymbolTable::unique_symbols_counter << '\n';
             add_symbol(symbol, SymbolTable::unique_symbols_counter);
             ++SymbolTable::unique_symbols_counter;
-            return parse_variable(symbol, 0);
+            return table.find(symbol)->second;
+        }
+        else {
+            std::cout << "Parsed recognized variable '" << symbol << "', returning address: " << it->second << '\n';
+            return it->second;
         }
     }
 
