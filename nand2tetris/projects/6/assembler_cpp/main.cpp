@@ -1,10 +1,10 @@
-#include <array>
 #include <bitset>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <unordered_map>
+#include <optional>
 
 class SymbolTable {
   public:
@@ -40,6 +40,11 @@ class SymbolTable {
     }
 
     static std::unordered_map<std::string, size_t> table;
+    static const std::unordered_map<std::string, std::string> comp_table;
+    static const std::unordered_map<std::string, std::string> dest_table;
+    static const std::unordered_map<std::string, std::string> jump_table;
+
+    static std::optional<std::string> lookup(const std::unordered_map<std::string, std::string>& table, const std::string& key);
 };
 
 std::size_t SymbolTable::unique_symbols_counter{16};
@@ -47,6 +52,52 @@ std::unordered_map<std::string, size_t> SymbolTable::table = {
     {"R0", 0},         {"R1", 1},      {"R2", 2},   {"R3", 3},   {"R4", 4},   {"R5", 5},   {"R6", 6},   {"R7", 7},
     {"R8", 8},         {"R9", 9},      {"R10", 10}, {"R11", 11}, {"R12", 12}, {"R13", 13}, {"R14", 14}, {"R15", 15},
     {"SCREEN", 16384}, {"KBD", 24576}, {"SP", 0},   {"LCL", 1},  {"ARG", 2},  {"THIS", 3}, {"THAT", 4}};
+
+const std::unordered_map<std::string, std::string> SymbolTable::comp_table = {
+    {"0", "0101010"}, {"1", "0111111"}, {"-1", "0111010"},
+    {"D", "0001100"}, {"A", "0110000"}, {"M", "1110000"},
+    {"!D", "0001101"}, {"!A", "0110001"}, {"!M", "1110001"},
+    {"-D", "0001111"}, {"-A", "0110011"}, {"-M", "1110011"},
+    {"D+1", "0011111"}, {"1+D", "0011111"},  // Can be written both ways
+    {"A+1", "0110111"}, {"1+A", "0110111"},  // Can be written both ways
+    {"M+1", "1110111"}, {"1+M", "1110111"},  // Can be written both ways
+    {"D-1", "0001110"}, {"A-1", "0110010"}, {"M-1", "1110010"},
+    {"D+A", "0000010"}, {"A+D", "0000010"},  // Can be written both ways
+    {"D+M", "1000010"}, {"M+D", "1000010"},  // Can be written both ways
+    {"D-A", "0010011"},
+    {"D-M", "1010011"}, {"A-D", "0000111"}, {"M-D", "1000111"},
+    {"D&A", "0000000"}, {"A&D", "0000000"},  // Can be written both ways
+    {"D&M", "1000000"}, {"M&D", "1000000"},  // Can be written both ways
+    {"D|A", "0010101"}, {"A|D", "0010101"},  // Can be written both ways
+    {"D|M", "1010101"}, {"M|D", "0010101"},  // Can be written both ways
+};
+
+const std::unordered_map<std::string, std::string> SymbolTable::dest_table = {
+    {"null", "000"}, {"M", "001"}, {"D", "010"}, {"MD", "011"},
+    {"A", "100"}, {"AM", "101"}, {"AD", "110"}, {"AMD", "111"}
+};
+
+const std::unordered_map<std::string, std::string> SymbolTable::jump_table = {
+    {"null", "000"}, {"JGT", "001"}, {"JEQ", "010"}, {"JGE", "011"},
+    {"JLT", "100"}, {"JNE", "101"}, {"JLE", "110"}, {"JMP", "111"}
+};
+
+std::optional<std::string> SymbolTable::lookup(const std::unordered_map<std::string, std::string> &table, const std::string &key) {
+    auto it = table.find(key);
+    if (it != table.end()) {
+        return it->second;
+    }
+    return std::nullopt;
+}
+
+class Code {
+  public:
+    static std::string decimal_to_binary(int n)
+    {
+        return std::bitset<16>(n).to_string();
+    }
+};
+
 
 class Parser {
   public:
@@ -84,6 +135,8 @@ class Parser {
         }
         return true;
     }
+
+    // Second Pass: Resolve all label symbols, variables and C-instructions.
     static bool parse_second_pass(std::ifstream &file, std::stringstream &parsed_file)
     {
 
@@ -98,24 +151,67 @@ class Parser {
             // std::cout << line << '\n';
 
             // if A-instruction
-            // if Address (convert to binary)
-            // if Variable (look it up, if it exists, assign the address, if not, allocate new address starting with 16)
+            //     if Address (convert to binary)
+            //     if Variable (look it up, if it exists, assign the address, if not, allocate new address starting with 16)
             if (line.front() == '@') {
                 // std::cout << "A-instruction: " << line << '\n';
-                line = line.erase(0, 1);
+                line = line.erase(0, 1);  // Erase '@' from the beginning
                 if (line.find('\n')) {
-                    line.pop_back();
-                    // std::cout << "End line removed\n";
+                    line.pop_back();  // Remove '\n'
+                    // std::cout << "End line removed\n";  // Debug
                 }
                 size_t variable_address{SymbolTable::parse_variable(line)};
-                parsed_file << variable_address << '\n';
+                // parsed_file << Code::decimal_to_binary(variable_address) << '\n';
+                parsed_file << Code::decimal_to_binary(variable_address) << ' ' << line <<'\n';  // Debug
             }
+            // if Label Declaration -> Skip
             else if (line.front() == '(')
                 continue;
 
             // if C-instruction (convert to the symbolic underlying fields)
             else {
-                std::cout << "C-instruction: " << line << '\n';
+                auto equal_pos{line.find('=')};
+                if (equal_pos != std::string::npos) {
+                    std::cout << "C-instruction (dest + comp): " << line << '\n';
+                    parsed_file << "111";
+
+                    if (line.find('\n')) {
+                    line.pop_back();  // Remove '\n'
+                    std::cout << "End line removed\n";  // Debug
+                    }
+                    // Computation ('comp')
+                    std::string comp{line.substr(equal_pos + 1, line.length())};
+                    std::cout << "Comp: " << comp << '\n';
+                    parsed_file << *SymbolTable::lookup(SymbolTable::comp_table, comp);
+
+
+                    // Destination ('dest')
+                    std::string dest{line.substr(0, equal_pos)};
+                    std::cout << "Dest: " << dest << '\n';
+                    parsed_file << *SymbolTable::lookup(SymbolTable::dest_table, dest);
+
+
+                    // Jump Condition ('jump') -> always null in this case
+                    std::string jump{"null"};
+                    std::cout << "Jump: " << jump << '\n';
+                    parsed_file << *SymbolTable::lookup(SymbolTable::jump_table, jump);
+                    parsed_file << ' ' << line << '\n';  // Debug
+                    // parsed_file << '\n';  // Debug
+                }
+                // else {  // Fix this, the idea is the we're having multiple else's (lol) probably normal if & return?
+                //     std::size_t semicolon_pos = line.find(';');
+                //     if(semicolon_pos != std::string::npos) {
+                //         std::cout << "C-instruction (jump): " << line << '\n';
+                //         // jump condition
+                //         // constexpr std::string_view comp{"000"}, dest{"000"};
+                //         // std::string jump{line.substr(semicolon_pos, line.length() - 1)};
+                //         // std::string jump{*SymbolTable::lookup(
+                //         //     SymbolTable::jump_table, line.substr(semicolon_pos + 1, line.length() - 1))};
+
+                //         // parsed_file << comp << dest << jump << '\n';
+                //         // parsed_file << comp << dest << jump << ' ' << line << '\n';
+                //     }
+                // {
             }
             ++line_number;
         }
@@ -123,16 +219,8 @@ class Parser {
     }
 };
 
-class Code {
-  public:
-    static std::string decimal_to_binary(int n)
-    {
-        return std::bitset<16>(n).to_string();
-    }
-};
 
-int main()
-{
+auto main() -> int {
     std::ifstream infile;
     std::string infile_name{"test_files/Max.asm"};
 
@@ -170,6 +258,11 @@ int main()
     for (const auto &column : SymbolTable::table) {
         // outfile << column.first << ' ' << Code::decimal_to_binary(column.second) << '\n';
         outfile << column.first << ' ' << column.second << '\n';
+    }
+
+    std::string line{};
+    while (std::getline(parsed_file >> std::ws, line)) {
+        std::cout << line << '\n';
     }
 
     // Close the output file
