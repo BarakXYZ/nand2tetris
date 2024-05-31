@@ -1,302 +1,65 @@
-#include <bitset>
+// Implemented by BarakXYZ 2024
+#include "Parser.h"
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <string>
-#include <unordered_map>
-#include <optional>
 
-class SymbolTable {
-  public:
-    // Add a symbol to the table with its associated address
-    static void add_symbol(const std::string symbol, size_t address)
-    {
-        table[symbol] = address;
+auto main(int argc, char *argv[]) -> int {
+    // Debug
+    // std::string infile_name{"test_files/test.asm"};
+    // std::string outfile_name{"out_test.hack"};
+
+    // Production
+    if (argc != 3) {
+        std::cerr << "Usage: " << argv[0] << " <input_file> <output_file>" << std::endl;
+        return 1;
     }
-
-    // Retrieve the address associated with a symbol
-    // Adds the symbol and return an address if it wasn't found
-    static size_t unique_symbols_counter;
-    static size_t parse_variable(const std::string &symbol)
-    {
-        auto it = table.find(symbol);
-        if (it == table.end()) {
-            std::cout << "Parsed unrecognized variable '" << symbol
-                      << "' assigning & returning address: " << SymbolTable::unique_symbols_counter << '\n';
-            add_symbol(symbol, SymbolTable::unique_symbols_counter);
-            ++SymbolTable::unique_symbols_counter;
-            return table.find(symbol)->second;
-        }
-        else {
-            std::cout << "Parsed recognized variable '" << symbol << "', returning address: " << it->second << '\n';
-            return it->second;
-        }
-    }
-
-    // Check if a symbol is in the table
-    static bool contains(const std::string &symbol)
-    {
-        return table.find(symbol) != table.end();
-    }
-
-    static std::unordered_map<std::string, size_t> table;
-    static const std::unordered_map<std::string, std::string> comp_table;
-    static const std::unordered_map<std::string, std::string> dest_table;
-    static const std::unordered_map<std::string, std::string> jump_table;
-
-    static std::optional<std::string> lookup(const std::unordered_map<std::string, std::string>& table, const std::string& key);
-};
-
-std::size_t SymbolTable::unique_symbols_counter{16};
-std::unordered_map<std::string, size_t> SymbolTable::table = {
-    {"R0", 0},         {"R1", 1},      {"R2", 2},   {"R3", 3},   {"R4", 4},   {"R5", 5},   {"R6", 6},   {"R7", 7},
-    {"R8", 8},         {"R9", 9},      {"R10", 10}, {"R11", 11}, {"R12", 12}, {"R13", 13}, {"R14", 14}, {"R15", 15},
-    {"SCREEN", 16384}, {"KBD", 24576}, {"SP", 0},   {"LCL", 1},  {"ARG", 2},  {"THIS", 3}, {"THAT", 4}};
-
-const std::unordered_map<std::string, std::string> SymbolTable::comp_table = {
-    {"0", "0101010"}, {"1", "0111111"}, {"-1", "0111010"},
-    {"D", "0001100"}, {"A", "0110000"}, {"M", "1110000"},
-    {"!D", "0001101"}, {"!A", "0110001"}, {"!M", "1110001"},
-    {"-D", "0001111"}, {"-A", "0110011"}, {"-M", "1110011"},
-    {"D+1", "0011111"}, {"1+D", "0011111"},  // Can be written both ways
-    {"A+1", "0110111"}, {"1+A", "0110111"},  // Can be written both ways
-    {"M+1", "1110111"}, {"1+M", "1110111"},  // Can be written both ways
-    {"D-1", "0001110"}, {"A-1", "0110010"}, {"M-1", "1110010"},
-    {"D+A", "0000010"}, {"A+D", "0000010"},  // Can be written both ways
-    {"D+M", "1000010"}, {"M+D", "1000010"},  // Can be written both ways
-    {"D-A", "0010011"},
-    {"D-M", "1010011"}, {"A-D", "0000111"}, {"M-D", "1000111"},
-    {"D&A", "0000000"}, {"A&D", "0000000"},  // Can be written both ways
-    {"D&M", "1000000"}, {"M&D", "1000000"},  // Can be written both ways
-    {"D|A", "0010101"}, {"A|D", "0010101"},  // Can be written both ways
-    {"D|M", "1010101"}, {"M|D", "0010101"},  // Can be written both ways
-};
-
-const std::unordered_map<std::string, std::string> SymbolTable::dest_table = {
-    {"null", "000"}, {"M", "001"}, {"D", "010"}, {"MD", "011"},
-    {"A", "100"}, {"AM", "101"}, {"AD", "110"}, {"AMD", "111"}
-};
-
-const std::unordered_map<std::string, std::string> SymbolTable::jump_table = {
-    {"null", "000"}, {"JGT", "001"}, {"JEQ", "010"}, {"JGE", "011"},
-    {"JLT", "100"}, {"JNE", "101"}, {"JLE", "110"}, {"JMP", "111"}
-};
-
-std::optional<std::string> SymbolTable::lookup(const std::unordered_map<std::string, std::string> &table, const std::string &key) {
-    auto it = table.find(key);
-    if (it != table.end()) {
-        return it->second;
-    }
-    return std::nullopt;
-}
-
-class Code {
-  public:
-    static std::string decimal_to_binary(int n)
-    {
-        return std::bitset<16>(n).to_string();
-    }
-};
+    std::string infile_name{argv[1]};
+    std::string outfile_name{argv[2]};
 
 
-class Parser {
-  public:
-    // First-Pass: Add the label symbols (i.e. (xxx))
-    static bool parse_first_pass(std::ifstream &file)
-    {
-
-        size_t line_number{0};
-        std::string line;
-
-        while (std::getline(file >> std::ws, line)) {
-            // Potentially we can maybe optimize with deleting those comment lines for the second pass
-            if (line.front() == '/') {
-                std::cout << "Comment line\n";
-                continue;
-            }
-
-            if (line.front() == '(') {
-                auto end_label_pos = line.find(')');
-                std::cout << line_number << ": " << line << '\n';
-
-                // Extract label's content
-                std::string content = line.substr(1, end_label_pos - 1);
-                std::cout << "Label Content: " << content << '\n';
-                SymbolTable::add_symbol(content, line_number);
-                continue;
-            }
-            ++line_number;
-        }
-        file.clear();
-        file.seekg(0, std::ios::beg);
-        if (!file) {
-            std::cerr << "Failed to reset file position after first pass." << std::endl;
-            return false;
-        }
-        return true;
-    }
-
-    // Second Pass: Resolve all label symbols, variables and C-instructions.
-    static bool parse_second_pass(std::ifstream &file, std::stringstream &parsed_file)
-    {
-
-        size_t line_number{0};
-        std::string line{};
-
-        while (std::getline(file >> std::ws, line)) {
-            if (line.front() == '/') {
-                std::cout << "Comment line\n";
-                continue;
-            }
-            // std::cout << line << '\n';
-
-            // if A-instruction
-            //     if Address (convert to binary)
-            //     if Variable (look it up, if it exists, assign the address, if not, allocate new address starting with 16)
-            if (line.front() == '@') {
-                // std::cout << "A-instruction: " << line << '\n';
-                line = line.erase(0, 1);  // Erase '@' from the beginning
-                if (line.find('\n')) {
-                    line.pop_back();  // Remove '\n'
-                    // std::cout << "End line removed\n";  // Debug
-                }
-                size_t variable_address{SymbolTable::parse_variable(line)};
-                // parsed_file << Code::decimal_to_binary(variable_address) << '\n';
-                parsed_file << Code::decimal_to_binary(variable_address) << ' ' << line <<'\n';  // Debug
-            }
-            // if Label Declaration -> Skip
-            else if (line.front() == '(')
-                continue;
-
-            // if C-instruction (convert to the symbolic underlying fields)
-            else {
-                auto equal_pos{line.find('=')};
-                if (equal_pos != std::string::npos) {
-                    std::cout << "C-instruction (dest + comp): " << line << '\n';
-                    parsed_file << "111";
-
-                    if (line.find('\n')) {
-                    line.pop_back();  // Remove '\n'
-                    std::cout << "End line removed\n";  // Debug
-                    }
-                    // Computation ('comp')
-                    std::string comp{line.substr(equal_pos + 1, line.length())};
-                    std::cout << "Comp: " << comp << '\n';
-                    parsed_file << *SymbolTable::lookup(SymbolTable::comp_table, comp);
-
-
-                    // Destination ('dest')
-                    std::string dest{line.substr(0, equal_pos)};
-                    std::cout << "Dest: " << dest << '\n';
-                    parsed_file << *SymbolTable::lookup(SymbolTable::dest_table, dest);
-
-
-                    // Jump Condition ('jump') -> always null in this case
-                    std::string jump{"null"};
-                    std::cout << "Jump: " << jump << '\n';
-                    parsed_file << *SymbolTable::lookup(SymbolTable::jump_table, jump);
-                    parsed_file << ' ' << line << '\n';  // Debug
-                    // parsed_file << '\n';  // Debug
-                }
-                // else {  // Fix this, the idea is the we're having multiple else's (lol) probably normal if & return?
-                //     std::size_t semicolon_pos = line.find(';');
-                //     if(semicolon_pos != std::string::npos) {
-                //         std::cout << "C-instruction (jump): " << line << '\n';
-                //         // jump condition
-                //         // constexpr std::string_view comp{"000"}, dest{"000"};
-                //         // std::string jump{line.substr(semicolon_pos, line.length() - 1)};
-                //         // std::string jump{*SymbolTable::lookup(
-                //         //     SymbolTable::jump_table, line.substr(semicolon_pos + 1, line.length() - 1))};
-
-                //         // parsed_file << comp << dest << jump << '\n';
-                //         // parsed_file << comp << dest << jump << ' ' << line << '\n';
-                //     }
-                // {
-            }
-            ++line_number;
-        }
-        return true;
-    }
-};
-
-
-auto main() -> int {
-    std::ifstream infile;
-    std::string infile_name{"test_files/Max.asm"};
-
-    infile.open(infile_name);
+    std::ifstream infile(infile_name);
     if (!infile) {
-        std::cerr << "Error opening input file." << std::endl;
+        std::cerr << "Error opening input file: " << infile_name << std::endl;
         return 1;
     }
 
+    // First-Pass: Parse Label Declaration i.e. (xxx)
     if (!Parser::parse_first_pass(infile)) {
         std::cerr << "First pass parsing failed." << std::endl;
         return 1;
     }
 
-    std::stringstream parsed_file{};
+    // Reset the file stream to the beginning
+    infile.clear();
+    infile.seekg(0, std::ios::beg);
+
+    // Parse Forward Declarations (@LOOP), @values (@R1, 1) & C-Instructions (dest=comp;jump)
+    std::stringstream parsed_file;
     if (!Parser::parse_second_pass(infile, parsed_file)) {
         std::cerr << "Second pass parsing failed." << std::endl;
         return 1;
     }
 
-    // Close the input file after parsing
+    // Post-Parse
     infile.close();
 
-    // Open the output file
-    std::ofstream outfile;
-    std::string outfile_name{"output.txt"};
-
-    outfile.open(outfile_name);
+    // Clear and Write Parsed String Stream to the Outfile
+    std::ofstream outfile(outfile_name, std::ios::trunc);
     if (!outfile) {
-        std::cerr << "Error opening output file." << std::endl;
+        std::cerr << "Error opening output file: " << outfile_name << std::endl;
         return 1;
     }
 
-    // Write the contents of SymbolTable::table to the output file
-    for (const auto &column : SymbolTable::table) {
-        // outfile << column.first << ' ' << Code::decimal_to_binary(column.second) << '\n';
-        outfile << column.first << ' ' << column.second << '\n';
-    }
-
-    std::string line{};
+    // Write
+    std::string line;
     while (std::getline(parsed_file >> std::ws, line)) {
-        std::cout << line << '\n';
+        outfile << line << '\n';
     }
 
-    // Close the output file
+    // Close Output File
     outfile.close();
 
     return 0;
 }
-
-/*
-@256
-D=A
-@SP
-M=D
-@133
-0;JMP
-@R15
-M=D
-@SP
-AM=M-1
-D=M
-A=A-1
-D=M-D
-M=0
-@END_EQ
-D;JNE
-@SP
-A=M-1
-M=-1
-(END_EQ)
-@R15
-A=M
-0;JMP
-@R15
-M=D
-@SP
-
-*/

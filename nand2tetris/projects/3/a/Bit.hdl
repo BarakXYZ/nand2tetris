@@ -12,6 +12,7 @@ CHIP Bit {
     IN in, load;
     OUT out;
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     Mux(a=lastIn, b=in, sel=load, out=muxOut);
     DFF(in=muxOut, out=lastIn, out=out);
@@ -21,6 +22,4 @@ CHIP Bit {
 The crux here was to realize that really in the first cycle the behavior is undefined, therefore, we can bind DFF (which operators in t-1) to the Mux in an interesting, yet confusing way.
 If the load is asserted, we will read-in the new input value, else, will keep feeding the old input.
 Looking at the compare file, notice that in the first few runs, the output is 0, and we really start testing from the second round onwards.
-
-BarakXYZ 2024
 */

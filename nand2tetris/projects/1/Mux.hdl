@@ -10,22 +10,16 @@ CHIP Mux {
     IN a, b, sel;
     OUT out;
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     Not(in=sel, out=Notsel);
-    And(a=a, b=Notsel, out=aAndNotSel);  /** Passing a if sel=0 (neg sel=1) */
-    And(a=b, b=sel, out=bAndSel);  /** else */
+    And(a=a, b=Notsel, out=aAndNotSel);  // Passing a if sel=0 (neg sel=1)
+    And(a=b, b=sel, out=bAndSel);        // else
     Or(a=aAndNotSel, b=bAndSel, out=out);
 }
 
-/** 
-* By negating sel, we're storing (or 0'ing) 'a' or 'b'.
-* Since negating sel will result in 1, using 'And' will essentially instantly delete 'a' or 'b', or store it's result.
-* Then in the end, we'll use 'Or' to output the final result;
-* If either a or b are 1, we'll output that.
-* If both are 0, we can also satisfy that.
-
-Note:
-* One main concept to remember is the idea that we are playing with 0's and 1's.
+/*
+Similar in spirit to Demux (more notes about that in the Demux implementation):
+* One main concept to remember, is that that in the end, we are really just playing with 0's and 1's.
 * Therefore, if a=0, and we're eventually outputting 0 (in some indirect way), we've essentially satisified the requirement objectively.
-
-* BarakXYZ 2024 */
+*/

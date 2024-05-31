@@ -10,6 +10,7 @@ CHIP Xor {
     IN a, b;
     OUT out;
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     Not(in=a, out=NotA);
     Not(in=b, out=NotB);
@@ -18,9 +19,14 @@ CHIP Xor {
     Or(a=aAndNotB, b=NotaAndB, out=out);
 }
 
-/**
-* Honestly, just followed the specification.
+/*
+* Honestly, just followed the specification above.
 * We've already implemented And, Not & Or, so we can
-* quite simply implement that directly.
+* quite simply implement that directly by the predicate:
+* if ((a and Not(b)) or (Not(a) and b)) out = 1, else out = 0
 
-BarakXYZ 2024 */
+Or is inclusive, Xor is exclusive, the only difference occurs at 1,1:
+Or outputs 1 and Xor outputs 0.
+Xor will output 1 if and only if the 2 inputs are different (i.e. 0,1 | 1,0)
+
+*/

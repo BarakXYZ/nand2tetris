@@ -40,25 +40,26 @@ CHIP ALU {
         zr,      // if (out == 0) equals 1, else 0
         ng;      // if (out < 0)  equals 1, else 0
 
+    // Implemented by BarakXYZ 2024
     PARTS:
-    Mux16(a=x, b=false, sel=zx, out=postZX); /** Cac zx */
+    Mux16(a=x, b=false, sel=zx, out=postZX); // Cac zx
 
-    Not16(in=postZX, out=notPostZX);  /** Cac nx */
+    Not16(in=postZX, out=notPostZX);  // Cac nx
     Mux16(a=postZX, b=notPostZX, sel=nx, out=postNX);
 
-    Mux16(a=y, b=false, sel=zy, out=postZY);  /** Cac zy */
+    Mux16(a=y, b=false, sel=zy, out=postZY);  // Cac zy
 
-    Not16(in=postZY, out=notPostZY);  /** Cac ny */
+    Not16(in=postZY, out=notPostZY);  // Cac ny
     Mux16(a=postZY, b=notPostZY, sel=ny, out=postNY);
     
-    And16(a=postNX, b=postNY, out=andXY);  /** f */
+    And16(a=postNX, b=postNY, out=andXY);  // f
     Add16(a=postNX, b=postNY, out=addXY);
     Mux16(a=andXY, b=addXY, sel=f, out=postF);
     
-    Not16(in=postF, out=notPostF);  /** no */
+    Not16(in=postF, out=notPostF);  // no
     Mux16(a=postF, b=notPostF, sel=no, out=out, out[0..7]=finOutput1, out[8..15]=finOutput2 ,out[15]=ng);  /** ng*/
     
-    Or8Way(in=finOutput1, out=checkZR1);  /** zr */
+    Or8Way(in=finOutput1, out=checkZR1);  // zr
     Or8Way(in=finOutput2, out=checkZR2);
     Or(a=checkZR1, b=checkZR2, out=finZR);
     Not(in=finZR, out=zr);
@@ -69,13 +70,11 @@ I finally realized I can actually output ('out') a few outputs from the same chi
 The zr & ng were definitely the most difficult to implement (especially the zr!)
 Also, in this implementation I really got to know how powerful the Mux is and how to use it in more ways than I thought.
 
-Alt option for calculating the zr value:
+An alternative option for calculating the zr value:
     [finOutput (16bit)]
     Not16(in=finOutput, out=notFinOutput);
     Inc16(in=notFinalOutput, out=incNotFinOutput);
     Or16(a=incNotFinOutput, b=finOutput, out[0]=zr0, out[15]=zr15);
     Or(a=zr0, b=zr15, out=finZR);
     Not(in=finZR, out=zr);
-
-* BarakXYZ 2024
 */

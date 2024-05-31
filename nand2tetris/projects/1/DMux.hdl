@@ -11,16 +11,19 @@ CHIP DMux {
     IN in, sel;
     OUT a, b;
 
+    // Implemented by BarakXYZ 2024
     PARTS:
-    Not(in=sel, out=Notsel);
-    And(a=in, b=Notsel, out=a);  /** [in, 0] if sel=0 */
-    And(a=in, b=sel, out=b);  /** [0, in] if sel=1 */
+    Not(in=sel, out=notSel);
+    And(a=in, b=notSel, out=a);  // [in, 0] if sel=0
+    And(a=in, b=sel, out=b);     // [0, in] if sel=1
 }
 
-/**
-* By negating the input ('sel') and using 'And' we control the flow to be as follows:
-* if sel=0, we negate it to 1, thus letting 'in' pass as 1 if needed, or 0.
-* then for b it will always output as zero (since sel=0 without the negation).
+/*
+In the case of sel=0 (passing 'in' to 'a', which can be either 0 or 1, and always 0 to b) so we'll:
+    1. Negate sel, to give 'in' the option to decide if the final output should be 0 or 1.
+    2. Pass 'in' to 'a' (a=in), which can be either 0 or 1, and then output the result to 'a' (out=a).
 
-* BarakXYZ 2024
+Same story for 'b', but because we pass 1 to select it, we just don't need to negate.
+
+~p.s. that was probably one of the hardest chips (assignments) to implement somehow, lol :)(@)
 */

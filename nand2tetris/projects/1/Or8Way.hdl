@@ -10,6 +10,7 @@ CHIP Or8Way {
     IN in[8];
     OUT out;
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     Or(a=in[0], b=in[1], out=Or01);
     Or(a=in[2], b=in[3], out=Or23);
@@ -23,6 +24,7 @@ CHIP Or8Way {
 }
 
 /**
-* Starting from the bottom, in pair bits, and essentially ending in bigger and bigger clusters, until comparing both halfs (i.e. 1234 Or 5678)
+* Starting from the bottom, in pair of bits (i.e. 0,1), and essentially ending in bigger and bigger clusters,
+* until comparing both halves (i.e. 1234 Or 5678)
 
 * BarakXYZ 2024

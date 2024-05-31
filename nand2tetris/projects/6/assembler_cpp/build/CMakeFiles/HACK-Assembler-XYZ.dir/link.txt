@@ -1,0 +1,1 @@
+/usr/bin/c++ "CMakeFiles/HACK-Assembler-XYZ.dir/main.cpp.o" "CMakeFiles/HACK-Assembler-XYZ.dir/SymbolTable.cpp.o" "CMakeFiles/HACK-Assembler-XYZ.dir/Parser.cpp.o" -o HACK-Assembler-XYZ

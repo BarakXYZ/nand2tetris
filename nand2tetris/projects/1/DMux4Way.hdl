@@ -13,18 +13,19 @@ CHIP DMux4Way {
     IN in, sel[2];
     OUT a, b, c, d;
     
-    /** Implementation v2 */
+    // Implemented by BarakXYZ 2024
+    // v2
     PARTS:
-    DMux(in=in, sel=sel[1], a=AB, b=CD);
-    DMux(in=AB, sel=sel[0], a=a, b=b);
+    DMux(in=in, sel=sel[1], a=AB, b=CD);  // Split to 2 halves by the MSB
+    DMux(in=AB, sel=sel[0], a=a, b=b);    // Final routing by the LSB
     DMux(in=CD, sel=sel[0], a=c, b=d);
 }
 
-/**
+/*
     * Implementation v2:
-    After digesting these concepts a bit further, it's easy to simplify the implementation further.
-    Firstly filtering via the second bit to 2 halfes.
-    Then filtering via the first bitl to the final result.
+    After digesting these concepts a bit further, it's easy to simplify the implementation:
+    Firstly filtering via the second bit to 2 halves.
+    Then filtering via the first bit to the final result.
 
     * Implementation v1 *
     Or(a=sel[0], b=sel[1], out=OrAB);
@@ -42,5 +43,4 @@ CHIP DMux4Way {
     And(a=sel[1], b=NotSel0, out=AndSel1NotSel0);
     And(a=in, b=AndSel1NotSel0, out=c);
 
-* BarakXYZ 2024
 */

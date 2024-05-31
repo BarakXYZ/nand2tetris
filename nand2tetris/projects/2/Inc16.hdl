@@ -10,11 +10,12 @@ CHIP Inc16 {
     IN in[16];
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     Add16(a=in, b[0]=true, out=out);
 }
 
-/**
+/*
 Took a few minutes to realize the syntax (lol) but pretty straight forward;
 Just literally adding 1 via Add16.
 
@@ -37,6 +38,4 @@ Test 4
 11011011
 =
 11011100
-
-* BarakXYZ 2024
 */

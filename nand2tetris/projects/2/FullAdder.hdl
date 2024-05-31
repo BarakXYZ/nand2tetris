@@ -10,6 +10,7 @@ CHIP FullAdder {
     OUT sum,     // Right bit of a + b + c
         carry;   // Left bit of a + b + c
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     HalfAdder(a=a, b=b, sum=sumAB, carry=carryAB);
     HalfAdder(a=sumAB, b=c, sum=sum, carry=carryABC);
@@ -53,8 +54,4 @@ sumAB + carryAB
 1 0 = 1 0
 1 0 = 1 0
 0 1 = 1 0
-
-
-* BarakXYZ 2024
 */
-

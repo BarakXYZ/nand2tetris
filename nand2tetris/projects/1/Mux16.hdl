@@ -11,6 +11,7 @@ CHIP Mux16 {
     IN a[16], b[16], sel;
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     Mux(a=a[0], b=b[0], sel=sel, out=out[0]);
     Mux(a=a[1], b=b[1], sel=sel, out=out[1]);
@@ -30,8 +31,10 @@ CHIP Mux16 {
     Mux(a=a[15], b=b[15], sel=sel, out=out[15]);
 }
 
-/**
-* I'm suprised it worked (lol)
-* Straight forward I guess?
-* BarakXYZ 2024
+/*
+I'm suprised it worked (lol)
+Straight forward I guess?
+
+After some thinking:
+Essentially we need to pick between a[16] b[16] so we're just subscripting and doing that manually.
 */

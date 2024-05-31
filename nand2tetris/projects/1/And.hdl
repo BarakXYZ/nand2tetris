@@ -10,14 +10,12 @@ CHIP And {
     IN a, b;
     OUT out;
     
+    // Implemented by BarakXYZ 2024
     PARTS:
     Nand(a=a, b=b, out=NandAB);
     Not(in=NandAB, out=out);
 }
 
-/**
-* And, in the end of the day, is just the negation of Nand.
-* Where Nand is 0, and will be 1, and vice versa.
-
-BarakXYZ 2024
+/*
+Because Nand is Not(And), we can simply invert the results to get Yes(And), or to put simply: And :P
 */

@@ -9,6 +9,8 @@
 CHIP Or {
     IN a, b;
     OUT out;
+    
+    // Implemented by BarakXYZ 2024
     PARTS:
     Not(in=a, out=NotA);
     Not(in=b, out=NotB);
@@ -16,12 +18,12 @@ CHIP Or {
    
 }
 
-/**
+/*
 Not like 'And', 'Or' is is different than 'Nand' only where:
-0,0 (Nand 1, Or 0), 1,1 (Nand 0, Or 1).
+0,0 (Nand 1, Or 0), and at 1,1 (Nand 0, Or 1).
 We can negate both inputs to change the behavior of Nand only in 0,0 and 1,1
 to output Or.
-The middle (0,1 1,0) won't change be the negation since they'll still stay opposite.
+The middle (0,1 1,0) won't change by the negation since they'll still stay opposite.
 
 And
 0 0 = 0
@@ -41,5 +43,4 @@ Nand
 1 0 = 1
 1 1 = 0
 
-
-/** BarakXYZ 2024 */
+*/

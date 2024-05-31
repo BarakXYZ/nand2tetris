@@ -10,6 +10,7 @@ CHIP Add16 {
     IN a[16], b[16];
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
     HalfAdder(a=a[0], b=b[0], sum=out[0], carry=carry0);
     FullAdder(a=a[1], b=b[1], c=carry0, sum=out[1], carry=carry1);
@@ -29,7 +30,7 @@ CHIP Add16 {
     FullAdder(a=a[15], b=b[15], c=carry14, sum=out[15], carry=carry15);
 }
 
-/**
+/*
 Keeping track on the carry, and piping it to the next FullAdder.
 Note we can use HalfAdder for the first 2 bits since they cannot exceed 1,1.
 
@@ -45,5 +46,4 @@ test2:
 =
 11100000
 
-* BarakXYZ 2024
 */

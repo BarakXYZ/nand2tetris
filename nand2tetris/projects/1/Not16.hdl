@@ -11,8 +11,9 @@ CHIP Not16 {
     IN in[16];
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
-    /** Not(in=[0..15], out=out[0..15]); ?? I wish*/
+    // Not(in=[0..15], out=out[0..15]); ?? Keep dreaming :()(((
     Not(in=in[0], out=out[0]);
     Not(in=in[1], out=out[1]);
     Not(in=in[2], out=out[2]);
@@ -30,9 +31,4 @@ CHIP Not16 {
     Not(in=in[14], out=out[14]);
     Not(in=in[15], out=out[15]);
 }
-
-/**
-Negating each bit manually
-
-* BarakXYZ
-*/
+// Negating each bit manually
