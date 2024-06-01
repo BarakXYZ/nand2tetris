@@ -12,8 +12,13 @@ CHIP RAM64 {
     IN in[16], load, address[6];
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
-    DMux8Way(in=load, sel=address[3..5], a=ram0, b=ram1, c=ram2, d=ram3, e=ram4, f=ram5, g=ram6, h=ram7);
+
+    DMux8Way(in=load, sel=address[3..5],
+    a=ram0, b=ram1, c=ram2, d=ram3,
+    e=ram4, f=ram5, g=ram6, h=ram7);
+
     RAM8(in=in, load=ram0, address=address[0..2], out=outRam0);
     RAM8(in=in, load=ram1, address=address[0..2], out=outRam1);
     RAM8(in=in, load=ram2, address=address[0..2], out=outRam2);
@@ -22,17 +27,19 @@ CHIP RAM64 {
     RAM8(in=in, load=ram5, address=address[0..2], out=outRam5);
     RAM8(in=in, load=ram6, address=address[0..2], out=outRam6);
     RAM8(in=in, load=ram7, address=address[0..2], out=outRam7);
+
     Mux8Way16(
     a=outRam0, b=outRam1, c=outRam2, d=outRam3,
     e=outRam4, f=outRam5, g=outRam6, h=outRam7,
-    sel=address[3..5],
-    out=out
-    );
+    sel=address[3..5], out=out);
 
 }
 
-/**
-address = 000000 (6-bit)
+/*
+address = 6-bit address (000000, 000001 ... 111111)
+-> which is log base 2 of n, in this case:
+log base 2 of 64 registers = 6 (bits) -> 2..4..8..16..32..64
+                                         1..2..3...4...5...6
 
 THIS IS SO COOL
 It's actually magical and I'm still trying to wrap my head around this.

@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/HACK_Assembler_Cpp.dir/main.cpp.o CMakeFiles/HACK_Assembler_Cpp.dir/SymbolTable.cpp.o CMakeFiles/HACK_Assembler_Cpp.dir/Parser.cpp.o -o HACK_Assembler_Cpp

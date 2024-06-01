@@ -15,14 +15,20 @@ CHIP PC {
     
     // Implemented by BarakXYZ 2024
     PARTS:
-    Inc16(in=lastIn, out=incLastIn);                           // if 1, inc by 1
-    Mux16(a=lastIn, b=incLastIn, sel=inc, out=muxIncLastIn);   // 1.2, isInc?
-    Mux16(a=muxIncLastIn, b=in, sel=load, out=muxLoadNumber);  // if 2, get new in
-    Mux16(a=muxLoadNumber, b=false, sel=reset, out=muxReset);  // if 3, reset all
+
+    // if inc, increment by 1 and out(t) + 1 (can be overriden by both load & reset)
+    Inc16(in=lastIn, out=incLastIn);
+    Mux16(a=lastIn, b=incLastIn, sel=inc, out=muxIncLastIn);
+
+    // else if (load(t)), get new in
+    Mux16(a=muxIncLastIn, b=in, sel=load, out=muxLoadNumber);
+
+    // if reset, override and output 16 false bits (0's)
+    Mux16(a=muxLoadNumber, b=false, sel=reset, out=muxReset);
 
     // If any of (inc, load, reset) are true -> load=1
-    Or(a=inc, b=load, out=orIncLoad);
-    Or(a=orIncLoad, b=reset, out=loadRegFin);
+    Or(a=inc, b=load, out=incOrLoad);
+    Or(a=incOrLoad, b=reset, out=loadRegFin);
     Register(in=muxReset, load=loadRegFin, out=lastIn, out=out);
 }
 /*

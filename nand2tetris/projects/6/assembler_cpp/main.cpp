@@ -6,6 +6,7 @@
 #include <sstream>
 
 auto main(int argc, char *argv[]) -> int {
+
     // Debug
     // std::string infile_name{"test_files/test.asm"};
     // std::string outfile_name{"out_test.hack"};
@@ -60,6 +61,4 @@ auto main(int argc, char *argv[]) -> int {
 
     // Close Output File
     outfile.close();
-
-    return 0;
 }

@@ -12,13 +12,14 @@ namespace SymbolTable {
 
     extern void add_symbol(const std::string symbol, size_t address);
     extern size_t parse_variable(const std::string &symbol);
+    extern std::optional<std::string> lookup(const sTableAlias &table, const std::string &key);
+
     extern std::size_t unique_symbols_counter;
     extern std::unordered_map<std::string, std::size_t> symbol_table;
 
     extern const sTableAlias comp_table;
     extern const sTableAlias dest_table;
     extern const sTableAlias jump_table;
-    extern std::optional<std::string> lookup(const sTableAlias &table, const std::string &key);
-}
 
+}  // namespace SymbolTable
 #endif

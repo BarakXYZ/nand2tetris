@@ -7,6 +7,8 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 // The algorithm is based on repetitive addition.
 
+// Implemented by BarakXYZ 2024
+
 // Flush variables
 @mult_sum
 M=0

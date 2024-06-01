@@ -10,19 +10,16 @@
 
 namespace Parser {
 
-void remove_whitespace(std::string &line)
-{
+void remove_whitespace(std::string &line) {
     line.erase(std::remove_if(line.begin(), line.end(), [](const char c) { return std::isspace(c); }), line.end());
 }
 
-std::string decimal_to_binary(int n)
-{
+std::string decimal_to_binary(int n) {
     return std::bitset<16>(n).to_string();
 }
 
 // First-Pass: Add the label symbols (i.e. (xxx))
-bool parse_first_pass(std::ifstream &file)
-{
+bool parse_first_pass(std::ifstream &file) {
 
     size_t line_number{0};
     std::string line;
