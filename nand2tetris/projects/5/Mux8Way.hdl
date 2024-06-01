@@ -15,9 +15,13 @@ CHIP Mux8Way {
        sel[3];
     OUT out;
 
+    // Implemented by BarakXYZ 2024
     PARTS:
+
     Mux4Way(a=a, b=b, c=c, d=d, sel=sel[0..1], out=MuxABCD);
     Mux4Way(a=e, b=f, c=g, d=h, sel=sel[0..1], out=MuxEFGH);
     Mux(a=MuxABCD, b=MuxEFGH, sel=sel[2], out=out);
+
 }
 
+// This is a custom chip I've decided to implement to make the CPU jump logic a bit cleaner (IMO)

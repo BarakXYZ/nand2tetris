@@ -15,6 +15,5 @@ extern bool parse_first_pass(std::ifstream &file);
 // Second Pass: Resolve all label symbols, variables and C-instructions.
 extern bool parse_second_pass(std::ifstream &file, std::stringstream &parsed_file);
 
-}
-
+}  // namespace Parser
 #endif

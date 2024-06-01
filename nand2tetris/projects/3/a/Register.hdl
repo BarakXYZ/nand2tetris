@@ -12,7 +12,9 @@ CHIP Register {
     IN in[16], load;
     OUT out[16];
 
+    // Implemented by BarakXYZ 2024
     PARTS:
+
     Bit(in=in[0], load=load, out=out[0]);
     Bit(in=in[1], load=load, out=out[1]);
     Bit(in=in[2], load=load, out=out[2]);
@@ -31,12 +33,10 @@ CHIP Register {
     Bit(in=in[15], load=load, out=out[15]);
 }
 
-/**
-Simple duplicate of a Bit (to make it 16-bit), which together creat a number:
+/*
+Simple duplicate of a Bit (to make it 16-bit), which together creates a number:
 0000000000000000 - 0
 0000000000000001 - 1
 0000000000000101 - 5
 etc.
-
-BarakXYZ 2024
 */

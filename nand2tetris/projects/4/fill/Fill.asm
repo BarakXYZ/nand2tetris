@@ -8,6 +8,8 @@
 // i.e. writes "black" in every pixel. When no key is pressed, 
 // the screen should be cleared.
 
+// Implemented by BarakXYZ 2024
+
 @SCREEN
 D=A
 @screen_address
