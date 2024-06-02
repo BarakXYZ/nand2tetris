@@ -75,7 +75,7 @@ D;JEQ
 (BLACK_LOOP)  // Make screen black; main loop
 @screen_address
 A=M
-M=-1  // Assigning -1 to make all 16-bits 1 (aka black)
+M=-1  // Assigning -1 to make all 16-bits 1 (aka black -> since 1111111111111111 binary == -1 decimal)
 
 @i  // 1, 2, 3...8191, 8192
 D=M
