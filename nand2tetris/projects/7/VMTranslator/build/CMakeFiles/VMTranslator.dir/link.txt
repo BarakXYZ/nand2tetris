@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/VMTranslator.dir/main.cpp.o CMakeFiles/VMTranslator.dir/parser.cpp.o CMakeFiles/VMTranslator.dir/code_writer.cpp.o -o VMTranslator
