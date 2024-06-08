@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.cpp" "CMakeFiles/VMTranslator.dir/code_writer.cpp.o" "gcc" "CMakeFiles/VMTranslator.dir/code_writer.cpp.o.d"
   "/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/main.cpp" "CMakeFiles/VMTranslator.dir/main.cpp.o" "gcc" "CMakeFiles/VMTranslator.dir/main.cpp.o.d"
   "/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/parser.cpp" "CMakeFiles/VMTranslator.dir/parser.cpp.o" "gcc" "CMakeFiles/VMTranslator.dir/parser.cpp.o.d"
+  "/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.cpp" "CMakeFiles/VMTranslator.dir/utilities.cpp.o" "gcc" "CMakeFiles/VMTranslator.dir/utilities.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

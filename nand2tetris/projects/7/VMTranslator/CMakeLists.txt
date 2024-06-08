@@ -6,6 +6,7 @@ set(SOURCE_FILES
 "main.cpp"
 "parser.cpp"
 "code_writer.cpp"
+"utilities.cpp"
 )
 
 add_executable(${project_name} ${SOURCE_FILES})

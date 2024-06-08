@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/VMTranslator.dir/main.cpp.o.d"
   "CMakeFiles/VMTranslator.dir/parser.cpp.o"
   "CMakeFiles/VMTranslator.dir/parser.cpp.o.d"
+  "CMakeFiles/VMTranslator.dir/utilities.cpp.o"
+  "CMakeFiles/VMTranslator.dir/utilities.cpp.o.d"
   "VMTranslator"
   "VMTranslator.pdb"
 )
