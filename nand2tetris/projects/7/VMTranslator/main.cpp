@@ -10,8 +10,8 @@ auto main(int argc, char *argv[]) -> int {
         return 1;
     }
 
-    std::string inFileName{argv[1]};
-    std::string outFileName{argv[2]};
+    const std::string inFileName{argv[1]};
+    const std::string outFileName{argv[2]};
 
     std::unique_ptr<std::ifstream> inFile{
         std::make_unique<std::ifstream>(inFileName)};
@@ -36,7 +36,7 @@ auto main(int argc, char *argv[]) -> int {
 
     // Construct Parser & CodeWriter
     Parser parser{std::move(inFile)};
-    CodeWriter codeWriter{std::move(outFile)};
+    CodeWriter codeWriter{std::move(outFile), argv[1]};
     
     while(parser.hasMoreCommands()) {
         parser.advance();
@@ -44,12 +44,12 @@ auto main(int argc, char *argv[]) -> int {
         switch(parser.commandType()) {
             case vmCommand::C_PUSH:
                 std::cout << "Push Command\n";
-                codeWriter.writePush(parser.getArg(1), parser.getArg(2));
+                codeWriter.writePushPop(vmCommand::C_PUSH, parser.getArg(1), parser.getArg(2));
                 break;
 
             case vmCommand::C_POP:
                 std::cout << "Pop Command\n";
-                codeWriter.writePop(parser.getArg(1), parser.getArg(2));
+                codeWriter.writePushPop(vmCommand::C_POP, parser.getArg(1), parser.getArg(2));
                 break;
 
             case vmCommand::C_ARITHMETIC:
