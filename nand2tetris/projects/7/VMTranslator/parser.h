@@ -24,6 +24,7 @@ public:
     auto advance() -> void;
     auto hasMoreCommands() -> bool;
     auto splitCommandToFields(char = ' ') -> void;
+        auto trim(std::string_view) -> std::string_view;
     auto commandType() -> vmCommand;
     [[nodiscard]]
     auto getArg(unsigned short) -> std::string_view;

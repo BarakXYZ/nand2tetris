@@ -1,9 +1,11 @@
 #include "parser.h"
+#include <algorithm>
+#include <cctype>
 
 Parser::Parser(std::unique_ptr<std::ifstream> inFile) 
 : inFile(std::move(inFile)) {};
 
-// Check if reached to the end of the file (eof)
+// Check if reached the end of the file (eof)
 auto Parser::hasMoreCommands() -> bool {
     return inFile->peek() != std::ifstream::traits_type::eof();
 }
@@ -15,27 +17,30 @@ auto Parser::advance() -> void {
     if(currentCommand.front() == '/')
         Parser::advance();
 
-    currentCommandView = currentCommand;
+    currentCommandView = currentCommand;  // Set viewer
 }
 
-void Parser::splitCommandToFields(char delimiter) {
-    size_t start = 0;
-    size_t end = currentCommandView.find(delimiter);
-    unsigned short index = 0;  // Field index
+auto Parser::trim(std::string_view str) -> std::string_view {
+    const auto start = std::find_if_not(str.begin(), str.end(), [](const char c) { return std::isspace(c); });
+    const auto end = std::find_if_not(str.rbegin(), str.rend(), [](const char c) { return std::isspace(c); }).base();
+    return (start < end) ? std::string_view(&*start, end - start) : std::string_view{};
+}
 
-    /* Loop until no more delimiters are found
-    if needed, we can check if 'index' is bigger than the array.size(),
-    which indicates something is wrong;
-    But for now we're assuming the VM Code is valid and will 
-    always contain at least (and no more than) 1-3 fields. */
-    while (true) {
-        commandFields[index++] = currentCommandView.substr(start, end - start);
-        start = end + 1;  // Offset 'start' to the beginning of the next field
-        end = currentCommandView.find(delimiter, start);  // Check for another field
-        if (end == std::string_view::npos) {  // Check if reached end of the string
-            commandFields[index] = currentCommandView.substr(start);
-            break;
+auto Parser::splitCommandToFields(char delimiter) -> void {
+    size_t start{0}, end{0};
+    unsigned short index{0}, maxFields{3};
+
+    // Loop until no more delimiters are found or we exceed MAX_FIELDS
+    while (index < maxFields && (end = currentCommandView.find(delimiter, start)) != std::string_view::npos) {
+        if (end != start) {
+            commandFields[index++] = trim(currentCommandView.substr(start, end - start));
         }
+        start = end + 1;
+    }
+
+    // Handle the last field
+    if (index < maxFields && start < currentCommandView.size()) {
+        commandFields[index] = trim(currentCommandView.substr(start));
     }
 }
 
