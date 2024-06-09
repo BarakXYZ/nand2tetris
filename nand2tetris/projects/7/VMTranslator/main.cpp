@@ -53,7 +53,7 @@ auto main(int argc, char *argv[]) -> int {
                 break;
 
             case vmCommand::C_ARITHMETIC:
-                std::cout << "Arithmetic Command\n";
+                std::cout << "Arithmetic Command\n" << "Arg0: " << parser.getArg(0) << '\n';
                 codeWriter.writeArithmetic(parser.getArg(0));
                 break;
 
@@ -62,4 +62,5 @@ auto main(int argc, char *argv[]) -> int {
                 return 1;
         }
     }
+    codeWriter.getNumOfCmdsWritten();
 }

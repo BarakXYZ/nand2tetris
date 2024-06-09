@@ -4,12 +4,6 @@
 CodeWriter::CodeWriter(std::unique_ptr<std::ofstream> outFile, std::string_view programName) 
 : outFile(std::move(outFile)), programName{programName} {};
 
-auto CodeWriter::writePushConstant(int i) -> void {
-    *outFile << "// addr = segmentPointer + i\n";
-    *outFile << "@" << i << '\n';
-    *outFile << vmCodeToAssembly::pushConstant;
-}
-
 auto CodeWriter::writePushPopSegment(vmCommand cmd, std::string_view segment, int i) -> void {
     if (segment == "local")
         *outFile << "@LCL\n";
@@ -21,7 +15,7 @@ auto CodeWriter::writePushPopSegment(vmCommand cmd, std::string_view segment, in
         *outFile << "@THAT\n";
 
     *outFile
-        << "D=A\n"
+        << "D=M\n"
         << '@' << i << '\n';
 
     if(cmd == vmCommand::C_PUSH)
@@ -30,17 +24,23 @@ auto CodeWriter::writePushPopSegment(vmCommand cmd, std::string_view segment, in
         *outFile << vmCodeToAssembly::popSegment;
 }
 
+auto CodeWriter::writePushConstant(int i) -> void {
+    *outFile 
+        << '@' << i << '\n'
+        << vmCodeToAssembly::pushConstant;
+}
+
 auto CodeWriter::writePushPopStatic(vmCommand cmd, int i) -> void {
     if(cmd == vmCommand::C_PUSH) {
         *outFile
-            << '@' << programName << i << '\n'
+            << '@' << programName << '.' << i << '\n'
             << vmCodeToAssembly::pushStatic;
     } else {
         *outFile 
             << vmCodeToAssembly::popStatic
             << "// *fileName.i = *SP\n"  // Debug
-            << '@' << programName << i << '\n'
-            << "A=M\n"
+            << '@' << programName << '.' << i << '\n'
+            // << "A=M\n"
             << "M=D\n";
     }
 }
@@ -58,20 +58,42 @@ auto CodeWriter::writePushPopTemp(vmCommand cmd, int i) -> void {
     }
 }
 auto CodeWriter::writePushPopPointer(vmCommand cmd, int i) -> void {
-    *outFile << "// *SP = THIS/THAT\n"; // Debug
-    if(!i)
-        *outFile << "@3\n";  // 0 -> THIS
-    else
-        *outFile << "@4\n";  // 1 -> THAT
-    *outFile << vmCodeToAssembly::pushPointer;
+    if(cmd == vmCommand::C_PUSH) {
+        *outFile << "// *SP = THIS/THAT\n"; // Debug
+        if(i == 0)
+            *outFile << "@3\n";  // 0 -> THIS
+        else
+            *outFile << "@4\n";  // 1 -> THAT
+        *outFile << vmCodeToAssembly::pushPointer;
+    }
+    else {
+        *outFile << "// SP--, THIS/THAT = *SP\n"; // Debug
+        *outFile << vmCodeToAssembly::popPointer;
+        if(i == 0) {
+            *outFile 
+                << "@3\n"  // 0 -> THIS
+                << "M=D\n";
+        }
+        else {
+            *outFile 
+                << "@4\n"  // 1 -> THAT
+                << "M=D\n";
+        }
+    }
 }
 
+
 auto CodeWriter::writePushPop(vmCommand commandType, std::string_view arg1, std::string_view arg2) -> void {
-    // Add comment line for debugging:
-    *outFile << "// push " << arg1 << ' ' << arg2 << '\n'; 
+    // Add the command itself as a comment for debugging:
+    if (commandType == vmCommand::C_PUSH)
+        *outFile << "// push " << arg1 << ' ' << arg2 << '\n'; 
+    else
+        *outFile << "// pop " << arg1 << ' ' << arg2 << '\n'; 
+    ++numOfCmdsWritten;
+
     int i{stringViewToInt(arg2)};
 
-    // Switch on Memory Segment
+    // Switch on Memory Segment and convert to assembly
     if (arg1 == "constant") 
         writePushConstant(i);
     else if (arg1 == "static") 
@@ -84,15 +106,35 @@ auto CodeWriter::writePushPop(vmCommand commandType, std::string_view arg1, std:
         writePushPopSegment(commandType, arg1, i);
 }
 
-auto CodeWriter::writePop(std::string_view arg1, std::string_view arg2) -> void {
-    *outFile << "// pop " << arg1 << ' ' << arg2 << '\n'; 
-    // No pop constant
-    // local / argument / this / that
-    // pop == addr = segmetPointer + i, SP--, *addr = *SP
-}
-
 auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
     *outFile << "// " << arg0 << '\n'; 
+    ++numOfCmdsWritten;
 
+    if (arg0 == "add") {
+        *outFile << vmCodeToAssembly::add;
+        std::cout << "write add\n";
+    }
+    else if (arg0 == "sub") {
+        *outFile << vmCodeToAssembly::sub;
+        std::cout << "write sub\n";
+    }
+    else if (arg0 == "neg")
+        *outFile << vmCodeToAssembly::neg;
+    else if (arg0 == "eq")
+        *outFile << vmCodeToAssembly::eq;
+
+    else {  // Debug
+        std::cout << "NO WRITE!\n";
+        size_t i{0};
+        for(auto c : arg0) {
+            std::cout << "Char " << i << ": " << c << '\n';
+            ++i;
+        }
+    }
+}
+
+// Debug number of written commands
+auto CodeWriter::getNumOfCmdsWritten() -> void {
+    std::cout << "Overall Commands Written: " << numOfCmdsWritten << '\n';
 }
 

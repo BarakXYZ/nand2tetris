@@ -524,6 +524,7 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
+  /usr/include/c++/11/algorithm \
   /usr/include/c++/11/array \
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/backward/binders.h \
@@ -547,6 +548,8 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/bits/cxxabi_forced.h \
   /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/erase_if.h \
   /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/exception_ptr.h \
@@ -554,6 +557,8 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/bits/functexcept.h \
   /usr/include/c++/11/bits/functional_hash.h \
   /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
   /usr/include/c++/11/bits/invoke.h \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/istream.tcc \
@@ -567,22 +572,26 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/bits/memoryfwd.h \
   /usr/include/c++/11/bits/move.h \
   /usr/include/c++/11/bits/nested_exception.h \
+  /usr/include/c++/11/bits/node_handle.h \
   /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/bits/ostream_insert.h \
   /usr/include/c++/11/bits/postypes.h \
   /usr/include/c++/11/bits/predefined_ops.h \
   /usr/include/c++/11/bits/ptr_traits.h \
   /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/ranges_algo.h \
   /usr/include/c++/11/bits/ranges_algobase.h \
   /usr/include/c++/11/bits/ranges_base.h \
   /usr/include/c++/11/bits/ranges_cmp.h \
   /usr/include/c++/11/bits/ranges_uninitialized.h \
+  /usr/include/c++/11/bits/ranges_util.h \
   /usr/include/c++/11/bits/refwrap.h \
   /usr/include/c++/11/bits/shared_ptr.h \
   /usr/include/c++/11/bits/shared_ptr_atomic.h \
   /usr/include/c++/11/bits/shared_ptr_base.h \
   /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/c++/11/bits/std_abs.h \
+  /usr/include/c++/11/bits/std_function.h \
   /usr/include/c++/11/bits/std_mutex.h \
   /usr/include/c++/11/bits/stl_algo.h \
   /usr/include/c++/11/bits/stl_algobase.h \
@@ -606,6 +615,7 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/bits/stringfwd.h \
   /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/bits/unordered_map.h \
   /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/c++/11/bits/uses_allocator_args.h \
   /usr/include/c++/11/bits/vector.tcc \
@@ -633,6 +643,7 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/ext/string_conversions.h \
   /usr/include/c++/11/ext/type_traits.h \
   /usr/include/c++/11/fstream \
+  /usr/include/c++/11/functional \
   /usr/include/c++/11/initializer_list \
   /usr/include/c++/11/ios \
   /usr/include/c++/11/iosfwd \
@@ -644,6 +655,7 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/numbers \
   /usr/include/c++/11/ostream \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/pstl_config.h \
   /usr/include/c++/11/sstream \
@@ -655,6 +667,7 @@ CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /usr/include/c++/11/tuple \
   /usr/include/c++/11/type_traits \
   /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/utility \
   /usr/include/c++/11/vector \
   /usr/include/ctype.h \
@@ -976,6 +989,18 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h
 
 
+/usr/include/c++/11/unordered_map:
+
+/usr/include/c++/11/bits/unordered_map.h:
+
+/usr/include/c++/11/bits/ranges_util.h:
+
+/usr/include/c++/11/bits/hashtable_policy.h:
+
+/usr/include/c++/11/bits/hashtable.h:
+
+/usr/include/c++/11/algorithm:
+
 /usr/include/c++/11/vector:
 
 /usr/include/c++/11/bits/vector.tcc:
@@ -1001,6 +1026,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 /usr/include/c++/11/fstream:
 
 /usr/include/c++/11/array:
+
+/usr/include/c++/11/bits/node_handle.h:
 
 /usr/include/c++/11/iostream:
 
@@ -1037,6 +1064,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 /usr/include/c++/11/bits/atomic_lockfree_defines.h:
 
 /usr/include/c++/11/istream:
+
+/usr/include/c++/11/bits/std_function.h:
 
 /usr/include/c++/11/bits/stl_tempbuf.h:
 
@@ -1148,6 +1177,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.h:
 
+/usr/include/c++/11/bits/enable_special_members.h:
+
 /usr/include/c++/11/bits/codecvt.h:
 
 /usr/include/c++/11/bits/basic_ios.tcc:
@@ -1200,6 +1231,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 
 /usr/include/c++/11/ext/string_conversions.h:
 
+/usr/include/c++/11/bits/ranges_algo.h:
+
 /usr/include/c++/11/bits/stl_iterator.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
@@ -1250,6 +1283,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
+/usr/include/c++/11/pstl/glue_algorithm_defs.h:
+
 /usr/include/c++/11/stdexcept:
 
 /usr/include/c++/11/bits/istream.tcc:
@@ -1290,6 +1325,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 
 /usr/include/features.h:
 
+/usr/include/c++/11/functional:
+
 /usr/include/linux/errno.h:
 
 /usr/include/c++/11/bits/basic_string.h:
@@ -1297,6 +1334,8 @@ CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
 /usr/include/c++/11/bits/shared_ptr_base.h:
 
 /usr/include/linux/limits.h:
+
+/usr/include/c++/11/bits/erase_if.h:
 
 /usr/include/c++/11/bits/ptr_traits.h:
 
