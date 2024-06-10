@@ -69,76 +69,76 @@ include CMakeFiles/VMTranslator.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/VMTranslator.dir/flags.make
 
-CMakeFiles/VMTranslator.dir/main.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
-CMakeFiles/VMTranslator.dir/main.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/main.cpp
-CMakeFiles/VMTranslator.dir/main.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/VMTranslator.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/main.cpp.o -MF CMakeFiles/VMTranslator.dir/main.cpp.o.d -o CMakeFiles/VMTranslator.dir/main.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/main.cpp
+CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
+CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/VMTranslator.cpp
+CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o -MF CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o.d -o CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/VMTranslator.cpp
 
-CMakeFiles/VMTranslator.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/main.cpp > CMakeFiles/VMTranslator.dir/main.cpp.i
+CMakeFiles/VMTranslator.dir/VMTranslator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/VMTranslator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/VMTranslator.cpp > CMakeFiles/VMTranslator.dir/VMTranslator.cpp.i
 
-CMakeFiles/VMTranslator.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/main.cpp -o CMakeFiles/VMTranslator.dir/main.cpp.s
+CMakeFiles/VMTranslator.dir/VMTranslator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/VMTranslator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/VMTranslator.cpp -o CMakeFiles/VMTranslator.dir/VMTranslator.cpp.s
 
-CMakeFiles/VMTranslator.dir/parser.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
-CMakeFiles/VMTranslator.dir/parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/parser.cpp
-CMakeFiles/VMTranslator.dir/parser.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/VMTranslator.dir/parser.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/parser.cpp.o -MF CMakeFiles/VMTranslator.dir/parser.cpp.o.d -o CMakeFiles/VMTranslator.dir/parser.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/parser.cpp
+CMakeFiles/VMTranslator.dir/Parser.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
+CMakeFiles/VMTranslator.dir/Parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Parser.cpp
+CMakeFiles/VMTranslator.dir/Parser.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/VMTranslator.dir/Parser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/Parser.cpp.o -MF CMakeFiles/VMTranslator.dir/Parser.cpp.o.d -o CMakeFiles/VMTranslator.dir/Parser.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Parser.cpp
 
-CMakeFiles/VMTranslator.dir/parser.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/parser.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/parser.cpp > CMakeFiles/VMTranslator.dir/parser.cpp.i
+CMakeFiles/VMTranslator.dir/Parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/Parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Parser.cpp > CMakeFiles/VMTranslator.dir/Parser.cpp.i
 
-CMakeFiles/VMTranslator.dir/parser.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/parser.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/parser.cpp -o CMakeFiles/VMTranslator.dir/parser.cpp.s
+CMakeFiles/VMTranslator.dir/Parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/Parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Parser.cpp -o CMakeFiles/VMTranslator.dir/Parser.cpp.s
 
-CMakeFiles/VMTranslator.dir/code_writer.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
-CMakeFiles/VMTranslator.dir/code_writer.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.cpp
-CMakeFiles/VMTranslator.dir/code_writer.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/VMTranslator.dir/code_writer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/code_writer.cpp.o -MF CMakeFiles/VMTranslator.dir/code_writer.cpp.o.d -o CMakeFiles/VMTranslator.dir/code_writer.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.cpp
+CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
+CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.cpp
+CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o -MF CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o.d -o CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.cpp
 
-CMakeFiles/VMTranslator.dir/code_writer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/code_writer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.cpp > CMakeFiles/VMTranslator.dir/code_writer.cpp.i
+CMakeFiles/VMTranslator.dir/CodeWriter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/CodeWriter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.cpp > CMakeFiles/VMTranslator.dir/CodeWriter.cpp.i
 
-CMakeFiles/VMTranslator.dir/code_writer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/code_writer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.cpp -o CMakeFiles/VMTranslator.dir/code_writer.cpp.s
+CMakeFiles/VMTranslator.dir/CodeWriter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/CodeWriter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.cpp -o CMakeFiles/VMTranslator.dir/CodeWriter.cpp.s
 
-CMakeFiles/VMTranslator.dir/utilities.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
-CMakeFiles/VMTranslator.dir/utilities.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.cpp
-CMakeFiles/VMTranslator.dir/utilities.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/VMTranslator.dir/utilities.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/utilities.cpp.o -MF CMakeFiles/VMTranslator.dir/utilities.cpp.o.d -o CMakeFiles/VMTranslator.dir/utilities.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.cpp
+CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: CMakeFiles/VMTranslator.dir/flags.make
+CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.cpp
+CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: CMakeFiles/VMTranslator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o -MF CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o.d -o CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o -c /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.cpp
 
-CMakeFiles/VMTranslator.dir/utilities.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/utilities.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.cpp > CMakeFiles/VMTranslator.dir/utilities.cpp.i
+CMakeFiles/VMTranslator.dir/HelpersVM.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VMTranslator.dir/HelpersVM.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.cpp > CMakeFiles/VMTranslator.dir/HelpersVM.cpp.i
 
-CMakeFiles/VMTranslator.dir/utilities.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/utilities.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.cpp -o CMakeFiles/VMTranslator.dir/utilities.cpp.s
+CMakeFiles/VMTranslator.dir/HelpersVM.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VMTranslator.dir/HelpersVM.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.cpp -o CMakeFiles/VMTranslator.dir/HelpersVM.cpp.s
 
 # Object files for target VMTranslator
 VMTranslator_OBJECTS = \
-"CMakeFiles/VMTranslator.dir/main.cpp.o" \
-"CMakeFiles/VMTranslator.dir/parser.cpp.o" \
-"CMakeFiles/VMTranslator.dir/code_writer.cpp.o" \
-"CMakeFiles/VMTranslator.dir/utilities.cpp.o"
+"CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o" \
+"CMakeFiles/VMTranslator.dir/Parser.cpp.o" \
+"CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o" \
+"CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o"
 
 # External object files for target VMTranslator
 VMTranslator_EXTERNAL_OBJECTS =
 
-VMTranslator: CMakeFiles/VMTranslator.dir/main.cpp.o
-VMTranslator: CMakeFiles/VMTranslator.dir/parser.cpp.o
-VMTranslator: CMakeFiles/VMTranslator.dir/code_writer.cpp.o
-VMTranslator: CMakeFiles/VMTranslator.dir/utilities.cpp.o
+VMTranslator: CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o
+VMTranslator: CMakeFiles/VMTranslator.dir/Parser.cpp.o
+VMTranslator: CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o
+VMTranslator: CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o
 VMTranslator: CMakeFiles/VMTranslator.dir/build.make
 VMTranslator: CMakeFiles/VMTranslator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable VMTranslator"

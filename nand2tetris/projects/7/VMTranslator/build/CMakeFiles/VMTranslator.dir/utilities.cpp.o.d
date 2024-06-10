@@ -1,7 +1,7 @@
-CMakeFiles/VMTranslator.dir/utilities.cpp.o: \
- /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.cpp \
+CMakeFiles/VMTranslator.dir/Utilities.cpp.o: \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Utilities.cpp \
  /usr/include/stdc-predef.h \
- /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Utilities.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

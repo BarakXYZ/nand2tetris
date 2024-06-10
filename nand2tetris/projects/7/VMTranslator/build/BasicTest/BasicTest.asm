@@ -126,7 +126,6 @@ AM=M+1
 A=A-1
 M=D
 // pop temp 6
-// addr = 5 + i
 @6
 D=A
 @R5
@@ -214,7 +213,6 @@ D=M
 A=A-1
 M=M-D
 // push temp 6
-// addr = 5 + i
 @6
 D=A
 @R5

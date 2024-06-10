@@ -1,7 +1,10 @@
+// Implemented by BarakXYZ 2024
+
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "utilities.h"
+#include "HelpersVM.h"
+#include "CodeWriter.h"
 #include <fstream>
 #include <memory>
 #include <string>
@@ -26,7 +29,7 @@ public:
     auto hasMoreCommands() -> bool;
     auto splitCommandToFields(char = ' ') -> void;
         auto trim(std::string_view) -> std::string_view;
-    auto commandType() -> vmCommand;
+    auto commandType() -> HelpersVM::vmCommand;
     [[nodiscard]]
     auto getArg(unsigned short) -> std::string_view;
 };
