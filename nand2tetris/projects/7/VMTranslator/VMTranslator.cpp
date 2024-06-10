@@ -5,15 +5,20 @@
 #include "CodeWriter.h"
 
 auto main(int argc, char *argv[]) -> int {
-
-    constexpr std::string_view usage{" <input_file> <output_file>\n"};
-    if (argc != 3) {
+    constexpr std::string_view usage{" <input_file.vm> [output_file.asm]\n"};
+    if (argc != 2 && argc != 3) {
         std::cerr << "Usage: " << argv[0] << usage;
         return 1;
     }
 
     const std::string inFileName{argv[1]};
-    const std::string outFileName{argv[2]};
+    std::string outFileName;
+
+    if (argc == 3) {
+        outFileName = argv[2];
+    } else {
+        outFileName = HelpersVM::replaceExtension(inFileName, ".asm");
+    }
 
     std::unique_ptr<std::ifstream> inFile{
         std::make_unique<std::ifstream>(inFileName)};
@@ -62,5 +67,6 @@ auto main(int argc, char *argv[]) -> int {
                 return 1;
         }
     }
-    getNumOfCmdsWritten();
+
+    // HelpersVM::getNumOfCmdsWritten();  // Debug
 }

@@ -25,6 +25,17 @@ auto cleanProgramName(std::string_view str) -> std::string_view {
     return str.substr(0, itr);
 }
 
+auto replaceExtension(std::string_view filename, std::string_view new_extension) -> std::string {
+    std::string result{filename};
+    auto pos = result.rfind('.');
+    if (pos != std::string::npos) {
+        result.replace(pos, std::string::npos, new_extension);
+    } else {
+        result += new_extension;
+    }
+    return result;
+}
+
 auto incrementNumOfCmds() -> void {
     ++numOfCmdsWritten;
 }
