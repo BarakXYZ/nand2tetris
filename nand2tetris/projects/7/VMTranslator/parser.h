@@ -21,6 +21,7 @@ public:
     Parser(std::unique_ptr<std::ifstream> inFile);
     ~Parser(){ inFile->close(); };
     
+    auto isCommentLine() -> bool;
     auto advance() -> void;
     auto hasMoreCommands() -> bool;
     auto splitCommandToFields(char = ' ') -> void;

@@ -5,6 +5,9 @@
 #include <charconv>
 #include <iostream>
 
+int stringViewToInt(std::string_view str);
+auto cleanProgramName(std::string_view str) -> std::string_view;
+
 enum vmCommand {
     C_ARITHMETIC,
     C_PUSH, C_POP,
@@ -91,12 +94,12 @@ struct vmCodeToAssembly {
 
         // 1. D = fileName.i  (implemented in CodeWriter)
             // @fileName.i
-            // D=M
+            "D=M"       "\n"
         
         // 2. SP++, A--
             "@SP"       "\n"
             "AM=M+1"    "\n"
-            "A+A-1"     "\n"
+            "A=A-1"     "\n"
 
         // 3. *A = D
             "M=D"       "\n"
@@ -118,6 +121,7 @@ struct vmCodeToAssembly {
             // M=D
         ;
 
+
     // -------------------------------------------------------
     // addr = 5 + i, *SP = *addr, SP++
     // D = *(temp + i), SP++, *(A--) = D
@@ -138,6 +142,7 @@ struct vmCodeToAssembly {
             "A=A-1"     "\n"
             "M=D"       "\n"
         ;
+
 
     // -------------------------------------------------------
     // addr = 5 + i, SP--, *addr = *SP
@@ -165,30 +170,31 @@ struct vmCodeToAssembly {
 
 
     // -------------------------------------------------------
+    // push pointer 0/1
     // *SP = THIS/THAT, SP++
-    // D = THIS/THAT, SP++, A--, *A = THIS/THAT
+    // D = THIS/THAT, SP++, A--, *A = D
     static constexpr std::string_view pushPointer =
 
         // 1. D = THIS/THAT (implemented in CodeWriter)
-            // if(0) -> @3
-            // else  -> @4
+            // if  (0) -> @THIS
+            // else(1) -> @THAT
+            // "A=M"       "\n"  // Do we want *THIS/THAT?
             "D=M"       "\n"
 
-        // 2. SP++
+        // 2. SP++, A--
             "@SP"       "\n"
-            "AM=M-1"    "\n"
-
-        // 3. A--
+            "AM=M+1"    "\n"
             "A=A-1"     "\n"
 
-        // 4. *A = THIS/THAT
+        // 3. *A = D
             "M=D"       "\n"
         ;
 
 
     // -------------------------------------------------------
-    // SP--, THIS/THAT = *SP
-    // D = *(SP--), THIS/THAT = D
+    // pop pointer 0/1
+    // | SP--, THIS/THAT = *SP 
+    // | D = *(SP--), THIS/THAT = D
     static constexpr std::string_view popPointer =
 
         // 1. D = *(SP--)
@@ -197,112 +203,289 @@ struct vmCodeToAssembly {
             "D=M"       "\n"
         
         // 2. THIS/THAT = D (implemented in CodeWriter)
-            // if  (0)  -> @3
-            // else(1)  -> @4
+            // if  (0)  -> @THIS
+            // else(1)  -> @THAT
+            // "A=M"  // not sure
             // "M=D"
         ;
 
+
     // -------------------------------------------------------
-    // SP--, addr = *SP, SP--, *SP = *SP + addr, SP++
-    // D = *(SP--), A--, *A += D
-    static constexpr std::string_view add =
+    // add | D = *(SP--), A--, *A += D
+    static constexpr std::string_view arithmeticAdd =
 
         // 1. D = *(SP--)
             "@SP"       "\n"
             "AM=M-1"    "\n"
             "D=M"       "\n"
 
-        // 2. A--
+        // 2. A--, *A += D
             "A=A-1"     "\n"
-
-        // 3. *A += D
             "M=M+D"     "\n"
         ;
 
+
     // -------------------------------------------------------
-    // SP--, addr = *SP, SP--, *SP = addr - *SP, SP++
-    // D = *(SP--), A--, *A -= D
-    static constexpr std::string_view sub =
+    // sub | D = *(SP--), A--, *A -= D
+    static constexpr std::string_view arithmeticSub =
 
         // 1. D = *(SP--)
             "@SP"       "\n"
             "AM=M-1"    "\n"
             "D=M"       "\n"
 
-        // 2. A--
+        // 2. A--, *A -= D
             "A=A-1"     "\n"
-
-        // 3. *A -= D
             "M=M-D"     "\n"
         ;
 
 
-    // SP--, *SP = -(*SP), SP++
-    static constexpr std::string_view neg =
-    // SP--
-    "@SP\n"
-    "M=M-1\n"
+    // -------------------------------------------------------
+    // neg | *((SP)--) = -(*((SP)--))
+    static constexpr std::string_view arithmeticNeg =
 
-    // *SP = -(*SP)
-    "A=M\n"
-    "M=-M\n"
+        // 1. *((SP)--) = -(*((SP)--))
+            "@SP"       "\n"
+            "A=M-1"     "\n"
+            "M=-M"      "\n"
+        ;
 
-    // SP++
-    "@SP\n"
-    "M=M+1\n"
-    ;
 
-    /*
-    SP--, addr = *SP, SP--
-    *SP = *SP - addr
-    if(*SP == 0)
-        addr = -1
-    else
-        addr = 0
-    *SP = addr
-    SP++
-    */
-    static constexpr std::string_view eq =
-    // SP--
-    "@SP\n"
-    "M=M-1\n"
-    
-    // addr = *SP
-    "A=M\n"
-    "D=M\n"
+    // eq
+    // 1. D = *(SP--)
+    // 2. D -= *(A--)
+    // 3. if(D == 0) -> Goto EQUAL, D = -1
+    // 4. else(D != 0) -> D = 0, Goto NOT_EQUAL
+    // 5. *((SP)--) = D
+    static constexpr std::string_view logicalEq =
+        // 1. D = *(SP--)
+            "@SP"       "\n"
+            "AM=M-1"    "\n"
+            "D=M"       "\n"
 
-    // SP--
-    "@SP\n"
-    "M=M-1\n"
+        // 2. D -= *(A--)
+            "A=A-1"     "\n"
+            "D=M-D"     "\n"
 
-    // addr = *SP - addr
-    "A=M\n"
-    "D=M-D\n"
-    "@EQUAL\n"
-    "D;JEQ\n"
+        // 3.1. if(D == 0) -> Goto EQUAL
+            "@EQUAL"    "\n"
+            "D;JEQ"     "\n"
 
-    // else -> addr = 0
-    "D=0\n"
-    "@NOT_EQUAL\n"
-    "0;JMP\n"
+        // 4.1. else(D != 0) -> D = 0
+            "D=0"       "\n"
+            "@NOT_EQUAL""\n"
+            "0;JMP"     "\n"
 
-    // if -> addr = -1
-    "(EQUAL)\n"
-    "D=-1\n"
+        // 3.2. D = -1
+            "(EQUAL)"   "\n"
+            "D=-1"      "\n"
 
-    "(NOT_EQUAL)\n"
+        // 4.2. Goto NOT_EQUAL
+            "(NOT_EQUAL)""\n"
 
-    // *SP = addr
-    "@SP\n"
-    "A=M\n"
-    "M=D\n"
+        // 5. *((SP)--) = D
+            "@SP"       "\n"
+            "A=M-1"       "\n"
+            "M=D"       "\n"
+        ;
 
-    // SP++
-    "@SP\n"
-    "M=M+1\n"
-    ;
+    // 1. D = *(SP--)
+    // 2. D -= *(A--)
+    // 3. if(D > 0) -> Goto GREATER, D = -1
+    // 4. else(D <= 0) -> D = 0, Goto NOT_GREATER
+    // 5. *((SP)--) = D
+    static constexpr std::string_view logicalGt =
+        // 1. D = *(SP--)
+            "@SP"       "\n"
+            "AM=M-1"    "\n"
+            "D=M"       "\n"
+
+        // 2. D -= *(A--)
+            "A=A-1"     "\n"
+            "D=M-D"     "\n"
+
+        // 3.1. if(D > 0) -> Goto GREATER
+            "@GREATER"  "\n"
+            "D;JGT"     "\n"
+
+        // 4.1. else(D <= 0) -> D = 0
+            "D=0"       "\n"
+            "@NOT_GREATER""\n"
+            "0;JMP"     "\n"
+
+        // 3.2. D = -1
+            "(GREATER)" "\n"
+            "D=-1"      "\n"
+
+        // 4.2. Goto NOT_GREATER
+            "(NOT_GREATER)""\n"
+
+        // 5. *((SP)--) = D
+            "@SP"       "\n"
+            "A=M-1"     "\n"
+            "M=D"       "\n"
+        ;
+
+    // 1. D = *(SP--)
+    // 2. D -= *(A--)
+    // 3. if(D < 0) -> Goto LESS_THAN, D = -1
+    // 4. else(D >= 0) -> D = 0, Goto NOT_LESS_THAN
+    // 5. *((SP)--) = D
+    static constexpr std::string_view logicalLt =
+        // 1. D = *(SP--)
+            "@SP"       "\n"
+            "AM=M-1"    "\n"
+            "D=M"       "\n"
+
+        // 2. D -= *(A--)
+            "A=A-1"     "\n"
+            "D=M-D"     "\n"
+
+        // 3.1. if(D > 0) -> Goto GREATER
+            "@LESS_THAN""\n"
+            "D;JLT"     "\n"
+
+        // 4.1. else(D <= 0) -> D = 0
+            "D=0"       "\n"
+            "@NOT_LESS_THAN""\n"
+            "0;JMP"     "\n"
+
+        // 3.2. D = -1
+            "(LESS_THAN)"   "\n"
+            "D=-1"      "\n"
+
+        // 4.2. Goto NOT_GREATER
+            "(NOT_LESS_THAN)""\n"
+
+        // 5. *((SP)--) = D
+            "@SP"       "\n"
+            "A=M-1"     "\n"
+            "M=D"       "\n"
+        ;
+
+
+    // 1. D = *(SP--)
+    // 2. if(D == 0) -> Goto FALSE, D = 0
+    // 3. D = *(A--)
+    // 4. if(D == 0) -> Goto FALSE, D = 0
+    // 5. else -> D = -1, Goto TRUE
+    // 6. *((SP)--) = D
+    static constexpr std::string_view logicalAnd =
+        // 1. D = *(SP--)
+            "@SP"       "\n"
+            "AM=M-1"    "\n"
+            "D=M"       "\n"
+            "A=A-1"     "\n"
+            "M=D&M"     "\n"
+
+        // // 2.1. if(D == 0) -> Goto FALSE, D = 0
+        //     "@FALSE"    "\n"
+        //     "D;JEQ"     "\n"
+
+        // // 3. D = *(A--)
+        //     "A=A-1"     "\n"
+        //     "D=M"       "\n"
+
+        // // 4.1. if(D == 0) -> Goto FALSE, D = 0
+        //     "@FALSE"    "\n"
+        //     "D;JEQ"     "\n"
+
+        // // 5. else -> D = -1, Goto TRUE
+        //     "D=-1"      "\n"
+        //     "@TRUE"     "\n"
+        //     "0;JMP"     "\n"
+
+        // // 2.2,4.2. Goto FALSE
+        //     "(FALSE)"   "\n"
+        //     "D=0"       "\n"
+
+        // // 5.2. Goto TRUE
+        //     "(TRUE)"    "\n"
+
+        // // 6. *((SP)--) = D
+        //     "@SP"       "\n"
+        //     "A=M-1"     "\n"
+        //     "M=D"       "\n"
+        ;
+
+    // 1. D = *(SP--)
+    // 2. if(D != 0) -> Goto TRUE, D = -1
+    // 3. D = *(A--)
+    // 4. if(D != 0) -> Goto TRUE, D = -1
+    // 5. else -> D = 0, Goto FALSE
+    // 6. *((SP)--) = D
+    static constexpr std::string_view logicalOr =
+
+        // 1. D = *(SP--)
+            "@SP"       "\n"
+            "AM=M-1"    "\n"
+            "D=M"       "\n"
+            "A=A-1"     "\n"
+            "M=D|M"     "\n"
+
+        // // 2.1. if(D != 0) -> Goto TRUE, D = -1
+        //     "@TRUE"     "\n"
+        //     "D;JNE"     "\n"
+
+        // // 3. D = *(A--)
+        //     "A=A-1"     "\n"
+        //     "D=M"       "\n"
+
+        // // 4.1. if(D != 0) -> Goto TRUE, D = -1
+        //     "@TRUE"     "\n"
+        //     "D;JNE"     "\n"
+
+        // // 5. else -> D = -1, Goto FALSE
+        //     "D=0"       "\n"
+        //     "@FALSE"    "\n"
+        //     "0;JMP"     "\n"
+
+        // // 2.2,4.2. Goto TRUE
+        //     "(TRUE)"    "\n"
+        //     "D=-1"      "\n"
+
+        // // 5.2. Goto FALSE
+        //     "(FALSE)"   "\n"
+
+        // // 6. *((SP)--) = D
+        //     "@SP"       "\n"
+        //     "A=M-1"     "\n"
+        //     "M=D"       "\n"
+        ;
+
+    // 1. D = *((SP)--)
+    // 2. if(D == 0) -> Goto False, D = 0
+    // 3. else -> D = -1, Goto TRUE
+    // 4. *((SP)--) = D
+    static constexpr std::string_view logicalNot =
+
+        // 1. D = *(SP--)
+            "@SP"       "\n"
+            "A=M-1"     "\n"
+            "M=!M"      "\n"
+
+        // // 2.1. if(D == 0) -> Goto TRUE, D = -1
+        //     "@TRUE"     "\n"
+        //     "D;JEQ"     "\n"
+
+        // // 3.1 else -> D = 0, Goto FALSE
+        //     "D=0"       "\n"
+        //     "@FALSE"    "\n"
+        //     "0;JMP"     "\n"
+
+        // // 2.2. Goto TRUE
+        //     "(TRUE)"    "\n"
+        //     "D=-1"      "\n"
+
+        // // 3.2. Goto FALSE
+        //     "(FALSE)"   "\n"
+
+        // // 6. *((SP)--) = D
+        //     "@SP"       "\n"
+        //     "A=M-1"     "\n"
+        //     "M=D"       "\n"
+        ;
 };
 
-int stringViewToInt(std::string_view str);
 
 #endif

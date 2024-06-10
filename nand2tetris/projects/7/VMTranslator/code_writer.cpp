@@ -38,7 +38,6 @@ auto CodeWriter::writePushPopStatic(vmCommand cmd, int i) -> void {
     } else {
         *outFile 
             << vmCodeToAssembly::popStatic
-            << "// *fileName.i = *SP\n"  // Debug
             << '@' << programName << '.' << i << '\n'
             // << "A=M\n"
             << "M=D\n";
@@ -59,24 +58,22 @@ auto CodeWriter::writePushPopTemp(vmCommand cmd, int i) -> void {
 }
 auto CodeWriter::writePushPopPointer(vmCommand cmd, int i) -> void {
     if(cmd == vmCommand::C_PUSH) {
-        *outFile << "// *SP = THIS/THAT\n"; // Debug
         if(i == 0)
-            *outFile << "@3\n";  // 0 -> THIS
+            *outFile << "@THIS\n";  // 0 -> THIS(3)
         else
-            *outFile << "@4\n";  // 1 -> THAT
+            *outFile << "@THAT\n";  // 1 -> THAT(4)
         *outFile << vmCodeToAssembly::pushPointer;
     }
     else {
-        *outFile << "// SP--, THIS/THAT = *SP\n"; // Debug
         *outFile << vmCodeToAssembly::popPointer;
         if(i == 0) {
             *outFile 
-                << "@3\n"  // 0 -> THIS
+                << "@THIS\n"
                 << "M=D\n";
         }
         else {
             *outFile 
-                << "@4\n"  // 1 -> THAT
+                << "@THAT\n"
                 << "M=D\n";
         }
     }
@@ -110,19 +107,24 @@ auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
     *outFile << "// " << arg0 << '\n'; 
     ++numOfCmdsWritten;
 
-    if (arg0 == "add") {
-        *outFile << vmCodeToAssembly::add;
-        std::cout << "write add\n";
-    }
-    else if (arg0 == "sub") {
-        *outFile << vmCodeToAssembly::sub;
-        std::cout << "write sub\n";
-    }
+    if (arg0 == "add") 
+        *outFile << vmCodeToAssembly::arithmeticAdd;
+    else if (arg0 == "sub") 
+        *outFile << vmCodeToAssembly::arithmeticSub;
     else if (arg0 == "neg")
-        *outFile << vmCodeToAssembly::neg;
+        *outFile << vmCodeToAssembly::arithmeticNeg;
     else if (arg0 == "eq")
-        *outFile << vmCodeToAssembly::eq;
-
+        *outFile << vmCodeToAssembly::logicalEq;
+    else if (arg0 == "gt")
+        *outFile << vmCodeToAssembly::logicalGt;
+    else if (arg0 == "lt")
+        *outFile << vmCodeToAssembly::logicalLt;
+    else if (arg0 == "and")
+        *outFile << vmCodeToAssembly::logicalAnd;
+    else if (arg0 == "or")
+        *outFile << vmCodeToAssembly::logicalOr;
+    else if (arg0 == "not")
+        *outFile << vmCodeToAssembly::logicalNot;
     else {  // Debug
         std::cout << "NO WRITE!\n";
         size_t i{0};
