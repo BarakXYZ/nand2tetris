@@ -10,7 +10,7 @@ class CodeWriter{
 private:
     std::unique_ptr<std::ofstream> outFile;
     std::string_view programName{};
-    unsigned int numOfCmdsWritten{0};
+    unsigned long numOfCmdsWritten{0};
 
 public:
     CodeWriter(std::unique_ptr<std::ofstream>, std::string_view);

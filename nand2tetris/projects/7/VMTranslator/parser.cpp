@@ -10,13 +10,13 @@ auto Parser::hasMoreCommands() -> bool {
     return inFile->peek() != std::ifstream::traits_type::eof();
 }
 
+auto Parser::isCommentLine() -> bool {
+    return currentCommand.front() == '/';
+}
+
 // Advance to the next command, skip comment lines and assign String View
 auto Parser::advance() -> void {
     std::getline(*inFile >> std::ws, currentCommand);
-    // Skip comment lines
-    if(currentCommand.front() == '/')
-        Parser::advance();
-
     currentCommandView = currentCommand;  // Set viewer
 }
 

@@ -1,5 +1,6 @@
 #include "parser.h"
 #include "code_writer.h"
+#include "utilities.h"
 #include <iostream>
 
 auto main(int argc, char *argv[]) -> int {
@@ -36,10 +37,12 @@ auto main(int argc, char *argv[]) -> int {
 
     // Construct Parser & CodeWriter
     Parser parser{std::move(inFile)};
-    CodeWriter codeWriter{std::move(outFile), argv[1]};
+    CodeWriter codeWriter{std::move(outFile), cleanProgramName(argv[1])};
     
     while(parser.hasMoreCommands()) {
         parser.advance();
+        if(parser.isCommentLine())
+            continue;
         parser.splitCommandToFields();
         switch(parser.commandType()) {
             case vmCommand::C_PUSH:
@@ -53,7 +56,9 @@ auto main(int argc, char *argv[]) -> int {
                 break;
 
             case vmCommand::C_ARITHMETIC:
-                std::cout << "Arithmetic Command\n" << "Arg0: " << parser.getArg(0) << '\n';
+                std::cout 
+                    << "Arithmetic Command: " << "Arg0: " 
+                    << parser.getArg(0) << '\n';
                 codeWriter.writeArithmetic(parser.getArg(0));
                 break;
 
