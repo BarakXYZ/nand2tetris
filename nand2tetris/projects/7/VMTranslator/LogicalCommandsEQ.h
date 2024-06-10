@@ -6,6 +6,12 @@
 
 namespace ArithmeticLogicalCommands {
 
+    // eq
+    // 1. D = *(SP--)
+    // 2. D -= *(A--)
+    // 3. if(D == 0) -> Goto EQUAL_i, D = -1
+    // 4. else(D != 0) -> D = 0, Goto NOT_EQUAL_i
+    // 5. *((SP)--) = D
     constexpr std::string_view logicalEqPt1 =
         // 1. D = *(SP--)
             "@SP"       "\n"
@@ -95,7 +101,6 @@ namespace ArithmeticLogicalCommands {
     //         "A=M-1"       "\n"
     //         "M=D"       "\n"
     //     ;
-
 };
 
 #endif

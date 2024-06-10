@@ -33,6 +33,13 @@ auto getNumOfCmdsWritten() -> void {
     std::cout << "Overall Commands Written: " << numOfCmdsWritten << '\n';
 }
 
-auto printArgChars(std::string_view) -> void;
+auto debugArgChars(std::string_view arg) -> void {
+    std::cout << "NO WRITE!\n";
+    size_t i{0};
+    for(auto c : arg) {
+        std::cout << "Char " << i << ": " << c << '\n';
+        ++i;
+    }
+}
 
 }

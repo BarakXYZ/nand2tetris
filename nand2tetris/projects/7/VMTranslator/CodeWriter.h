@@ -21,7 +21,6 @@ private:
 
 
 public:
-
     CodeWriter(std::unique_ptr<std::ofstream>, std::string_view);
     ~CodeWriter() { outFile->close(); }; 
 
@@ -36,6 +35,9 @@ public:
         auto writeLogicalEQ(unsigned int) -> void;
         auto writeLogicalGT(unsigned int) -> void;
         auto writeLogicalLT(unsigned int) -> void;
+
+    auto addCommandAsComment(std::string_view arg0) -> void;
+    auto addCommandAsComment(vmCommand cmd, std::string_view arg1, std::string_view arg2) -> void;
 };
 
 #endif

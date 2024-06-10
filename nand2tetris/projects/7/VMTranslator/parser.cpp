@@ -47,14 +47,12 @@ auto Parser::splitCommandToFields(char delimiter) -> void {
 }
 
 auto Parser::commandType() -> HelpersVM::vmCommand {
-    // std::cout << "commandFields[0] = " << commandFields[0] << '\n';  // Debug
-    if(commandFields[0] == "push") {
-        return HelpersVM::vmCommand::C_PUSH;
-    }
-    else if(commandFields[0] == "pop")
-        return HelpersVM::vmCommand::C_POP;
-    else
+    auto it = commandMap.find(commandFields[0]);
+    if (it != commandMap.end()) {
+        return it->second;  // C_PUSH or C_POP
+    } else {
         return HelpersVM::vmCommand::C_ARITHMETIC;
+    }
 }
 
 auto Parser::getArg(unsigned short argIndex) -> std::string_view {

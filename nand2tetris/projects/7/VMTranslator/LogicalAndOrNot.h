@@ -20,7 +20,6 @@ namespace ArithmeticLogicalCommands {
             "M=D&M"     "\n"
         ;
 
-
     // -------------------------------------------------------
     // 1. D = *(SP--)
     // 2. D & *(A--)
@@ -36,7 +35,6 @@ namespace ArithmeticLogicalCommands {
             "M=D|M"     "\n"
         ;
 
-
     // -------------------------------------------------------
     // 1. *SP = !(*SP)
     constexpr std::string_view logicalNot =
@@ -46,7 +44,6 @@ namespace ArithmeticLogicalCommands {
             "A=M-1"     "\n"
             "M=!M"      "\n"
         ;
-
 };
 
 #endif

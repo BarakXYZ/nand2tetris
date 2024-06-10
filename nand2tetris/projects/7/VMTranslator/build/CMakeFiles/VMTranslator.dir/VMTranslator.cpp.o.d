@@ -164,6 +164,16 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/array \
  /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
+ /usr/include/c++/11/unordered_map \
+ /usr/include/c++/11/ext/aligned_buffer.h \
+ /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h /usr/include/c++/11/tuple \
+ /usr/include/c++/11/bits/uses_allocator.h \
+ /usr/include/c++/11/bits/invoke.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/node_handle.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /usr/include/c++/11/bits/erase_if.h \
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h \
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopCommands.h \
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h \
@@ -183,15 +193,11 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: \
  /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/memory \
  /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
- /usr/include/c++/11/bits/align.h \
- /usr/include/c++/11/bits/uses_allocator.h \
- /usr/include/c++/11/bits/unique_ptr.h /usr/include/c++/11/tuple \
- /usr/include/c++/11/bits/invoke.h /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/align.h /usr/include/c++/11/bits/unique_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr.h \
  /usr/include/c++/11/bits/shared_ptr_base.h \
  /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/bits/refwrap.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/ext/concurrence.h \
+ /usr/include/c++/11/bits/refwrap.h /usr/include/c++/11/ext/concurrence.h \
  /usr/include/c++/11/bits/shared_ptr_atomic.h \
  /usr/include/c++/11/bits/atomic_base.h \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
