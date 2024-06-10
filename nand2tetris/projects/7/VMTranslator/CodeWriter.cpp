@@ -8,6 +8,38 @@ CodeWriter::CodeWriter(std::unique_ptr<std::ofstream> outFile, std::string_view 
 
 using namespace PushPopCommands;
 
+auto CodeWriter::writePushPop(vmCommand cmdType, std::string_view arg1, std::string_view arg2) -> void {
+    // Add the VM command itself as a comment for debugging:
+    addCommandAsComment(cmdType, arg1, arg2);
+    int i{stringViewToInt(arg2)};
+
+    // Switch on Memory Segment and convert to assembly
+    auto it = segmentMap.find(arg1);
+    if (it != segmentMap.end()) {
+        switch (it->second) {
+            case SegTags::CONSTANT:
+                writePushConstant(i);
+                break;
+            case SegTags::STATIC:
+                writePushPopStatic(cmdType, i);
+                break;
+            case SegTags::POINTER:
+                writePushPopPointer(cmdType, i);
+                break;
+            case SegTags::TEMP:
+                writePushPopTemp(cmdType, i);
+                break;
+            default:  // Implicit: LCL, ARG, THIS, THAT
+                writePushPopSegment(cmdType, arg1, i);
+                break;
+        }
+    } else {
+        std::cerr 
+        << "Invalid Push-Pop Command: " 
+        << cmdType << ' ' << arg1 << '\n';
+    }
+}
+
 auto CodeWriter::writePushPopSegment(vmCommand cmd, std::string_view seg, int i) -> void {
     if (seg == "local")
         *outFile << segmentTable[LCL];  // @LCL
@@ -80,29 +112,55 @@ auto CodeWriter::writePushPopPointer(vmCommand cmd, int i) -> void {
     }
 }
 
-auto CodeWriter::writePushPop(vmCommand commandType, std::string_view arg1, std::string_view arg2) -> void {
-    // Add the command itself as a comment for debugging:
-    if (commandType == vmCommand::C_PUSH)
-        *outFile << "// push " << arg1 << ' ' << arg2 << '\n'; 
-    else
-        *outFile << "// pop " << arg1 << ' ' << arg2 << '\n'; 
-
-    int i{stringViewToInt(arg2)};
-
-    // Switch on Memory Segment and convert to assembly
-    if (arg1 == "constant") 
-        writePushConstant(i);
-    else if (arg1 == "static") 
-        writePushPopStatic(commandType, i);
-    else if (arg1 == "pointer") 
-        writePushPopPointer(commandType, i);
-    else if (arg1 == "temp") 
-        writePushPopTemp(commandType, i);
-    else   // local, argument, this or that.
-        writePushPopSegment(commandType, arg1, i);
-}
+// -------------------- Write Arithmetic Commands ------------------------------
 
 using namespace ArithmeticLogicalCommands;
+
+auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
+    // Add the VM command itself as a comment for debugging:
+    addCommandAsComment(arg0);
+
+    auto it = arithmeticMap.find(arg0);
+    if (it != arithmeticMap.end()) {
+        switch (it->second) {
+            case ArithmeticCommands::ADD:
+                *outFile << arithmeticAdd;
+                break;
+            case ArithmeticCommands::SUB:
+                *outFile << arithmeticSub;
+                break;
+            case ArithmeticCommands::NEG:
+                *outFile << arithmeticNeg;
+                break;
+            case ArithmeticCommands::EQ:
+                writeLogicalEQ(countLogicalEQ++);
+                break;
+            case ArithmeticCommands::GT:
+                writeLogicalGT(countLogicalGT++);
+                break;
+            case ArithmeticCommands::LT:
+                writeLogicalLT(countLogicalLT++);
+                break;
+            case ArithmeticCommands::AND:
+                *outFile << logicalAnd;
+                break;
+            case ArithmeticCommands::OR:
+                *outFile << logicalOr;
+                break;
+            case ArithmeticCommands::NOT:
+                *outFile << logicalNot;
+                break;
+            default:
+                // Debug Invalid VM Command
+                debugArgChars(arg0);
+                break;
+        }
+    } else {
+        // Debug Invalid VM Command
+        debugArgChars(arg0);
+    }
+}
+
 auto CodeWriter::writeLogicalEQ(unsigned int i) -> void {
     *outFile 
         << logicalEqPt1 << i << logicalEqPt2 << i
@@ -125,33 +183,15 @@ auto CodeWriter::writeLogicalLT(unsigned int i) -> void {
         << logicalLtPt5;
 }
 
-auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
-    *outFile << "// " << arg0 << '\n'; 
+// Debug Push-Pop Commands
+auto CodeWriter::addCommandAsComment(vmCommand cmd, std::string_view arg1, std::string_view arg2) -> void {
+    if (cmd == vmCommand::C_PUSH)
+        *outFile << "// push " << arg1 << ' ' << arg2 << '\n'; 
+    else if (cmd == vmCommand::C_POP)
+        *outFile << "// pop " << arg1 << ' ' << arg2 << '\n'; 
+}
 
-    if (arg0 == "add") 
-        *outFile << arithmeticAdd;
-    else if (arg0 == "sub") 
-        *outFile << arithmeticSub;
-    else if (arg0 == "neg")
-        *outFile << arithmeticNeg;
-    else if (arg0 == "eq")
-        writeLogicalEQ(countLogicalEQ++);
-    else if (arg0 == "gt")
-        writeLogicalGT(countLogicalGT++);
-    else if (arg0 == "lt")
-        writeLogicalLT(countLogicalLT++);
-    else if (arg0 == "and")
-        *outFile << logicalAnd;
-    else if (arg0 == "or")
-        *outFile << logicalOr;
-    else if (arg0 == "not")
-        *outFile << logicalNot;
-    else {  // Debug
-        std::cout << "NO WRITE!\n";
-        size_t i{0};
-        for(auto c : arg0) {
-            std::cout << "Char " << i << ": " << c << '\n';
-            ++i;
-        }
-    }
+// Debug Arithmetic Command
+auto CodeWriter::addCommandAsComment(std::string_view arg0) -> void {
+        *outFile << "// " << arg0 << '\n'; 
 }

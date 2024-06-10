@@ -7,6 +7,7 @@
 #include <charconv>
 #include <iostream>
 #include <array>
+#include <unordered_map>
 
 namespace HelpersVM {
 
@@ -18,12 +19,17 @@ enum vmCommand {
     C_RETURN, C_CALL,
 };
 
-enum SegTags {
-    SP, LCL, ARG, THIS, THAT, CONSTANT, STATIC, TEMP, POINTER,
-    Count
+const std::unordered_map<std::string_view, vmCommand> commandMap = {
+    {"push", C_PUSH},
+    {"pop", C_POP},
 };
 
-using tbl = std::array<std::string_view, static_cast<size_t>(SegTags::Count)>;
+enum SegTags {
+    SP, LCL, ARG, THIS, THAT, CONSTANT, STATIC, TEMP, POINTER,
+    CountSeg
+};
+
+using tbl = std::array<std::string_view, static_cast<size_t>(SegTags::CountSeg)>;
 constexpr tbl segmentTable = {{
     "@SP\n",
     "@LCL\n",
@@ -36,11 +42,40 @@ constexpr tbl segmentTable = {{
     "@POINTER\n",
 }};
 
+const std::unordered_map<std::string_view, SegTags> segmentMap = {
+    {"sp", SegTags::SP},
+    {"local", SegTags::LCL},
+    {"argument", SegTags::ARG},
+    {"this", SegTags::THIS},
+    {"that", SegTags::THAT},
+    {"constant", SegTags::CONSTANT},
+    {"static", SegTags::STATIC},
+    {"temp", SegTags::TEMP},
+    {"pointer", SegTags::POINTER}
+};
+
+enum ArithmeticCommands {
+    ADD, SUB, NEG, EQ, GT, LT, AND, OR, NOT,
+    CountArithmetic
+};
+
+const std::unordered_map<std::string_view, ArithmeticCommands> arithmeticMap = {
+    {"add", ArithmeticCommands::ADD},
+    {"sub", ArithmeticCommands::SUB},
+    {"neg", ArithmeticCommands::NEG},
+    {"eq", ArithmeticCommands::EQ},
+    {"gt", ArithmeticCommands::GT},
+    {"lt", ArithmeticCommands::LT},
+    {"and", ArithmeticCommands::AND},
+    {"or", ArithmeticCommands::OR},
+    {"not", ArithmeticCommands::NOT}
+};
+
 static unsigned int numOfCmdsWritten{0};
 
 auto stringViewToInt(std::string_view str) -> int;
 auto cleanProgramName(std::string_view str) -> std::string_view;
-auto printArgChars(std::string_view) -> void;
+auto debugArgChars(std::string_view) -> void;
 auto incrementNumOfCmds() -> void;
 auto getNumOfCmdsWritten() -> void;
 }

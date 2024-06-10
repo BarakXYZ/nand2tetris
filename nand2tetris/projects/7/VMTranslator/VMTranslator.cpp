@@ -3,7 +3,6 @@
 
 #include "Parser.h"
 #include "CodeWriter.h"
-#include <iostream>
 
 auto main(int argc, char *argv[]) -> int {
 
@@ -23,13 +22,11 @@ auto main(int argc, char *argv[]) -> int {
         return 1;
     }
 
-    // Check if file is empty
     if (inFile->peek() == std::ifstream::traits_type::eof()) {
         std::cerr << "File is empty.\n";
         return 1;
     }
 
-    // Clear and Write Parsed String Stream to the outFile
     std::unique_ptr<std::ofstream> outFile{
         std::make_unique<std::ofstream>(outFileName, std::ios::trunc)};
     if (!outFile) {
@@ -49,19 +46,14 @@ auto main(int argc, char *argv[]) -> int {
         parser.splitCommandToFields();
         switch(parser.commandType()) {
             case vmCommand::C_PUSH:
-                std::cout << "Push Command\n";
                 codeWriter.writePushPop(vmCommand::C_PUSH, parser.getArg(1), parser.getArg(2));
                 break;
 
             case vmCommand::C_POP:
-                std::cout << "Pop Command\n";
                 codeWriter.writePushPop(vmCommand::C_POP, parser.getArg(1), parser.getArg(2));
                 break;
 
             case vmCommand::C_ARITHMETIC:
-                std::cout 
-                    << "Arithmetic Command: " << "Arg0: " 
-                    << parser.getArg(0) << '\n';
                 codeWriter.writeArithmetic(parser.getArg(0));
                 break;
 
