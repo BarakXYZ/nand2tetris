@@ -1,18 +1,27 @@
+// Implemented by BarakXYZ 2024
+
 #ifndef CODE_WRITER_H
 #define CODE_WRITER_H
 
-#include "utilities.h"
+#include "HelpersVM.h"
+#include "PushPopCommands.h"
+#include "ArithmeticLogicalCommands.h"
 #include <fstream>
 #include <memory>
+#include <array>
+
+using namespace HelpersVM;
 
 class CodeWriter{
 
 private:
     std::unique_ptr<std::ofstream> outFile;
     std::string_view programName{};
-    unsigned long numOfCmdsWritten{0};
+    unsigned int countLogicalEQ{0}, countLogicalGT{0}, countLogicalLT{0};
+
 
 public:
+
     CodeWriter(std::unique_ptr<std::ofstream>, std::string_view);
     ~CodeWriter() { outFile->close(); }; 
 
@@ -24,7 +33,9 @@ public:
         auto writePushPopPointer(vmCommand, int) -> void;
 
     auto writeArithmetic(std::string_view) -> void;
-    auto getNumOfCmdsWritten() -> void;
+        auto writeLogicalEQ(unsigned int) -> void;
+        auto writeLogicalGT(unsigned int) -> void;
+        auto writeLogicalLT(unsigned int) -> void;
 };
 
 #endif

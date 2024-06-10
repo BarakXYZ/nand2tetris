@@ -1,6 +1,8 @@
-#include "parser.h"
-#include "code_writer.h"
-#include "utilities.h"
+// Implemented by BarakXYZ 2024
+// as part of the NAND2TETRIS course offered by Noam Nisan and Shimon Schocken
+
+#include "Parser.h"
+#include "CodeWriter.h"
 #include <iostream>
 
 auto main(int argc, char *argv[]) -> int {
@@ -43,6 +45,7 @@ auto main(int argc, char *argv[]) -> int {
         parser.advance();
         if(parser.isCommentLine())
             continue;
+        incrementNumOfCmds();
         parser.splitCommandToFields();
         switch(parser.commandType()) {
             case vmCommand::C_PUSH:
@@ -67,5 +70,5 @@ auto main(int argc, char *argv[]) -> int {
                 return 1;
         }
     }
-    codeWriter.getNumOfCmdsWritten();
+    getNumOfCmdsWritten();
 }

@@ -1,4 +1,6 @@
-#include "parser.h"
+// Implemented by BarakXYZ 2024
+
+#include "Parser.h"
 #include <algorithm>
 #include <cctype>
 
@@ -44,15 +46,15 @@ auto Parser::splitCommandToFields(char delimiter) -> void {
     }
 }
 
-auto Parser::commandType() -> vmCommand {
+auto Parser::commandType() -> HelpersVM::vmCommand {
     // std::cout << "commandFields[0] = " << commandFields[0] << '\n';  // Debug
     if(commandFields[0] == "push") {
-        return vmCommand::C_PUSH;
+        return HelpersVM::vmCommand::C_PUSH;
     }
     else if(commandFields[0] == "pop")
-        return vmCommand::C_POP;
+        return HelpersVM::vmCommand::C_POP;
     else
-        return vmCommand::C_ARITHMETIC;
+        return HelpersVM::vmCommand::C_ARITHMETIC;
 }
 
 auto Parser::getArg(unsigned short argIndex) -> std::string_view {

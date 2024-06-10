@@ -129,101 +129,101 @@ VMTranslator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/build
 .PHONY : VMTranslator/fast
 
-code_writer.o: code_writer.cpp.o
-.PHONY : code_writer.o
+CodeWriter.o: CodeWriter.cpp.o
+.PHONY : CodeWriter.o
 
 # target to build an object file
-code_writer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/code_writer.cpp.o
-.PHONY : code_writer.cpp.o
+CodeWriter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o
+.PHONY : CodeWriter.cpp.o
 
-code_writer.i: code_writer.cpp.i
-.PHONY : code_writer.i
+CodeWriter.i: CodeWriter.cpp.i
+.PHONY : CodeWriter.i
 
 # target to preprocess a source file
-code_writer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/code_writer.cpp.i
-.PHONY : code_writer.cpp.i
+CodeWriter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/CodeWriter.cpp.i
+.PHONY : CodeWriter.cpp.i
 
-code_writer.s: code_writer.cpp.s
-.PHONY : code_writer.s
+CodeWriter.s: CodeWriter.cpp.s
+.PHONY : CodeWriter.s
 
 # target to generate assembly for a file
-code_writer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/code_writer.cpp.s
-.PHONY : code_writer.cpp.s
+CodeWriter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/CodeWriter.cpp.s
+.PHONY : CodeWriter.cpp.s
 
-main.o: main.cpp.o
-.PHONY : main.o
+HelpersVM.o: HelpersVM.cpp.o
+.PHONY : HelpersVM.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/main.cpp.o
-.PHONY : main.cpp.o
+HelpersVM.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o
+.PHONY : HelpersVM.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+HelpersVM.i: HelpersVM.cpp.i
+.PHONY : HelpersVM.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/main.cpp.i
-.PHONY : main.cpp.i
+HelpersVM.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/HelpersVM.cpp.i
+.PHONY : HelpersVM.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+HelpersVM.s: HelpersVM.cpp.s
+.PHONY : HelpersVM.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/main.cpp.s
-.PHONY : main.cpp.s
+HelpersVM.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/HelpersVM.cpp.s
+.PHONY : HelpersVM.cpp.s
 
-parser.o: parser.cpp.o
-.PHONY : parser.o
+Parser.o: Parser.cpp.o
+.PHONY : Parser.o
 
 # target to build an object file
-parser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/parser.cpp.o
-.PHONY : parser.cpp.o
+Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/Parser.cpp.o
+.PHONY : Parser.cpp.o
 
-parser.i: parser.cpp.i
-.PHONY : parser.i
+Parser.i: Parser.cpp.i
+.PHONY : Parser.i
 
 # target to preprocess a source file
-parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/parser.cpp.i
-.PHONY : parser.cpp.i
+Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/Parser.cpp.i
+.PHONY : Parser.cpp.i
 
-parser.s: parser.cpp.s
-.PHONY : parser.s
+Parser.s: Parser.cpp.s
+.PHONY : Parser.s
 
 # target to generate assembly for a file
-parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/parser.cpp.s
-.PHONY : parser.cpp.s
+Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/Parser.cpp.s
+.PHONY : Parser.cpp.s
 
-utilities.o: utilities.cpp.o
-.PHONY : utilities.o
+VMTranslator.o: VMTranslator.cpp.o
+.PHONY : VMTranslator.o
 
 # target to build an object file
-utilities.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/utilities.cpp.o
-.PHONY : utilities.cpp.o
+VMTranslator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o
+.PHONY : VMTranslator.cpp.o
 
-utilities.i: utilities.cpp.i
-.PHONY : utilities.i
+VMTranslator.i: VMTranslator.cpp.i
+.PHONY : VMTranslator.i
 
 # target to preprocess a source file
-utilities.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/utilities.cpp.i
-.PHONY : utilities.cpp.i
+VMTranslator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/VMTranslator.cpp.i
+.PHONY : VMTranslator.cpp.i
 
-utilities.s: utilities.cpp.s
-.PHONY : utilities.s
+VMTranslator.s: VMTranslator.cpp.s
+.PHONY : VMTranslator.s
 
 # target to generate assembly for a file
-utilities.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/utilities.cpp.s
-.PHONY : utilities.cpp.s
+VMTranslator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VMTranslator.dir/build.make CMakeFiles/VMTranslator.dir/VMTranslator.cpp.s
+.PHONY : VMTranslator.cpp.s
 
 # Help Target
 help:
@@ -234,18 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... VMTranslator"
-	@echo "... code_writer.o"
-	@echo "... code_writer.i"
-	@echo "... code_writer.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... parser.o"
-	@echo "... parser.i"
-	@echo "... parser.s"
-	@echo "... utilities.o"
-	@echo "... utilities.i"
-	@echo "... utilities.s"
+	@echo "... CodeWriter.o"
+	@echo "... CodeWriter.i"
+	@echo "... CodeWriter.s"
+	@echo "... HelpersVM.o"
+	@echo "... HelpersVM.i"
+	@echo "... HelpersVM.s"
+	@echo "... Parser.o"
+	@echo "... Parser.i"
+	@echo "... Parser.s"
+	@echo "... VMTranslator.o"
+	@echo "... VMTranslator.i"
+	@echo "... VMTranslator.s"
 .PHONY : help
 
 

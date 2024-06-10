@@ -1,8 +1,8 @@
-CMakeFiles/VMTranslator.dir/main.cpp.o: \
- /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/main.cpp \
+CMakeFiles/VMTranslator.dir/Main.cpp.o: \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Main.cpp \
  /usr/include/stdc-predef.h \
- /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/parser.h \
- /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/utilities.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Parser.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -162,8 +162,21 @@ CMakeFiles/VMTranslator.dir/main.cpp.o: \
  /usr/include/c++/11/bits/locale_facets.tcc \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/fstream \
- /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/c++/11/bits/istream.tcc \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopCommands.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushConstant.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopPointer.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsEQ.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsGT.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsLT.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h \
+ /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
  /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/memory \
@@ -214,5 +227,4 @@ CMakeFiles/VMTranslator.dir/main.cpp.o: \
  /usr/include/c++/11/bits/sstream.tcc /usr/include/c++/11/vector \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
- /usr/include/c++/11/bits/vector.tcc \
- /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/code_writer.h
+ /usr/include/c++/11/bits/vector.tcc

@@ -1,12 +1,14 @@
+# Implemented by BarakXYZ 2024
+
 cmake_minimum_required(VERSION 3.29.0)
 set(project_name "VMTranslator")
 project(${project_name})
 
 set(SOURCE_FILES
-"main.cpp"
-"parser.cpp"
-"code_writer.cpp"
-"utilities.cpp"
+"VMTranslator.cpp"
+"Parser.cpp"
+"CodeWriter.cpp"
+"HelpersVM.cpp"
 )
 
 add_executable(${project_name} ${SOURCE_FILES})
