@@ -79,7 +79,11 @@ auto replaceExtension(std::string_view filename, std::string_view new_extension)
 auto debugArgChars(std::string_view) -> void;
 auto incrementNumOfCmds() -> void;
 auto getNumOfCmdsWritten() -> void;
+
+auto isFileOrDir(const std::string_view);
+auto extractDirName(std::string_view) -> std::string;
+
+inline constexpr std::string_view usage{" <input_file.vm> [output_file.asm]\n"};
+
 }
-
-
 #endif

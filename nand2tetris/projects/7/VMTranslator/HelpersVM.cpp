@@ -14,14 +14,21 @@ auto stringViewToInt(std::string_view str) -> int {
     }
 }
 auto cleanProgramName(std::string_view str) -> std::string_view {
-    auto itr{str.find_last_of('/')};
+    size_t itr{0};
+
+    // e.g. source/file.vm/
+    if(str.back() == '/') {
+        str.remove_suffix(1);
+        itr = str.rfind('/');
+    }
 
     // Clean '/' (e.g. source/file.vm == file.vm)
     if(itr != std::string_view::npos)
-        str = str.substr(itr + 1);
+        str = str.substr(itr + 1);  // itr + 1 (pos of itr -> end  == file.vm)
+                                    // not: itr, 1 (which will result in 'f')
 
     // Clean '.' (e.g. file.vm == file)
-    itr = str.find_last_of('.');
+    itr = str.rfind('.');
     return str.substr(0, itr);
 }
 
@@ -34,6 +41,27 @@ auto replaceExtension(std::string_view filename, std::string_view new_extension)
         result += new_extension;
     }
     return result;
+}
+
+auto extractDirName(std::string_view path) -> std::string {
+    size_t itr{0};
+    std::string dirName(path);
+
+    // e.g. source/dir/  == source/dir
+    if(dirName.back() == '/') 
+        dirName.pop_back();
+
+    itr = dirName.rfind('/');
+    // Clean '/' (e.g. source/file.vm == file.vm)
+    if(itr != std::string::npos) 
+        dirName = dirName.substr(itr + 1);  // itr + 1 vs. itr, 1
+
+    // Clean '.' (e.g. file.vm == file) | ".vm".length() == 3
+    if((itr = dirName.rfind('.')) != std::string::npos)
+        dirName = dirName.substr(0, dirName.length() - 3);
+
+    dirName += ".asm";
+    return dirName;
 }
 
 auto incrementNumOfCmds() -> void {
@@ -52,5 +80,6 @@ auto debugArgChars(std::string_view arg) -> void {
         ++i;
     }
 }
+
 
 }

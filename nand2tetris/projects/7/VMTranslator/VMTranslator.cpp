@@ -3,22 +3,56 @@
 
 #include "Parser.h"
 #include "CodeWriter.h"
+#include <filesystem>
 
 auto main(int argc, char *argv[]) -> int {
-    constexpr std::string_view usage{" <input_file.vm> [output_file.asm]\n"};
     if (argc != 2 && argc != 3) {
-        std::cerr << "Usage: " << argv[0] << usage;
+        std::cerr << "Usage: " << argv[0] << HelpersVM::usage;
         return 1;
     }
 
     const std::string inFileName{argv[1]};
     std::string outFileName;
 
-    if (argc == 3) {
+    if (argc == 3) {  // User define source and dest
         outFileName = argv[2];
-    } else {
+    } else {  // User define only source (auto dest)
         outFileName = HelpersVM::replaceExtension(inFileName, ".asm");
     }
+
+    if (!std::filesystem::exists(inFileName)) {
+        std::cerr << "Path does not exist: " << inFileName << '\n';
+        return 1;
+    }
+
+    if (std::filesystem::is_directory(inFileName)) {
+        std::cout << "File is a directory: " << inFileName << '\n';  // debug
+        std::string outFile = HelpersVM::extractDirName(inFileName);
+        std::cout  // debug
+            << std::right << std::setw(4) << std::cout.fill(' ')
+            << "Out file: " << outFile << '\n';
+
+        for (const auto &entry : std::filesystem::directory_iterator(inFileName)) {
+            if (std::filesystem::is_regular_file(entry.path()) && entry.path().extension() == ".vm") {
+                std::string inFile = entry.path().string();
+                std::cout  // debug
+                    << std::right << std::setw(4) << std::cout.fill(' ')
+                    << "File within directory: " << inFile << '\n';
+
+                // processFile(inFile, outFile);
+            }
+        }
+    } else if (std::filesystem::is_regular_file(inFileName) && std::filesystem::path(inFileName).extension() == ".vm") {
+        std::cout << "Is file (single): " << inFileName << '\n';  // debug
+        std::string outFile = HelpersVM::extractDirName(inFileName);
+        std::cout << "Out file: " << outFile << '\n';  // debug
+        // processFile(inFileName, outFileName);
+    } else {
+        std::cerr << "The path is neither a regular file nor a directory, or the file does not have a .vm extension.\n";
+        return 1;
+    }
+
+    return 0;  // END TEMP DEBUG
 
     std::unique_ptr<std::ifstream> inFile{
         std::make_unique<std::ifstream>(inFileName)};
