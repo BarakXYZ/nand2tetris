@@ -819,6 +819,10 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/fs_dir.h \
+  /usr/include/c++/11/bits/fs_fwd.h \
+  /usr/include/c++/11/bits/fs_ops.h \
+  /usr/include/c++/11/bits/fs_path.h \
   /usr/include/c++/11/bits/fstream.tcc \
   /usr/include/c++/11/bits/functexcept.h \
   /usr/include/c++/11/bits/functional_hash.h \
@@ -831,8 +835,11 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/c++/11/bits/iterator_concepts.h \
   /usr/include/c++/11/bits/locale_classes.h \
   /usr/include/c++/11/bits/locale_classes.tcc \
+  /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/locale_facets.h \
   /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/locale_facets_nonio.h \
+  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/localefwd.h \
   /usr/include/c++/11/bits/max_size_type.h \
   /usr/include/c++/11/bits/memoryfwd.h \
@@ -841,9 +848,11 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/c++/11/bits/node_handle.h \
   /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/bits/ostream_insert.h \
+  /usr/include/c++/11/bits/parse_numbers.h \
   /usr/include/c++/11/bits/postypes.h \
   /usr/include/c++/11/bits/predefined_ops.h \
   /usr/include/c++/11/bits/ptr_traits.h \
+  /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/bits/range_access.h \
   /usr/include/c++/11/bits/ranges_algobase.h \
   /usr/include/c++/11/bits/ranges_base.h \
@@ -885,13 +894,16 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/c++/11/cctype \
   /usr/include/c++/11/cerrno \
   /usr/include/c++/11/charconv \
+  /usr/include/c++/11/chrono \
   /usr/include/c++/11/climits \
   /usr/include/c++/11/clocale \
+  /usr/include/c++/11/codecvt \
   /usr/include/c++/11/compare \
   /usr/include/c++/11/concepts \
   /usr/include/c++/11/cstdint \
   /usr/include/c++/11/cstdio \
   /usr/include/c++/11/cstdlib \
+  /usr/include/c++/11/ctime \
   /usr/include/c++/11/cwchar \
   /usr/include/c++/11/cwctype \
   /usr/include/c++/11/debug/assertions.h \
@@ -905,13 +917,17 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/c++/11/ext/numeric_traits.h \
   /usr/include/c++/11/ext/string_conversions.h \
   /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/filesystem \
   /usr/include/c++/11/fstream \
   /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/iomanip \
   /usr/include/c++/11/ios \
   /usr/include/c++/11/iosfwd \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/iterator \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/locale \
   /usr/include/c++/11/memory \
   /usr/include/c++/11/new \
   /usr/include/c++/11/numbers \
@@ -919,6 +935,7 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/c++/11/pstl/execution_defs.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/pstl_config.h \
+  /usr/include/c++/11/ratio \
   /usr/include/c++/11/sstream \
   /usr/include/c++/11/stdexcept \
   /usr/include/c++/11/streambuf \
@@ -936,6 +953,7 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
+  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
@@ -1039,7 +1057,9 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -1053,6 +1073,32 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h
 
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h:
+
+/usr/include/libintl.h:
+
+/usr/include/c++/11/ratio:
+
+/usr/include/c++/11/limits:
+
+/usr/include/c++/11/filesystem:
+
+/usr/include/c++/11/ctime:
+
+/usr/include/c++/11/bits/quoted_string.h:
+
+/usr/include/c++/11/bits/parse_numbers.h:
+
+/usr/include/c++/11/bits/locale_facets_nonio.h:
+
+/usr/include/c++/11/bits/locale_conv.h:
+
+/usr/include/c++/11/bits/fs_ops.h:
+
+/usr/include/c++/11/bits/fs_dir.h:
 
 /usr/include/c++/11/vector:
 
@@ -1113,6 +1159,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/c++/11/bits/streambuf_iterator.h:
 
 /usr/include/c++/11/bits/uses_allocator.h:
+
+/usr/include/c++/11/codecvt:
 
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/VMTranslator.cpp:
 
@@ -1187,6 +1235,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/c++/11/cwchar:
 
 /usr/include/c++/11/bits/stream_iterator.h:
+
+/usr/include/c++/11/locale:
 
 /usr/include/ctype.h:
 
@@ -1352,6 +1402,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/bits/stl_heap.h:
 
+/usr/include/c++/11/bits/locale_facets_nonio.tcc:
+
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h:
 
 /usr/include/c++/11/bits/shared_ptr_base.h:
@@ -1432,6 +1484,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/pstl/execution_defs.h:
 
+/usr/include/c++/11/chrono:
+
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/c++/11/pstl/glue_algorithm_defs.h:
@@ -1443,6 +1497,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
 /usr/include/c++/11/string_view:
+
+/usr/include/c++/11/iomanip:
 
 /usr/include/c++/11/cctype:
 
@@ -1576,6 +1632,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
+/usr/include/c++/11/bits/fs_path.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
@@ -1597,6 +1655,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
+
+/usr/include/c++/11/bits/fs_fwd.h:
 
 /usr/include/c++/11/bits/stl_bvector.h:
 
