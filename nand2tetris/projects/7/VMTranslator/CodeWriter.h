@@ -24,6 +24,8 @@ public:
     CodeWriter(std::unique_ptr<std::ofstream>, std::string_view);
     ~CodeWriter() { outFile->close(); }; 
 
+    auto setProgramName(std::string_view newProgramName) -> void;
+
     auto writePushPop(vmCommand, std::string_view, std::string_view) -> void;
         auto writePushPopSegment(vmCommand, std::string_view, int) -> void;
         auto writePushConstant(int) -> void;  // *no pop for constant

@@ -7,6 +7,29 @@
 Parser::Parser(std::unique_ptr<std::ifstream> inFile) 
 : inFile(std::move(inFile)) {};
 
+// auto Parser::initEntry(const std::string& fileName) -> bool {
+//     inFile.open(fileName);
+//     if (!inFile.is_open()) {
+//         std::cerr << "Error opening input file: " << fileName << std::endl;
+//         return false;
+//     }
+//     if (inFile.peek() == std::ifstream::traits_type::eof()) {
+//         std::cerr << "File is empty: " << fileName << std::endl;
+//         inFile.close();
+//         return false;
+//     }
+//     programName = fileName; // or use a clean version of fileName if needed
+//     // Initialize other members if necessary
+//     return true;
+// }
+
+// auto Parser::resetEntry() -> void {
+//     if (inFile.is_open()) {
+//         inFile.close();
+//     }
+//     // Reset other internal states if necessary
+// }
+
 // Check if reached the end of the file (eof)
 auto Parser::hasMoreCommands() -> bool {
     return inFile->peek() != std::ifstream::traits_type::eof();
@@ -16,15 +39,17 @@ auto Parser::isCommentLine() -> bool {
     return currentCommand.front() == '/';
 }
 
-// Advance to the next command, skip comment lines and assign String View
+// Advance to the next command and assign String View
 auto Parser::advance() -> void {
     std::getline(*inFile >> std::ws, currentCommand);
     currentCommandView = currentCommand;  // Set viewer
 }
 
 auto Parser::trim(std::string_view str) -> std::string_view {
-    const auto start = std::find_if_not(str.begin(), str.end(), [](const char c) { return std::isspace(c); });
-    const auto end = std::find_if_not(str.rbegin(), str.rend(), [](const char c) { return std::isspace(c); }).base();
+    const auto start = std::find_if_not(str.begin(), str.end(), [](const char c) 
+                                        { return std::isspace(c); });
+    const auto end = std::find_if_not(str.rbegin(), str.rend(), [](const char c) 
+                                        { return std::isspace(c); }).base();
     return (start < end) ? std::string_view(&*start, end - start) : std::string_view{};
 }
 
