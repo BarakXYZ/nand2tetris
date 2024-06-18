@@ -15,19 +15,21 @@
 class Parser{
 
 private:
-    std::unique_ptr<std::ifstream> inFile;
-    // std::ifstream inFile;
+    // std::unique_ptr<std::ifstream> inFile;
+    std::ifstream inFile;
     std::string currentCommand{};
     std::string_view currentCommandView{};
     std::array<std::string_view, 3> commandFields;
 
 public:
     Parser() = default;
-    Parser(std::unique_ptr<std::ifstream> inFile);
-    ~Parser(){ inFile->close(); };
+    // Parser(std::unique_ptr<std::ifstream> inFile);
+    // Parser(const std::string &fileName);
+    // ~Parser(){ inFile.close();};
+    ~Parser() = default;
     
-    auto initEntry(const std::string &fileName) -> bool;
-    auto resetEntry() -> void;
+    auto initNewEntry(const std::string &fileName) -> bool;
+    auto resetCurrentEntry() -> void;
     auto isCommentLine() -> bool;
     auto advance() -> void;
     auto hasMoreCommands() -> bool;

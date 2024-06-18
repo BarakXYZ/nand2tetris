@@ -292,6 +292,7 @@ CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
   /usr/include/c++/11/bits/basic_string.tcc \
   /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/bits/charconv.h \
+  /usr/include/c++/11/bits/codecvt.h \
   /usr/include/c++/11/bits/concept_check.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/bits/cxxabi_forced.h \
@@ -301,6 +302,7 @@ CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
   /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/fstream.tcc \
   /usr/include/c++/11/bits/functexcept.h \
   /usr/include/c++/11/bits/functional_hash.h \
   /usr/include/c++/11/bits/hash_bytes.h \
@@ -368,6 +370,7 @@ CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
   /usr/include/c++/11/ext/numeric_traits.h \
   /usr/include/c++/11/ext/string_conversions.h \
   /usr/include/c++/11/ext/type_traits.h \
+  /usr/include/c++/11/fstream \
   /usr/include/c++/11/initializer_list \
   /usr/include/c++/11/ios \
   /usr/include/c++/11/iosfwd \
@@ -465,8 +468,10 @@ CMakeFiles/VMTranslator.dir/HelpersVM.cpp.o: /mnt/g/Barak/Projects/nand2tetris/n
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h \
