@@ -5,6 +5,8 @@
 #include "CodeWriter.h"
 #include <filesystem>
 
+auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool;
+
 auto main(int argc, char *argv[]) -> int {
     if (argc != 2 && argc != 3) {
         std::cerr << "Usage: " << argv[0] << HelpersVM::usage;
@@ -43,37 +45,37 @@ auto main(int argc, char *argv[]) -> int {
     //         set programName to dirName (for static vars)
     //         function per Entry ^^
 
-    if (std::filesystem::is_directory(inFileName)) {
-        std::cout << "File is a directory: " << inFileName << '\n';  // debug
+    // if (std::filesystem::is_directory(inFileName)) {
+    //     std::cout << "File is a directory: " << inFileName << '\n';  // debug
 
-        outFileName = HelpersVM::extractDirName(inFileName);
-        std::cout  // debug
-            << std::right << std::setw(4) << std::cout.fill(' ')
-            << "Out file: " << outFileName << '\n';
+    //     outFileName = HelpersVM::extractDirName(inFileName);
+    //     std::cout  // debug
+    //         << std::right << std::setw(4) << std::cout.fill(' ')
+    //         << "Out file: " << outFileName << '\n';
         
-        for (const auto &entry : std::filesystem::directory_iterator(inFileName)) {
-            if (entry.path().extension() == ".vm") {
-                std::string subFile = entry.path().string();
-                std::cout  // debug
-                    << std::right << std::setw(4) << std::cout.fill(' ')
-                    << "File within directory: " << subFile << '\n';
+    //     for (const auto &entry : std::filesystem::directory_iterator(inFileName)) {
+    //         if (entry.path().extension() == ".vm") {
+    //             std::string subFile = entry.path().string();
+    //             std::cout  // debug
+    //                 << std::right << std::setw(4) << std::cout.fill(' ')
+    //                 << "File within directory: " << subFile << '\n';
 
-                // Pass in file to Parser
-                // Parse file
-                // Write out file (outFileName)
-            }
-        }
-    } else if (std::filesystem::is_regular_file(inFileName) && std::filesystem::path(inFileName).extension() == ".vm") {
-        std::cout << "Single file: " << inFileName << '\n';  // debug
-        outFileName = HelpersVM::extractDirName(inFileName);
-        std::cout << "Out file: " << outFileName << '\n';  // debug
-        // processFile(inFileName, outFileName);
-    } else {
-        std::cerr << "The path is neither a regular file nor a directory, or the file does not have a \".vm\" extension.\n";
-        return 1;
-    }
+    //             // Pass in file to Parser
+    //             // Parse file
+    //             // Write out file (outFileName)
+    //         }
+    //     }
+    // } else if (std::filesystem::is_regular_file(inFileName) && std::filesystem::path(inFileName).extension() == ".vm") {
+    //     std::cout << "Single file: " << inFileName << '\n';  // debug
+    //     outFileName = HelpersVM::extractDirName(inFileName);
+    //     std::cout << "Out file: " << outFileName << '\n';  // debug
+    //     // processFile(inFileName, outFileName);
+    // } else {
+    //     std::cerr << "The path is neither a regular file nor a directory, or the file does not have a \".vm\" extension.\n";
+    //     return 1;
+    // }
 
-    return 0;  // END TEMP DEBUG
+    // return 0;  // END TEMP DEBUG
 
     std::unique_ptr<std::ifstream> inFile{
         std::make_unique<std::ifstream>(inFileName)};
@@ -95,10 +97,19 @@ auto main(int argc, char *argv[]) -> int {
     }
 
     // Construct Parser & CodeWriter
-    Parser parser{std::move(inFile)};
+    // Parser parser{std::move(inFile)};
+    Parser parser;
+    parser.initNewEntry(inFileName);
     CodeWriter codeWriter{std::move(outFile), cleanProgramName(argv[1])};
     
-    while(parser.hasMoreCommands()) {
+    if(!processEntry(parser, codeWriter))
+        return 1;
+
+    // HelpersVM::getNumOfCmdsWritten();  // Debug
+}
+
+auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
+        while(parser.hasMoreCommands()) {
         parser.advance();
         if(parser.isCommentLine())
             continue;
@@ -119,9 +130,8 @@ auto main(int argc, char *argv[]) -> int {
 
             default:
                 std::cerr << "Invalid command\n";
-                return 1;
+                return false;
         }
-    }
-
-    // HelpersVM::getNumOfCmdsWritten();  // Debug
+    } return true;
 }
+

@@ -40,8 +40,8 @@ auto cleanProgramName(std::string_view str) -> std::string_view {
     // e.g. source/file.vm/
     if(str.back() == '/') {
         str.remove_suffix(1);
-        itr = str.rfind('/');
     }
+    itr = str.rfind('/');
 
     // Clean '/' (e.g. source/file.vm == file.vm)
     if(itr != std::string_view::npos)
