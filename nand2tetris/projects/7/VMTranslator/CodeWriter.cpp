@@ -6,6 +6,11 @@
 CodeWriter::CodeWriter(std::unique_ptr<std::ofstream> outFile, std::string_view programName) 
 : outFile(std::move(outFile)), programName{programName} {};
 
+
+auto CodeWriter::setProgramName(std::string_view newProgramName) -> void {
+    programName = newProgramName;
+}
+
 using namespace PushPopCommands;
 
 auto CodeWriter::writePushPop(vmCommand cmdType, std::string_view arg1, std::string_view arg2) -> void {

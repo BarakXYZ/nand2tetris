@@ -11,12 +11,12 @@ auto main(int argc, char *argv[]) -> int {
         return 1;
     }
 
-    const std::string inFileName{argv[1]};
+    std::string inFileName{argv[1]};
     std::string outFileName;
 
-    if (argc == 3) {  // User define source and dest
+    if (argc == 3) {  // The user has defined source and dest
         outFileName = argv[2];
-    } else {  // User define only source (auto dest)
+    } else {  // User has defined only source (e.g. ./VMTranslator source.vm)
         outFileName = HelpersVM::replaceExtension(inFileName, ".asm");
     }
 
@@ -25,30 +25,51 @@ auto main(int argc, char *argv[]) -> int {
         return 1;
     }
 
+    // Construct CodeWriter:
+    // if regular single file (e.g. ../../fileName.vm)
+    //     should just replace the in file extension with .asm
+    //     i.e. ../../fileName.vm  == ../../fileName.asm
+    //     and set programName to fileName (for static vars)
+    //     Can be achieved with one simple constructor
+    //
+    // else directory (e.g. ../../dirName/)
+    //
+    //     Do Once:
+    //         add dirName.asm as suffix to the entire path (file is written to dir)
+    //         i.e. ../../dirName/ == ../../dirName/dirName.asm
+    //         constructor ^^
+    //
+    //     Per Entry:
+    //         set programName to dirName (for static vars)
+    //         function per Entry ^^
+
     if (std::filesystem::is_directory(inFileName)) {
         std::cout << "File is a directory: " << inFileName << '\n';  // debug
-        std::string outFile = HelpersVM::extractDirName(inFileName);
+
+        outFileName = HelpersVM::extractDirName(inFileName);
         std::cout  // debug
             << std::right << std::setw(4) << std::cout.fill(' ')
-            << "Out file: " << outFile << '\n';
-
+            << "Out file: " << outFileName << '\n';
+        
         for (const auto &entry : std::filesystem::directory_iterator(inFileName)) {
-            if (std::filesystem::is_regular_file(entry.path()) && entry.path().extension() == ".vm") {
-                std::string inFile = entry.path().string();
+            if (entry.path().extension() == ".vm") {
+                std::string subFile = entry.path().string();
                 std::cout  // debug
                     << std::right << std::setw(4) << std::cout.fill(' ')
-                    << "File within directory: " << inFile << '\n';
+                    << "File within directory: " << subFile << '\n';
 
-                // processFile(inFile, outFile);
+                // Pass in file to Parser
+                // Parse file
+                // Write out file (outFileName)
             }
         }
     } else if (std::filesystem::is_regular_file(inFileName) && std::filesystem::path(inFileName).extension() == ".vm") {
-        std::cout << "Is file (single): " << inFileName << '\n';  // debug
-        std::string outFile = HelpersVM::extractDirName(inFileName);
-        std::cout << "Out file: " << outFile << '\n';  // debug
+        std::cout << "Single file: " << inFileName << '\n';  // debug
+        outFileName = HelpersVM::extractDirName(inFileName);
+        std::cout << "Out file: " << outFileName << '\n';  // debug
         // processFile(inFileName, outFileName);
     } else {
-        std::cerr << "The path is neither a regular file nor a directory, or the file does not have a .vm extension.\n";
+        std::cerr << "The path is neither a regular file nor a directory, or the file does not have a \".vm\" extension.\n";
         return 1;
     }
 
