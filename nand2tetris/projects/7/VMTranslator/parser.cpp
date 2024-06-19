@@ -73,7 +73,7 @@ auto Parser::splitCommandToFields(char delimiter) -> void {
 auto Parser::commandType() -> HelpersVM::vmCommand {
     auto it = commandMap.find(commandFields[0]);
     if (it != commandMap.end()) {
-        return it->second;  // C_PUSH or C_POP
+        return it->second;  // push, pop, function, return, goto, etc.
     } else {
         return HelpersVM::vmCommand::C_ARITHMETIC;
     }

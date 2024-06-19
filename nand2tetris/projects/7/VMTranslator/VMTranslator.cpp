@@ -35,7 +35,7 @@ auto main(int argc, char *argv[]) -> int {
     //
     //     1. replace the in file extension with .asm
     //         i.e. ../../fileName.vm  == ../../fileName.asm
-    //     2. set fileName to fileName (for static vars)
+    //     2. set programName to fileName (for static vars)
     //     Both steps to be executed by the CodeWriter's constructor
     //
     // else directory (e.g. ../../dirName/)
@@ -46,7 +46,7 @@ auto main(int argc, char *argv[]) -> int {
     //         To be executed via the constructor constructor
     //
     //     Per Entry:
-    //         set fileName to dirName (for static vars)
+    //         set programName to dirName (for static vars)
     //         function per Entry ^^
 
 
@@ -94,29 +94,52 @@ auto main(int argc, char *argv[]) -> int {
 }  // return 0;
 
 auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
+        // Write booting
+        codeWriter.writeInit();
         while(parser.hasMoreCommands()) {
-        parser.advance();
-        if(parser.isCommentLine())
-            continue;
-        incrementNumOfCmds();
-        parser.splitCommandToFields();
-        switch(parser.commandType()) {
-            case vmCommand::C_PUSH:
-                codeWriter.writePushPop(vmCommand::C_PUSH, parser.getArg(1), parser.getArg(2));
-                break;
+            parser.advance();
+            if(parser.isCommentLine())
+                continue;
+            incrementNumOfCmds();
+            parser.splitCommandToFields();
+            switch(parser.commandType()) {
+                case vmCommand::C_PUSH:
+                    codeWriter.writePushPop(vmCommand::C_PUSH, parser.getArg(1), parser.getArg(2));
+                    break;
 
-            case vmCommand::C_POP:
-                codeWriter.writePushPop(vmCommand::C_POP, parser.getArg(1), parser.getArg(2));
-                break;
+                case vmCommand::C_POP:
+                    codeWriter.writePushPop(vmCommand::C_POP, parser.getArg(1), parser.getArg(2));
+                    break;
 
-            case vmCommand::C_ARITHMETIC:
-                codeWriter.writeArithmetic(parser.getArg(0));
-                break;
+                case vmCommand::C_ARITHMETIC:
+                    codeWriter.writeArithmetic(parser.getArg(0));
+                    break;
 
-            default:
-                std::cerr << "Invalid command\n";
-                return false;
-        }
-    } return true;
+                case vmCommand::C_LABEL:
+                    codeWriter.writeLabel(parser.getArg(1));
+                    break;
+
+                case vmCommand::C_GOTO:
+                    codeWriter.writeGoto(parser.getArg(1));
+                    break;
+
+                case vmCommand::C_IF:
+                    codeWriter.writeIf(parser.getArg(1));
+                    break;
+
+                case vmCommand::C_FUNCTION:
+                    break;
+
+                case vmCommand::C_CALL:
+                    break;
+
+                case vmCommand::C_RETURN:
+                    break;
+
+                default:
+                    std::cerr << "Invalid command\n";
+                    return false;
+            }
+        } return true;
 }
 

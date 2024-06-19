@@ -5,6 +5,7 @@ CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o: /mnt/g/Barak/Projects/nand2tetris/
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h \
@@ -496,6 +497,7 @@ CMakeFiles/VMTranslator.dir/Parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h \
@@ -785,6 +787,7 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h \
@@ -1141,7 +1144,11 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h:
 
+/usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
+
 /usr/include/c++/11/exception:
+
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h:
 
@@ -1191,8 +1198,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
-/usr/include/c++/11/ext/new_allocator.h:
-
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
 /usr/include/c++/11/backward/auto_ptr.h:
@@ -1218,10 +1223,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
 /usr/include/c++/11/bits/refwrap.h:
-
-/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
-
-/usr/include/c++/11/bits/ranges_uninitialized.h:
 
 /usr/include/c++/11/bits/ranges_cmp.h:
 
@@ -1283,7 +1284,7 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/bits/locale_classes.tcc:
 
-/usr/include/c++/11/bits/allocator.h:
+/usr/include/c++/11/bits/locale_classes.h:
 
 /usr/include/c++/11/bits/max_size_type.h:
 
@@ -1314,10 +1315,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/asm/unistd_64.h:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/usr/include/c++/11/pstl/pstl_config.h:
-
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsLT.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
@@ -1351,6 +1348,8 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopCommands.h:
+
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.cpp:
 
 /usr/include/c++/11/bits/stl_raw_storage_iter.h:
@@ -1367,6 +1366,10 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
 
+/usr/include/c++/11/bits/ostream_insert.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
 /usr/include/c++/11/cstdio:
 
 /usr/include/c++/11/bits/fstream.tcc:
@@ -1375,11 +1378,11 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/ext/numeric_traits.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+/usr/include/c++/11/bits/allocator.h:
 
-/usr/include/c++/11/bits/ostream_insert.h:
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsLT.h:
 
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopCommands.h:
+/usr/include/c++/11/pstl/pstl_config.h:
 
 /usr/include/c++/11/bits/uniform_int_dist.h:
 
@@ -1487,7 +1490,11 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/bits/ios_base.h:
 
-/usr/include/c++/11/bits/locale_classes.h:
+/usr/include/c++/11/ext/new_allocator.h:
+
+/usr/include/c++/11/bits/ranges_uninitialized.h:
+
+/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 /usr/include/c++/11/ext/type_traits.h:
 
@@ -1658,8 +1665,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 

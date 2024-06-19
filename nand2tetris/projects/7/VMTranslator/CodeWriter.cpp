@@ -24,6 +24,26 @@ auto CodeWriter::writeInit() -> void {
     outFile << booting;
 }
 
+auto CodeWriter::writeLabel(const strView label) -> void {
+    outFile
+        << '(' << label << ")\n";
+}
+
+auto CodeWriter::writeGoto(const strView label) -> void {
+    outFile
+        << '@' << label << '\n'
+        << gotoCommand;
+}
+
+auto CodeWriter::writeIf(const strView label) -> void {
+    // writeLogicalGT(countLogicalGT++);
+    outFile
+        << ifGoto
+        << '@' << label << '\n'
+        << "D;JNE\n";
+        // << "D;JEQ\n";
+        // << "0;JMP\n";
+}
 
 // Probably not needed (as the constructor takes care if this)
 auto CodeWriter::initNewEntry(const std::string &outFileName) -> bool {

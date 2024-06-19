@@ -9,10 +9,14 @@ namespace ProgramControlCommands {
 // SP=256
 // Call Sys.init
 constexpr std::string_view booting {
+    "@256"          "\n"
+    "D=A"           "\n"
     "@SP"           "\n"
-    "M=256"         "\n"
+    "M=D"           "\n"
 
-    "call Sys.init" "\n"
+    // "call Sys.init" "\n"
+    "@Sys.init"     "\n"
+    "0;JMP"         "\n"
 };
 
 }
