@@ -6,6 +6,7 @@ CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h
@@ -499,6 +500,7 @@ CMakeFiles/VMTranslator.dir/Parser.cpp.o
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h
@@ -789,6 +791,7 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h

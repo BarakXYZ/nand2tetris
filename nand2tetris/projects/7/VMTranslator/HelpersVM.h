@@ -12,6 +12,8 @@
 
 namespace HelpersVM {
 
+using strView = std::string_view;
+
 enum vmCommand {
     C_ARITHMETIC,
     C_PUSH, C_POP,
@@ -23,7 +25,13 @@ enum vmCommand {
 const std::unordered_map<std::string_view, vmCommand> commandMap = {
     {"push", C_PUSH},
     {"pop", C_POP},
-    // Need to expand to all command types
+    {"label", C_LABEL},
+    {"goto", C_GOTO},
+    {"if-goto", C_IF},
+    {"function", C_FUNCTION},
+    {"return", C_RETURN},
+    {"call", C_CALL},
+    // else artihmetic (i.e. add, sub, neg, etc.)
 };
 
 enum SegTags {

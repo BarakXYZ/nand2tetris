@@ -4,5 +4,6 @@
 #define PROGRAM_CONTROL_COMMANDS_H
 
 #include "Booting.h"
+#include "BranchingCommands.h"
 
 #endif

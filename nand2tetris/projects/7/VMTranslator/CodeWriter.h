@@ -43,7 +43,7 @@ public:
         auto writeLogicalLT(unsigned int) -> void;
 
     auto writeLabel(const std::string_view label) -> void;
-    auto writeGoto(const std::string_view label) -> void;
+    auto writeGoto(const strView label) -> void;
     auto writeIf(const std::string_view label) -> void;
     auto writeFunction(const std::string_view functionName, u_int numVars) -> void;
     auto writeCall(const std::string_view functionName, u_int numArgs) -> void;
