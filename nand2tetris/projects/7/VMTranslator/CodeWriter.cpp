@@ -21,16 +21,20 @@ auto CodeWriter::setFileName(const std::string_view newFileName) -> void {
 using namespace ProgramControlCommands;
 
 auto CodeWriter::writeInit() -> void {
-    outFile << booting;
+    outFile 
+        << "// Booting\n"  // debug
+        << booting;
 }
 
 auto CodeWriter::writeLabel(const strView label) -> void {
     outFile
+        << "// label " << label << '\n'  // debug
         << '(' << label << ")\n";
 }
 
 auto CodeWriter::writeGoto(const strView label) -> void {
     outFile
+        << "// goto " << label << '\n'  // debug
         << '@' << label << '\n'
         << gotoCommand;
 }
@@ -38,6 +42,7 @@ auto CodeWriter::writeGoto(const strView label) -> void {
 auto CodeWriter::writeIf(const strView label) -> void {
     // writeLogicalGT(countLogicalGT++);
     outFile
+        << "// if-goto " << label << '\n'  // debug
         << ifGoto
         << '@' << label << '\n'
         << "D;JNE\n";

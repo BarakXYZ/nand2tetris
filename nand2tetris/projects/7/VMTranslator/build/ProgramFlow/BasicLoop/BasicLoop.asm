@@ -1,3 +1,4 @@
+// Booting
 @256
 D=A
 @SP
@@ -24,6 +25,7 @@ D=M
 @R13
 A=M
 M=D
+// label LOOP
 (LOOP)
 // push argument 0
 @ARG
@@ -110,6 +112,7 @@ D=M
 AM=M+1
 A=A-1
 M=D
+// if-goto LOOP
 @SP
 AM=M-1
 D=M
