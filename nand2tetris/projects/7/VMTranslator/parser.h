@@ -15,7 +15,6 @@
 class Parser{
 
 private:
-    // std::unique_ptr<std::ifstream> inFile;
     std::ifstream inFile;
     std::string currentCommand{};
     std::string_view currentCommandView{};
@@ -23,10 +22,7 @@ private:
 
 public:
     Parser() = default;
-    // Parser(std::unique_ptr<std::ifstream> inFile);
-    // Parser(const std::string &fileName);
-    // ~Parser(){ inFile.close();};
-    ~Parser() = default;
+    ~Parser();  // Close inFile
     
     auto initNewEntry(const std::string &fileName) -> bool;
     auto resetCurrentEntry() -> void;

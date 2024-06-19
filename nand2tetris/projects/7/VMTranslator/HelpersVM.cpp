@@ -4,27 +4,6 @@
 
 namespace HelpersVM {
 
-auto openAndCheckFile(const std::string &fileName, std::ifstream &inFile) -> bool {
-    inFile.open(fileName);
-    if (!inFile.is_open()) {
-        std::cerr << "Error opening input file: " << fileName << std::endl;
-        return false;
-    }
-    if (inFile.peek() == std::ifstream::traits_type::eof()) {
-        std::cerr << "File is empty: " << fileName << std::endl;
-        inFile.close();
-        return false;
-    }
-    return true;
-}
-
-auto closeFile(std::ifstream &inFile) -> void {
-    if (inFile.is_open()) 
-        inFile.close();
-    else
-        std::cerr << "Couldn't close file.\n";
-}
-
 auto stringViewToInt(std::string_view str) -> int {
     int result = 0;
     auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), result);

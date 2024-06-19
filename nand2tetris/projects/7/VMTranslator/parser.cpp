@@ -4,8 +4,10 @@
 #include <algorithm>
 #include <cctype>
 
-// Parser::Parser(std::unique_ptr<std::ifstream> inFile) 
-// : inFile(std::move(inFile)) {};
+Parser::~Parser(){
+    if(inFile.is_open())
+        inFile.close();
+}
 
 auto Parser::initNewEntry(const std::string &fileName) -> bool {
     inFile.open(fileName);
@@ -18,43 +20,29 @@ auto Parser::initNewEntry(const std::string &fileName) -> bool {
         inFile.close();
         return false;
     }
-    // Initialize other members if necessary
     return true;
 }
 
+// Probably not needed (as this is implemented via the destructor)
 auto Parser::resetCurrentEntry() -> void {
-    if (inFile.is_open()) {
+    if (inFile.is_open()) 
         inFile.close();
-    }
-    // Reset other internal states if necessary
+    else
+        std::cerr << "File is not opened, could not close file.\n";
 }
 
-// Check if reached the end of the file (eof)
-// auto Parser::hasMoreCommands() -> bool {
-//     return inFile->peek() != std::ifstream::traits_type::eof();
-// }
-//
-// v2
 auto Parser::hasMoreCommands() -> bool {
     return inFile.peek() != std::ifstream::traits_type::eof();
 }
-
 
 auto Parser::isCommentLine() -> bool {
     return currentCommand.front() == '/';
 }
 
-// Advance to the next command and assign String View
-// auto Parser::advance() -> void {
-//     std::getline(*inFile >> std::ws, currentCommand);
-//     currentCommandView = currentCommand;  // Set viewer
-// }
-
 auto Parser::advance() -> void {
     std::getline(inFile >> std::ws, currentCommand);
     currentCommandView = currentCommand;  // Set viewer
 }
-
 
 auto Parser::trim(std::string_view str) -> std::string_view {
     const auto start = std::find_if_not(str.begin(), str.end(), [](const char c) 
