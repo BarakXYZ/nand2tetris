@@ -14,12 +14,14 @@ auto main(int argc, char *argv[]) -> int {
     }
 
     std::string inFileName{argv[1]};
+    std::string_view inFileNameView{argv[1]};
     std::string outFileName;
 
-    if (argc == 3) {  // The user has defined source and dest
+    if (argc == 3) {  // User has defined source and dest (e.g. source.vm out.asm)
         outFileName = argv[2];
-    } else {  // User has defined only source (e.g. ./VMTranslator source.vm)
-        outFileName = HelpersVM::replaceExtension(inFileName, ".asm");
+    }
+    else {  // User has defined only source (e.g. ./VMTranslator source.vm)
+        outFileName = HelpersVM::replaceExtension(inFileNameView, ".asm");
     }
 
     if (!std::filesystem::exists(inFileName)) {
@@ -27,23 +29,26 @@ auto main(int argc, char *argv[]) -> int {
         return 1;
     }
 
+    // Psuedo Code:
     // Construct CodeWriter:
     // if regular single file (e.g. ../../fileName.vm)
-    //     should just replace the in file extension with .asm
-    //     i.e. ../../fileName.vm  == ../../fileName.asm
-    //     and set programName to fileName (for static vars)
-    //     Can be achieved with one simple constructor
+    //
+    //     1. replace the in file extension with .asm
+    //         i.e. ../../fileName.vm  == ../../fileName.asm
+    //     2. set fileName to fileName (for static vars)
+    //     Both steps to be executed by the CodeWriter's constructor
     //
     // else directory (e.g. ../../dirName/)
     //
     //     Do Once:
-    //         add dirName.asm as suffix to the entire path (file is written to dir)
-    //         i.e. ../../dirName/ == ../../dirName/dirName.asm
-    //         constructor ^^
+    //         1. Open file to write, add dirName.asm as suffix to the entire path
+    //             (i.e. ../dirName/ == ../dirName/dirName.asm)
+    //         To be executed via the constructor constructor
     //
     //     Per Entry:
-    //         set programName to dirName (for static vars)
+    //         set fileName to dirName (for static vars)
     //         function per Entry ^^
+
 
     // if (std::filesystem::is_directory(inFileName)) {
     //     std::cout << "File is a directory: " << inFileName << '\n';  // debug
@@ -77,36 +82,16 @@ auto main(int argc, char *argv[]) -> int {
 
     // return 0;  // END TEMP DEBUG
 
-    std::unique_ptr<std::ifstream> inFile{
-        std::make_unique<std::ifstream>(inFileName)};
-    if (!inFile) {
-        std::cerr << "Error opening input file: " << inFileName << std::endl;
-        return 1;
-    }
-
-    if (inFile->peek() == std::ifstream::traits_type::eof()) {
-        std::cerr << "File is empty.\n";
-        return 1;
-    }
-
-    std::unique_ptr<std::ofstream> outFile{
-        std::make_unique<std::ofstream>(outFileName, std::ios::trunc)};
-    if (!outFile) {
-        std::cerr << "Error opening output file: " << outFileName << std::endl;
-        return 1;
-    }
-
     // Construct Parser & CodeWriter
-    // Parser parser{std::move(inFile)};
     Parser parser;
     parser.initNewEntry(inFileName);
-    CodeWriter codeWriter{std::move(outFile), cleanProgramName(argv[1])};
+    CodeWriter codeWriter{outFileName, cleanProgramName(argv[1])};
     
     if(!processEntry(parser, codeWriter))
         return 1;
 
     // HelpersVM::getNumOfCmdsWritten();  // Debug
-}
+}  // return 0;
 
 auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
         while(parser.hasMoreCommands()) {

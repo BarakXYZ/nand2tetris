@@ -3,14 +3,46 @@
 #include "CodeWriter.h"
 #include "HelpersVM.h"
 
-CodeWriter::CodeWriter(std::unique_ptr<std::ofstream> outFile, std::string_view programName) 
-: outFile(std::move(outFile)), programName{programName} {};
+CodeWriter::CodeWriter(const std::string &outFileName, const std::string_view entry) {
+    initNewEntry(outFileName);
+    fileName = entry;
+};
 
-
-auto CodeWriter::setProgramName(std::string_view newProgramName) -> void {
-    programName = newProgramName;
+CodeWriter::~CodeWriter() {
+    if(outFile.is_open())
+        outFile.close();
 }
 
+auto CodeWriter::setFileName(const std::string_view newFileName) -> void {
+    fileName = newFileName;
+}
+
+// -------------------- Write Program Control Commands ------------------------------
+using namespace ProgramControlCommands;
+
+auto CodeWriter::writeInit() -> void {
+    outFile << booting;
+}
+
+
+// Probably not needed (as the constructor takes care if this)
+auto CodeWriter::initNewEntry(const std::string &outFileName) -> bool {
+    outFile.open(outFileName, std::ios::trunc);
+    if (!outFile) {
+        std::cerr << "Error opening output file: " << outFileName << std::endl;
+        return false;
+    } return true;
+}
+
+// Also probably not needed (as this is achieved with the destructor)
+auto CodeWriter::resetCurrentEntry() -> void {
+    if (outFile.is_open()) 
+        outFile.close();
+    else
+        std::cerr << "File is not opened, could not close file.\n";
+}
+
+// -------------------- Write Push Pop Commands ------------------------------
 using namespace PushPopCommands;
 
 auto CodeWriter::writePushPop(vmCommand cmdType, std::string_view arg1, std::string_view arg2) -> void {
@@ -47,49 +79,49 @@ auto CodeWriter::writePushPop(vmCommand cmdType, std::string_view arg1, std::str
 
 auto CodeWriter::writePushPopSegment(vmCommand cmd, std::string_view seg, int i) -> void {
     if (seg == "local")
-        *outFile << segmentTable[LCL];  // @LCL
+        outFile << segmentTable[LCL];  // @LCL
     else if (seg == "argument")
-        *outFile << segmentTable[ARG];  // @ARG
+        outFile << segmentTable[ARG];  // @ARG
     else if (seg == "this")
-        *outFile << segmentTable[THIS];  // @THIS
+        outFile << segmentTable[THIS];  // @THIS
     else
-        *outFile << segmentTable[THAT];  // @THAT
+        outFile << segmentTable[THAT];  // @THAT
 
-    *outFile
+    outFile
         << "D=M\n"
         << '@' << i << '\n';
 
     if(cmd == vmCommand::C_PUSH)
-        *outFile << PushPopCommands::pushSegment;
+        outFile << PushPopCommands::pushSegment;
     else
-        *outFile << PushPopCommands::popSegment;
+        outFile << PushPopCommands::popSegment;
 }
 
 auto CodeWriter::writePushConstant(int i) -> void {
-    *outFile 
+    outFile 
         << '@' << i << '\n'
         << PushPopCommands::pushConstant;
 }
 
 auto CodeWriter::writePushPopStatic(vmCommand cmd, int i) -> void {
     if(cmd == vmCommand::C_PUSH) {
-        *outFile
-            << '@' << programName << '.' << i << '\n'
+        outFile
+            << '@' << fileName << '.' << i << '\n'
             << PushPopCommands::pushStatic;
     } else {
-        *outFile 
+        outFile 
             << PushPopCommands::popStatic
-            << '@' << programName << '.' << i << '\n'
+            << '@' << fileName << '.' << i << '\n'
             << "M=D\n";
     }
 }
 auto CodeWriter::writePushPopTemp(vmCommand cmd, int i) -> void {
     if(cmd == vmCommand::C_PUSH) {
-        *outFile 
+        outFile 
             << '@' << i << '\n'
             << PushPopCommands::pushTemp;
     } else {
-        *outFile 
+        outFile 
             << '@' << i << '\n'
             << PushPopCommands::popTemp;
     }
@@ -97,20 +129,20 @@ auto CodeWriter::writePushPopTemp(vmCommand cmd, int i) -> void {
 auto CodeWriter::writePushPopPointer(vmCommand cmd, int i) -> void {
     if(cmd == vmCommand::C_PUSH) {
         if(i == 0)
-            *outFile << segmentTable[THIS];  // 0 -> @THIS(3)
+            outFile << segmentTable[THIS];  // 0 -> @THIS(3)
         else
-            *outFile << segmentTable[THAT];  // 1 -> @THAT(4)
-        *outFile << PushPopCommands::pushPointer;
+            outFile << segmentTable[THAT];  // 1 -> @THAT(4)
+        outFile << PushPopCommands::pushPointer;
     }
     else {
-        *outFile << PushPopCommands::popPointer;
+        outFile << PushPopCommands::popPointer;
         if(i == 0) {
-            *outFile 
+            outFile 
                 << segmentTable[THIS]
                 << "M=D\n";
         }
         else {
-            *outFile 
+            outFile 
                 << segmentTable[THAT]
                 << "M=D\n";
         }
@@ -129,13 +161,13 @@ auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
     if (it != arithmeticMap.end()) {
         switch (it->second) {
             case ArithmeticCommands::ADD:
-                *outFile << arithmeticAdd;
+                outFile << arithmeticAdd;
                 break;
             case ArithmeticCommands::SUB:
-                *outFile << arithmeticSub;
+                outFile << arithmeticSub;
                 break;
             case ArithmeticCommands::NEG:
-                *outFile << arithmeticNeg;
+                outFile << arithmeticNeg;
                 break;
             case ArithmeticCommands::EQ:
                 writeLogicalEQ(countLogicalEQ++);
@@ -147,13 +179,13 @@ auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
                 writeLogicalLT(countLogicalLT++);
                 break;
             case ArithmeticCommands::AND:
-                *outFile << logicalAnd;
+                outFile << logicalAnd;
                 break;
             case ArithmeticCommands::OR:
-                *outFile << logicalOr;
+                outFile << logicalOr;
                 break;
             case ArithmeticCommands::NOT:
-                *outFile << logicalNot;
+                outFile << logicalNot;
                 break;
             default:
                 // Debug Invalid VM Command
@@ -167,7 +199,7 @@ auto CodeWriter::writeArithmetic(std::string_view arg0) -> void {
 }
 
 auto CodeWriter::writeLogicalEQ(unsigned int i) -> void {
-    *outFile 
+    outFile 
         << logicalEqPt1 << i << logicalEqPt2 << i
         << logicalEqPt3 << i << logicalEqPt4 << i
         << logicalEqPt5;
@@ -175,14 +207,14 @@ auto CodeWriter::writeLogicalEQ(unsigned int i) -> void {
 using namespace ArithmeticLogicalCommands;
 
 auto CodeWriter::writeLogicalGT(unsigned int i) -> void {
-    *outFile 
+    outFile 
         << logicalGtPt1 << i << logicalGtPt2 << i
         << logicalGtPt3 << i << logicalGtPt4 << i
         << logicalGtPt5;
 }
 
 auto CodeWriter::writeLogicalLT(unsigned int i) -> void {
-    *outFile 
+    outFile 
         << logicalLtPt1 << i << logicalLtPt2 << i
         << logicalLtPt3 << i << logicalLtPt4 << i
         << logicalLtPt5;
@@ -191,12 +223,12 @@ auto CodeWriter::writeLogicalLT(unsigned int i) -> void {
 // Debug Push-Pop Commands
 auto CodeWriter::addCommandAsComment(vmCommand cmd, std::string_view arg1, std::string_view arg2) -> void {
     if (cmd == vmCommand::C_PUSH)
-        *outFile << "// push " << arg1 << ' ' << arg2 << '\n'; 
+        outFile << "// push " << arg1 << ' ' << arg2 << '\n'; 
     else if (cmd == vmCommand::C_POP)
-        *outFile << "// pop " << arg1 << ' ' << arg2 << '\n'; 
+        outFile << "// pop " << arg1 << ' ' << arg2 << '\n'; 
 }
 
 // Debug Arithmetic Command
 auto CodeWriter::addCommandAsComment(std::string_view arg0) -> void {
-        *outFile << "// " << arg0 << '\n'; 
+        outFile << "// " << arg0 << '\n'; 
 }

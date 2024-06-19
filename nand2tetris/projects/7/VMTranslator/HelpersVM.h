@@ -75,8 +75,6 @@ const std::unordered_map<std::string_view, ArithmeticCommands> arithmeticMap = {
 
 static unsigned int numOfCmdsWritten{0};
 
-auto openAndCheckFile(const std::string& fileName, std::ifstream& inFile) -> bool;
-auto closeFile(std::ifstream& inFile) -> void;
 auto stringViewToInt(std::string_view str) -> int;
 auto cleanProgramName(std::string_view str) -> std::string_view;
 auto replaceExtension(std::string_view filename, std::string_view new_extension) -> std::string;

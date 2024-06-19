@@ -6,13 +6,6 @@
 // Executes pop and push commands using the 
 // pointer, this, and that segments.
 
-// stack[256] = 3030
-// THIS = 3030
-// THAT = 3040
-// *(@3032) = 32
-// *(@3046) = 46
-// stack[256] = 6084
-
 push constant 3030
 pop pointer 0
 push constant 3040
@@ -28,10 +21,3 @@ push this 2
 sub
 push that 6
 add
-
-// stack[256] = 3030
-// THIS = 3030
-// THAT = 3040
-// *(@3032) = 32
-// *(@3046) = 46
-// stack[256] = 6084
