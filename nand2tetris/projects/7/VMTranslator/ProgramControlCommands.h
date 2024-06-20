@@ -5,5 +5,6 @@
 
 #include "Booting.h"
 #include "BranchingCommands.h"
+#include "writeCallCommand.h"
 
 #endif
