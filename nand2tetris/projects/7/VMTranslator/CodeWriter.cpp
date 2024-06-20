@@ -50,11 +50,30 @@ auto CodeWriter::writeIf(const strView label) -> void {
         // << "0;JMP\n";
 }
 
+auto CodeWriter::writeFunction(const strView functionName, size_t numVars) -> void {
+    
+    // 1. (functionName) -> implemented in CodeWriter
+    outFile
+        << '(' << functionName << ")\n";
+
+    // 2. repeat nVars times: // nVars = number of local variables
+    // Loop nVar times and output to file:
+    for(size_t i{0}; i < numVars; ++i) {
+        outFile
+            << '@' << i << '\n'
+            << writeFunctionCommand;  // Assembly
+    }
+
+    outFile  // SP++
+        << "@SP\n"
+        << "M=M+1\n";
+}
+
 auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {
     outFile
         << '@' << numArgs << '\n'
         << writeCallPt1
-        << '@' << fileName << "$ret." << ++countReturn
+        << '@' << fileName << "$ret." << ++countReturn  // ? on the fileName ?
         << writeCallPt2
 
     // 6. ARG = SP-5-nArgs  // Repositions ARG
@@ -68,6 +87,11 @@ auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {
 
     // 9. (@file$ret.x)  // Declares a label for the return to jump back to
         << '(' << fileName << "$ret." << countReturn << ")\n";
+}
+
+auto CodeWriter::writeReturn() -> void {
+    outFile
+        << writeReturnCommand;
 }
 
 // Probably not needed (as the constructor takes care of this)
@@ -88,6 +112,7 @@ auto CodeWriter::resetCurrentEntry() -> void {
 }
 
 // -------------------- Write Push Pop Commands ------------------------------
+
 using namespace PushPopCommands;
 
 auto CodeWriter::writePushPop(vmCommand cmdType, std::string_view arg1, std::string_view arg2) -> void {
