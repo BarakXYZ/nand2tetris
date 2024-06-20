@@ -50,7 +50,27 @@ auto CodeWriter::writeIf(const strView label) -> void {
         // << "0;JMP\n";
 }
 
-// Probably not needed (as the constructor takes care if this)
+auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {
+    outFile
+        << '@' << numArgs << '\n'
+        << writeCallPt1
+        << '@' << fileName << "$ret." << ++countReturn
+        << writeCallPt2
+
+    // 6. ARG = SP-5-nArgs  // Repositions ARG
+        // D = i+5, D = SP-D, ARG = D
+        << '@' << numArgs << '\n'
+        << writeCallPt3
+
+    // 8. goto functionName  // Transfers control to the called function
+        << '@' << functionName << '\n'
+        << "0;JMP\n"
+
+    // 9. (@file$ret.x)  // Declares a label for the return to jump back to
+        << '(' << fileName << "$ret." << countReturn << ")\n";
+}
+
+// Probably not needed (as the constructor takes care of this)
 auto CodeWriter::initNewEntry(const std::string &outFileName) -> bool {
     outFile.open(outFileName, std::ios::trunc);
     if (!outFile) {

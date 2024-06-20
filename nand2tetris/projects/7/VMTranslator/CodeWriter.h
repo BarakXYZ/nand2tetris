@@ -18,7 +18,7 @@ class CodeWriter{
 private:
     std::ofstream outFile;
     std::string_view fileName{};
-    unsigned int countLogicalEQ{0}, countLogicalGT{0}, countLogicalLT{0};
+    size_t countLogicalEQ{0}, countLogicalGT{0}, countLogicalLT{0}, countReturn{0};
 
 public:
     CodeWriter() = default;
@@ -46,7 +46,7 @@ public:
     auto writeGoto(const strView label) -> void;
     auto writeIf(const std::string_view label) -> void;
     auto writeFunction(const std::string_view functionName, u_int numVars) -> void;
-    auto writeCall(const std::string_view functionName, u_int numArgs) -> void;
+    auto writeCall(const strView functionName, size_t numArgs) -> void;
     auto writeReturn() -> void;
 
     auto addCommandAsComment(std::string_view arg0) -> void;
