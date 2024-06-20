@@ -24,7 +24,7 @@ constexpr std::string_view ifGoto {
     // "A=A-1"         "\n"
     "D=M"           "\n"
     // @arg2 (i.e. label)  -> implement in CodeWriter
-    // "D;JLT"         "\n"
+    // "D;JNE"         "\n"
 };
 
 
