@@ -95,7 +95,7 @@ auto main(int argc, char *argv[]) -> int {
 
 auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
         // Write booting
-        codeWriter.writeInit();
+        // codeWriter.writeInit();  // Call when we're reading a directory?
         while(parser.hasMoreCommands()) {
             parser.advance();
             if(parser.isCommentLine())
