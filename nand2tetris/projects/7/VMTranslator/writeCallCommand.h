@@ -1,7 +1,7 @@
 // Implemented by BarakXYZ 2024
 
-#ifndef PROGRAM_CONTROL_FUNCTION_CALL_COMMANDS_H
-#define PROGRAM_CONTROL_FUNCTION_CALL_COMMANDS_H
+#ifndef PROGRAM_CONTROL_WRITE_CALL_COMMAND_H
+#define PROGRAM_CONTROL_WRITE_CALL_COMMAND_H
 #include <string_view>
 
 namespace ProgramControlCommands {

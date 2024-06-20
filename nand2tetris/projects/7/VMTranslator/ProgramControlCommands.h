@@ -6,5 +6,7 @@
 #include "Booting.h"
 #include "BranchingCommands.h"
 #include "writeCallCommand.h"
+#include "writeFunctionCommand.h"
+#include "writeReturnCommand.h"
 
 #endif

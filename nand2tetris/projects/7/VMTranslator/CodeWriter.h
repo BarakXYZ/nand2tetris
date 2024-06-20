@@ -45,7 +45,7 @@ public:
     auto writeLabel(const std::string_view label) -> void;
     auto writeGoto(const strView label) -> void;
     auto writeIf(const std::string_view label) -> void;
-    auto writeFunction(const std::string_view functionName, u_int numVars) -> void;
+    auto writeFunction(const strView functionName, size_t numVars) -> void;
     auto writeCall(const strView functionName, size_t numArgs) -> void;
     auto writeReturn() -> void;
 
