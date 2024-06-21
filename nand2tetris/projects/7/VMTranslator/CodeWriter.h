@@ -17,17 +17,20 @@ class CodeWriter{
 
 private:
     std::ofstream outFile;
-    std::string_view fileName{};
+    // std::string_view fileNameVM{}, currentDeclaredFunction{""};
+    std::string_view fileNameVM{};
+    std::string currentDeclaredFunction{""};
     size_t countLogicalEQ{0}, countLogicalGT{0}, countLogicalLT{0}, countReturn{0};
 
 public:
     CodeWriter() = default;
-    CodeWriter(const std::string &outFileName, const std::string_view entry);
+    CodeWriter(const std::string &outFileASM, const std::string_view entry);
+    CodeWriter(const std::string &outFileASM);
     ~CodeWriter();  // Close outFile
 
-    auto initNewEntry(const std::string &fileName) -> bool;  // Not sure if needed
+    auto initNewEntry(const std::string &fileNameVM) -> bool;  // Not sure if needed
     auto resetCurrentEntry() -> void;
-    auto setFileName(const std::string_view newFileName) -> void;
+    auto setFileName(const std::string_view newFileVM) -> void;
     auto writeInit() -> void;  // Writes the booting code first thing in the .asm
 
     auto writePushPop(vmCommand, std::string_view, std::string_view) -> void;

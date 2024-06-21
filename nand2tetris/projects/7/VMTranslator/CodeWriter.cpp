@@ -3,95 +3,25 @@
 #include "CodeWriter.h"
 #include "HelpersVM.h"
 
-CodeWriter::CodeWriter(const std::string &outFileName, const std::string_view entry) {
-    initNewEntry(outFileName);
-    fileName = entry;
+CodeWriter::CodeWriter(const std::string &outFileASM, const std::string_view entry) {
+    initNewEntry(outFileASM);
+    fileNameVM = entry;
 };
+
+CodeWriter::CodeWriter(const std::string &outFileASM) {
+    initNewEntry(outFileASM);  // This seems to happen only once, so probably
+                               // can be simplified and no need for function
+}
 
 CodeWriter::~CodeWriter() {
     if(outFile.is_open())
         outFile.close();
 }
 
-auto CodeWriter::setFileName(const std::string_view newFileName) -> void {
-    fileName = newFileName;
-}
-
-// -------------------- Write Program Control Commands ------------------------------
-using namespace ProgramControlCommands;
-
-auto CodeWriter::writeInit() -> void {
-    outFile 
-        << "// Booting\n"  // debug
-        << booting;
-}
-
-auto CodeWriter::writeLabel(const strView label) -> void {
+auto CodeWriter::setFileName(const std::string_view newFileVM) -> void {
     outFile
-        << "// label " << label << '\n'  // debug
-        << '(' << label << ")\n";
-}
-
-auto CodeWriter::writeGoto(const strView label) -> void {
-    outFile
-        << "// goto " << label << '\n'  // debug
-        << '@' << label << '\n'
-        << gotoCommand;
-}
-
-auto CodeWriter::writeIf(const strView label) -> void {
-    // writeLogicalGT(countLogicalGT++);
-    outFile
-        << "// if-goto " << label << '\n'  // debug
-        << ifGoto
-        << '@' << label << '\n'
-        << "D;JNE\n";
-        // << "D;JEQ\n";
-        // << "0;JMP\n";
-}
-
-auto CodeWriter::writeFunction(const strView functionName, size_t numVars) -> void {
-    
-    // 1. (functionName) -> implemented in CodeWriter
-    outFile
-        << '(' << functionName << ")\n";
-
-    // 2. repeat nVars times: // nVars = number of local variables
-    // Loop nVar times and output to file:
-    for(size_t i{0}; i < numVars; ++i) {
-        outFile
-            // << '@' << i << '\n'  // I dont see any need for this
-            << writeFunctionCommand;  // Assembly
-    }
-
-    outFile  // SP++
-        << "@SP\n"
-        << "M=M+1\n";
-}
-
-auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {
-    outFile
-        << '@' << numArgs << '\n'
-        << writeCallPt1
-        << '@' << fileName << "$ret." << ++countReturn  // ? on the fileName ?
-        << writeCallPt2
-
-    // 6. ARG = SP-5-nArgs  // Repositions ARG
-        // D = i+5, D = SP-D, ARG = D
-        << '@' << numArgs << '\n'
-        << writeCallPt3
-
-    // 8. goto functionName  // Transfers control to the called function
-        << '@' << functionName << '\n'
-        << "0;JMP\n"
-
-    // 9. (@file$ret.x)  // Declares a label for the return to jump back to
-        << '(' << fileName << "$ret." << countReturn << ")\n";
-}
-
-auto CodeWriter::writeReturn() -> void {
-    outFile
-        << writeReturnCommand;
+        << "// " << newFileVM << '\n';  // debug
+    fileNameVM = newFileVM;
 }
 
 // Probably not needed (as the constructor takes care of this)
@@ -110,6 +40,117 @@ auto CodeWriter::resetCurrentEntry() -> void {
     else
         std::cerr << "File is not opened, could not close file.\n";
 }
+
+// -------------------- Write Program Control Commands ------------------------------
+using namespace ProgramControlCommands;
+
+auto CodeWriter::writeInit() -> void {
+    outFile 
+        << "// Booting\n"  // debug
+        << booting;
+}
+
+auto CodeWriter::writeLabel(const strView label) -> void {
+    outFile 
+        << "// label " << label << '\n';  // debug
+    if(currentDeclaredFunction.empty()) {
+        outFile
+            << '(' << label << ")\n";
+    }
+    else {
+        outFile
+            << '('
+            << fileNameVM << '.' << currentDeclaredFunction << '$' << label 
+            << ")\n";
+    }
+}
+
+auto CodeWriter::writeGoto(const strView label) -> void {
+    outFile
+        << "// goto " << label << '\n';  // debug
+    
+    if(currentDeclaredFunction.empty()) {
+    outFile
+        << '@' << label << '\n'
+        << writeGotoCommand;
+    }
+    else {
+        outFile
+            << '@' 
+            << fileNameVM << '.' << currentDeclaredFunction << '$' << label << '\n'
+            << writeGotoCommand;
+    }
+}
+
+auto CodeWriter::writeIf(const strView label) -> void {
+    outFile
+        << "// if-goto " << label << '\n';  // debug
+
+    if(currentDeclaredFunction.empty()) {
+        outFile
+            << writeIfGotoCommand
+            << '@' << label << '\n'
+            << "D;JNE\n";
+    } else {
+        outFile
+            << writeIfGotoCommand
+            << '@' 
+            << fileNameVM << '.' << currentDeclaredFunction << '$' << label << '\n'
+            << "D;JNE\n";
+    }
+}
+
+auto CodeWriter::writeFunction(const strView functionName, size_t numVars) -> void {
+    
+    // Update function name for goto and if-goto
+    currentDeclaredFunction = functionName;
+
+    // 1. (functionName) -> implemented in CodeWriter
+    outFile
+        << "// function " << functionName << numVars << '\n'  // debug
+        << '(' << fileNameVM << '.' << functionName << ")\n";  // e.g. (xxx.foo)
+
+    // 2. repeat nVars times: // nVars = number of local variables
+    // Loop nVar times and output to file:
+    for(size_t i{0}; i < numVars; ++i) {
+        outFile
+            // << '@' << i << '\n'  // I dont see any need for this
+            << writeFunctionCommand;  // Assembly
+    }
+
+    outFile  // SP++
+        << "@SP\n"
+        << "M=M+1\n";
+}
+
+auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {
+    outFile
+        << "// call " << functionName << ' ' << numArgs << '\n'  // debug
+        << '@' << numArgs << '\n'
+        << writeCallPt1
+        << '@' << fileNameVM << "$ret." << ++countReturn << '\n' // Not sure here
+        << writeCallPt2
+
+    // 6. ARG = SP-5-nArgs  // Repositions ARG
+        // D = i+5, D = SP-D, ARG = D
+        << '@' << numArgs << '\n'
+        << writeCallPt3
+
+    // 8. goto functionName  // Transfers control to the called function
+        << '@' << fileNameVM << '.' << functionName << '\n'  // e.g. (xxx.foo)
+        << "0;JMP\n"
+
+    // 9. (@file$ret.x)  // Declares a label for the return to jump back to
+        << '(' << fileNameVM << "$ret." << countReturn << ")\n";
+}
+
+auto CodeWriter::writeReturn() -> void {
+    outFile
+        << "// return (function " << currentDeclaredFunction << ")\n"  // debug
+        << writeReturnCommand;
+        // Not sure if should should emit @fileNameVM$ret.countReturn
+}
+
 
 // -------------------- Write Push Pop Commands ------------------------------
 
@@ -176,12 +217,12 @@ auto CodeWriter::writePushConstant(int i) -> void {
 auto CodeWriter::writePushPopStatic(vmCommand cmd, int i) -> void {
     if(cmd == vmCommand::C_PUSH) {
         outFile
-            << '@' << fileName << '.' << i << '\n'
+            << '@' << fileNameVM << '.' << i << '\n'
             << PushPopCommands::pushStatic;
     } else {
         outFile 
             << PushPopCommands::popStatic
-            << '@' << fileName << '.' << i << '\n'
+            << '@' << fileNameVM << '.' << i << '\n'
             << "M=D\n";
     }
 }

@@ -64,6 +64,22 @@ auto extractDirName(std::string_view path) -> std::string {
     return dirName;
 }
 
+
+// Expects a dir path -> e.g. src/folder1/folder2/dirName/
+//               Converts to: src/folder1/folder2/dirName/dirName.asm
+auto makeDirOutFileName(std::string_view dirName) -> std::string {
+    std::string outFileName{dirName};
+
+    // Find itr for second to last slash (i.e. path/dirName/)
+    //                                             ^
+    auto findSlash{dirName.rfind('/', dirName.length() - 2)};
+
+    // 
+    outFileName += dirName.substr(findSlash + 1, dirName.length() - findSlash - 2);
+    outFileName += ".asm";
+    return outFileName;
+}
+
 auto incrementNumOfCmds() -> void {
     ++numOfCmdsWritten;
 }

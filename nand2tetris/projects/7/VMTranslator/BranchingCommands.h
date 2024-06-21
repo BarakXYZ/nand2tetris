@@ -9,7 +9,7 @@ namespace ProgramControlCommands {
 // Un-conditional jump
 // @arg2 (i.e. label)
 // 0;JMP
-constexpr std::string_view gotoCommand {
+constexpr std::string_view writeGotoCommand {
     // "@SP"           "\n"
     // @arg2 implemenet in CodeWriter
     "0;JMP"         "\n"
@@ -18,7 +18,7 @@ constexpr std::string_view gotoCommand {
 // D = *((SP)--))  -> fetch the condition in the top of the stack
 // @arg2 (i.e. label)  -> label to jump to
 // Jump if less than 0 (true == -1)  -> if cond==true, jump
-constexpr std::string_view ifGoto {
+constexpr std::string_view writeIfGotoCommand {
     "@SP"           "\n"
     "AM=M-1"         "\n"
     // "A=A-1"         "\n"

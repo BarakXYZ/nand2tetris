@@ -86,6 +86,7 @@ static unsigned int numOfCmdsWritten{0};
 auto strViewToInt(std::string_view str) -> int;
 auto cleanProgramName(std::string_view str) -> std::string_view;
 auto replaceExtension(std::string_view filename, std::string_view new_extension) -> std::string;
+auto makeDirOutFileName(std::string_view dirName) -> std::string;
 auto debugArgChars(std::string_view) -> void;
 auto incrementNumOfCmds() -> void;
 auto getNumOfCmdsWritten() -> void;
