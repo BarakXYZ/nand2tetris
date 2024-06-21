@@ -60,7 +60,7 @@ auto CodeWriter::writeFunction(const strView functionName, size_t numVars) -> vo
     // Loop nVar times and output to file:
     for(size_t i{0}; i < numVars; ++i) {
         outFile
-            << '@' << i << '\n'
+            // << '@' << i << '\n'  // I dont see any need for this
             << writeFunctionCommand;  // Assembly
     }
 
@@ -118,7 +118,7 @@ using namespace PushPopCommands;
 auto CodeWriter::writePushPop(vmCommand cmdType, std::string_view arg1, std::string_view arg2) -> void {
     // Add the VM command itself as a comment for debugging:
     addCommandAsComment(cmdType, arg1, arg2);
-    int i{stringViewToInt(arg2)};
+    int i{strViewToInt(arg2)};
 
     // Switch on Memory Segment and convert to assembly
     auto it = segmentMap.find(arg1);
