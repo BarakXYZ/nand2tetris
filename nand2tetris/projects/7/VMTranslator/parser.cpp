@@ -9,7 +9,7 @@ Parser::~Parser(){
         inFile.close();
 }
 
-auto Parser::initNewEntry(const std::string &fileName) -> bool {
+auto Parser::initNewFileVM(const std::string &fileName) -> bool {
     inFile.open(fileName);
     if (!inFile.is_open()) {
         std::cerr << "Error opening input file: " << fileName << std::endl;

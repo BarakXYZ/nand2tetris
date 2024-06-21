@@ -24,7 +24,7 @@ public:
     Parser() = default;
     ~Parser();  // Close inFile
     
-    auto initNewEntry(const std::string &fileName) -> bool;
+    auto initNewFileVM(const std::string &fileName) -> bool;
     auto resetCurrentEntry() -> void;
     auto isCommentLine() -> bool;
     auto advance() -> void;
