@@ -4,13 +4,13 @@
 
 namespace HelpersVM {
 
-auto stringViewToInt(std::string_view str) -> int {
+auto strViewToInt(std::string_view str) -> int {
     int result = 0;
     auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), result);
     if (ec == std::errc()) {
         return result; // Conversion successful
     } else {
-        throw std::invalid_argument("Invalid integer format");
+        throw std::invalid_argument("Invalid integer format: Parser.getArg(2).\n");
     }
 }
 auto cleanProgramName(std::string_view str) -> std::string_view {

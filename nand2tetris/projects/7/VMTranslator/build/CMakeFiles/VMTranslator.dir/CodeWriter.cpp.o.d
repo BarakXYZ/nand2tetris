@@ -190,6 +190,8 @@ CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o: \
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h \
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/BranchingCommands.h \
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h \
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h \
  /usr/include/c++/11/memory /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
  /usr/include/c++/11/bits/align.h /usr/include/c++/11/bits/unique_ptr.h \

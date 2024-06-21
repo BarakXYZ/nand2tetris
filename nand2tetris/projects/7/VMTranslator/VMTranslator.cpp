@@ -128,12 +128,15 @@ auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
                     break;
 
                 case vmCommand::C_FUNCTION:
+                    codeWriter.writeFunction(parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
                     break;
 
                 case vmCommand::C_CALL:
+                    codeWriter.writeCall(parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
                     break;
 
                 case vmCommand::C_RETURN:
+                    codeWriter.writeReturn();
                     break;
 
                 default:

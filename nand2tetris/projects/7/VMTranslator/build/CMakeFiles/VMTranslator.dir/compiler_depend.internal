@@ -20,6 +20,9 @@ CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
@@ -515,6 +518,9 @@ CMakeFiles/VMTranslator.dir/Parser.cpp.o
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
@@ -806,6 +812,9 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h
  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h
+ /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
