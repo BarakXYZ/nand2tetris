@@ -25,7 +25,7 @@ static constexpr std::string_view writeFunctionCommand =
                 "A=A-1"     "\n"
                 "M=0"       "\n"
                 // ...
-                // SP++  // implemented in CodeWriter
+                // SP++  // implemented in CodeWriter -> is this really needed?
         // }
     ;
 

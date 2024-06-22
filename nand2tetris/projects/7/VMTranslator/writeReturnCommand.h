@@ -18,7 +18,8 @@ namespace ProgramControlCommands {
 static constexpr std::string_view writeReturnCommand = 
     // 1. endFrame = LCL
         "@LCL"      "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
+        "D=M"       "\n"
         "@R13"      "\n"  // endFrame == R13 (temp reg)
         "M=D"       "\n"
         
@@ -42,7 +43,8 @@ static constexpr std::string_view writeReturnCommand =
 
     // 4. SP = ARG + 1                 // Repositions SP of the caller
         "@ARG"      "\n"
-        "D=A+1"     "\n"
+        // "D=A+1"     "\n"
+        "D=M+1"     "\n"
         "@SP"       "\n"
         "M=D"       "\n"
 
@@ -77,6 +79,7 @@ static constexpr std::string_view writeReturnCommand =
         
     // 9. goto retAddr                // goes to return address in the caller's code
         "@R14"      "\n"
+        "A=M"       "\n"  // ??
         "0;JMP"     "\n"
     ;
 

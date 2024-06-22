@@ -118,9 +118,9 @@ auto CodeWriter::writeFunction(const strView functionName, size_t numVars) -> vo
             << writeFunctionCommand;  // Assembly
     }
 
-    outFile  // SP++
-        << "@SP\n"
-        << "M=M+1\n";
+    // outFile  // SP++
+    //     << "@SP\n"
+    //     << "M=M+1\n";
 }
 
 auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {

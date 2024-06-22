@@ -24,13 +24,14 @@ static constexpr std::string_view writeCallPt1 =
         // "@i"        "\n" // Implemented in CodeWriter (arg2)
         "D=A"       "\n"
         "@SP"       "\n"
-        "D=A-D"     "\n"
+        // "D=A-D"     "\n"
+        "D=M-D"     "\n"  // return address.
     ;
 
 static constexpr std::string_view writeCallPt2 =
         // @file$ret.x
         "M=D"       "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
         
         // *SP = D, SP++
         "@SP"       "\n"
@@ -41,7 +42,8 @@ static constexpr std::string_view writeCallPt2 =
     // 2. push LCL  // Saves LCL of the caller
         // D = LCL, *SP = D, SP++
         "@LCL"      "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
+        "D=M"       "\n"
         "@SP"       "\n"
         "AM=M+1"    "\n"
         "A=A-1"     "\n"
@@ -50,7 +52,8 @@ static constexpr std::string_view writeCallPt2 =
     // 3. push ARG  // Saves ARG of the caller
         // D = ARG, *SP = D, SP++
         "@ARG"      "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
+        "D=M"       "\n"
         "@SP"       "\n"
         "AM=M+1"    "\n"
         "A=A-1"     "\n"
@@ -59,7 +62,8 @@ static constexpr std::string_view writeCallPt2 =
     // 4. push THIS  // Saves THIS of the caller
         // D = THIS, *SP = D, SP++
         "@THIS"     "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
+        "D=M"       "\n"
         "@SP"       "\n"
         "AM=M+1"    "\n"
         "A=A-1"     "\n"
@@ -67,7 +71,8 @@ static constexpr std::string_view writeCallPt2 =
     // 5. push THAT  // Saves THAT of the caller
         // D = THAT, *SP = D, SP++
         "@THAT"     "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
+        "D=M"       "\n"
         "@SP"       "\n"
         "AM=M+1"    "\n"
         "A=A-1"     "\n"
@@ -81,13 +86,15 @@ static constexpr std::string_view writeCallPt3 =
         "@5"        "\n"
         "D=D+A"     "\n"
         "@SP"       "\n"
-        "D=A-D"     "\n"
+        // "D=A-D"     "\n"
+        "D=M-D"     "\n"
         "@ARG"      "\n"
         "M=D"       "\n"
     // 7. LCL = SP  // Repositions LCL
         // D = SP, LCL = D
         "@SP"       "\n"
-        "D=A"       "\n"
+        // "D=A"       "\n"
+        "D=M"       "\n"
         "@LCL"      "\n"
         "M=D"       "\n"
     

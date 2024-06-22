@@ -15,7 +15,7 @@ constexpr std::string_view booting {
     "M=D"           "\n"
 
     // "call Sys.init" "\n"
-    "@Sys.init"     "\n"
+    "@Sys.Sys.init"     "\n"
     "0;JMP"         "\n"
 };
 
