@@ -6,17 +6,17 @@
 
 namespace ProgramControlCommands {
 
-// SP=256
-// Call Sys.init
+// 1. SP=256
+// 2. Call Sys.init
 constexpr std::string_view booting {
+
+    // 1. SP=256
     "@256"          "\n"
     "D=A"           "\n"
     "@SP"           "\n"
     "M=D"           "\n"
 
-    // "call Sys.init" "\n"
-    "@Sys.Sys.init"     "\n"
-    "0;JMP"         "\n"
+    // 2. Call Sys.init -> implemented in CodeWriter
 };
 
 }

@@ -17,7 +17,6 @@ class CodeWriter{
 
 private:
     std::ofstream outFile;
-    // std::string_view fileNameVM{}, currentDeclaredFunction{""};
     std::string_view fileNameVM{};
     std::string currentDeclaredFunction{""};
     size_t countLogicalEQ{0}, countLogicalGT{0}, countLogicalLT{0}, countReturn{0};

@@ -82,6 +82,7 @@ const std::unordered_map<std::string_view, ArithmeticCommands> arithmeticMap = {
 };
 
 static unsigned int numOfCmdsWritten{0};
+static unsigned int numOfLabelsWritten{0};
 
 auto strViewToInt(std::string_view str) -> int;
 auto cleanProgramName(std::string_view str) -> std::string_view;
@@ -90,6 +91,8 @@ auto makeDirOutFileName(std::string_view dirName) -> std::string;
 auto debugArgChars(std::string_view) -> void;
 auto incrementNumOfCmds() -> void;
 auto getNumOfCmdsWritten() -> void;
+auto incrementNumOfLabels() -> void;
+auto getNumOfLabelsWritten() -> void;
 
 auto isFileOrDir(const std::string_view);
 auto extractDirName(std::string_view) -> std::string;

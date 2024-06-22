@@ -41,17 +41,20 @@ auto CodeWriter::resetCurrentEntry() -> void {
         std::cerr << "File is not opened, could not close file.\n";
 }
 
-// -------------------- Write Program Control Commands ------------------------------
+// -------------------- Write Program Control Commands ----------------------------
 using namespace ProgramControlCommands;
 
 auto CodeWriter::writeInit() -> void {
     outFile 
         << "// Booting\n"  // debug
         << booting;
+        writeCall("Sys.init", 0);
 }
 
 auto CodeWriter::writeLabel(const strView label) -> void {
+    HelpersVM::incrementNumOfLabels();  // debug
     outFile 
+        // << "test failing bla\n @50"
         << "// label " << label << '\n';  // debug
     if(currentDeclaredFunction.empty()) {
         outFile
@@ -60,13 +63,14 @@ auto CodeWriter::writeLabel(const strView label) -> void {
     else {
         outFile
             << '('
-            << fileNameVM << '.' << currentDeclaredFunction << '$' << label 
+            << currentDeclaredFunction << '$' << label
             << ")\n";
     }
 }
 
 auto CodeWriter::writeGoto(const strView label) -> void {
     outFile
+        // << "test failing bla\n @50"
         << "// goto " << label << '\n';  // debug
     
     if(currentDeclaredFunction.empty()) {
@@ -77,7 +81,7 @@ auto CodeWriter::writeGoto(const strView label) -> void {
     else {
         outFile
             << '@' 
-            << fileNameVM << '.' << currentDeclaredFunction << '$' << label << '\n'
+            << currentDeclaredFunction << '$' << label << '\n'
             << writeGotoCommand;
     }
 }
@@ -95,49 +99,42 @@ auto CodeWriter::writeIf(const strView label) -> void {
         outFile
             << writeIfGotoCommand
             << '@' 
-            << fileNameVM << '.' << currentDeclaredFunction << '$' << label << '\n'
+            << currentDeclaredFunction << '$' << label << '\n'
             << "D;JNE\n";
     }
 }
 
 auto CodeWriter::writeFunction(const strView functionName, size_t numVars) -> void {
-    
+    HelpersVM::incrementNumOfLabels();  // debug
     // Update function name for goto and if-goto
     currentDeclaredFunction = functionName;
 
-    // 1. (functionName) -> implemented in CodeWriter
     outFile
-        << "// function " << functionName << numVars << '\n'  // debug
-        << '(' << fileNameVM << '.' << functionName << ")\n";  // e.g. (xxx.foo)
+        << "// function " << functionName << ' ' << numVars << '\n'  // debug
+        << '(' << functionName << ")\n";  // e.g. (xxx.foo)
 
     // 2. repeat nVars times: // nVars = number of local variables
     // Loop nVar times and output to file:
     for(size_t i{0}; i < numVars; ++i) {
         outFile
-            // << '@' << i << '\n'  // I dont see any need for this
             << writeFunctionCommand;  // Assembly
     }
-
-    // outFile  // SP++
-    //     << "@SP\n"
-    //     << "M=M+1\n";
 }
 
 auto CodeWriter::writeCall(const strView functionName, size_t numArgs) -> void {
+    HelpersVM::incrementNumOfLabels();  // debug
     outFile
         << "// call " << functionName << ' ' << numArgs << '\n'  // debug
-        << '@' << numArgs << '\n'
-        << writeCallPt1
         << '@' << fileNameVM << "$ret." << ++countReturn << '\n' // Not sure here
-        << writeCallPt2
+        << writeCallPt1
 
     // 6. ARG = SP-5-nArgs  // Repositions ARG
         // D = i+5, D = SP-D, ARG = D
         << '@' << numArgs << '\n'
-        << writeCallPt3
+        << writeCallPt2
 
     // 8. goto functionName  // Transfers control to the called function
-        << '@' << fileNameVM << '.' << functionName << '\n'  // e.g. (xxx.foo)
+        << '@' << functionName << '\n'  // e.g. (xxx.foo)
         << "0;JMP\n"
 
     // 9. (@file$ret.x)  // Declares a label for the return to jump back to
@@ -148,9 +145,7 @@ auto CodeWriter::writeReturn() -> void {
     outFile
         << "// return (function " << currentDeclaredFunction << ")\n"  // debug
         << writeReturnCommand;
-        // Not sure if should should emit @fileNameVM$ret.countReturn
 }
-
 
 // -------------------- Write Push Pop Commands ------------------------------
 

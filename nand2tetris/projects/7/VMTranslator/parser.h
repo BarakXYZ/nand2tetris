@@ -34,8 +34,6 @@ public:
     auto commandType() -> HelpersVM::vmCommand;
     [[nodiscard]]
     auto getArg(unsigned short) -> std::string_view;
-    // pt2
-    // auto setInFile(std::ifstream)
 };
 
 #endif
