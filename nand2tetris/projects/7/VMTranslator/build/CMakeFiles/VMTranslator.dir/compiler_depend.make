@@ -19,9 +19,9 @@ CMakeFiles/VMTranslator.dir/CodeWriter.cpp.o: /mnt/g/Barak/Projects/nand2tetris/
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteCallCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteFunctionCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteReturnCommand.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -515,9 +515,9 @@ CMakeFiles/VMTranslator.dir/Parser.cpp.o: /mnt/g/Barak/Projects/nand2tetris/nand
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteCallCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteFunctionCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteReturnCommand.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -808,9 +808,9 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopSegment.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopStatic.h \
   /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopTemp.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h \
-  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteCallCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteFunctionCommand.h \
+  /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteReturnCommand.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -1295,6 +1295,44 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/bits/ios_base.h:
 
+/usr/include/c++/11/array:
+
+/usr/include/c++/11/bits/sstream.tcc:
+
+/usr/include/c++/11/new:
+
+/usr/include/c++/11/climits:
+
+/usr/include/c++/11/bits/shared_ptr_atomic.h:
+
+/usr/include/alloca.h:
+
+/usr/include/c++/11/bits/stl_vector.h:
+
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
+
+/usr/include/c++/11/cwctype:
+
+/usr/include/syscall.h:
+
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/c++/11/ext/aligned_buffer.h:
+
+/usr/include/c++/11/bits/char_traits.h:
+
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteReturnCommand.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
+
+/usr/include/c++/11/bits/allocator.h:
+
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsLT.h:
+
+/usr/include/c++/11/pstl/pstl_config.h:
+
 /usr/include/c++/11/backward/binders.h:
 
 /usr/include/c++/11/bits/node_handle.h:
@@ -1306,6 +1344,12 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
 /usr/include/c++/11/bits/unique_ptr.h:
+
+/usr/include/c++/11/bits/range_access.h:
+
+/usr/include/x86_64-linux-gnu/bits/floatn.h:
+
+/usr/include/c++/11/iterator:
 
 /usr/include/c++/11/ostream:
 
@@ -1319,41 +1363,17 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
-/usr/include/x86_64-linux-gnu/sys/types.h:
+/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
-/usr/include/c++/11/ext/aligned_buffer.h:
-
-/usr/include/c++/11/array:
-
-/usr/include/c++/11/bits/sstream.tcc:
-
-/usr/include/c++/11/new:
-
-/usr/include/c++/11/climits:
-
-/usr/include/c++/11/cwctype:
-
-/usr/include/syscall.h:
-
-/usr/include/c++/11/bits/char_traits.h:
-
-/usr/include/c++/11/bits/shared_ptr_atomic.h:
-
-/usr/include/alloca.h:
-
-/usr/include/c++/11/bits/stl_vector.h:
-
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/HelpersVM.h:
-
-/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
-
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeCallCommand.h:
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteCallCommand.h:
 
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/Booting.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/PushPopCommands.h:
+
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/WriteFunctionCommand.h:
 
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/CodeWriter.cpp:
 
@@ -1368,8 +1388,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/c++/11/bits/hashtable_policy.h:
 
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalAndOrNot.h:
-
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeReturnCommand.h:
 
 /usr/include/c++/11/bits/ostream_insert.h:
 
@@ -1388,12 +1406,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/c++/11/bits/align.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/c++/11/bits/allocator.h:
-
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/LogicalCommandsLT.h:
-
-/usr/include/c++/11/pstl/pstl_config.h:
 
 /usr/include/c++/11/bits/uniform_int_dist.h:
 
@@ -1414,8 +1426,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/ArithmeticLogicalCommands.h:
 
 /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
-
-/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/writeFunctionCommand.h:
 
 /usr/include/c++/11/memory:
 
@@ -1465,9 +1475,9 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/c++/11/bits/ptr_traits.h:
 
-/usr/include/endian.h:
-
 /usr/include/stdint.h:
+
+/usr/include/endian.h:
 
 /usr/include/c++/11/bits/erase_if.h:
 
@@ -1623,14 +1633,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
-/usr/include/c++/11/bits/range_access.h:
-
-/usr/include/c++/11/iterator:
-
-/usr/include/x86_64-linux-gnu/bits/floatn.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
-
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
 /usr/include/time.h:
@@ -1676,8 +1678,6 @@ CMakeFiles/VMTranslator.dir/VMTranslator.cpp.o: /mnt/g/Barak/Projects/nand2tetri
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 

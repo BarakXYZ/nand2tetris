@@ -21,7 +21,6 @@ auto main(int argc, char *argv[]) -> int {
         outFileName = argv[2];
     }
     else {  // User has defined only source (e.g. ./VMTranslator source.vm)
-        // outFileName = HelpersVM::replaceExtension(inFileNameView, ".asm");
         outFileName = argv[1];
     }
 
@@ -129,9 +128,6 @@ auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
                 case vmCommand::C_CALL:
                     codeWriter.writeCall(
                     parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
-                    std::cout 
-                        << "str view to int: "
-                        << HelpersVM::strViewToInt(parser.getArg(2)) << '\n';
                     break;
 
                 case vmCommand::C_RETURN:
