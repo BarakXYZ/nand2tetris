@@ -6,39 +6,39 @@
 
 namespace PushPopCommands {
 
-    // push static i
-    // *SP = fileName.i, SP++
-    // D = fileName.i, SP++, A--, *A = D
-    static constexpr std::string_view pushStatic =
+// push static i
+// *SP = fileName.i, SP++
+// D = fileName.i, SP++, A--, *A = D
+static constexpr std::string_view pushStatic =
 
-        // 1. D = fileName.i  (implemented in CodeWriter)
-            // @fileName.i
-            "D=M"       "\n"
-        
-        // 2. SP++, A--
-            "@SP"       "\n"
-            "AM=M+1"    "\n"
-            "A=A-1"     "\n"
+    // 1. D = fileName.i  (implemented in CodeWriter)
+        // @fileName.i
+        "D=M"       "\n"
+    
+    // 2. SP++, A--
+        "@SP"       "\n"
+        "AM=M+1"    "\n"
+        "A=A-1"     "\n"
 
-        // 3. *A = D
-            "M=D"       "\n"
-        ;
+    // 3. *A = D
+        "M=D"       "\n"
+    ;
 
 
-    // -------------------------------------------------------
-    // SP--, *fileName.i = *SP
-    // D = *(SP--), *fileName.i = *SP
-    static constexpr std::string_view popStatic =
-        // 1. D = *(SP--)
-            "@SP"       "\n"
-            "AM=M-1"    "\n"
-            "D=M"       "\n"
+// -------------------------------------------------------
+// SP--, *fileName.i = *SP
+// D = *(SP--), *fileName.i = *SP
+static constexpr std::string_view popStatic =
+    // 1. D = *(SP--)
+        "@SP"       "\n"
+        "AM=M-1"    "\n"
+        "D=M"       "\n"
 
-        // 2. *fileName.i = *SP (implemented in CodeWriter)
-            // *fileName.i = *SP
-            // @fileName.i
-            // M=D
-        ;
+    // 2. *fileName.i = *SP (implemented in CodeWriter)
+        // *fileName.i = *SP
+        // @fileName.i
+        // M=D
+    ;
 
 };
 

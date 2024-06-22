@@ -20,8 +20,7 @@ constexpr std::string_view writeGotoCommand {
 // Jump if less than 0 (true == -1)  -> if cond==true, jump
 constexpr std::string_view writeIfGotoCommand {
     "@SP"           "\n"
-    "AM=M-1"         "\n"
-    // "A=A-1"         "\n"
+    "AM=M-1"        "\n"
     "D=M"           "\n"
     // @arg2 (i.e. label)  -> implement in CodeWriter
     // "D;JNE"         "\n"

@@ -9,20 +9,20 @@ namespace PushPopCommands {
     // push constant i
     // *SP = i, SP++
     // D = @i, SP++, A--, *A = D
-    static constexpr std::string_view pushConstant = 
+static constexpr std::string_view pushConstant {
 
-        // 1. D = @i
-            // @i
-            "D=A"       "\n"
+    // 1. D = @i
+        // @i
+        "D=A"       "\n"
 
-        // 2. SP++, A--
-            "@SP"       "\n"
-            "AM=M+1"    "\n"
-            "A=A-1"     "\n"
+    // 2. SP++, A--
+        "@SP"       "\n"
+        "AM=M+1"    "\n"
+        "A=A-1"     "\n"
 
-        // 3. *A = D
-            "M=D"       "\n"
-        ;
+    // 3. *A = D
+        "M=D"       "\n"
+};
 
 };
 

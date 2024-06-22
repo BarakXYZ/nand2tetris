@@ -42,7 +42,6 @@ auto main(int argc, char *argv[]) -> int {
         CodeWriter codeWriter{outFileName};
         codeWriter.writeInit();
 
-        
         for (const auto &entry : std::filesystem::directory_iterator(inFileName)) {
             if (entry.path().extension() == ".vm") {
                 std::string newFileVM = entry.path().string();
@@ -50,8 +49,8 @@ auto main(int argc, char *argv[]) -> int {
                     << std::right << std::setw(4) << std::cout.fill(' ')
                     << "File within directory: " << newFileVM << '\n';
 
-                // Raw path (e.g. /path/folder/Main.vm)
                 parser.resetCurrentEntry();
+                // Raw path (e.g. /path/folder/Main.vm)
                 parser.initNewFileVM(newFileVM);
 
                 // For the code writer, we want a clean cut of the name
@@ -85,6 +84,7 @@ auto main(int argc, char *argv[]) -> int {
     }
 
     HelpersVM::getNumOfCmdsWritten();  // Debug
+    HelpersVM::getNumOfLabelsWritten();  // Debug
 }  // return 0;
 
 auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
@@ -122,11 +122,16 @@ auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
                     break;
 
                 case vmCommand::C_FUNCTION:
-                    codeWriter.writeFunction(parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
+                    codeWriter.writeFunction(
+                    parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
                     break;
 
                 case vmCommand::C_CALL:
-                    codeWriter.writeCall(parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
+                    codeWriter.writeCall(
+                    parser.getArg(1), HelpersVM::strViewToInt(parser.getArg(2)));
+                    std::cout 
+                        << "str view to int: "
+                        << HelpersVM::strViewToInt(parser.getArg(2)) << '\n';
                     break;
 
                 case vmCommand::C_RETURN:
@@ -139,4 +144,3 @@ auto processEntry(Parser &parser, CodeWriter &codeWriter) -> bool {
             }
         } return true;
 }
-
