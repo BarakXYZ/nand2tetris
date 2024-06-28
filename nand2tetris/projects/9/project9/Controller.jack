@@ -1,0 +1,12 @@
+class Controller {
+
+    function void selectLine(int row, int column, String str) {
+        do Screen.clearScreen();
+        do Output.moveCursor(row, column);
+        let str = Keyboard.readLine("");
+        do Output.moveCursor(row + 1, column);
+        do Output.printString(str);
+        return;
+    }
+
+}

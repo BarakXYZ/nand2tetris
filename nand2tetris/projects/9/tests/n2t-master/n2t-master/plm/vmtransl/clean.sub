@@ -1,0 +1,37 @@
+erase files.mac
+erase files.rom
+erase files.ram
+erase files.rel
+erase files.sym
+
+erase strings.mac
+erase strings.rom
+erase strings.ram
+erase strings.rel
+erase strings.sym
+
+erase ftest.mac
+erase ftest.rom
+erase ftest.ram
+erase ftest.rel
+erase ftest.sym
+erase ftest.com
+
+erase parser.mac
+erase parser.rom
+erase parser.ram
+erase parser.rel
+erase parser.sym
+
+erase cwriter.mac
+erase cwriter.rom
+erase cwriter.ram
+erase cwriter.rel
+erase cwriter.sym
+
+erase vmtransl.mac
+erase vmtransl.rom
+erase vmtransl.ram
+erase vmtransl.rel
+erase vmtransl.sym
+erase vmtransl.com

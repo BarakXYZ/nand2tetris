@@ -1,0 +1,360 @@
+function UserInterface.new 0
+push constant 0
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+return
+function UserInterface.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function UserInterface.gridX 1
+push constant 0
+pop local 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label WHILE_EXP0
+push local 0
+push argument 0
+lt
+not
+if-goto WHILE_END0
+push local 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push local 0
+call Output.printInt 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function UserInterface.debugTensIndex 0
+push constant 1
+push argument 0
+push constant 1
+sub
+call Output.moveCursor 2
+pop temp 0
+push argument 0
+call Output.printInt 1
+pop temp 0
+push constant 0
+push argument 0
+call Output.moveCursor 2
+pop temp 0
+push constant 0
+return
+function UserInterface.gridY 2
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label WHILE_EXP0
+push local 0
+push argument 0
+lt
+not
+if-goto WHILE_END0
+push local 0
+push constant 10
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop local 1
+push local 0
+call UserInterface.debugTensIndex 1
+pop temp 0
+label IF_FALSE0
+push local 0
+push constant 20
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop local 1
+push local 0
+call UserInterface.debugTensIndex 1
+pop temp 0
+label IF_FALSE1
+push local 0
+push constant 30
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop local 1
+push local 0
+call UserInterface.debugTensIndex 1
+pop temp 0
+label IF_FALSE2
+push local 0
+push constant 40
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+pop local 1
+push local 0
+call UserInterface.debugTensIndex 1
+pop temp 0
+label IF_FALSE3
+push local 0
+push constant 50
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+pop local 1
+push local 0
+call UserInterface.debugTensIndex 1
+pop temp 0
+label IF_FALSE4
+push local 0
+push constant 60
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+pop local 1
+push local 0
+call UserInterface.debugTensIndex 1
+pop temp 0
+label IF_FALSE5
+push local 1
+call Output.printInt 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function UserInterface.drawUnfilledRectangle 0
+push argument 0
+push argument 1
+push argument 2
+push argument 1
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 3
+push argument 2
+push argument 3
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push argument 3
+call Screen.drawLine 4
+pop temp 0
+push argument 2
+push argument 1
+push argument 2
+push argument 3
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function UserInterface.drawMainFrame 0
+push constant 1
+push constant 1
+push constant 511
+push constant 255
+call UserInterface.drawUnfilledRectangle 4
+pop temp 0
+push constant 52
+push constant 26
+push constant 460
+push constant 229
+call UserInterface.drawUnfilledRectangle 4
+pop temp 0
+push constant 52
+push constant 26
+push constant 460
+push constant 46
+call UserInterface.drawUnfilledRectangle 4
+pop temp 0
+push constant 134
+push constant 26
+push constant 378
+push constant 229
+call UserInterface.drawUnfilledRectangle 4
+pop temp 0
+call UserInterface.printSubMenuTitles 0
+pop temp 0
+push constant 0
+return
+function UserInterface.printSubMenuTitles 0
+push constant 3
+push constant 7
+call Output.moveCursor 2
+pop temp 0
+push constant 9
+call String.new 1
+push constant 67
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 3
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 7
+call String.new 1
+push constant 67
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+function UserInterface.printAlignedTitle 1
+push static 0
+push argument 0
+call String.length 1
+sub
+pop local 0
+push static 2
+push static 1
+push local 0
+push constant 2
+call Math.divide 2
+add
+call Output.moveCursor 2
+pop temp 0
+push argument 0
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+function UserInterface.printRAMContent 0
+push constant 0
+return
+function UserInterface.printRAM 1
+push static 0
+push argument 0
+call RAM.getNameLength 1
+sub
+pop local 0
+push static 2
+push static 1
+push local 0
+push constant 2
+call Math.divide 2
+add
+call Output.moveCursor 2
+pop temp 0
+push argument 0
+call RAM.getName 1
+call Output.printString 1
+pop temp 0
+push constant 6
+push constant 48
+call Output.moveCursor 2
+pop temp 0
+push constant 5
+call String.new 1
+push constant 65
+call String.appendChar 2
+push constant 100
+call String.appendChar 2
+push constant 100
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push argument 0
+call RAM.getAddr 1
+call Output.printInt 1
+pop temp 0
+push constant 8
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 4
+call String.new 1
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push argument 0
+call RAM.getM 1
+call Output.printInt 1
+pop temp 0
+push constant 0
+return
+function UserInterface.setUIParams 0
+push constant 32
+pop static 0
+push constant 3
+pop static 2
+push constant 16
+pop static 1
+push constant 0
+return

@@ -54,10 +54,26 @@ class SquareGame {
             let key = Keyboard.keyPressed();
             do moveSquare();
          }
-         if (key = 81)  { let exit = true; }     // q key
-         if (key = 90)  { do square.decSize(); } // z key
-         if (key = 88)  { do square.incSize(); } // x key
-         if (key = 131) { let direction = 1; }   // up arrow
+         if (key = 81)  { 
+            let exit = true; 
+             do Output.printString("'q' pressed");
+             do Output.println();
+         }     // q key
+         if (key = 90)  {
+            do square.decSize(); 
+             do Output.printString("'z' pressed");
+             do Output.println();
+         } // z key
+         if (key = 88)  {
+            do square.incSize(); 
+             do Output.printString("'x' pressed");
+             do Output.println();
+         } // x key
+         if (key = 131) {
+            let direction = 1; 
+             do Output.printString("'up arrow' pressed");
+             do Output.println();
+         }   // up arrow
          if (key = 133) { let direction = 2; }   // down arrow
          if (key = 130) { let direction = 3; }   // left arrow
          if (key = 132) { let direction = 4; }   // right arrow

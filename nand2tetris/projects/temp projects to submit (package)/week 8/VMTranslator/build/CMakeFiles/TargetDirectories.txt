@@ -1,0 +1,3 @@
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles/VMTranslator.dir
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles/edit_cache.dir
+/mnt/g/Barak/Projects/nand2tetris/nand2tetris/projects/7/VMTranslator/build/CMakeFiles/rebuild_cache.dir
