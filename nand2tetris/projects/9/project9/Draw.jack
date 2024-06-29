@@ -1,0 +1,29 @@
+class Draw {
+    static int counter;
+    static bool isFlipped;
+
+    function void initDraw() {
+        let counter = 0;
+        return;
+    }
+
+    function void drawSprite() {
+        if (counter = 25) {
+            let counter = 0;
+
+            if (~isFlipped) {
+                do Sprites.drawGiniBigFlipped(1642);
+                let isFlipped = true;
+            }
+            else {
+                do Sprites.drawGiniBig(1642);
+                let isFlipped = false;
+            }
+        }
+        else {
+            do Sys.wait(50);
+            let counter = counter + 1;
+        }
+        return;
+    }
+}

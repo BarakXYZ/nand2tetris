@@ -89,7 +89,10 @@ class UserInterface {
         do UserInterface.drawUnfilledRectangle(52, 26, 460, 46);
 
         // Inner rec2
-        do UserInterface.drawUnfilledRectangle(134, 26, 378, 229);
+        do UserInterface.drawUnfilledRectangle(134, 26, 378, 179);
+
+        // Text Box Frame
+        do UserInterface.drawUnfilledRectangle(134, 179, 460, 229);
 
         //** fixed menu titles: Challenge & Content */
         do UserInterface.printSubMenuTitles();

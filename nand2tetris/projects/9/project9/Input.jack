@@ -1,0 +1,139 @@
+class Input {
+        static char c, lastKeyPressed;
+        static String answer;
+        static boolean exit;
+        // var String space, enter, answerInstruction, answer;  // Probably UI
+        static int countEnter, eventCounter1, eventCounter2;
+        
+        function void initInput() {
+            let c = 0;
+            let lastKeyPressed = 0;
+            let exit = false;
+            let countEnter = 0;
+            let eventCounter1 = 0;
+            let eventCounter2 = 0;
+
+            let answer = String.new(10);
+            // let answer = "_";
+
+            return;
+        }
+
+        function void runInput() {
+            while (~exit) {
+                do Draw.drawSprite();
+                do Output.moveCursor(3, 3);
+                let c = Keyboard.keyPressed();
+
+                if (c = 0) {
+                    let lastKeyPressed = 0;
+                    // do Output.printString(space);  // Debug
+                    do Output.moveCursor(3, 3);
+                }
+                
+                do Input.listenEnter();
+
+                do Input.isAnswerMode();
+
+                do Output.printInt(c);
+                let c = 0;
+
+            }  // While ~Exit
+
+            return;
+        }  // runInput()
+
+        //** if 'A' is pressed, enter '[A]nswer mode' */
+        function void isAnswerMode() {
+
+            if ((c = 65) & (~(lastKeyPressed = c))) {
+
+                do Sys.wait(200);
+                let lastKeyPressed = c;
+                do Output.moveCursor(19, 7);
+
+                // Exits if '!' is pressed
+                while (~(c = 33)) {
+
+                    if (~(c = 0)) { do Sys.wait(150); }  // Reduce double tap
+                    let c = Keyboard.keyPressed();
+
+                    // if 'Enter': insert answer and exit 'Answer Mode'
+                    if (Input.listenEnter()) {
+                        let c = 33;
+                        return;
+                    }
+
+                    // Append or Erase char from answer
+                    if (~(c = 0)) {
+                        do Input.debugKey();
+                        do Input.debugEvent();
+                        do Input.manageAnswer();
+                    }
+                }
+            }
+
+            return;
+        }
+        
+        // Track 'Enter' clicks
+        function boolean listenEnter() {
+            if ((c = 128) & (~(lastKeyPressed = c))) {
+                let lastKeyPressed = c;
+                let countEnter = countEnter + 1;
+                do Output.moveCursor(22, 30);
+                // do Output.printString(enter);  // Debug
+                do Output.printInt(countEnter);
+                do Output.moveCursor(3, 3);
+                return true;
+            }
+            return false;
+        }
+
+        function void manageAnswer() {
+
+            // Append character
+            if ((answer.length() < 9) & (~(c = 129))) {
+                // let answer = answer.appendChar(c);
+                do answer.appendChar(c);
+                do Output.moveCursor(19, 7);
+                do Output.printString(answer);
+                return;
+            }
+
+            // Erase character
+            if ((answer.length() > 0) & (c = 129)) {
+                do Input.debugEvent2();
+                // do answer.appendChar(" ");
+                do answer.appendChar(String.backSpace());
+                do Output.moveCursor(19, 7);
+                do Output.printString(answer);
+                do answer.eraseLastChar();
+                do answer.eraseLastChar();
+            }
+            
+            return;
+        }
+
+        function void debugKey() {
+            do Output.moveCursor(14,3);
+            do Output.printInt(c);
+            return;
+        }
+       
+        function void debugEvent() {
+            let eventCounter1 = eventCounter1 + 1;
+            do Output.moveCursor(15,3);
+            do Output.printInt(eventCounter1);
+            return;
+        }
+
+        function void debugEvent2() {
+            let eventCounter2 = eventCounter2 + 1;
+            do Output.moveCursor(16,3);
+            do Output.printInt(eventCounter2);
+            return;
+        }
+
+
+}

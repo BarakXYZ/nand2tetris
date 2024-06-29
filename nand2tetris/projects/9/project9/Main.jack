@@ -1,26 +1,9 @@
 class Main {
-    function void printTest() {
-        var int i;
-        let i = 0;
-
-        while (i < 16) {
-            do Output.println();
-            let i = i + 1;
-        }
-        do Output.printString("What's your name?");
-        do Output.println();
-        return;
-    }
-
     function void main() {
 
-        var String str;
-        var char c;
-        var boolean exit;
+        var String space, enter, answerInstruction, answer;
 
         do Characters.initCharacters();
-        let c = 0;
-        let exit = false;
         
         do UserInterface.setUIParams();
         do UserInterface.drawMainFrame();
@@ -31,29 +14,26 @@ class Main {
 
         do UserInterface.printRAM(Characters.getFatherSP());
 
-        while (~exit) {
-            
-            let c = 0;
-            while (c = 0) {
-                let c = Keyboard.keyPressed();
-            }
-            if (c = 81) {
-                let exit = true; 
-            }
-            if (c = 128) {
-                do Output.printString("Enter");
-                do Controller.selectLine(2, 2, str);
-            }
-            else {
-                // do Output.printChar(c);
-                // do Output.printInt(c);
-                let c = Keyboard.readChar();
-                do Output.printInt(c);
-            }
+        do Sprites.drawGiniSmall(1661);
+        do Sprites.drawGiniBig(1642);
 
-            let c = 0;
-        }
+        do Dialog.testDialog();
+
+        do Input.initInput();
+
         
+        do Draw.initDraw();
+        let space = "   ";
+        let enter = "Enter Count: ";
+        
+        let answerInstruction = "[A]nswer";
+        let answer = "";
+        do Output.moveCursor(21, 8);
+        do Output.printString(answerInstruction);
+
+        do Input.runInput();
+
+        // Free objects
         do fatherSP.dispose();
         return;
     }
