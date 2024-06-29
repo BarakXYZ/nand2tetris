@@ -1,0 +1,9 @@
+class Dialog {
+    function void testDialog() {
+        do Output.moveCursor(17, 18);
+        do Output.printString("Help me to test pleasepleaseplease!!!");
+        do Output.moveCursor(18, 18);
+        do Output.printString("IDK IDK IDK where is SP????!?!?!?!");
+        return;
+    }
+}

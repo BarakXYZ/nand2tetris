@@ -1,0 +1,45 @@
+function Draw.initDraw 0
+push constant 0
+pop static 0
+push constant 0
+return
+function Draw.drawSprite 0
+push static 0
+push constant 25
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop static 0
+push static 1
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 1642
+call Sprites.drawGiniBigFlipped 1
+pop temp 0
+push constant 0
+not
+pop static 1
+goto IF_END1
+label IF_FALSE1
+push constant 1642
+call Sprites.drawGiniBig 1
+pop temp 0
+push constant 0
+pop static 1
+label IF_END1
+goto IF_END0
+label IF_FALSE0
+push constant 50
+call Sys.wait 1
+pop temp 0
+push static 0
+push constant 1
+add
+pop static 0
+label IF_END0
+push constant 0
+return

@@ -207,6 +207,12 @@ pop temp 0
 push constant 134
 push constant 26
 push constant 378
+push constant 179
+call UserInterface.drawUnfilledRectangle 4
+pop temp 0
+push constant 134
+push constant 179
+push constant 460
 push constant 229
 call UserInterface.drawUnfilledRectangle 4
 pop temp 0
