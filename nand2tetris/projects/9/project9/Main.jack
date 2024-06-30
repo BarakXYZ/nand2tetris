@@ -1,7 +1,8 @@
 class Main {
     function void main() {
-
+        
         do Characters.initCharacters();
+        do Sprites.initSpritesParams();
         do Input.initInput();
         do Draw.initDraw();
         do UserInterface.initUI();

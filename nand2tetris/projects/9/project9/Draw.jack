@@ -10,13 +10,18 @@ class Draw {
     function void drawSprite() {
         if (counter = 25) {
             let counter = 0;
+            do Sprites.clearViewport();
 
             if (~isFlipped) {
-                do Sprites.drawGiniBigFlipped(1642);
+                // do Sprites.drawGiniBigFlipped(1642);
+                // do Sprites.drawSpriteShimon(true, ~isFlipped);
+                do Sprites.drawCurrentSelSprite(~isFlipped);
                 let isFlipped = true;
             }
             else {
-                do Sprites.drawGiniBig(1642);
+                // do Sprites.drawGiniBig(1642);
+                // do Sprites.drawSpriteShimon(true, ~isFlipped);
+                do Sprites.drawCurrentSelSprite(~isFlipped);
                 let isFlipped = false;
             }
         }

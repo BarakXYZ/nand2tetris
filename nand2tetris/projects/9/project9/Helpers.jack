@@ -1,0 +1,20 @@
+class Helpers {
+
+    function boolean strComp(String str1, String str2) {
+        var int strLen1, strLen2, index;
+        
+        let strLen1 = str1.length();
+        let strLen2 = str2.length();
+
+        if(~(strLen1 = strLen2)) { return false; }
+        if(strLen1 = 0) { return true; }  // both empty
+        
+        let index = 0;
+        while (~(index < strLen1)) {
+            if (~(str1.charAt(index) = str2.charAt(index))) { return false; }
+            let index = index + 1;
+        }
+        return true;
+    }
+
+}
