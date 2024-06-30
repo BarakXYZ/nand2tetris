@@ -1,14 +1,16 @@
 function Sprites.initSpritesParams 0
 push constant 0
 pop static 0
-push constant 2700
-pop static 3
-push constant 2700
+push constant 7165
 pop static 4
-push constant 1899
+push constant 2717
+pop static 5
+push constant 1739
 pop static 1
 push constant 1642
 pop static 2
+push constant 3357
+pop static 3
 push constant 0
 return
 function Sprites.setCurrentSprite 0
@@ -55,7 +57,7 @@ pop temp 0
 push constant 135
 push constant 47
 push constant 353
-push constant 178
+push constant 173
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
@@ -81,7 +83,7 @@ label IF_END0
 push constant 0
 return
 function Sprites.drawSpriteShimonSmall 0
-push static 3
+push static 4
 call SpriteShimon.drawShimonSmall 1
 pop temp 0
 push constant 0
@@ -103,8 +105,14 @@ label IF_END0
 push constant 0
 return
 function Sprites.drawSpriteGiniSmall 0
-push static 4
+push static 5
 call SpriteGini.drawGiniSmall 1
+pop temp 0
+push constant 0
+return
+function Sprites.drawQuestionMark 0
+push static 3
+call SpriteQuestionMark.drawQuestionMark 1
 pop temp 0
 push constant 0
 return
