@@ -1,11 +1,11 @@
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
-    static String answerInstruction;
+    static String answerInstruction, exitInstruction, notExitInstruction;
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
     static Array selCoordAnswer, selCoordLookUp;
 
     function void initUI() {
-        let maxTitleLen = 32;
+        let maxTitleLen = 30;
         let titleStartRowIndex = 3;
         let titleStartColumnIndex = 16;
         let answerInstruction = "[A]nswer";
@@ -15,6 +15,9 @@ class UserInterface {
         let blankSpace = 32;
         let asterisk = 42;
         let atSign = 64;
+
+        let exitInstruction = "Press 'Escape' to Exit Current Mode";
+        let notExitInstruction = "                                    ";
 
         do UserInterface.initAnswerSelCoords();
         do UserInterface.initLookUpSelCoords();
@@ -108,16 +111,22 @@ class UserInterface {
         do UserInterface.drawUnfilledRectangle(1, 1, 511, 255);
 
         // Draw inner rectangle (approximately 10% smaller)
-        do UserInterface.drawUnfilledRectangle(52, 26, 460, 229);
+        do UserInterface.drawUnfilledRectangle(1, 26, 511, 229);
+        // 52, 440
+
+        // Draw Challenge Frame
+        do UserInterface.drawUnfilledRectangle(52, 26, 511, 229);
+        // Draw Content Frame
+        do UserInterface.drawUnfilledRectangle(52, 26, 440, 229);
 
         // Draw title area (tighter and aligned)
-        do UserInterface.drawUnfilledRectangle(52, 26, 460, 46);
+        do UserInterface.drawUnfilledRectangle(52, 26, 440, 46);
 
         // Inner rec2
-        do UserInterface.drawUnfilledRectangle(134, 26, 378, 179);
+        do UserInterface.drawUnfilledRectangle(134, 26, 354, 179);
 
         // Text Box Frame
-        do UserInterface.drawUnfilledRectangle(134, 179, 460, 229);
+        do UserInterface.drawUnfilledRectangle(134, 179, 440, 229);
 
         //** fixed menu titles: Challenge & Content */
         do UserInterface.printSubMenuTitles();
@@ -130,15 +139,31 @@ class UserInterface {
     }
 
     function void drawAddrLookupUI() {
+        
+        // Frame
         do Screen.drawLine(226, 229, 290, 229);  // Upper line
         do Screen.drawLine(226, 229, 226, 243);  // Left line
         do Screen.drawLine(290, 229, 290, 243);  // Right line
         do Screen.drawLine(226, 243, 258, 255);  // Left Diagonal
         do Screen.drawLine(290, 243, 258, 255);  // Right Diagonal
-
-        do UserInterface.drawSelArrows(selCoordLookUp);
+        
+        do Output.moveCursor(21, 39);
+        // do Output.printString("[@]Lookup Address");
+        do Output.printString("[L]ookup Address");
         do Output.moveCursor(21, 29);
         do Output.printChar(atSign);
+        return;
+    }
+
+    function void isExitInstruction(boolean b) {
+        if (b) {
+            do Output.moveCursor(0,0);
+            do Output.printString(exitInstruction);
+        }
+        else {
+            do Output.moveCursor(0,0);
+            do Output.printString(notExitInstruction);
+        }
         return;
     }
 
@@ -146,7 +171,7 @@ class UserInterface {
         do Output.moveCursor(3, 7);
         do Output.printString("Challenge");
 
-        do Output.moveCursor(3, 49);
+        do Output.moveCursor(3, 46);
         do Output.printString("Content");
 
         return;
@@ -175,12 +200,12 @@ class UserInterface {
 
         //** Content */
         // addr
-        do Output.moveCursor(6, 48);
+        do Output.moveCursor(6, 45);
         do Output.printString("Addr=");
         do Output.printInt(ram.getAddr());
 
         // inM
-        do Output.moveCursor(8, 49);
+        do Output.moveCursor(8, 46);
         do Output.printString("inM=");
         do Output.printInt(ram.getM());
 

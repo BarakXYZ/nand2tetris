@@ -1,8 +1,7 @@
 class Input {
         static char c, lastKeyPressed;
-        static String answer;
+        static String inputChallenge, inputLookUp;
         static boolean exit;
-        // var String space, enter, answerInstruction, answer;  // Probably UI
         static int countEnter, eventCounter1, eventCounter2;
         
         function void initInput() {
@@ -13,8 +12,8 @@ class Input {
             let eventCounter1 = 0;
             let eventCounter2 = 0;
 
-            let answer = String.new(10);
-            // let answer = "_";
+            let inputChallenge = String.new(10);
+            let inputLookUp = String.new(7);
 
             return;
         }
@@ -31,9 +30,16 @@ class Input {
                     do Output.moveCursor(3, 3);
                 }
                 
-                do Input.listenEnter();
+                // do Input.listenEnter();
 
-                do Input.isAnswerMode();
+                
+                if ((c = 64 | c = 76) & (~(lastKeyPressed = c))) {
+                    do Input.lookUpMode();
+                }
+
+                if ((c = 65) & (~(lastKeyPressed = c))) {
+                    do Input.answerMode();
+                }
 
                 // do Output.printInt(c);
                 let c = 0;
@@ -44,19 +50,59 @@ class Input {
         }  // runInput()
 
 
-        function void lookupMode() {
+        //** */
+        function void lookUpMode() {
             // max address == 24,576
             // do Output.moveCursor(21, 30);  // Start addr to type
+
+            // Manage the actual lookup logic (search)
+
+                do UserInterface.isExitInstruction(true);
+                do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
+                do Sys.wait(200);
+                let lastKeyPressed = c;
+
+                // Exits if 'Escape' (140) is pressed
+                while (~(c = 140)) {
+                    do Draw.drawSprite();
+
+                    do Input.manageCharAndTimeBuffer(c);
+                    let c = Keyboard.keyPressed();
+
+                    // if 'Enter': insert answer and exit 'Answer Mode'
+                    if (Input.listenEnter()) {
+                        do Input.lookUpInput();
+                        let c = 140;
+                    }
+
+                    // Append or Erase char from answer
+                    if ((~(c = 0)) & (~(c = 140))) {
+                        do Input.debugKey();
+                        do Input.debugEvent();
+                        do Input.checkLookUpInput();
+                    }
+                }
+                do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
+                do UserInterface.isExitInstruction(false);
+            return;
+        }
+
+        function void lookUpInput() {
+            if (Helpers.strComp(inputLookUp, "SHIMON")) {
+                do Sprites.setCurrentSprite(0);
+                return;
+            }
+            if (Helpers.strComp(inputLookUp, "GINI")) {
+                do Sprites.setCurrentSprite(1);
+                return;
+            }
             return;
         }
 
 
         //** if 'A' is pressed, enter '[A]nswer mode' */
-        function void isAnswerMode() {
-
-            if ((c = 65) & (~(lastKeyPressed = c))) {
-
-                do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
+        function void answerMode() {
+                do UserInterface.isExitInstruction(true);
                 do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
                 do Sys.wait(200);
                 let lastKeyPressed = c;
@@ -79,9 +125,7 @@ class Input {
                     }
                 }
                 do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
-                do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
-            }
-
+                do UserInterface.isExitInstruction(false);
             return;
         }
         
@@ -89,19 +133,27 @@ class Input {
         function boolean listenEnter() {
             if ((c = 128) & (~(lastKeyPressed = c))) {
                 let lastKeyPressed = c;
-                let countEnter = countEnter + 1;
-                do Output.moveCursor(22, 30);
-                // do Output.printString(enter);  // Debug
-                do Output.printInt(countEnter);
-                do Output.moveCursor(3, 3);
+
+                // Debug
+                // let countEnter = countEnter + 1;
+                // do Output.moveCursor(22, 30);
+                // do Output.printInt(countEnter);
+                // do Output.moveCursor(3, 3);
+
                 return true;
             }
             return false;
         }
 
+        function void checkLookUpInput() {
+            do Input.appendChar(inputLookUp, 6, 21, 30);
+            do Input.eraseChar(inputLookUp, 21, 30);
+            return;
+        }
+
         function void checkAnswerInput() {
-            do Input.appendChar(9, 19, 7);
-            do Input.eraseChar(19, 7);
+            do Input.appendChar(inputChallenge, 9, 19, 7);
+            do Input.eraseChar(inputChallenge, 19, 7);
             return;
         }
 
@@ -119,12 +171,12 @@ class Input {
         // 1. if not exceeding max str length
         // 2. and not backspace (129) 
         // Prints the updated string to the given row & col coords */
-        function void appendChar(int maxLen, int strCoordRow, int strCoordCol) {
+        function void appendChar(String input, int maxLen, int strCoordRow, int strCoordCol) {
             // Append character
-            if ((answer.length() < maxLen) & (~(c = 129))) {
-                do answer.appendChar(c);
+            if ((input.length() < maxLen) & (~(c = 129))) {
+                do input.appendChar(c);
                 do Output.moveCursor(strCoordRow, strCoordCol);
-                do Output.printString(answer);
+                do Output.printString(input);
             }
             return;
         }
@@ -133,21 +185,17 @@ class Input {
         // 1. if greater than 0
         // 2. and input = backspace (129)
         // Prints the updated string to the given row & col coords */
-        function void eraseChar(int strCoordRow, int strCoordCol) {
-            if ((answer.length() > 0) & (c = 129)) {
+        function void eraseChar(String input, int strCoordRow, int strCoordCol) {
+            if ((input.length() > 0) & (c = 129)) {
                 do Input.debugEvent2();
                 
                 // Clean old screen buffer (last char)
-                do answer.appendChar(String.backSpace());
+                do input.appendChar(String.backSpace());
                 do Output.moveCursor(strCoordRow, strCoordCol);
-                do Output.printString(answer);
+                do Output.printString(input);
 
-                do answer.eraseLastChar();  // erase backspace
-                do answer.eraseLastChar();  // erase actual char
-                
-                // print updated string (not needed because visually we're good)
-                // do Output.moveCursor(strCoordRow, strCoordCol);
-                // do Output.printString(answer);
+                do input.eraseLastChar();  // erase backspace
+                do input.eraseLastChar();  // erase actual char
             }
             return;
         }

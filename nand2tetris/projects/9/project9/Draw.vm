@@ -12,21 +12,25 @@ goto IF_FALSE0
 label IF_TRUE0
 push constant 0
 pop static 0
+call Sprites.clearViewport 0
+pop temp 0
 push static 1
 not
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push constant 1642
-call Sprites.drawGiniBigFlipped 1
+push static 1
+not
+call Sprites.drawCurrentSelSprite 1
 pop temp 0
 push constant 0
 not
 pop static 1
 goto IF_END1
 label IF_FALSE1
-push constant 1642
-call Sprites.drawGiniBig 1
+push static 1
+not
+call Sprites.drawCurrentSelSprite 1
 pop temp 0
 push constant 0
 pop static 1

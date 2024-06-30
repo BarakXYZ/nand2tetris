@@ -1,6 +1,8 @@
 function Main.main 0
 call Characters.initCharacters 0
 pop temp 0
+call Sprites.initSpritesParams 0
+pop temp 0
 call Input.initInput 0
 pop temp 0
 call Draw.initDraw 0
