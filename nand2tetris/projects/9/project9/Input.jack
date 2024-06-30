@@ -21,13 +21,13 @@ class Input {
 
         function void runInput() {
             while (~exit) {
+                do Sys.wait(50);
                 do Draw.drawSprite();
                 do Output.moveCursor(3, 3);
                 let c = Keyboard.keyPressed();
 
                 if (c = 0) {
                     let lastKeyPressed = 0;
-                    // do Output.printString(space);  // Debug
                     do Output.moveCursor(3, 3);
                 }
                 
@@ -35,7 +35,7 @@ class Input {
 
                 do Input.isAnswerMode();
 
-                do Output.printInt(c);
+                // do Output.printInt(c);
                 let c = 0;
 
             }  // While ~Exit
@@ -43,34 +43,43 @@ class Input {
             return;
         }  // runInput()
 
+
+        function void lookupMode() {
+            // max address == 24,576
+            // do Output.moveCursor(21, 30);  // Start addr to type
+            return;
+        }
+
+
         //** if 'A' is pressed, enter '[A]nswer mode' */
         function void isAnswerMode() {
 
             if ((c = 65) & (~(lastKeyPressed = c))) {
 
+                do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
+                do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
                 do Sys.wait(200);
                 let lastKeyPressed = c;
-                do Output.moveCursor(19, 7);
 
-                // Exits if '!' is pressed
-                while (~(c = 33)) {
+                // Exits if 'Escape' (140) is pressed
+                while (~(c = 140)) {
+                    do Draw.drawSprite();
 
-                    if (~(c = 0)) { do Sys.wait(150); }  // Reduce double tap
+                    do Input.manageCharAndTimeBuffer(c);
                     let c = Keyboard.keyPressed();
 
                     // if 'Enter': insert answer and exit 'Answer Mode'
-                    if (Input.listenEnter()) {
-                        let c = 33;
-                        return;
-                    }
+                    if (Input.listenEnter()) { let c = 140; }
 
                     // Append or Erase char from answer
-                    if (~(c = 0)) {
+                    if ((~(c = 0)) & (~(c = 140))) {
                         do Input.debugKey();
                         do Input.debugEvent();
-                        do Input.manageAnswer();
+                        do Input.checkAnswerInput();
                     }
                 }
+                do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
+                do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
             }
 
             return;
@@ -90,28 +99,56 @@ class Input {
             return false;
         }
 
-        function void manageAnswer() {
+        function void checkAnswerInput() {
+            do Input.appendChar(9, 19, 7);
+            do Input.eraseChar(19, 7);
+            return;
+        }
 
-            // Append character
-            if ((answer.length() < 9) & (~(c = 129))) {
-                // let answer = answer.appendChar(c);
-                do answer.appendChar(c);
-                do Output.moveCursor(19, 7);
-                do Output.printString(answer);
-                return;
+        //** Reduce Double-Tap & Friendly loop buffer */
+        function void manageCharAndTimeBuffer(char c) {
+            if (~(c = 0)) {
+                do Sys.wait(150); 
+            } else {
+                do Sys.wait(50);
             }
+            return;
+        }
 
-            // Erase character
+        //** Append Characater:
+        // 1. if not exceeding max str length
+        // 2. and not backspace (129) 
+        // Prints the updated string to the given row & col coords */
+        function void appendChar(int maxLen, int strCoordRow, int strCoordCol) {
+            // Append character
+            if ((answer.length() < maxLen) & (~(c = 129))) {
+                do answer.appendChar(c);
+                do Output.moveCursor(strCoordRow, strCoordCol);
+                do Output.printString(answer);
+            }
+            return;
+        }
+
+        //** Erase Character:
+        // 1. if greater than 0
+        // 2. and input = backspace (129)
+        // Prints the updated string to the given row & col coords */
+        function void eraseChar(int strCoordRow, int strCoordCol) {
             if ((answer.length() > 0) & (c = 129)) {
                 do Input.debugEvent2();
-                // do answer.appendChar(" ");
+                
+                // Clean old screen buffer (last char)
                 do answer.appendChar(String.backSpace());
-                do Output.moveCursor(19, 7);
+                do Output.moveCursor(strCoordRow, strCoordCol);
                 do Output.printString(answer);
-                do answer.eraseLastChar();
-                do answer.eraseLastChar();
+
+                do answer.eraseLastChar();  // erase backspace
+                do answer.eraseLastChar();  // erase actual char
+                
+                // print updated string (not needed because visually we're good)
+                // do Output.moveCursor(strCoordRow, strCoordCol);
+                // do Output.printString(answer);
             }
-            
             return;
         }
 

@@ -21,7 +21,6 @@ class Draw {
             }
         }
         else {
-            do Sys.wait(50);
             let counter = counter + 1;
         }
         return;

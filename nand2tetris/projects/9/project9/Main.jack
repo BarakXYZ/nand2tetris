@@ -1,39 +1,18 @@
 class Main {
     function void main() {
 
-        var String space, enter, answerInstruction, answer;
-
         do Characters.initCharacters();
-        
-        do UserInterface.setUIParams();
-        do UserInterface.drawMainFrame();
-        
-        // Debug Screen Rows & Columns
-        do UserInterface.gridX(23);
-        do UserInterface.gridY(64);
-
-        do UserInterface.printRAM(Characters.getFatherSP());
-
-        do Sprites.drawGiniSmall(1661);
-        do Sprites.drawGiniBig(1642);
-
-        do Dialog.testDialog();
-
         do Input.initInput();
-
-        
         do Draw.initDraw();
-        let space = "   ";
-        let enter = "Enter Count: ";
-        
-        let answerInstruction = "[A]nswer";
-        let answer = "";
-        do Output.moveCursor(21, 8);
-        do Output.printString(answerInstruction);
+        do UserInterface.initUI();
+
+        // Maybe should be called from Levels class?
+        do UserInterface.printRAM(Characters.getFatherSP());  // ?
+        do Dialog.testDialog();  // Not here
 
         do Input.runInput();
 
-        // Free objects
+        // Free objects: TODO -> 1 function to dispose all objects?
         do fatherSP.dispose();
         return;
     }
