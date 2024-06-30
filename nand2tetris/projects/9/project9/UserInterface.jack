@@ -1,5 +1,30 @@
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
+    static String answerInstruction;
+    static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
+    static Array selCoordAnswer, selCoordLookUp;
+
+    function void initUI() {
+        let maxTitleLen = 32;
+        let titleStartRowIndex = 3;
+        let titleStartColumnIndex = 16;
+        let answerInstruction = "[A]nswer";
+        let selRightArrow = 62;
+        let selLeftArrow = 60;
+        let selUpArrow = 94;
+        let blankSpace = 32;
+        let asterisk = 42;
+        let atSign = 64;
+
+        do UserInterface.initAnswerSelCoords();
+        do UserInterface.initLookUpSelCoords();
+        do UserInterface.drawMainFrame();
+
+        // Debug Screen Rows & Columns
+        do UserInterface.gridX(23);
+        do UserInterface.gridY(64);
+        return;
+    }
 
     constructor UserInterface new() {  // Currently not used
         return this;
@@ -97,6 +122,23 @@ class UserInterface {
         //** fixed menu titles: Challenge & Content */
         do UserInterface.printSubMenuTitles();
 
+        do UserInterface.drawAnswerUI();
+
+        do UserInterface.drawAddrLookupUI();
+
+        return;
+    }
+
+    function void drawAddrLookupUI() {
+        do Screen.drawLine(226, 229, 290, 229);  // Upper line
+        do Screen.drawLine(226, 229, 226, 243);  // Left line
+        do Screen.drawLine(290, 229, 290, 243);  // Right line
+        do Screen.drawLine(226, 243, 258, 255);  // Left Diagonal
+        do Screen.drawLine(290, 243, 258, 255);  // Right Diagonal
+
+        do UserInterface.drawSelArrows(selCoordLookUp);
+        do Output.moveCursor(21, 29);
+        do Output.printChar(atSign);
         return;
     }
 
@@ -145,12 +187,69 @@ class UserInterface {
         return;
     }
 
-
-    function void setUIParams() {
-        let maxTitleLen = 32;
-        let titleStartRowIndex = 3;
-        let titleStartColumnIndex = 16;
+    function void drawAnswerUI() {
+        do Output.moveCursor(21, 8);
+        do Output.printString(answerInstruction);
         return;
     }
 
+    function void drawSelArrows(Array selCoordDraw) {
+
+        do Output.moveCursor(selCoordDraw[0], selCoordDraw[1]);
+        do Output.printChar(selRightArrow);
+
+        do Output.moveCursor(selCoordDraw[2], selCoordDraw[3]);
+        do Output.printChar(selLeftArrow);
+
+        do Output.moveCursor(selCoordDraw[4], selCoordDraw[5]);
+        do Output.printChar(asterisk);
+
+        return;
+    }
+
+    function void eraseSelArrows(Array selCoordErase) {
+
+        do Output.moveCursor(selCoordErase[0], selCoordErase[1]);
+        do Output.printChar(blankSpace);
+
+        do Output.moveCursor(selCoordErase[2], selCoordErase[3]);
+        do Output.printChar(blankSpace);
+
+        do Output.moveCursor(selCoordErase[4], selCoordErase[5]);
+        do Output.printChar(blankSpace);
+
+        return;
+    }
+
+    function void initLookUpSelCoords() {
+        let selCoordLookUp = Array.new(6);
+        let selCoordLookUp[0] = 21;
+        let selCoordLookUp[1] = 27;
+        let selCoordLookUp[2] = 21;
+        let selCoordLookUp[3] = 37;
+        let selCoordLookUp[4] = 22;
+        let selCoordLookUp[5] = 32;
+
+        return;
+    }
+
+    function void initAnswerSelCoords() {
+        let selCoordAnswer = Array.new(6);
+        let selCoordAnswer[0] = 19;
+        let selCoordAnswer[1] = 5;
+        let selCoordAnswer[2] = 19;
+        let selCoordAnswer[3] = 17;
+        let selCoordAnswer[4] = 22;
+        let selCoordAnswer[5] = 11;
+
+        return;
+    }
+
+    function Array getSelCoordAnswer() {
+        return selCoordAnswer;
+    }
+
+    function Array getSelCoordLookUp() {
+        return selCoordLookUp;
+    }
 }

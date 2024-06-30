@@ -33,9 +33,6 @@ pop static 1
 label IF_END1
 goto IF_END0
 label IF_FALSE0
-push constant 50
-call Sys.wait 1
-pop temp 0
 push static 0
 push constant 1
 add
