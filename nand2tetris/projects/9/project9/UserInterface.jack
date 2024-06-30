@@ -107,26 +107,30 @@ class UserInterface {
 
     function void drawMainFrame() {
 
+
         // Draw outer rectangle
         do UserInterface.drawUnfilledRectangle(1, 1, 511, 255);
 
         // Draw inner rectangle (approximately 10% smaller)
-        do UserInterface.drawUnfilledRectangle(1, 26, 511, 229);
+        do UserInterface.drawUnfilledRectangle(1, 26, 440, 229);
         // 52, 440
 
         // Draw Challenge Frame
-        do UserInterface.drawUnfilledRectangle(52, 26, 511, 229);
+        do UserInterface.drawUnfilledRectangle(52, 26, 511, 255);
         // Draw Content Frame
         do UserInterface.drawUnfilledRectangle(52, 26, 440, 229);
 
         // Draw title area (tighter and aligned)
         do UserInterface.drawUnfilledRectangle(52, 26, 440, 46);
 
-        // Inner rec2
-        do UserInterface.drawUnfilledRectangle(134, 26, 354, 179);
+        // Viewport Frame
+        // do UserInterface.drawUnfilledRectangle(134, 26, 354, 179);
+        do UserInterface.drawUnfilledRectangle(134, 26, 354, 174);
+        
+        do UserInterface.drawFriendsFrames();
 
         // Text Box Frame
-        do UserInterface.drawUnfilledRectangle(134, 179, 440, 229);
+        do UserInterface.drawUnfilledRectangle(134, 174, 440, 229);
 
         //** fixed menu titles: Challenge & Content */
         do UserInterface.printSubMenuTitles();
@@ -134,6 +138,27 @@ class UserInterface {
         do UserInterface.drawAnswerUI();
 
         do UserInterface.drawAddrLookupUI();
+        
+        return;
+    }
+
+    function void drawFriendsFrames() {
+
+        // do UserInterface.drawUnfilledRectangle(440, 9, 511, 64);
+        // do UserInterface.drawUnfilledRectangle(440, 64, 511, 119);
+        // do UserInterface.drawUnfilledRectangle(440, 119, 511, 174);
+        // do UserInterface.drawUnfilledRectangle(440, 174, 511, 229);
+
+        do UserInterface.drawUnfilledRectangle(440, 35, 511, 90);
+        do UserInterface.drawUnfilledRectangle(440, 90, 511, 145);
+        do UserInterface.drawUnfilledRectangle(440, 145, 511, 200);
+        do UserInterface.drawUnfilledRectangle(440, 200, 511, 255);
+
+        do Sprites.drawQuestionMark();
+        do Sprites.drawSpriteShimonSmall();
+
+        do Output.moveCursor(19, 56);
+        do Output.printString("@SHIMON");
 
         return;
     }

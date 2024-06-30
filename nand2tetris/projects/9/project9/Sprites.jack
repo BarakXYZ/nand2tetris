@@ -5,17 +5,22 @@ class Sprites {
 static int currentSelSprite;
 
 static int shimonBigCoord, giniBigCoord;
+static int questionMarkCoord;
 static int shimonSmallCoord, giniSmallCoord;
 
 function void initSpritesParams() {
 	
 	let currentSelSprite = 0;
 	
-	let shimonSmallCoord = 2700;
-	let giniSmallCoord = 2700;
+	// let shimonSmallCoord = 6333;
+	let shimonSmallCoord = 7165;
+	let giniSmallCoord = 2717;
 
-	let shimonBigCoord = 1899;
+	// let shimonBigCoord = 1899;
+	let shimonBigCoord = 1739;
 	let giniBigCoord = 1642;
+
+	let questionMarkCoord = 3357;
 	return;
 }
 
@@ -35,12 +40,12 @@ function void drawCurrentSelSprite(boolean isFlipped) {
 }
 
 
-//** Viewport is at x1=134, y1=46, x2=354, y2=179 
+//** Viewport is at x1=134, y1=46, x2=354, y2=174 
 //   We're essentially offesting by 1 pixel to not override the frame itself. */
 function void clearViewport() {
 
 	do Screen.setColor(false);
-	do Screen.drawRectangle(135, 47, 353, 178);
+	do Screen.drawRectangle(135, 47, 353, 173);
 	do Screen.setColor(true);
 
 	return;
@@ -69,6 +74,12 @@ function void drawSpriteGini(boolean isFlipped) {
 
 function void drawSpriteGiniSmall() {
 	do SpriteGini.drawGiniSmall(giniSmallCoord);
+	return;
+}
+
+// Draw Question Mark
+function void drawQuestionMark() {
+	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord);
 	return;
 }
 
