@@ -5,7 +5,7 @@ class Sprites {
 static int currentSelSprite;
 
 static int shimonBigCoord, giniBigCoord;
-static int questionMarkCoord;
+static int questionMarkCoord1, questionMarkCoord2, questionMarkCoord3;
 static int shimonSmallCoord, giniSmallCoord;
 
 function void initSpritesParams() {
@@ -14,13 +14,15 @@ function void initSpritesParams() {
 	
 	// let shimonSmallCoord = 6333;
 	let shimonSmallCoord = 7165;
-	let giniSmallCoord = 2717;
+	let giniSmallCoord = 5148;
 
 	// let shimonBigCoord = 1899;
 	let shimonBigCoord = 1739;
-	let giniBigCoord = 1642;
+	let giniBigCoord = 1482;
 
-	let questionMarkCoord = 3357;
+	let questionMarkCoord1 = 5341;
+	let questionMarkCoord2 = 3485;
+	let questionMarkCoord3 = 1501;
 	return;
 }
 
@@ -78,8 +80,20 @@ function void drawSpriteGiniSmall() {
 }
 
 // Draw Question Mark
-function void drawQuestionMark() {
-	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord);
+function void drawQuestionMark1() {
+	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord1);
+	return;
+}
+
+// Draw Question Mark
+function void drawQuestionMark2() {
+	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord2);
+	return;
+}
+
+// Draw Question Mark
+function void drawQuestionMark3() {
+	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord3);
 	return;
 }
 

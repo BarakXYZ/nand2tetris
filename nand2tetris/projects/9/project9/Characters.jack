@@ -1,40 +1,34 @@
 class Characters {
     
-    static RAM ramFatherSP;
-    static Array dFatherSP;
-    static String name;
+    field Array character;
+    static int numOfCharacters;
+    
+    constructor Characters initShimon() {
+        let character = Array.new(5);
 
-    function void initCharacters() {
+        let character[0] = 5;                   // Array size
+        let character[1] = "@SHIMON";           // Name
+        let character[2] = 555;                 // inM
+        let character[3] = "Master of Memory";  // Role
+        let character[4] = 1;                   // Story line Stage
+        // let character[5] = pointerToCurrentDialog?
+        // Essentially a pointer to a dialog object that contains the dialog to
+        // print with an array[0] size so we can loop over it?
 
-        do Characters.initFatherSP();
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
         return;
     }
 
-    function void initFatherSP() {
+    method int getStoryLine() {
+        return character[4];
+    }
 
-        let dFatherSP = Array.new(5);
-
-        let dFatherSP[0] = 255;
-        let dFatherSP[1] = 46;
-        let dFatherSP[2] = "@SP's Father";
-        let dFatherSP[3] = "Please find my son";
-        let dFatherSP[4] = "Challenge yes";
-        // Maybe can store the Challenge in another array.
-        // Store the size of the array as value[0]?
-        // then we can loop through it and print in UserInterface
-        
-        // Maybe we can also store the dialog in here?
-        // Although maybe dialog just needs to be handled somewhere else?
-        // Maybe we can just store in father the current "stage" sort of speak
-        // Or maybe just to track dialog details in a separate Dialog class
-
-        let ramFatherSP = RAM.new(dFatherSP[0], dFatherSP[1], dFatherSP[2], dFatherSP[3], dFatherSP[4]);
-        
+    method void incStoryLine() {
+        let character[4] = character[4] + 1;  // increment stage by 1
         return;
     }
-
-    function RAM getFatherSP() {
-        return ramFatherSP;
-    }
-
 }

@@ -1,20 +1,25 @@
 class Main {
     function void main() {
         
-        do Characters.initCharacters();
+        var Characters shimon;
+        let shimon = Characters.initShimon();
+
         do Sprites.initSpritesParams();
+
         do Input.initInput();
+
         do Draw.initDraw();
+
         do UserInterface.initUI();
 
         // Maybe should be called from Levels class?
-        do UserInterface.printRAM(Characters.getFatherSP());  // ?
+        // do UserInterface.printRAM(Characters.getFatherSP());  // ?
         do Dialog.testDialog();  // Not here
 
         do Input.runInput();
 
-        // Free objects: TODO -> 1 function to dispose all objects?
-        do fatherSP.dispose();
+        do shimon.dispose();
+
         return;
     }
 }
