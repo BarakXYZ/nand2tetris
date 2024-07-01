@@ -2,15 +2,19 @@ function Sprites.initSpritesParams 0
 push constant 0
 pop static 0
 push constant 7165
-pop static 4
-push constant 2717
-pop static 5
+pop static 6
+push constant 5148
+pop static 7
 push constant 1739
 pop static 1
-push constant 1642
+push constant 1482
 pop static 2
-push constant 3357
+push constant 5341
 pop static 3
+push constant 3485
+pop static 4
+push constant 1501
+pop static 5
 push constant 0
 return
 function Sprites.setCurrentSprite 0
@@ -83,7 +87,7 @@ label IF_END0
 push constant 0
 return
 function Sprites.drawSpriteShimonSmall 0
-push static 4
+push static 6
 call SpriteShimon.drawShimonSmall 1
 pop temp 0
 push constant 0
@@ -105,13 +109,25 @@ label IF_END0
 push constant 0
 return
 function Sprites.drawSpriteGiniSmall 0
-push static 5
+push static 7
 call SpriteGini.drawGiniSmall 1
 pop temp 0
 push constant 0
 return
-function Sprites.drawQuestionMark 0
+function Sprites.drawQuestionMark1 0
 push static 3
+call SpriteQuestionMark.drawQuestionMark 1
+pop temp 0
+push constant 0
+return
+function Sprites.drawQuestionMark2 0
+push static 4
+call SpriteQuestionMark.drawQuestionMark 1
+pop temp 0
+push constant 0
+return
+function Sprites.drawQuestionMark3 0
+push static 5
 call SpriteQuestionMark.drawQuestionMark 1
 pop temp 0
 push constant 0

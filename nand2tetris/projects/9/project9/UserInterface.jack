@@ -2,6 +2,7 @@ class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
     static String answerInstruction, exitInstruction, notExitInstruction;
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
+    static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
     static Array selCoordAnswer, selCoordLookUp;
 
     function void initUI() {
@@ -15,6 +16,10 @@ class UserInterface {
         let blankSpace = 32;
         let asterisk = 42;
         let atSign = 64;
+        let currentSelFriend = ">> @ <<";
+        let unknownFriend = "** ? **";
+        let callingFriend = "** ! **";
+        let clearBarFriend = "       ";
 
         let exitInstruction = "Press 'Escape' to Exit Current Mode";
         let notExitInstruction = "                                    ";
@@ -112,20 +117,20 @@ class UserInterface {
         do UserInterface.drawUnfilledRectangle(1, 1, 511, 255);
 
         // Draw inner rectangle (approximately 10% smaller)
-        do UserInterface.drawUnfilledRectangle(1, 26, 440, 229);
+        do UserInterface.drawUnfilledRectangle(1, 20, 440, 229);
         // 52, 440
 
         // Draw Challenge Frame
-        do UserInterface.drawUnfilledRectangle(52, 26, 511, 255);
+        do UserInterface.drawUnfilledRectangle(52, 20, 511, 255);
         // Draw Content Frame
-        do UserInterface.drawUnfilledRectangle(52, 26, 440, 229);
+        do UserInterface.drawUnfilledRectangle(52, 20, 440, 229);
 
         // Draw title area (tighter and aligned)
-        do UserInterface.drawUnfilledRectangle(52, 26, 440, 46);
+        do UserInterface.drawUnfilledRectangle(52, 20, 440, 45);
 
         // Viewport Frame
-        // do UserInterface.drawUnfilledRectangle(134, 26, 354, 179);
-        do UserInterface.drawUnfilledRectangle(134, 26, 354, 174);
+        // do UserInterface.drawUnfilledRectangle(134, 20, 354, 179);
+        do UserInterface.drawUnfilledRectangle(134, 20, 354, 174);
         
         do UserInterface.drawFriendsFrames();
 
@@ -149,16 +154,45 @@ class UserInterface {
         // do UserInterface.drawUnfilledRectangle(440, 119, 511, 174);
         // do UserInterface.drawUnfilledRectangle(440, 174, 511, 229);
 
-        do UserInterface.drawUnfilledRectangle(440, 35, 511, 90);
-        do UserInterface.drawUnfilledRectangle(440, 90, 511, 145);
-        do UserInterface.drawUnfilledRectangle(440, 145, 511, 200);
-        do UserInterface.drawUnfilledRectangle(440, 200, 511, 255);
+        // do UserInterface.drawUnfilledRectangle(440, 35, 511, 90);
+        // do UserInterface.drawUnfilledRectangle(440, 90, 511, 145);
+        // do UserInterface.drawUnfilledRectangle(440, 145, 511, 200);
+        // do UserInterface.drawUnfilledRectangle(440, 200, 511, 255);
 
-        do Sprites.drawQuestionMark();
+        do UserInterface.drawUnfilledRectangle(440, 20, 511, 77);
+        do UserInterface.drawUnfilledRectangle(440, 77, 511, 139);  // Comp a bit
+        do UserInterface.drawUnfilledRectangle(440, 139, 511, 197);
+        do UserInterface.drawUnfilledRectangle(440, 197, 511, 255);
+
+
+        do Sprites.drawQuestionMark1();
+        do Sprites.drawQuestionMark2();
+        do Sprites.drawQuestionMark3();
+
+
         do Sprites.drawSpriteShimonSmall();
-
+        do Output.moveCursor(18, 56);
+        do Output.printString(currentSelFriend);
         do Output.moveCursor(19, 56);
         do Output.printString("@SHIMON");
+
+
+        do Output.moveCursor(13, 56);
+        do Output.printString(callingFriend);
+        do Output.moveCursor(14, 57);
+        do Output.printString("@GINI");
+        // do Sprites.drawSpriteGiniSmall();
+
+        do Output.moveCursor(7, 56);
+        do Output.printString(unknownFriend);
+        do Output.moveCursor(8, 57);
+        do Output.printString("@TEST");
+
+        do Output.moveCursor(2, 56);
+        do Output.printString(callingFriend);
+        do Output.moveCursor(3, 57);
+        do Output.printString("@BOBO");
+
 
         return;
     }
@@ -210,32 +244,28 @@ class UserInterface {
         return;
     }
 
-    function void printRAMContent(String content) {
-        
-        return;
-    }
 
-    function void printRAM(RAM ram) {
-        var int delta;
-
-        let delta = maxTitleLen - ram.getNameLength();
-        do Output.moveCursor(
-            titleStartRowIndex, titleStartColumnIndex + (delta / 2));
-        do Output.printString(ram.getName());
-
-        //** Content */
-        // addr
-        do Output.moveCursor(6, 45);
-        do Output.printString("Addr=");
-        do Output.printInt(ram.getAddr());
-
-        // inM
-        do Output.moveCursor(8, 46);
-        do Output.printString("inM=");
-        do Output.printInt(ram.getM());
-
-        return;
-    }
+    // function void printCharacterInfo(RAM ram) {
+    //     var int delta;
+    //
+    //     let delta = maxTitleLen - ram.getNameLength();
+    //     do Output.moveCursor(
+    //         titleStartRowIndex, titleStartColumnIndex + (delta / 2));
+    //     do Output.printString(ram.getName());
+    //
+    //     //** Content */
+    //     // addr
+    //     do Output.moveCursor(6, 45);
+    //     do Output.printString("Addr=");
+    //     do Output.printInt(ram.getAddr());
+    //
+    //     // inM
+    //     do Output.moveCursor(8, 46);
+    //     do Output.printString("inM=");
+    //     do Output.printInt(ram.getM());
+    //
+    //     return;
+    // }
 
     function void drawAnswerUI() {
         do Output.moveCursor(21, 8);
