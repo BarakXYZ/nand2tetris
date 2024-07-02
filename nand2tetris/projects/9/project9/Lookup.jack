@@ -1,0 +1,93 @@
+class Lookup {
+        
+        static int maxLen, row, col;
+        static String input;
+
+        function void initLookupParams() {
+
+            let maxLen = 6;
+            let row = 21;
+            let col = 30;
+            let input = String.new(7);
+            // let input = "";
+
+            return;
+        }
+
+        function void run(char c) {
+            // max address == 24,576
+
+            do UserInterface.isExitInstruction(true);
+            do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
+            do Sys.wait(200);
+            // let lastKeyPressed = c;  // needed?
+
+            // Exits if 'Escape' (140) is pressed
+            while (~(c = 140)) {
+                do Draw.drawSprite();
+
+                do Input.manageCharAndTimeBuffer(c);
+                let c = Keyboard.keyPressed();
+
+                // if 'Enter': Lookup Address & exit Lookup Mode
+                if (Input.isEnter(c)) {
+                    do Lookup.checkAddress();
+                    let c = 140;
+                }
+
+
+                // Append or Erase char if non-zero & no Escape (140)
+                if ((~(c = 0)) & (~(c = 140))) {
+                    do Input.debugKey(c);
+                    do Input.debugEvent();
+                    
+                    // is erase? (129 == backspace)
+                    if ((input.length() > 0) & (c = 129)) { do Lookup.eraseChar(); }
+                    else {  // is append
+                        if ((input.length() < maxLen) & (~(c = 129))) {
+                            do Lookup.appendChar(c); 
+                        }
+                    }
+                }
+
+
+            }
+            do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
+            do UserInterface.isExitInstruction(false);
+            return;
+        }
+
+        function void checkAddress() {
+            if (Helpers.strComp(input, "SHIMON")) {
+                do Sprites.setCurrentSprite(0);
+                return;
+            }
+            if (Helpers.strComp(input, "GINI")) {
+                do Sprites.setCurrentSprite(1);
+                return;
+            }
+            return;
+        }
+
+        //** Append Characater:
+        // Prints the updated string to the given row & col coords */
+        function void appendChar(char c) {
+            do input.appendChar(c);  // built-in String method
+            do Output.moveCursor(row, col);
+            do Output.printString(input);
+            return;
+        }
+
+        //** Erase Character:
+        // Prints the updated string to the given row & col coords */
+        function void eraseChar() {
+            // Clean old screen buffer (last char)
+            do input.appendChar(String.backSpace());
+            do Output.moveCursor(row, col);
+            do Output.printString(input);
+
+            do input.eraseLastChar();  // erase backspace
+            do input.eraseLastChar();  // erase actual char
+            return;
+        }
+}

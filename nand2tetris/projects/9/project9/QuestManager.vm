@@ -1,0 +1,8 @@
+function QuestManager.initProgressManager 0
+push constant 0
+pop static 0
+push constant 0
+return
+function QuestManager.getActiveQuest 0
+push static 0
+return

@@ -1,0 +1,13 @@
+class QuestManager {
+    static int activeQuest;
+    
+    function void initProgressManager() {
+        let activeQuest = 0;
+
+        return;
+    }
+
+    function int getActiveQuest() {
+        return activeQuest;
+    }
+}

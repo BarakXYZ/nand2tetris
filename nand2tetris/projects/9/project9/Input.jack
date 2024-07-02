@@ -1,25 +1,26 @@
 class Input {
-        static char c, lastKeyPressed;
-        static String inputChallenge, inputLookUp;
+        static char lastKeyPressed;
         static boolean exit;
         static int countEnter, eventCounter1, eventCounter2;
         
         function void initInput() {
-            let c = 0;
             let lastKeyPressed = 0;
             let exit = false;
             let countEnter = 0;
             let eventCounter1 = 0;
             let eventCounter2 = 0;
 
-            let inputChallenge = String.new(10);
-            let inputLookUp = String.new(7);
+            do Lookup.initLookupParams();
+            do Challenge.initChallengeParams();
 
             return;
         }
 
         function void runInput() {
+            var char c;
+
             while (~exit) {
+                
                 do Sys.wait(50);
                 do Draw.drawSprite();
                 do Output.moveCursor(3, 3);
@@ -27,110 +28,41 @@ class Input {
 
                 if (c = 0) {
                     let lastKeyPressed = 0;
-                    do Output.moveCursor(3, 3);
-                }
-                
-                // do Input.listenEnter();
-
-                
-                if ((c = 64 | c = 76) & (~(lastKeyPressed = c))) {
-                    do Input.lookUpMode();
+                    do Output.moveCursor(3, 3);  // needed?
                 }
 
+                // debug ref behavior
+                do Test1.initTest1();
+
+                do Test2.modStrTest1(Test1.getStrTest1());
+                // do Test2.modArrTest1(Test1.getArrTest1());
+
+
+                // Possibly we can check here if we're currently in dialogue
+                // and if so, we can deny the below inputs and allow only 
+                // advanceDialogue or something
+                
+                // do Input.listenEnter(c);  // needs to be replaced with dialogue
+
+                // '@' or 'L' pressed ([@][L]ookup Mode)
+                if (((c = 64) | (c = 76)) & (~(lastKeyPressed = c))) {
+                    do Lookup.run(c);
+                }
+
+                // 'A' pressed ([A]nswer Mode)
                 if ((c = 65) & (~(lastKeyPressed = c))) {
-                    do Input.answerMode();
+                    do Challenge.run(c);
                 }
 
-                // do Output.printInt(c);
-                let c = 0;
+                let c = 0;  // needed?
 
             }  // While ~Exit
 
             return;
-        }  // runInput()
-
-
-        //** */
-        function void lookUpMode() {
-            // max address == 24,576
-            // do Output.moveCursor(21, 30);  // Start addr to type
-
-            // Manage the actual lookup logic (search)
-
-                do UserInterface.isExitInstruction(true);
-                do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
-                do Sys.wait(200);
-                let lastKeyPressed = c;
-
-                // Exits if 'Escape' (140) is pressed
-                while (~(c = 140)) {
-                    do Draw.drawSprite();
-
-                    do Input.manageCharAndTimeBuffer(c);
-                    let c = Keyboard.keyPressed();
-
-                    // if 'Enter': insert answer and exit 'Answer Mode'
-                    if (Input.listenEnter()) {
-                        do Input.lookUpInput();
-                        let c = 140;
-                    }
-
-                    // Append or Erase char from answer
-                    if ((~(c = 0)) & (~(c = 140))) {
-                        do Input.debugKey();
-                        do Input.debugEvent();
-                        do Input.checkLookUpInput();
-                    }
-                }
-                do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
-                do UserInterface.isExitInstruction(false);
-            return;
         }
 
-        function void lookUpInput() {
-            if (Helpers.strComp(inputLookUp, "SHIMON")) {
-                do Sprites.setCurrentSprite(0);
-                return;
-            }
-            if (Helpers.strComp(inputLookUp, "GINI")) {
-                do Sprites.setCurrentSprite(1);
-                return;
-            }
-            return;
-        }
-
-
-        //** if 'A' is pressed, enter '[A]nswer mode' */
-        function void answerMode() {
-                do UserInterface.isExitInstruction(true);
-                do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
-                do Sys.wait(200);
-                let lastKeyPressed = c;
-
-                // Exits if 'Escape' (140) is pressed
-                while (~(c = 140)) {
-                    do Draw.drawSprite();
-
-                    do Input.manageCharAndTimeBuffer(c);
-                    let c = Keyboard.keyPressed();
-
-                    // if 'Enter': insert answer and exit 'Answer Mode'
-                    if (Input.listenEnter()) { let c = 140; }
-
-                    // Append or Erase char from answer
-                    if ((~(c = 0)) & (~(c = 140))) {
-                        do Input.debugKey();
-                        do Input.debugEvent();
-                        do Input.checkAnswerInput();
-                    }
-                }
-                do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
-                do UserInterface.isExitInstruction(false);
-            return;
-        }
-        
         // Track 'Enter' clicks
-        function boolean listenEnter() {
+        function boolean isEnter(char c) {
             if ((c = 128) & (~(lastKeyPressed = c))) {
                 let lastKeyPressed = c;
 
@@ -145,18 +77,6 @@ class Input {
             return false;
         }
 
-        function void checkLookUpInput() {
-            do Input.appendChar(inputLookUp, 6, 21, 30);
-            do Input.eraseChar(inputLookUp, 21, 30);
-            return;
-        }
-
-        function void checkAnswerInput() {
-            do Input.appendChar(inputChallenge, 9, 19, 7);
-            do Input.eraseChar(inputChallenge, 19, 7);
-            return;
-        }
-
         //** Reduce Double-Tap & Friendly loop buffer */
         function void manageCharAndTimeBuffer(char c) {
             if (~(c = 0)) {
@@ -167,50 +87,17 @@ class Input {
             return;
         }
 
-        //** Append Characater:
-        // 1. if not exceeding max str length
-        // 2. and not backspace (129) 
-        // Prints the updated string to the given row & col coords */
-        function void appendChar(String input, int maxLen, int strCoordRow, int strCoordCol) {
-            // Append character
-            if ((input.length() < maxLen) & (~(c = 129))) {
-                do input.appendChar(c);
-                do Output.moveCursor(strCoordRow, strCoordCol);
-                do Output.printString(input);
-            }
-            return;
-        }
-
-        //** Erase Character:
-        // 1. if greater than 0
-        // 2. and input = backspace (129)
-        // Prints the updated string to the given row & col coords */
-        function void eraseChar(String input, int strCoordRow, int strCoordCol) {
-            if ((input.length() > 0) & (c = 129)) {
-                do Input.debugEvent2();
-                
-                // Clean old screen buffer (last char)
-                do input.appendChar(String.backSpace());
-                do Output.moveCursor(strCoordRow, strCoordCol);
-                do Output.printString(input);
-
-                do input.eraseLastChar();  // erase backspace
-                do input.eraseLastChar();  // erase actual char
-            }
-            return;
-        }
-
-        function void debugKey() {
+        function void debugKey(char c) {
             do Output.moveCursor(14,3);
             do Output.printInt(c);
             return;
         }
-       
+
         function void debugEvent() {
             let eventCounter1 = eventCounter1 + 1;
             do Output.moveCursor(15,3);
             do Output.printInt(eventCounter1);
-            return;
+        return;
         }
 
         function void debugEvent2() {
@@ -220,5 +107,11 @@ class Input {
             return;
         }
 
+        function void debugStrLen(int len, int row, int col) {
+            do Output.moveCursor(row, col);
+            do Output.printInt(len);
+
+            return;
+        }
 
 }
