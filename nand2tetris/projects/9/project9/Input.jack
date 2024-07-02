@@ -1,117 +1,52 @@
 class Input {
-        static char lastKeyPressed;
-        static boolean exit;
-        static int countEnter, eventCounter1, eventCounter2;
-        
-        function void initInput() {
-            let lastKeyPressed = 0;
-            let exit = false;
-            let countEnter = 0;
-            let eventCounter1 = 0;
-            let eventCounter2 = 0;
 
-            do Lookup.initLookupParams();
-            do Challenge.initChallengeParams();
+    function boolean isLookup(char c) {
+        if (((c = 64) | (c = 76))) { return true; }
+        return false;
+    } 
 
-            return;
+    function boolean isAnswer(char c) {
+        if (c = 65) { return true; }
+        return false;
+    }
+
+    function boolean isQuit(char c) {
+        if (c = 81) {
+            if (Input.quit(c)) { return true; }
+            else { return false; }
         }
+        return false;
+    }
 
-        function void runInput() {
-            var char c;
+    // Track 'Enter' clicks
+    function boolean isEnter(char c) {
+        if (c = 128) { return true; }
+        return false;
+    }
 
-            while (~exit) {
-                
-                do Sys.wait(50);
-                do Draw.drawSprite();
-                do Output.moveCursor(3, 3);
-                let c = Keyboard.keyPressed();
-
-                if (c = 0) {
-                    let lastKeyPressed = 0;
-                    do Output.moveCursor(3, 3);  // needed?
-                }
-
-                // debug ref behavior
-                do Test1.initTest1();
-
-                do Test2.modStrTest1(Test1.getStrTest1());
-                // do Test2.modArrTest1(Test1.getArrTest1());
-
-
-                // Possibly we can check here if we're currently in dialogue
-                // and if so, we can deny the below inputs and allow only 
-                // advanceDialogue or something
-                
-                // do Input.listenEnter(c);  // needs to be replaced with dialogue
-
-                // '@' or 'L' pressed ([@][L]ookup Mode)
-                if (((c = 64) | (c = 76)) & (~(lastKeyPressed = c))) {
-                    do Lookup.run(c);
-                }
-
-                // 'A' pressed ([A]nswer Mode)
-                if ((c = 65) & (~(lastKeyPressed = c))) {
-                    do Challenge.run(c);
-                }
-
-                let c = 0;  // needed?
-
-            }  // While ~Exit
-
-            return;
-        }
-
-        // Track 'Enter' clicks
-        function boolean isEnter(char c) {
-            if ((c = 128) & (~(lastKeyPressed = c))) {
-                let lastKeyPressed = c;
-
-                // Debug
-                // let countEnter = countEnter + 1;
-                // do Output.moveCursor(22, 30);
-                // do Output.printInt(countEnter);
-                // do Output.moveCursor(3, 3);
-
-                return true;
-            }
-            return false;
-        }
-
-        //** Reduce Double-Tap & Friendly loop buffer */
-        function void manageCharAndTimeBuffer(char c) {
-            if (~(c = 0)) {
-                do Sys.wait(150); 
-            } else {
-                do Sys.wait(50);
-            }
-            return;
-        }
-
-        function void debugKey(char c) {
-            do Output.moveCursor(14,3);
-            do Output.printInt(c);
-            return;
-        }
-
-        function void debugEvent() {
-            let eventCounter1 = eventCounter1 + 1;
-            do Output.moveCursor(15,3);
-            do Output.printInt(eventCounter1);
+    //** Reduce Double-Tap & Friendly loop buffer */
+    function void manageCharAndTimeBuffer(char c) {
+        if (~(c = 0)) { do Sys.wait(150); } 
+        else { do Sys.wait(50); }
         return;
+    }
+
+    function bool quit(char c) {
+
+        do Output.moveCursor(0,0);
+        do Output.printString("Are you sure you want to quit?");
+        do Output.moveCursor(1,0);
+        do Output.printString("       [Y]es / [N]o");
+        do Sys.wait(500);
+
+        while ((~(c = 78)) & (~(c = 89))) {
+            do Sys.wait(50);
+            let c = Keyboard.keyPressed();
         }
 
-        function void debugEvent2() {
-            let eventCounter2 = eventCounter2 + 1;
-            do Output.moveCursor(16,3);
-            do Output.printInt(eventCounter2);
-            return;
-        }
-
-        function void debugStrLen(int len, int row, int col) {
-            do Output.moveCursor(row, col);
-            do Output.printInt(len);
-
-            return;
-        }
+        if (c = 78) { do UserInterface.clearPromptLines(); return false; }  // [N]o
+        if (c = 89) { return true; }  // [Y]es
+        return false;  // Safety Default
+    }
 
 }

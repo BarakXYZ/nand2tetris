@@ -1,0 +1,37 @@
+class Game {
+
+    function void run() {
+        var boolean quit;
+        var char c;
+
+        let quit = false;
+
+        while (~(quit)) {
+            
+            do Sys.wait(50);
+            do Draw.drawSprite();
+            do Output.moveCursor(3, 3);
+            let c = Keyboard.keyPressed();
+
+
+            // Possibly we can check here if we're currently in dialogue
+            // and if so, we can deny the below inputs and allow only 
+            // advanceDialogue or something
+            
+            // do Input.listenEnter(c);  // needs to be replaced with dialogue
+
+            // '@' or 'L' pressed ([@][L]ookup Mode)
+            if (Input.isLookup(c)) { do Lookup.run(c); }
+
+            // 'A' pressed ([A]nswer Mode)
+            if (Input.isAnswer(c)) { do Challenge.run(c); }
+
+            // 'Q' then 'Y' to quit
+            if (Input.isQuit(c)) { let quit = true; } 
+            
+
+        }
+
+        return;
+    }
+}

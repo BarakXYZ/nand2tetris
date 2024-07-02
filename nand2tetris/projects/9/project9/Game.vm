@@ -1,0 +1,50 @@
+function Game.run 2
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+not
+not
+if-goto WHILE_END0
+push constant 50
+call Sys.wait 1
+pop temp 0
+call Draw.drawSprite 0
+pop temp 0
+push constant 3
+push constant 3
+call Output.moveCursor 2
+pop temp 0
+call Keyboard.keyPressed 0
+pop local 1
+push local 1
+call Input.isLookup 1
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+call Lookup.run 1
+pop temp 0
+label IF_FALSE0
+push local 1
+call Input.isAnswer 1
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 1
+call Challenge.run 1
+pop temp 0
+label IF_FALSE1
+push local 1
+call Input.isQuit 1
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+not
+pop local 0
+label IF_FALSE2
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return

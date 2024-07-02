@@ -1,0 +1,41 @@
+class Debug {
+
+    static int countEnter, eventCounter1, eventCounter2;
+
+    function void initDebugParams() {
+
+        let countEnter = 0;
+        let eventCounter1 = 0;
+        let eventCounter2 = 0;
+
+        return;
+    }
+
+    function void key(char c) {
+        do Output.moveCursor(14,3);
+        do Output.printInt(c);
+        return;
+    }
+
+    function void event() {
+        let eventCounter1 = eventCounter1 + 1;
+        do Output.moveCursor(15,3);
+        do Output.printInt(eventCounter1);
+    return;
+    }
+
+    function void event2() {
+        let eventCounter2 = eventCounter2 + 1;
+        do Output.moveCursor(16,3);
+        do Output.printInt(eventCounter2);
+        return;
+    }
+
+    function void strLen(int len, int row, int col) {
+        do Output.moveCursor(row, col);
+        do Output.printInt(len);
+
+        return;
+    }
+
+}
