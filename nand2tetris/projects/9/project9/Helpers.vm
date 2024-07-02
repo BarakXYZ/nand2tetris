@@ -30,7 +30,9 @@ pop local 2
 label WHILE_EXP0
 push local 2
 push local 0
-lt
+push constant 1
+sub
+gt
 not
 not
 if-goto WHILE_END0

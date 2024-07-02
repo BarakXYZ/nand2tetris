@@ -1,0 +1,81 @@
+class Challenge {
+
+        static int maxLen, row, col;
+        static String input;
+
+        function void initChallengeParams() {
+            let maxLen = 9;
+            let row = 19;
+            let col = 7;
+            let input = String.new(10);
+            // let input = "";
+            return;
+        }
+
+        
+        //** if 'A' is pressed, enter '[A]nswer mode' */
+        function void run(char c) {
+            do UserInterface.isExitInstruction(true);
+            do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
+            do Sys.wait(200);
+            // let lastKeyPressed = c;  // needed?
+
+            // Exits if 'Escape' (140) is pressed
+            while (~(c = 140)) {
+                do Draw.drawSprite();
+
+                do Input.manageCharAndTimeBuffer(c);
+                let c = Keyboard.keyPressed();
+
+                // if 'Enter': insert answer and exit 'Answer Mode'
+                if (Input.isEnter(c)) {
+                    // do Challenge.checkAnswer();
+                    let c = 140;
+                }
+
+                // Append or Erase char if non-zero & no Escape (140)
+                if ((~(c = 0)) & (~(c = 140))) {
+                    do Input.debugKey(c);
+                    do Input.debugEvent();
+                    
+                    // is erase? (129 == backspace)
+                    if ((input.length() > 0) & (c = 129)) { do Challenge.eraseChar(); }
+                    else {  // is append
+                        if ((input.length() < maxLen) & (~(c = 129))) {
+                            do Challenge.appendChar(c); 
+                        }
+                    }
+                }
+
+
+
+            }
+            do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
+            do UserInterface.isExitInstruction(false);
+            return;
+        }
+
+
+        //** Append Characater:
+        // Prints the updated string to the given row & col coords */
+        function void appendChar(char c) {
+            do input.appendChar(c);  // built-in String method
+            do Output.moveCursor(row, col);
+            do Output.printString(input);
+            return;
+        }
+
+        //** Erase Character:
+        // Prints the updated string to the given row & col coords */
+        function void eraseChar() {
+            // Clean old screen buffer (last char)
+            do input.appendChar(String.backSpace());
+            do Output.moveCursor(row, col);
+            do Output.printString(input);
+
+            do input.eraseLastChar();  // erase backspace
+            do input.eraseLastChar();  // erase actual char
+            return;
+        }
+
+}

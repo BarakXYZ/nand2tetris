@@ -4,24 +4,20 @@ pop static 0
 push constant 0
 pop static 1
 push constant 0
-pop static 4
-push constant 0
-pop static 5
-push constant 0
-pop static 6
-push constant 0
-pop static 7
-push constant 10
-call String.new 1
 pop static 2
-push constant 7
-call String.new 1
+push constant 0
 pop static 3
 push constant 0
+pop static 4
+call Lookup.initLookupParams 0
+pop temp 0
+call Challenge.initChallengeParams 0
+pop temp 0
+push constant 0
 return
-function Input.runInput 0
+function Input.runInput 1
 label WHILE_EXP0
-push static 4
+push static 1
 not
 not
 if-goto WHILE_END0
@@ -35,281 +31,83 @@ push constant 3
 call Output.moveCursor 2
 pop temp 0
 call Keyboard.keyPressed 0
-pop static 0
-push static 0
+pop local 0
+push local 0
 push constant 0
 eq
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-pop static 1
+pop static 0
 push constant 3
 push constant 3
 call Output.moveCursor 2
 pop temp 0
 label IF_FALSE0
-push static 0
+call Test1.initTest1 0
+pop temp 0
+call Test1.getStrTest1 0
+call Test2.modStrTest1 1
+pop temp 0
+push local 0
 push constant 64
 eq
-push static 0
-or
+push local 0
 push constant 76
 eq
-push static 1
+or
 push static 0
+push local 0
 eq
 not
 and
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-call Input.lookUpMode 0
+push local 0
+call Lookup.run 1
 pop temp 0
 label IF_FALSE1
-push static 0
+push local 0
 push constant 65
 eq
-push static 1
 push static 0
+push local 0
 eq
 not
 and
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-call Input.answerMode 0
+push local 0
+call Challenge.run 1
 pop temp 0
 label IF_FALSE2
 push constant 0
-pop static 0
+pop local 0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
 return
-function Input.lookUpMode 0
-push constant 0
-not
-call UserInterface.isExitInstruction 1
-pop temp 0
-call UserInterface.getSelCoordLookUp 0
-call UserInterface.drawSelArrows 1
-pop temp 0
-push constant 200
-call Sys.wait 1
-pop temp 0
-push static 0
-pop static 1
-label WHILE_EXP0
-push static 0
-push constant 140
-eq
-not
-not
-if-goto WHILE_END0
-call Draw.drawSprite 0
-pop temp 0
-push static 0
-call Input.manageCharAndTimeBuffer 1
-pop temp 0
-call Keyboard.keyPressed 0
-pop static 0
-call Input.listenEnter 0
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-call Input.lookUpInput 0
-pop temp 0
-push constant 140
-pop static 0
-label IF_FALSE0
-push static 0
-push constant 0
-eq
-not
-push static 0
-push constant 140
-eq
-not
-and
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-call Input.debugKey 0
-pop temp 0
-call Input.debugEvent 0
-pop temp 0
-call Input.checkLookUpInput 0
-pop temp 0
-label IF_FALSE1
-goto WHILE_EXP0
-label WHILE_END0
-call UserInterface.getSelCoordLookUp 0
-call UserInterface.eraseSelArrows 1
-pop temp 0
-push constant 0
-call UserInterface.isExitInstruction 1
-pop temp 0
-push constant 0
-return
-function Input.lookUpInput 0
-push static 3
-push constant 6
-call String.new 1
-push constant 83
-call String.appendChar 2
-push constant 72
-call String.appendChar 2
-push constant 73
-call String.appendChar 2
-push constant 77
-call String.appendChar 2
-push constant 79
-call String.appendChar 2
-push constant 78
-call String.appendChar 2
-call Helpers.strComp 2
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push constant 0
-call Sprites.setCurrentSprite 1
-pop temp 0
-push constant 0
-return
-label IF_FALSE0
-push static 3
-push constant 4
-call String.new 1
-push constant 71
-call String.appendChar 2
-push constant 73
-call String.appendChar 2
-push constant 78
-call String.appendChar 2
-push constant 73
-call String.appendChar 2
-call Helpers.strComp 2
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 1
-call Sprites.setCurrentSprite 1
-pop temp 0
-push constant 0
-return
-label IF_FALSE1
-push constant 0
-return
-function Input.answerMode 0
-push constant 0
-not
-call UserInterface.isExitInstruction 1
-pop temp 0
-call UserInterface.getSelCoordAnswer 0
-call UserInterface.drawSelArrows 1
-pop temp 0
-push constant 200
-call Sys.wait 1
-pop temp 0
-push static 0
-pop static 1
-label WHILE_EXP0
-push static 0
-push constant 140
-eq
-not
-not
-if-goto WHILE_END0
-call Draw.drawSprite 0
-pop temp 0
-push static 0
-call Input.manageCharAndTimeBuffer 1
-pop temp 0
-call Keyboard.keyPressed 0
-pop static 0
-call Input.listenEnter 0
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push constant 140
-pop static 0
-label IF_FALSE0
-push static 0
-push constant 0
-eq
-not
-push static 0
-push constant 140
-eq
-not
-and
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-call Input.debugKey 0
-pop temp 0
-call Input.debugEvent 0
-pop temp 0
-call Input.checkAnswerInput 0
-pop temp 0
-label IF_FALSE1
-goto WHILE_EXP0
-label WHILE_END0
-call UserInterface.getSelCoordAnswer 0
-call UserInterface.eraseSelArrows 1
-pop temp 0
-push constant 0
-call UserInterface.isExitInstruction 1
-pop temp 0
-push constant 0
-return
-function Input.listenEnter 0
-push static 0
+function Input.isEnter 0
+push argument 0
 push constant 128
 eq
-push static 1
 push static 0
+push argument 0
 eq
 not
 and
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push static 0
-pop static 1
+push argument 0
+pop static 0
 push constant 0
 not
 return
 label IF_FALSE0
-push constant 0
-return
-function Input.checkLookUpInput 0
-push static 3
-push constant 6
-push constant 21
-push constant 30
-call Input.appendChar 4
-pop temp 0
-push static 3
-push constant 21
-push constant 30
-call Input.eraseChar 3
-pop temp 0
-push constant 0
-return
-function Input.checkAnswerInput 0
-push static 2
-push constant 9
-push constant 19
-push constant 7
-call Input.appendChar 4
-pop temp 0
-push static 2
-push constant 19
-push constant 7
-call Input.eraseChar 3
-pop temp 0
 push constant 0
 return
 function Input.manageCharAndTimeBuffer 0
@@ -331,101 +129,50 @@ pop temp 0
 label IF_END0
 push constant 0
 return
-function Input.appendChar 0
-push argument 0
-call String.length 1
-push argument 1
-lt
-push static 0
-push constant 129
-eq
-not
-and
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push argument 0
-push static 0
-call String.appendChar 2
-pop temp 0
-push argument 2
-push argument 3
-call Output.moveCursor 2
-pop temp 0
-push argument 0
-call Output.printString 1
-pop temp 0
-label IF_FALSE0
-push constant 0
-return
-function Input.eraseChar 0
-push argument 0
-call String.length 1
-push constant 0
-gt
-push static 0
-push constant 129
-eq
-and
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-call Input.debugEvent2 0
-pop temp 0
-push argument 0
-call String.backSpace 0
-call String.appendChar 2
-pop temp 0
-push argument 1
-push argument 2
-call Output.moveCursor 2
-pop temp 0
-push argument 0
-call Output.printString 1
-pop temp 0
-push argument 0
-call String.eraseLastChar 1
-pop temp 0
-push argument 0
-call String.eraseLastChar 1
-pop temp 0
-label IF_FALSE0
-push constant 0
-return
 function Input.debugKey 0
 push constant 14
 push constant 3
 call Output.moveCursor 2
 pop temp 0
-push static 0
+push argument 0
 call Output.printInt 1
 pop temp 0
 push constant 0
 return
 function Input.debugEvent 0
-push static 6
+push static 3
 push constant 1
 add
-pop static 6
+pop static 3
 push constant 15
 push constant 3
 call Output.moveCursor 2
 pop temp 0
-push static 6
+push static 3
 call Output.printInt 1
 pop temp 0
 push constant 0
 return
 function Input.debugEvent2 0
-push static 7
+push static 4
 push constant 1
 add
-pop static 7
+pop static 4
 push constant 16
 push constant 3
 call Output.moveCursor 2
 pop temp 0
-push static 7
+push static 4
+call Output.printInt 1
+pop temp 0
+push constant 0
+return
+function Input.debugStrLen 0
+push argument 1
+push argument 2
+call Output.moveCursor 2
+pop temp 0
+push argument 0
 call Output.printInt 1
 pop temp 0
 push constant 0

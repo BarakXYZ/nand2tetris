@@ -1,6 +1,8 @@
 class Main {
     function void main() {
         
+
+        // INIT
         var Characters shimon;
         let shimon = Characters.initShimon();
 
@@ -12,12 +14,18 @@ class Main {
 
         do UserInterface.initUI();
 
+
+        ////////////
+
+        // What is the game loop??
+
         // Maybe should be called from Levels class?
         // do UserInterface.printRAM(Characters.getFatherSP());  // ?
         do Dialog.testDialog();  // Not here
 
-        do Input.runInput();
+        do Input.runInput();  // This kinda acts like the game loop at the moment
 
+        // Dispose all objects
         do shimon.dispose();
 
         return;

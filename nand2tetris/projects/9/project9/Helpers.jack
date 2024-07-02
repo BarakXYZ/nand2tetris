@@ -10,7 +10,7 @@ class Helpers {
         if(strLen1 = 0) { return true; }  // both empty
         
         let index = 0;
-        while (~(index < strLen1)) {
+        while (~(index > (strLen1 - 1))) {
             if (~(str1.charAt(index) = str2.charAt(index))) { return false; }
             let index = index + 1;
         }

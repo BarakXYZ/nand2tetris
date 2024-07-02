@@ -1,0 +1,14 @@
+class Pointer {
+    
+    field String str;
+
+    constructor Pointer newString() {
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}
