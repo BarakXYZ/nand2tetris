@@ -1,0 +1,3 @@
+function Player.interact 0
+push constant 0
+return

@@ -56,9 +56,9 @@ if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push argument 0
-call Input.debugKey 1
+call Debug.key 1
 pop temp 0
-call Input.debugEvent 0
+call Debug.event 0
 pop temp 0
 push static 3
 call String.length 1

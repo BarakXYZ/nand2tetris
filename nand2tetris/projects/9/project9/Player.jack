@@ -1,0 +1,11 @@
+class Player {
+    
+    function void interact() {
+        // get and interact with active character
+        // Character
+            // if character has pending dialogue:
+                // enter conversation mode
+        
+        return;
+    }
+}

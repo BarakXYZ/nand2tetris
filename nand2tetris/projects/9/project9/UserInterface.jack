@@ -4,6 +4,7 @@ class UserInterface {
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
     static Array selCoordAnswer, selCoordLookUp;
+    static String blankPromptLine;
 
     function void initUI() {
         let maxTitleLen = 30;
@@ -20,6 +21,7 @@ class UserInterface {
         let unknownFriend = "** ? **";
         let callingFriend = "** ! **";
         let clearBarFriend = "       ";
+        let blankPromptLine = "                            ";
 
         let exitInstruction = "Press 'Escape' to Exit Current Mode";
         let notExitInstruction = "                                    ";
@@ -331,5 +333,14 @@ class UserInterface {
 
     function Array getSelCoordLookUp() {
         return selCoordLookUp;
+    }
+
+    function void clearPromptLines() {
+        do Output.moveCursor(0,0);
+        do Output.printString(blankPromptLine);
+        do Output.moveCursor(1,0);
+        do Output.printString(blankPromptLine);
+
+        return;
     }
 }

@@ -6,3 +6,10 @@ return
 function QuestManager.getActiveQuest 0
 push static 0
 return
+function QuestManager.incActiveQuest 0
+push static 0
+push constant 1
+add
+pop static 0
+push constant 0
+return

@@ -20,7 +20,6 @@ class Lookup {
             do UserInterface.isExitInstruction(true);
             do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
             do Sys.wait(200);
-            // let lastKeyPressed = c;  // needed?
 
             // Exits if 'Escape' (140) is pressed
             while (~(c = 140)) {
@@ -38,8 +37,8 @@ class Lookup {
 
                 // Append or Erase char if non-zero & no Escape (140)
                 if ((~(c = 0)) & (~(c = 140))) {
-                    do Input.debugKey(c);
-                    do Input.debugEvent();
+                    do Debug.key(c);
+                    do Debug.event();
                     
                     // is erase? (129 == backspace)
                     if ((input.length() > 0) & (c = 129)) { do Lookup.eraseChar(); }

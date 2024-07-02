@@ -2,33 +2,63 @@ class Characters {
     
     field Array character;
     static int numOfCharacters;
+    static int activeCharacter;
     
     constructor Characters initShimon() {
+        let activeCharacter = 0;
+
         let character = Array.new(5);
 
         let character[0] = 5;                   // Array size
         let character[1] = "@SHIMON";           // Name
         let character[2] = 555;                 // inM
         let character[3] = "Master of Memory";  // Role
-        let character[4] = 1;                   // Story line Stage
+        let character[4] = 1;                   // Stage (Story Line)
         // let character[5] = pointerToCurrentDialog?
         // Essentially a pointer to a dialog object that contains the dialog to
         // print with an array[0] size so we can loop over it?
 
         return this;
     }
-
+    
     method void dispose() {
         do Memory.deAlloc(this);
         return;
     }
 
-    method int getStoryLine() {
+    method int getStage() {
         return character[4];
     }
 
-    method void incStoryLine() {
+    method void incStage() {
         let character[4] = character[4] + 1;  // increment stage by 1
+        return;
+    }
+
+    // What the character asks itself upon interaction?
+        // Which stage is the player in the total storyline?
+            // Depending on the stage:
+                // Have I already spoke with the player regarding his current quest?
+                    // No:
+                        // Unfold the quest dialogue to the player
+                        // Mark already spoke to character as true
+                    // Yes:
+                        // Say the default text until quest is done
+                        // do nothing
+
+
+    // method bool isPending() {
+    // }
+
+    function int getActiveCharacter() {
+        return activeCharacter;
+    }
+
+    function void setActiveCharacter(int index) {
+        let activeCharacter = index;
+        // 0 == Shimon
+        // 1 == Gini
+        // 2 == ...
         return;
     }
 }
