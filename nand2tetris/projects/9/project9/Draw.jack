@@ -2,7 +2,7 @@ class Draw {
     static int counter;
     static bool isFlipped;
 
-    function void initDraw() {
+    function void init() {
         let counter = 0;
         return;
     }

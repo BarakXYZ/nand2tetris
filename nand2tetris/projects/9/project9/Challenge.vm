@@ -1,4 +1,4 @@
-function Challenge.initChallengeParams 0
+function Challenge.init 0
 push constant 9
 pop static 0
 push constant 19

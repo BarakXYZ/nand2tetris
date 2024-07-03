@@ -1,15 +1,27 @@
-function QuestManager.initProgressManager 0
-push constant 0
+function QuestManager.init 0
+push constant 1
 pop static 0
 push constant 0
+pop static 1
+push constant 0
 return
-function QuestManager.getActiveQuest 0
+function QuestManager.getActive 0
 push static 0
+return
+function QuestManager.getActiveSubQuest 0
+push static 1
 return
 function QuestManager.incActiveQuest 0
 push static 0
 push constant 1
 add
 pop static 0
+push constant 0
+return
+function QuestManager.inActiveSubQuest 0
+push static 1
+push constant 1
+add
+pop static 1
 push constant 0
 return

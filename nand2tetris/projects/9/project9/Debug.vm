@@ -1,4 +1,4 @@
-function Debug.initDebugParams 0
+function Debug.init 0
 push constant 0
 pop static 0
 push constant 0

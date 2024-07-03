@@ -1,10 +1,13 @@
-class Characters {
+class Character {
     
     field Array character;
+    field String name, role;
+    field int inM, characterIndex;
+
     static int numOfCharacters;
-    static int activeCharacter;
+    static int activeCharacter;  // Perhaps needs to be tracked through game?
     
-    constructor Characters initShimon() {
+    constructor Character initShimon() {
         let activeCharacter = 0;
 
         let character = Array.new(5);
@@ -18,11 +21,32 @@ class Characters {
         // Essentially a pointer to a dialog object that contains the dialog to
         // print with an array[0] size so we can loop over it?
 
+        let name = "@SHIMON";
+        let role = "Master of Memory";
+        let inM = 555;
+        let characterIndex = 1;
+
+        let numOfCharacters = numOfCharacters + 1;  // needs to be init somewhere
+        return this;
+    }
+
+    constructor Character initGini() {
+        let name = "@GINI";
+        let role = "BFF";
+        let inM = 4;
+        let characterIndex = 2;
+
         return this;
     }
     
     method void dispose() {
         do Memory.deAlloc(this);
+        return;
+    }
+    
+    method void interact() {
+        // Possibiliy enter a loop and also be responsibile for drawing sprite?
+        // do Dialogue.speak(characterIndex);
         return;
     }
 
@@ -50,11 +74,11 @@ class Characters {
     // method bool isPending() {
     // }
 
-    function int getActiveCharacter() {
+    function int getActive() {
         return activeCharacter;
     }
 
-    function void setActiveCharacter(int index) {
+    function void setActive(int index) {
         let activeCharacter = index;
         // 0 == Shimon
         // 1 == Gini

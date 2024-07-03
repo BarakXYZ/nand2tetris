@@ -1,4 +1,4 @@
-function Sprites.initSpritesParams 0
+function Sprites.init 0
 push constant 0
 pop static 0
 push constant 7165
@@ -25,8 +25,10 @@ return
 function Sprites.getCurrentSprite 0
 push static 0
 return
-function Sprites.drawCurrentSelSprite 0
-push static 0
+function Sprites.drawCurrentSelSprite 1
+call Character.getActive 0
+pop local 0
+push local 0
 push constant 0
 eq
 if-goto IF_TRUE0
@@ -39,7 +41,7 @@ pop temp 0
 push constant 0
 return
 label IF_FALSE0
-push static 0
+push local 0
 push constant 1
 eq
 if-goto IF_TRUE1

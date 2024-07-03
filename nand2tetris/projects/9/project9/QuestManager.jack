@@ -1,18 +1,40 @@
 class QuestManager {
-    static int activeQuest;
+    static int activeQuest, activeSubQuest;
     
-    function void initProgressManager() {
-        let activeQuest = 0;
+    function void init() {
+        let activeQuest = 1;
+        let activeSubQuest = 0;
+
 
         return;
     }
 
-    function int getActiveQuest() {
+    function int getActive() {
         return activeQuest;
+        // e.g. can later be checked by the characters themselves
+        // if 0:
+            // Shimon's intro quest
+        // if 2:
+            // Gini's quest
+        // etc.
+
+        // or essentially, if not 2, gini isn't pending
+        // or if not 2.1 (maybe there are sub-stages to a quest)
+        // so more then just 1 int conditional
+    }
+    
+    function int getActiveSubQuest() {
+        return activeSubQuest;
     }
 
     function void incActiveQuest() {
         let activeQuest = activeQuest + 1;
         return;
     }
+
+    function void inActiveSubQuest() {
+        let activeSubQuest = activeSubQuest + 1;
+        return;
+    }
+
 }

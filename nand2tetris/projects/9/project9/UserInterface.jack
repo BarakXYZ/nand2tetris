@@ -6,7 +6,7 @@ class UserInterface {
     static Array selCoordAnswer, selCoordLookUp;
     static String blankPromptLine;
 
-    function void initUI() {
+    function void init() {
         let maxTitleLen = 30;
         let titleStartRowIndex = 3;
         let titleStartColumnIndex = 16;
@@ -151,16 +151,6 @@ class UserInterface {
 
     function void drawFriendsFrames() {
 
-        // do UserInterface.drawUnfilledRectangle(440, 9, 511, 64);
-        // do UserInterface.drawUnfilledRectangle(440, 64, 511, 119);
-        // do UserInterface.drawUnfilledRectangle(440, 119, 511, 174);
-        // do UserInterface.drawUnfilledRectangle(440, 174, 511, 229);
-
-        // do UserInterface.drawUnfilledRectangle(440, 35, 511, 90);
-        // do UserInterface.drawUnfilledRectangle(440, 90, 511, 145);
-        // do UserInterface.drawUnfilledRectangle(440, 145, 511, 200);
-        // do UserInterface.drawUnfilledRectangle(440, 200, 511, 255);
-
         do UserInterface.drawUnfilledRectangle(440, 20, 511, 77);
         do UserInterface.drawUnfilledRectangle(440, 77, 511, 139);  // Comp a bit
         do UserInterface.drawUnfilledRectangle(440, 139, 511, 197);
@@ -246,28 +236,6 @@ class UserInterface {
         return;
     }
 
-
-    // function void printCharacterInfo(RAM ram) {
-    //     var int delta;
-    //
-    //     let delta = maxTitleLen - ram.getNameLength();
-    //     do Output.moveCursor(
-    //         titleStartRowIndex, titleStartColumnIndex + (delta / 2));
-    //     do Output.printString(ram.getName());
-    //
-    //     //** Content */
-    //     // addr
-    //     do Output.moveCursor(6, 45);
-    //     do Output.printString("Addr=");
-    //     do Output.printInt(ram.getAddr());
-    //
-    //     // inM
-    //     do Output.moveCursor(8, 46);
-    //     do Output.printString("inM=");
-    //     do Output.printInt(ram.getM());
-    //
-    //     return;
-    // }
 
     function void drawAnswerUI() {
         do Output.moveCursor(21, 8);

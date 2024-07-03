@@ -3,7 +3,7 @@ class Lookup {
         static int maxLen, row, col;
         static String input;
 
-        function void initLookupParams() {
+        function void init() {
 
             let maxLen = 6;
             let row = 21;
@@ -57,12 +57,15 @@ class Lookup {
         }
 
         function void checkAddress() {
+            var int activeQuest;
+            let activeQuest = QuestManager.getActive();
+
             if (Helpers.strComp(input, "SHIMON")) {
-                do Sprites.setCurrentSprite(0);
+                do Character.setActive(0);
                 return;
             }
-            if (Helpers.strComp(input, "GINI")) {
-                do Sprites.setCurrentSprite(1);
+            if ((activeQuest > 0) & (Helpers.strComp(input, "GINI"))) {
+                do Character.setActive(1);
                 return;
             }
             return;

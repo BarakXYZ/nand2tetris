@@ -3,7 +3,7 @@ class Challenge {
         static int maxLen, row, col;
         static String input;
 
-        function void initChallengeParams() {
+        function void init() {
             let maxLen = 9;
             let row = 19;
             let col = 7;

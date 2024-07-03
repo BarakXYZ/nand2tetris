@@ -1,4 +1,4 @@
-function UserInterface.initUI 0
+function UserInterface.init 0
 push constant 30
 pop static 0
 push constant 3
