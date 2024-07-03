@@ -1,0 +1,64 @@
+class DialogueNode {
+    field int nodeIndex, currentLine, length;
+    field Array textLines;
+    field boolean isLast;
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    function DialogueNode make(int aNodeIndex) {
+        if(aNodeIndex = 0) { return DialogueNode.node0(); }
+        return DialogueNode.node0();
+    }
+
+    method boolean getLine() {
+        if (currentLine < length) {
+            // do UserInterface.drawDialogue(textLines[currentLine]);
+            let currentLine = currentLine + 1;
+            return true;
+        }
+        do userInterface.drawDialogue(textLines[currentLine]);
+        return false;
+    }
+
+    // method boolean isLast() {
+    // }
+
+
+    constructor DialogueNode node0() {
+        let nodeIndex = 0;
+        let currentLine = 0;
+        let length = 10;
+        
+        let textLines = Array.new(length);
+
+        let textLines[0] = "Hello there young programmer!";
+        let textLines[1] = "I'm glad you showed up.";
+        let textLines[2] = "We have an issue...";
+
+        let textLines[3] = "It's a bit involved but like ";
+        let textLines[4] = "always - we'll start with the ";
+        let textLines[5] = "big picture, and go step-by-step";
+
+        let textLines[6] = "Firstly, the problem: @SP is gone.";
+        let textLines[7] = "Like, gone-gone. He's not at @0 ";
+        let textLines[8] = "and we lost all tracks of him.";
+
+        let textLines[9] = "So you'll need to look for him, how?";
+        let textLines[10] = "Well, luckily we have some leftover ";
+        let textLines[11] = "stack-info we can investigate.";
+
+        let textLines[12] = "He seemed to have visit a few friends";
+        let textLines[13] = "(addresses) maybe they'll know ";
+        let textLines[14] = "something that can lead back to him.";
+
+
+        let isLast = false;
+        return this;
+    }
+
+
+
+}

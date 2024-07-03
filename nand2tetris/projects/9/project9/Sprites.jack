@@ -8,7 +8,7 @@ static int shimonBigCoord, giniBigCoord;
 static int questionMarkCoord1, questionMarkCoord2, questionMarkCoord3;
 static int shimonSmallCoord, giniSmallCoord;
 
-function void initSpritesParams() {
+function void init() {
 	
 	let currentSelSprite = 0;
 	
@@ -36,8 +36,11 @@ function int getCurrentSprite() {
 }
 
 function void drawCurrentSelSprite(boolean isFlipped) {
-	if (currentSelSprite = 0) { do Sprites.drawSpriteShimon(~isFlipped); return; }
-	if (currentSelSprite = 1) { do Sprites.drawSpriteGini(~isFlipped); return; }
+	var int activeCharacter;
+	let activeCharacter = Character.getActive();
+
+	if (activeCharacter = 0) { do Sprites.drawSpriteShimon(~isFlipped); return; }
+	if (activeCharacter = 1) { do Sprites.drawSpriteGini(~isFlipped); return; }
 	return;
 }
 

@@ -2,7 +2,7 @@ class Debug {
 
     static int countEnter, eventCounter1, eventCounter2;
 
-    function void initDebugParams() {
+    function void init() {
 
         let countEnter = 0;
         let eventCounter1 = 0;

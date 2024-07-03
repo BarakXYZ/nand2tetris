@@ -1,4 +1,4 @@
-function Lookup.initLookupParams 0
+function Lookup.init 0
 push constant 6
 pop static 0
 push constant 21
@@ -105,7 +105,9 @@ call UserInterface.isExitInstruction 1
 pop temp 0
 push constant 0
 return
-function Lookup.checkAddress 0
+function Lookup.checkAddress 1
+call QuestManager.getActive 0
+pop local 0
 push static 3
 push constant 6
 call String.new 1
@@ -126,11 +128,14 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-call Sprites.setCurrentSprite 1
+call Character.setActive 1
 pop temp 0
 push constant 0
 return
 label IF_FALSE0
+push local 0
+push constant 0
+gt
 push static 3
 push constant 4
 call String.new 1
@@ -143,11 +148,12 @@ call String.appendChar 2
 push constant 73
 call String.appendChar 2
 call Helpers.strComp 2
+and
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 1
-call Sprites.setCurrentSprite 1
+call Character.setActive 1
 pop temp 0
 push constant 0
 return

@@ -1,36 +1,22 @@
 class Main {
+
     function void main() {
         
+        var Game game;
+        let game = Game.new();
 
         // INIT
-        var Characters shimon;
-        let shimon = Characters.initShimon();
+        do QuestManager.init();
+        do Sprites.init();
+        do Lookup.init();
+        do Challenge.init();
+        do Draw.init();
+        do UserInterface.init();
+        do Debug.init();
 
-        do Sprites.initSpritesParams();
+        do Dialogue.testDialogue();  // Not here
 
-        do Lookup.initLookupParams();
-
-        do Challenge.initChallengeParams();
-
-        do Draw.initDraw();
-
-        do UserInterface.initUI();
-
-        do Debug.initDebugParams();
-
-
-        ////////////
-
-        // What is the game loop??
-
-        // Maybe should be called from Levels class?
-        // do UserInterface.printRAM(Characters.getFatherSP());  // ?
-        do Dialog.testDialog();  // Not here
-
-        do Game.run();
-
-        // Dispose all objects
-        do shimon.dispose();
+        do game.run();
 
         return;
     }

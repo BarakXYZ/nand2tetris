@@ -1,0 +1,55 @@
+class Dialogue {
+
+    // Need to think of the proper data structure for printing and handling dialog
+    // Potentially:
+    // arr[0] = size
+    // arr[1] = coords for next dialog box (e.g. numOfLines(3), coords(16,18|17,..))
+    // arr[2] = dialog line...
+    // arr[3] = dialog line...
+    // etc...
+
+    function void testDialogue() {
+        do Output.moveCursor(16, 18);
+        do Output.printString("Hello there young memory programmer!");
+        do Output.moveCursor(17, 18);
+        do Output.printString("I'm glad you showed up.");
+        do Output.moveCursor(18, 18);
+        do Output.printString("We have an issue...");
+        do Output.moveCursor(19, 18);
+        do Output.printString("it's a bit involved, but no worries.");
+        return;
+    }
+
+    function void drawDialogue(DialogueNode node) {
+
+        do Output.moveCursor(16, 18);
+        do Output.printString("Hello there young memory programmer!");
+        do Output.moveCursor(17, 18);
+        do Output.printString("I'm glad you showed up.");
+        do Output.moveCursor(18, 18);
+        do Output.printString("We have an issue...");
+        do Output.moveCursor(19, 18);
+        do Output.printString("it's a bit involved, but no worries.");
+
+        return;
+    }
+    
+    function void incDialogueProg(int character) {
+        return;
+    }
+    
+    function void getCurrentDialogueShimon() {
+        return;
+    }
+
+    function void draw() {
+        // Check what the currently active character need to say
+        // in response to the currently active quest and sub quest
+        // Also need to not draw the entire dialogue if it has already occured once
+        // Essentially only draw the idle dialogue in that scenario
+        // We should track that either in the Dialogue class or in the QuestManager
+        // Maybe we can create dialogue nodes and dispose them as we go?
+        // Character.getActive();
+        return;
+    }
+}

@@ -1,4 +1,16 @@
-function Game.run 2
+function Game.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+call Character.initShimon 0
+pop this 0
+call Character.initGini 0
+pop this 1
+push pointer 0
+return
+function Game.run 3
+push argument 0
+pop pointer 0
 push constant 0
 pop local 0
 label WHILE_EXP0
@@ -11,9 +23,7 @@ call Sys.wait 1
 pop temp 0
 call Draw.drawSprite 0
 pop temp 0
-push constant 3
-push constant 3
-call Output.moveCursor 2
+call Dialogue.draw 0
 pop temp 0
 call Keyboard.keyPressed 0
 pop local 1

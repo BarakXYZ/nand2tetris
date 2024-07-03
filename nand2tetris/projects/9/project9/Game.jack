@@ -1,16 +1,32 @@
 class Game {
 
-    function void run() {
+    field Character shimon, gini;
+
+    constructor Game new() {
+        
+        let shimon = Character.initShimon();
+        let gini = Character.initGini();
+
+        return this;
+    }
+
+    method void run() {
         var boolean quit;
         var char c;
+        var int activeCharacter;
 
         let quit = false;
 
         while (~(quit)) {
             
+            // TODO: Implement
+            // while(Character.isPending()) {
+            //     do Character.interact();
+            // }
+
             do Sys.wait(50);
             do Draw.drawSprite();
-            do Output.moveCursor(3, 3);
+            do Dialogue.draw();
             let c = Keyboard.keyPressed();
 
 

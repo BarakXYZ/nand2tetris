@@ -1,4 +1,4 @@
-function Draw.initDraw 0
+function Draw.init 0
 push constant 0
 pop static 0
 push constant 0
