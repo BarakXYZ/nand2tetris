@@ -8,6 +8,59 @@ pop static 2
 push constant 10
 call String.new 1
 pop static 3
+call Challenge.initAnswers 0
+pop temp 0
+push constant 0
+return
+function Challenge.initAnswers 0
+push constant 30
+call Array.new 1
+pop static 4
+push constant 0
+push static 4
+add
+push constant 1
+call String.new 1
+push constant 54
+call String.appendChar 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 4
+add
+push constant 3
+call String.new 1
+push constant 53
+call String.appendChar 2
+push constant 53
+call String.appendChar 2
+push constant 53
+call String.appendChar 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 4
+add
+push constant 5
+call String.new 1
+push constant 57
+call String.appendChar 2
+push constant 57
+call String.appendChar 2
+push constant 57
+call String.appendChar 2
+push constant 57
+call String.appendChar 2
+push constant 57
+call String.appendChar 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 push constant 0
 return
 function Challenge.run 0
@@ -103,6 +156,27 @@ call UserInterface.isExitInstruction 1
 pop temp 0
 push constant 0
 return
+function Challenge.check 0
+push static 3
+call QuestManager.getActive 0
+push static 4
+add
+pop pointer 1
+push that 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call QuestManager.increment 0
+pop temp 0
+push constant 0
+not
+return
+goto IF_END0
+label IF_FALSE0
+push constant 0
+return
+label IF_END0
 function Challenge.appendChar 0
 push static 3
 push argument 0

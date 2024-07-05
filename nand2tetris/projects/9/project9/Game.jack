@@ -1,11 +1,11 @@
 class Game {
 
-    field Character shimon, gini;
+    field NPC shimon, gini;
 
     constructor Game new() {
         
-        let shimon = Character.initShimon();
-        let gini = Character.initGini();
+        let shimon = NPC.initShimon();
+        let gini = NPC.initGini();
 
         return this;
     }
@@ -13,16 +13,14 @@ class Game {
     method void run() {
         var boolean quit;
         var char c;
-        var int activeCharacter;
+        var int activeNPC;
 
         let quit = false;
 
         while (~(quit)) {
             
             // TODO: Implement
-            // while(Character.isPending()) {
-            //     do Character.interact();
-            // }
+            do NPC.interact();
 
             do Sys.wait(50);
             do Draw.drawSprite();

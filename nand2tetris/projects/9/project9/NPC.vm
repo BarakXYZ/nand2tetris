@@ -1,4 +1,11 @@
-function Character.initShimon 0
+function NPC.init 0
+push constant 0
+pop static 0
+push constant 0
+pop static 1
+push constant 0
+return
+function NPC.initShimon 0
 push constant 5
 call Memory.alloc 1
 pop pointer 0
@@ -157,7 +164,7 @@ add
 pop static 0
 push pointer 0
 return
-function Character.initGini 0
+function NPC.initGini 0
 push constant 5
 call Memory.alloc 1
 pop pointer 0
@@ -189,7 +196,7 @@ push constant 2
 pop this 4
 push pointer 0
 return
-function Character.dispose 0
+function NPC.dispose 0
 push argument 0
 pop pointer 0
 push pointer 0
@@ -197,12 +204,21 @@ call Memory.deAlloc 1
 pop temp 0
 push constant 0
 return
-function Character.interact 0
-push argument 0
-pop pointer 0
+function NPC.interact 0
+push static 2
+push static 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call Dialogue.draw 0
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+label IF_END0
 push constant 0
 return
-function Character.getStage 0
+function NPC.getStage 0
 push argument 0
 pop pointer 0
 push constant 4
@@ -211,7 +227,7 @@ add
 pop pointer 1
 push that 0
 return
-function Character.incStage 0
+function NPC.incStage 0
 push argument 0
 pop pointer 0
 push constant 4
@@ -230,10 +246,15 @@ push temp 0
 pop that 0
 push constant 0
 return
-function Character.getActive 0
+function NPC.setPendingNPC 0
+push argument 0
+pop static 2
+push constant 0
+return
+function NPC.getActive 0
 push static 1
 return
-function Character.setActive 0
+function NPC.setActive 0
 push argument 0
 pop static 1
 push constant 0

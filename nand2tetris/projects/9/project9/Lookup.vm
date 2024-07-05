@@ -128,7 +128,7 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-call Character.setActive 1
+call NPC.setActive 1
 pop temp 0
 push constant 0
 return
@@ -153,7 +153,7 @@ if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 1
-call Character.setActive 1
+call NPC.setActive 1
 pop temp 0
 push constant 0
 return

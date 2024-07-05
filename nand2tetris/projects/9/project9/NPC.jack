@@ -1,22 +1,29 @@
-class Character {
+class NPC {
     
-    field Array character;
+    field Array npc;
     field String name, role;
-    field int inM, characterIndex;
+    field int inM, npcIndex;
 
-    static int numOfCharacters;
-    static int activeCharacter;  // Perhaps needs to be tracked through game?
+    static int numOfNPCs;
+    static int activeNPC;  // Perhaps needs to be tracked through game?
+    static int pendingNPC;
     
-    constructor Character initShimon() {
-        let activeCharacter = 0;
+    function void init() {
+        let numOfNPCs = 0;
+        let activeNPC = 0;
+        return;
+    }
 
-        let character = Array.new(5);
+    constructor NPC initShimon() {
+        let activeNPC = 0;
 
-        let character[0] = 5;                   // Array size
-        let character[1] = "@SHIMON";           // Name
-        let character[2] = 555;                 // inM
-        let character[3] = "Master of Memory";  // Role
-        let character[4] = 1;                   // Stage (Story Line)
+        let npc = Array.new(5);
+
+        let npc[0] = 5;                   // Array size
+        let npc[1] = "@SHIMON";           // Name
+        let npc[2] = 555;                 // inM
+        let npc[3] = "Master of Memory";  // Role
+        let npc[4] = 1;                   // Stage (Story Line)
         // let character[5] = pointerToCurrentDialog?
         // Essentially a pointer to a dialog object that contains the dialog to
         // print with an array[0] size so we can loop over it?
@@ -24,17 +31,17 @@ class Character {
         let name = "@SHIMON";
         let role = "Master of Memory";
         let inM = 555;
-        let characterIndex = 1;
+        let npcIndex = 1;
 
-        let numOfCharacters = numOfCharacters + 1;  // needs to be init somewhere
+        let numOfNPCs = numOfNPCs + 1;  // needs to be init somewhere
         return this;
     }
 
-    constructor Character initGini() {
+    constructor NPC initGini() {
         let name = "@GINI";
         let role = "BFF";
         let inM = 4;
-        let characterIndex = 2;
+        let npcIndex = 2;
 
         return this;
     }
@@ -44,18 +51,26 @@ class Character {
         return;
     }
     
-    method void interact() {
-        // Possibiliy enter a loop and also be responsibile for drawing sprite?
-        // do Dialogue.speak(characterIndex);
+    function void interact() {
+        
+        if (pendingNPC = activeNPC) {
+            do Dialogue.draw();
+        }
+        else {
+            // default dialogue of this NPC at this point
+        }
+
+        // Possibily enter a loop and also be responsibile for drawing sprite?
+        // do Dialogue.speak(npcIndex);
         return;
     }
 
     method int getStage() {
-        return character[4];
+        return npc[4];
     }
 
     method void incStage() {
-        let character[4] = character[4] + 1;  // increment stage by 1
+        let npc[4] = npc[4] + 1;  // increment stage by 1
         return;
     }
 
@@ -74,12 +89,17 @@ class Character {
     // method bool isPending() {
     // }
 
+    function void setPendingNPC(int index) {
+        let pendingNPC = index;
+        return;
+    }
+
     function int getActive() {
-        return activeCharacter;
+        return activeNPC;
     }
 
     function void setActive(int index) {
-        let activeCharacter = index;
+        let activeNPC = index;
         // 0 == Shimon
         // 1 == Gini
         // 2 == ...
