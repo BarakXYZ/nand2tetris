@@ -36,11 +36,11 @@ function int getCurrentSprite() {
 }
 
 function void drawCurrentSelSprite(boolean isFlipped) {
-	var int activeCharacter;
-	let activeCharacter = Character.getActive();
+	var int activeNPC;
+	let activeNPC = NPC.getActive();
 
-	if (activeCharacter = 0) { do Sprites.drawSpriteShimon(~isFlipped); return; }
-	if (activeCharacter = 1) { do Sprites.drawSpriteGini(~isFlipped); return; }
+	if (activeNPC = 0) { do Sprites.drawSpriteShimon(~isFlipped); return; }
+	if (activeNPC = 1) { do Sprites.drawSpriteGini(~isFlipped); return; }
 	return;
 }
 

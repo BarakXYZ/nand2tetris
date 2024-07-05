@@ -61,11 +61,11 @@ class Lookup {
             let activeQuest = QuestManager.getActive();
 
             if (Helpers.strComp(input, "SHIMON")) {
-                do Character.setActive(0);
+                do NPC.setActive(0);
                 return;
             }
             if ((activeQuest > 0) & (Helpers.strComp(input, "GINI"))) {
-                do Character.setActive(1);
+                do NPC.setActive(1);
                 return;
             }
             return;

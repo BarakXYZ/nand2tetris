@@ -1,11 +1,41 @@
 class QuestManager {
     static int activeQuest, activeSubQuest;
+    static boolean hasQuestStarted;
+    static Array pendingNPCs;
     
     function void init() {
-        let activeQuest = 1;
+        let activeQuest = 0;
         let activeSubQuest = 0;
+        let hasQuestStarted = false;
 
+        do QuestManager.initPendingNPCs();
 
+        do NPC.setPendingNPC(pendingNPCs[activeQuest]);
+        
+        return;
+    }
+    
+    function void initPendingNPCs() {
+        let pendingNPCs = Array.new(30);
+        
+        let pendingNPCs[0] = 0;  // Shimon
+        let pendingNPCs[1] = 0;  // Shimon
+        let pendingNPCs[2] = 0;  // Shimon
+        let pendingNPCs[3] = 1;  // Gini
+
+        return;
+    }
+    // pendingNPC | questNumber  (0[SHIMON] | 0[quest])
+    // pendingNPC | questNumber  (0[SHIMON] | 1[quest])
+    // pendingNPC | questNumber  (1[GINI]   | 2[quest])
+    // pendingNPC | questNumber  (0[SHIMON] | 3[quest])
+
+    function boolean getHasStarted() {
+        return hasQuestStarted;
+    }
+
+    function void setHasStarted(boolean cond) {
+        let hasQuestStarted = cond;
         return;
     }
 
@@ -27,8 +57,9 @@ class QuestManager {
         return activeSubQuest;
     }
 
-    function void incActiveQuest() {
+    function void increment() {
         let activeQuest = activeQuest + 1;
+        do NPC.setPendingNPC(pendingNPCs[activeQuest]);
         return;
     }
 

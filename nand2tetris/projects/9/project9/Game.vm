@@ -2,9 +2,9 @@ function Game.new 0
 push constant 2
 call Memory.alloc 1
 pop pointer 0
-call Character.initShimon 0
+call NPC.initShimon 0
 pop this 0
-call Character.initGini 0
+call NPC.initGini 0
 pop this 1
 push pointer 0
 return
@@ -18,6 +18,8 @@ push local 0
 not
 not
 if-goto WHILE_END0
+call NPC.interact 0
+pop temp 0
 push constant 50
 call Sys.wait 1
 pop temp 0

@@ -26,7 +26,7 @@ function Sprites.getCurrentSprite 0
 push static 0
 return
 function Sprites.drawCurrentSelSprite 1
-call Character.getActive 0
+call NPC.getActive 0
 pop local 0
 push local 0
 push constant 0

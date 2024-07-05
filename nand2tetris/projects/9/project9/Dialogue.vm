@@ -261,6 +261,32 @@ call Output.printString 1
 pop temp 0
 push constant 0
 return
+function Dialogue.setNodes 0
+call QuestManager.getActive 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call DialogueNode.makeNode0 0
+pop static 0
+push constant 0
+return
+label IF_FALSE0
+call QuestManager.getActive 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+label IF_FALSE1
+push constant 0
+return
 function Dialogue.drawDialogue 0
 push constant 16
 push constant 18
@@ -524,12 +550,29 @@ call Output.printString 1
 pop temp 0
 push constant 0
 return
-function Dialogue.incDialogueProg 0
-push constant 0
-return
-function Dialogue.getCurrentDialogueShimon 0
-push constant 0
-return
 function Dialogue.draw 0
+call QuestManager.getHasStarted 0
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+label WHILE_EXP0
+push static 0
+call DialogueNode.hasEnded 1
+not
+not
+if-goto WHILE_END0
+push static 0
+call DialogueNode.advance 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+not
+call QuestManager.setHasStarted 1
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+label IF_END0
 push constant 0
 return

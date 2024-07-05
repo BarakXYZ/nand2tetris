@@ -1,12 +1,6 @@
 class Dialogue {
 
-    // Need to think of the proper data structure for printing and handling dialog
-    // Potentially:
-    // arr[0] = size
-    // arr[1] = coords for next dialog box (e.g. numOfLines(3), coords(16,18|17,..))
-    // arr[2] = dialog line...
-    // arr[3] = dialog line...
-    // etc...
+    static DialogueNode currentNode;
 
     function void testDialogue() {
         do Output.moveCursor(16, 18);
@@ -17,6 +11,27 @@ class Dialogue {
         do Output.printString("We have an issue...");
         do Output.moveCursor(19, 18);
         do Output.printString("it's a bit involved, but no worries.");
+        return;
+    }
+
+    function void setNodes() {
+        
+        if(QuestManager.getActive() = 0) {
+            // create the first node
+            let currentNode = DialogueNode.makeNode0();
+
+            // Store it statically
+            return;
+        }
+        if(QuestManager.getActive() = 1) {
+            // Dispose the first node
+            do Memory.deAlloc(currentNode);
+            // Create the second node
+            // Store it statically
+            return;
+        }
+        // etc.
+
         return;
     }
 
@@ -34,22 +49,24 @@ class Dialogue {
         return;
     }
     
-    function void incDialogueProg(int character) {
-        return;
-    }
-    
-    function void getCurrentDialogueShimon() {
+    function void draw() {
+        if (~(QuestManager.getHasStarted())) {
+            // full dialogue
+            
+            // while dialogue isn't empty - read into the node dialogue
+            while (~(currentNode.hasEnded())) {
+                do currentNode.advance();
+                // listen to user input enter
+            }
+            do QuestManager.setHasStarted(true);
+        }
+        else {
+            // default pending quest to complete dialogue
+            // For now can just be something simple
+        }
         return;
     }
 
-    function void draw() {
-        // Check what the currently active character need to say
-        // in response to the currently active quest and sub quest
-        // Also need to not draw the entire dialogue if it has already occured once
-        // Essentially only draw the idle dialogue in that scenario
-        // We should track that either in the Dialogue class or in the QuestManager
-        // Maybe we can create dialogue nodes and dispose them as we go?
-        // Character.getActive();
-        return;
-    }
+    // function boolean advance() {
+    // }
 }

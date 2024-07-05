@@ -2,13 +2,25 @@ class Challenge {
 
         static int maxLen, row, col;
         static String input;
+        static Array answers;
 
         function void init() {
             let maxLen = 9;
             let row = 19;
             let col = 7;
             let input = String.new(10);
-            // let input = "";
+
+            do Challenge.initAnswers();
+            return;
+        }
+        
+        function void initAnswers() {
+            let answers = Array.new(30);
+            
+            let answers[0] = "6";
+            let answers[1] = "555";
+            let answers[2] = "99999";
+
             return;
         }
 
@@ -54,6 +66,16 @@ class Challenge {
             return;
         }
 
+
+        function boolean check() {
+            if (input = answers[QuestManager.getActive()]) {
+                do QuestManager.increment();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
         //** Append Characater:
         // Prints the updated string to the given row & col coords */

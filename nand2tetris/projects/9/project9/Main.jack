@@ -6,6 +6,7 @@ class Main {
         let game = Game.new();
 
         // INIT
+        do NPC.init();
         do QuestManager.init();
         do Sprites.init();
         do Lookup.init();
