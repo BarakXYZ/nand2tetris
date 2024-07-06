@@ -77,7 +77,7 @@ if-goto WHILE_END0
 push constant 50
 call Sys.wait 1
 pop temp 0
-call Draw.drawSprite 0
+call Draw.sprite 0
 pop temp 0
 call Keyboard.keyPressed 0
 pop local 0

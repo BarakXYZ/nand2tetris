@@ -9,6 +9,7 @@ class Main {
         do NPC.init();
         do QuestManager.init();
         do Sprites.init();
+        do Draw.spriteDirect();  // Preview Sprite fast
         do Lookup.init();
         do Challenge.init();
         do Draw.init();
