@@ -28,6 +28,9 @@ if-goto WHILE_END0
 push static 0
 call DialogueNode.advance 1
 pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
 call Input.waitForEnter 0
 pop temp 0
 goto WHILE_EXP0

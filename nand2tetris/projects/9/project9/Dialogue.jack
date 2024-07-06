@@ -30,6 +30,7 @@ class Dialogue {
             do UserInterface.drawInstruction(1);
             while (~(currentNode.hasEnded())) {
                 do currentNode.advance();
+                do Sys.wait(300);
                 do Input.waitForEnter();
             }
             do QuestManager.setHasStarted(true);

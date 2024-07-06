@@ -128,6 +128,9 @@ label IF_TRUE0
 push constant 0
 call NPC.setActive 1
 pop temp 0
+push static 3
+call UserInterface.printAlignedTitle 1
+pop temp 0
 push constant 0
 return
 label IF_FALSE0
@@ -152,6 +155,9 @@ goto IF_FALSE1
 label IF_TRUE1
 push constant 1
 call NPC.setActive 1
+pop temp 0
+push static 3
+call UserInterface.printAlignedTitle 1
 pop temp 0
 push constant 0
 return

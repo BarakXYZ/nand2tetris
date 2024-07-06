@@ -7,6 +7,15 @@ push constant 0
 pop static 2
 push constant 0
 return
+function Debug.run 0
+push constant 23
+call Debug.gridX 1
+pop temp 0
+push constant 64
+call Debug.gridY 1
+pop temp 0
+push constant 0
+return
 function Debug.key 0
 push constant 14
 push constant 3
@@ -53,5 +62,151 @@ pop temp 0
 push argument 0
 call Output.printInt 1
 pop temp 0
+push constant 0
+return
+function Debug.gridX 1
+push constant 0
+pop local 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label WHILE_EXP0
+push local 0
+push argument 0
+lt
+not
+if-goto WHILE_END0
+push local 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push local 0
+call Output.printInt 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Debug.tensIndex 0
+push constant 1
+push argument 0
+push constant 1
+sub
+call Output.moveCursor 2
+pop temp 0
+push argument 0
+call Output.printInt 1
+pop temp 0
+push constant 0
+push argument 0
+call Output.moveCursor 2
+pop temp 0
+push constant 0
+return
+function Debug.gridY 2
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+label WHILE_EXP0
+push local 0
+push argument 0
+lt
+not
+if-goto WHILE_END0
+push local 0
+push constant 10
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop local 1
+push local 0
+call Debug.tensIndex 1
+pop temp 0
+label IF_FALSE0
+push local 0
+push constant 20
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop local 1
+push local 0
+call Debug.tensIndex 1
+pop temp 0
+label IF_FALSE1
+push local 0
+push constant 30
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop local 1
+push local 0
+call Debug.tensIndex 1
+pop temp 0
+label IF_FALSE2
+push local 0
+push constant 40
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+pop local 1
+push local 0
+call Debug.tensIndex 1
+pop temp 0
+label IF_FALSE3
+push local 0
+push constant 50
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+pop local 1
+push local 0
+call Debug.tensIndex 1
+pop temp 0
+label IF_FALSE4
+push local 0
+push constant 60
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+pop local 1
+push local 0
+call Debug.tensIndex 1
+pop temp 0
+label IF_FALSE5
+push local 1
+call Output.printInt 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 return
