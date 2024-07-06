@@ -4,57 +4,51 @@ class DialogueNode {
     field Array mainDialogue;
     field boolean hasEnded;
 
-    method void dispose() {
-        do Memory.deAlloc(this);
-        return;
-    }
-
-
-    // method boolean getLine() {
-    //     if (currentLine < length) {
-    //         // do UserInterface.drawDialogue(textLines[currentLine]);
-    //         let currentLine = currentLine + 1;
-    //         return true;
-    //     }
-    //     do userInterface.drawDialogue(textLines[currentLine]);
-    //     return false;
-    // }
-
-
     method void advance() {
+        do UserInterface.clearDialogueBox();
+
         do Output.moveCursor(16, 18);
-        do Output.printString(mainDialogue[currentLine + 1]);
+        do Output.printString(mainDialogue[currentLine]);
 
         do Output.moveCursor(17, 18);
-        do Output.printString(mainDialogue[currentLine + 2]);
+        do Output.printString(mainDialogue[currentLine + 1]);
 
         do Output.moveCursor(18, 18);
-        do Output.printString(mainDialogue[currentLine + 3]);
+        do Output.printString(mainDialogue[currentLine + 2]);
 
         // do Output.moveCursor(19, 18);
-        // do Output.printString(mainDialogue[currentLine + 4]);
+        // do Output.printString(mainDialogue[currentLine + 3]);
         
+
         if (~hasEnded) {
             let currentLine = currentLine + 3;
-
-            if(currentLine = lastLine) {
-                let hasEnded = true;
-            }
+            if (currentLine = lastLine) { let hasEnded = true; }
         }
 
         return;
     }
 
+    method boolean hasEnded() {
+        return hasEnded;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(mainDialogue);
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //** NODES *//
 
     constructor DialogueNode makeNode0() {
         let nodeIndex = 0;
         let currentLine = 0;
-        let lastLine = 14;
+        let lastLine = 15;
         let currentBatch = 1;
         let numOfBatches = 5;
         let hasEnded = false;
         
-        let mainDialogue = Array.new(lastLine - 1);
+        let mainDialogue = Array.new(lastLine + 3);
 
         let mainDialogue[0] = "Hello there young programmer!";
         let mainDialogue[1] = "I'm glad you showed up.";
@@ -84,9 +78,4 @@ class DialogueNode {
         return this;
     }
     
-    method boolean hasEnded() {
-        return hasEnded;
-    }
-
-
 }

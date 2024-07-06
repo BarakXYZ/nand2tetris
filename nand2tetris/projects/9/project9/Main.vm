@@ -17,8 +17,6 @@ call UserInterface.init 0
 pop temp 0
 call Debug.init 0
 pop temp 0
-call Dialogue.testDialogue 0
-pop temp 0
 push local 0
 call Game.run 1
 pop temp 0

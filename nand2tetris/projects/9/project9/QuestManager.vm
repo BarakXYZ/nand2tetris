@@ -12,7 +12,10 @@ push static 3
 add
 pop pointer 1
 push that 0
-call NPC.setPendingNPC 1
+call NPC.setPending 1
+pop temp 0
+push static 0
+call Dialogue.makeNode 1
 pop temp 0
 push constant 0
 return
@@ -78,7 +81,10 @@ push static 3
 add
 pop pointer 1
 push that 0
-call NPC.setPendingNPC 1
+call NPC.setPending 1
+pop temp 0
+push static 0
+call Dialogue.makeNode 1
 pop temp 0
 push constant 0
 return

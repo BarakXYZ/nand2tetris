@@ -64,6 +64,27 @@ return
 label IF_FALSE0
 push constant 0
 return
+function Input.waitForEnter 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 128
+eq
+not
+not
+if-goto WHILE_END0
+push constant 50
+call Sys.wait 1
+pop temp 0
+call Draw.drawSprite 0
+pop temp 0
+call Keyboard.keyPressed 0
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
 function Input.manageCharAndTimeBuffer 0
 push argument 0
 push constant 0

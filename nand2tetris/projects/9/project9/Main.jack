@@ -15,8 +15,6 @@ class Main {
         do UserInterface.init();
         do Debug.init();
 
-        do Dialogue.testDialogue();  // Not here
-
         do game.run();
 
         return;

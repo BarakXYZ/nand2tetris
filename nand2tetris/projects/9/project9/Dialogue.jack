@@ -2,67 +2,37 @@ class Dialogue {
 
     static DialogueNode currentNode;
 
-    function void testDialogue() {
-        do Output.moveCursor(16, 18);
-        do Output.printString("Hello there young memory programmer!");
-        do Output.moveCursor(17, 18);
-        do Output.printString("I'm glad you showed up.");
-        do Output.moveCursor(18, 18);
-        do Output.printString("We have an issue...");
-        do Output.moveCursor(19, 18);
-        do Output.printString("it's a bit involved, but no worries.");
-        return;
-    }
+    function void makeNode(int quest) {
 
-    function void setNodes() {
-        
-        if(QuestManager.getActive() = 0) {
-            // create the first node
+        if(quest = 0) {
             let currentNode = DialogueNode.makeNode0();
-
-            // Store it statically
-            return;
         }
-        if(QuestManager.getActive() = 1) {
-            // Dispose the first node
-            do Memory.deAlloc(currentNode);
-            // Create the second node
-            // Store it statically
-            return;
-        }
-        // etc.
-
         return;
+
+        // if(QuestManager.getActive() = 1) {
+        //     // Dispose the first node
+        // do currentNode.dispose();
+        //     // Create the second node
+        //     // Store it statically
+        //     return;
+        // }
+
     }
 
-    function void drawDialogue(DialogueNode node) {
-
-        do Output.moveCursor(16, 18);
-        do Output.printString("Hello there young memory programmer!");
-        do Output.moveCursor(17, 18);
-        do Output.printString("I'm glad you showed up.");
-        do Output.moveCursor(18, 18);
-        do Output.printString("We have an issue...");
-        do Output.moveCursor(19, 18);
-        do Output.printString("it's a bit involved, but no worries.");
-
-        return;
-    }
-    
     function void draw() {
         if (~(QuestManager.getHasStarted())) {
-            // full dialogue
-            
-            // while dialogue isn't empty - read into the node dialogue
+            do UserInterface.drawInstruction(1);
             while (~(currentNode.hasEnded())) {
                 do currentNode.advance();
-                // listen to user input enter
+                do Input.waitForEnter();
             }
             do QuestManager.setHasStarted(true);
+            do UserInterface.clearInstruction();
         }
         else {
             // default pending quest to complete dialogue
             // For now can just be something simple
+            do currentNode.advance();  // default 3 lines
         }
         return;
     }

@@ -14,28 +14,21 @@ class Game {
         var boolean quit;
         var char c;
         var int activeNPC;
+        var boolean newLookup;
 
         let quit = false;
+        let newLookup = true;
 
         while (~(quit)) {
             
-            // TODO: Implement
-            do NPC.interact();
+            if (newLookup) { do NPC.interact(); let newLookup = false; }
 
             do Sys.wait(50);
             do Draw.drawSprite();
-            do Dialogue.draw();
             let c = Keyboard.keyPressed();
 
-
-            // Possibly we can check here if we're currently in dialogue
-            // and if so, we can deny the below inputs and allow only 
-            // advanceDialogue or something
-            
-            // do Input.listenEnter(c);  // needs to be replaced with dialogue
-
             // '@' or 'L' pressed ([@][L]ookup Mode)
-            if (Input.isLookup(c)) { do Lookup.run(c); }
+            if (Input.isLookup(c)) { do Lookup.run(c); let newLookup = true; }
 
             // 'A' pressed ([A]nswer Mode)
             if (Input.isAnswer(c)) { do Challenge.run(c); }

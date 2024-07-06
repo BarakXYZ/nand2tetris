@@ -89,7 +89,7 @@ class NPC {
     // method bool isPending() {
     // }
 
-    function void setPendingNPC(int index) {
+    function void setPending(int index) {
         let pendingNPC = index;
         return;
     }

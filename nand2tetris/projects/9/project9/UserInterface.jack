@@ -1,6 +1,7 @@
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
-    static String answerInstruction, exitInstruction, notExitInstruction;
+    static String answerInstruction, escapeInstruction, clearInstruction;
+    static String enterInstruction;
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
     static Array selCoordAnswer, selCoordLookUp;
@@ -23,8 +24,9 @@ class UserInterface {
         let clearBarFriend = "       ";
         let blankPromptLine = "                            ";
 
-        let exitInstruction = "Press 'Escape' to Exit Current Mode";
-        let notExitInstruction = "                                    ";
+        let escapeInstruction = "Press 'Escape' to Exit Current Mode";
+        let enterInstruction = "** Press 'Enter' to continue **";
+        let clearInstruction = "                                    ";
 
         do UserInterface.initAnswerSelCoords();
         do UserInterface.initLookUpSelCoords();
@@ -206,15 +208,19 @@ class UserInterface {
         return;
     }
 
-    function void isExitInstruction(boolean b) {
-        if (b) {
-            do Output.moveCursor(0,0);
-            do Output.printString(exitInstruction);
-        }
-        else {
-            do Output.moveCursor(0,0);
-            do Output.printString(notExitInstruction);
-        }
+    function void drawInstruction(int type) {
+        var String instruction;
+        if (type = 0) { let instruction = escapeInstruction; }
+        if (type = 1) { let instruction = enterInstruction; }
+        
+        do Output.moveCursor(0,0);
+        do Output.printString(instruction);
+        return;
+    }
+
+    function void clearInstruction() {
+        do Output.moveCursor(0,0);
+        do Output.printString(clearInstruction);
         return;
     }
 
@@ -311,4 +317,12 @@ class UserInterface {
 
         return;
     }
+
+    function void clearDialogueBox() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(135, 175, 439, 228);
+        do Screen.setColor(true);
+        return;
+    }
+    // do UserInterface.drawUnfilledRectangle(134, 174, 440, 229);
 }
