@@ -62,10 +62,12 @@ class Lookup {
 
             if (Helpers.strComp(input, "SHIMON")) {
                 do NPC.setActive(0);
+                do UserInterface.printAlignedTitle(input);
                 return;
             }
             if ((activeQuest > 0) & (Helpers.strComp(input, "GINI"))) {
                 do NPC.setActive(1);
+                do UserInterface.printAlignedTitle(input);
                 return;
             }
             return;

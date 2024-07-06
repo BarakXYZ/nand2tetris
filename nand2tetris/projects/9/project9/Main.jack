@@ -15,6 +15,7 @@ class Main {
         do Draw.init();
         do UserInterface.init();
         do Debug.init();
+        // do Debug.run();
 
         do game.run();
 
