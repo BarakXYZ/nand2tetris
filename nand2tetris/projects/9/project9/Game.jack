@@ -24,7 +24,7 @@ class Game {
             if (newLookup) { do NPC.interact(); let newLookup = false; }
 
             do Sys.wait(50);
-            do Draw.drawSprite();
+            do Draw.sprite();
             let c = Keyboard.keyPressed();
 
             // '@' or 'L' pressed ([@][L]ookup Mode)

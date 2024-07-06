@@ -29,7 +29,7 @@ class Input {
         let c = 0;
         while (~(c = 128)) {
             do Sys.wait(50);
-            do Draw.drawSprite();
+            do Draw.sprite();
             let c = Keyboard.keyPressed();
         }
         return;

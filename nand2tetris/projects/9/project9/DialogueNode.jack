@@ -1,6 +1,8 @@
 class DialogueNode {
 
     field int nodeIndex, currentLine, lastLine, numOfBatches, currentBatch;
+    field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
+    field String t15, t16, t17, t18, t19, t20;
     field Array mainDialogue;
     field boolean hasEnded;
 
@@ -33,7 +35,33 @@ class DialogueNode {
     }
 
     method void dispose() {
-        do Memory.deAlloc(mainDialogue);
+        //** Dispose all Strings *//
+        do t0.dispose();
+        do t1.dispose();
+        do t2.dispose();
+        do t3.dispose();
+        do t4.dispose();
+        do t5.dispose();
+        do t6.dispose();
+        do t7.dispose();
+        do t8.dispose();
+        do t9.dispose();
+        do t10.dispose();
+        do t11.dispose();
+        do t12.dispose();
+        do t13.dispose();
+        do t14.dispose();
+        do t15.dispose();
+        do t16.dispose();
+        do t17.dispose();
+        do t18.dispose();
+        do t19.dispose();
+        do t20.dispose();
+
+        //** Dispose Array *//
+        do mainDialogue.dispose();
+
+        //** Dispose Object *//
         do Memory.deAlloc(this);
         return;
     }
@@ -47,33 +75,61 @@ class DialogueNode {
         let currentBatch = 1;
         let numOfBatches = 5;
         let hasEnded = false;
+
+        let t0 = "Hello there young programmer!";
+        let t1 = "I'm glad you showed up.";
+        let t2 = "We have an issue...";
+
+        let t3 = "It's a bit involved but like ";
+        let t4 = "always - we'll start with the ";
+        let t5 = "big picture, and go step-by-step";
         
+        let t6 = "Firstly, the problem: @SP is gone.";
+        let t7 = "Like, gone-gone. He's not at @0 ";
+        let t8 = "and we lost all tracks of him.";
+
+        let t9 = "So you'll need to look for him, how?";
+        let t10 = "Well, luckily we have some leftover ";
+        let t11 = "stack-info we can investigate.";
+
+        let t12 = "He seemed to have visit a few friends";
+        let t13 = "(addresses) maybe they'll know ";
+        let t14 = "something that can lead back to him.";
+
+        let t15 = "test1";
+        let t16 = "test2";
+        let t17 = "test3";
+
+        let t18 = "";
+        let t19 = "";
+        let t20 = "";
+
         let mainDialogue = Array.new(lastLine + 3);
 
-        let mainDialogue[0] = "Hello there young programmer!";
-        let mainDialogue[1] = "I'm glad you showed up.";
-        let mainDialogue[2] = "We have an issue...";
+        let mainDialogue[0] = t0;
+        let mainDialogue[1] = t1;
+        let mainDialogue[2] = t2;
 
-        let mainDialogue[3] = "It's a bit involved but like ";
-        let mainDialogue[4] = "always - we'll start with the ";
-        let mainDialogue[5] = "big picture, and go step-by-step";
+        let mainDialogue[3] = t3;
+        let mainDialogue[4] = t4;
+        let mainDialogue[5] = t5;
 
-        let mainDialogue[6] = "Firstly, the problem: @SP is gone.";
-        let mainDialogue[7] = "Like, gone-gone. He's not at @0 ";
-        let mainDialogue[8] = "and we lost all tracks of him.";
+        let mainDialogue[6] = t6;
+        let mainDialogue[7] = t7;
+        let mainDialogue[8] = t8;
 
-        let mainDialogue[9] = "So you'll need to look for him, how?";
-        let mainDialogue[10] = "Well, luckily we have some leftover ";
-        let mainDialogue[11] = "stack-info we can investigate.";
+        let mainDialogue[9] = t9;
+        let mainDialogue[10] = t10;
+        let mainDialogue[11] = t11;
 
-        let mainDialogue[12] = "He seemed to have visit a few friends";
-        let mainDialogue[13] = "(addresses) maybe they'll know ";
-        let mainDialogue[14] = "something that can lead back to him.";
-        
+        let mainDialogue[12] = t12;
+        let mainDialogue[13] = t13; 
+        let mainDialogue[14] = t14;
+
         // default pending dialogue (post-quest-started)
-        let mainDialogue[15] = "test1";
-        let mainDialogue[16] = "test2";
-        let mainDialogue[17] = "test3";
+        let mainDialogue[15] = t15;
+        let mainDialogue[16] = t16;
+        let mainDialogue[17] = t17;
 
         return this;
     }

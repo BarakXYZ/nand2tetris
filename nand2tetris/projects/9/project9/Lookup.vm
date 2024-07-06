@@ -27,7 +27,7 @@ eq
 not
 not
 if-goto WHILE_END0
-call Draw.drawSprite 0
+call Draw.sprite 0
 pop temp 0
 push argument 0
 call Input.manageCharAndTimeBuffer 1

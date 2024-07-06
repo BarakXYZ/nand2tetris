@@ -33,7 +33,7 @@ class Challenge {
 
             // Exits if 'Escape' (140) is pressed
             while (~(c = 140)) {
-                do Draw.drawSprite();
+                do Draw.sprite();
 
                 do Input.manageCharAndTimeBuffer(c);
                 let c = Keyboard.keyPressed();

@@ -3,9 +3,15 @@ class Dialogue {
     static DialogueNode currentNode;
 
     function void makeNode(int quest) {
+        // var int i;
+        // let i = 0;
 
         if(quest = 0) {
+            // while (i < 1000) {  // test overflow and dispose
             let currentNode = DialogueNode.makeNode0();
+            // do currentNode.dispose();
+            // let i = i + 1;
+            // }
         }
         return;
 

@@ -3,7 +3,7 @@ push constant 0
 pop static 0
 push constant 0
 return
-function Draw.drawSprite 0
+function Draw.sprite 0
 push static 0
 push constant 25
 eq
@@ -42,5 +42,11 @@ push constant 1
 add
 pop static 0
 label IF_END0
+push constant 0
+return
+function Draw.spriteDirect 0
+push constant 0
+call Sprites.drawCurrentSelSprite 1
+pop temp 0
 push constant 0
 return

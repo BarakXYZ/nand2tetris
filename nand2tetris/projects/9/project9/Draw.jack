@@ -7,7 +7,7 @@ class Draw {
         return;
     }
 
-    function void drawSprite() {
+    function void sprite() {
         if (counter = 25) {
             let counter = 0;
             do Sprites.clearViewport();
@@ -28,6 +28,11 @@ class Draw {
         else {
             let counter = counter + 1;
         }
+        return;
+    }
+
+    function void spriteDirect() {
+        do Sprites.drawCurrentSelSprite(false);
         return;
     }
 }
