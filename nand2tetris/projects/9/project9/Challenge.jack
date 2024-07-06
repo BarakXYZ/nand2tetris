@@ -27,7 +27,7 @@ class Challenge {
         
         //** if 'A' is pressed, enter '[A]nswer mode' */
         function void run(char c) {
-            do UserInterface.isExitInstruction(true);
+            do UserInterface.drawInstruction(0);
             do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
             do Sys.wait(200);
 
@@ -62,7 +62,7 @@ class Challenge {
 
             }
             do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
-            do UserInterface.isExitInstruction(false);
+            do UserInterface.clearInstruction();
             return;
         }
 

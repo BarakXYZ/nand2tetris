@@ -246,7 +246,7 @@ push temp 0
 pop that 0
 push constant 0
 return
-function NPC.setPendingNPC 0
+function NPC.setPending 0
 push argument 0
 pop static 2
 push constant 0

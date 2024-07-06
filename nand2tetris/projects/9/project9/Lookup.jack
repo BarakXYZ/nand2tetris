@@ -17,7 +17,7 @@ class Lookup {
         function void run(char c) {
             // max address == 24,576
 
-            do UserInterface.isExitInstruction(true);
+            do UserInterface.drawInstruction(0);
             do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
             do Sys.wait(200);
 
@@ -52,7 +52,7 @@ class Lookup {
 
             }
             do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
-            do UserInterface.isExitInstruction(false);
+            do UserInterface.clearInstruction();
             return;
         }
 

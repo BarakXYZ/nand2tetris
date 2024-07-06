@@ -10,7 +10,9 @@ class QuestManager {
 
         do QuestManager.initPendingNPCs();
 
-        do NPC.setPendingNPC(pendingNPCs[activeQuest]);
+        do NPC.setPending(pendingNPCs[activeQuest]);
+
+        do Dialogue.makeNode(activeQuest);
         
         return;
     }
@@ -59,7 +61,8 @@ class QuestManager {
 
     function void increment() {
         let activeQuest = activeQuest + 1;
-        do NPC.setPendingNPC(pendingNPCs[activeQuest]);
+        do NPC.setPending(pendingNPCs[activeQuest]);
+        do Dialogue.makeNode(activeQuest);
         return;
     }
 

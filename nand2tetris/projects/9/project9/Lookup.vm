@@ -12,8 +12,7 @@ push constant 0
 return
 function Lookup.run 0
 push constant 0
-not
-call UserInterface.isExitInstruction 1
+call UserInterface.drawInstruction 1
 pop temp 0
 call UserInterface.getSelCoordLookUp 0
 call UserInterface.drawSelArrows 1
@@ -100,8 +99,7 @@ label WHILE_END0
 call UserInterface.getSelCoordLookUp 0
 call UserInterface.eraseSelArrows 1
 pop temp 0
-push constant 0
-call UserInterface.isExitInstruction 1
+call UserInterface.clearInstruction 0
 pop temp 0
 push constant 0
 return
