@@ -143,3 +143,24 @@ function dialogue() {
     // Lookup
     // Answer (Challenge)
     // Quit
+
+
+
+Program Flow:
+
+
+A bit of background story
+
+UI introduction
+
+Controls and mechanics introduction
+
+First tutorial quiz
+
+Decide on the mechanics for this quiz and generally for the entire game
+
+First real quest and essentially begin story line
+
+Progressivly harder questions and quizes
+
+Understand how we can make it cool
