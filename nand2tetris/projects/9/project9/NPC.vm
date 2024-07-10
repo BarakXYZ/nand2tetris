@@ -3,6 +3,8 @@ push constant 0
 pop static 0
 push constant 0
 pop static 1
+call ChallengeNode.makeNode0 0
+pop static 3
 push constant 0
 return
 function NPC.initShimon 0
@@ -211,6 +213,9 @@ eq
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push static 3
+call ChallengeNode.draw 1
+pop temp 0
 call Dialogue.draw 0
 pop temp 0
 goto IF_END0
@@ -257,5 +262,33 @@ return
 function NPC.setActive 0
 push argument 0
 pop static 1
+push constant 0
+return
+function NPC.makeChallengeNode 0
+push argument 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call ChallengeNode.makeNode0 0
+pop static 3
+push constant 0
+return
+label IF_FALSE0
+push argument 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 3
+call ChallengeNode.dispose 1
+pop temp 0
+call ChallengeNode.makeNode1 0
+pop static 3
+push constant 0
+return
+label IF_FALSE1
 push constant 0
 return

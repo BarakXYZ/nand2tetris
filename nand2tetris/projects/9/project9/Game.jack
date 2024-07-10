@@ -1,6 +1,7 @@
 class Game {
 
     field NPC shimon, gini;
+    static boolean isNewLookup;
 
     constructor Game new() {
         
@@ -14,31 +15,34 @@ class Game {
         var boolean quit;
         var char c;
         var int activeNPC;
-        var boolean newLookup;
 
         let quit = false;
-        let newLookup = true;
+        let isNewLookup = true;
 
         while (~(quit)) {
             
-            if (newLookup) { do NPC.interact(); let newLookup = false; }
+            if (isNewLookup) { do NPC.interact(); do QuestManager.manageQuest(); }
 
             do Sys.wait(50);
             do Draw.sprite();
             let c = Keyboard.keyPressed();
 
             // '@' or 'L' pressed ([@][L]ookup Mode)
-            if (Input.isLookup(c)) { do Lookup.run(c); let newLookup = true; }
+            if (Input.isLookup(c)) { do Lookup.run(c); let isNewLookup = true; }
 
             // 'A' pressed ([A]nswer Mode)
             if (Input.isAnswer(c)) { do Challenge.run(c); }
 
             // 'Q' then 'Y' to quit
             if (Input.isQuit(c)) { let quit = true; } 
-            
 
         }
 
+        return;
+    }
+
+    function void setNewLookup(boolean cond) {
+        let isNewLookup = cond;
         return;
     }
 }

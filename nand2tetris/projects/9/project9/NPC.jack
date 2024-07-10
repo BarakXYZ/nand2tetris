@@ -7,10 +7,13 @@ class NPC {
     static int numOfNPCs;
     static int activeNPC;  // Perhaps needs to be tracked through game?
     static int pendingNPC;
+    static ChallengeNode challenge;
     
     function void init() {
         let numOfNPCs = 0;
         let activeNPC = 0;
+        let challenge = ChallengeNode.makeNode0();
+
         return;
     }
 
@@ -54,6 +57,7 @@ class NPC {
     function void interact() {
         
         if (pendingNPC = activeNPC) {
+            do challenge.draw();
             do Dialogue.draw();
         }
         else {
@@ -86,9 +90,6 @@ class NPC {
                         // do nothing
 
 
-    // method bool isPending() {
-    // }
-
     function void setPending(int index) {
         let pendingNPC = index;
         return;
@@ -103,6 +104,22 @@ class NPC {
         // 0 == Shimon
         // 1 == Gini
         // 2 == ...
+        return;
+    }
+
+    function void makeChallengeNode(int quest) {
+
+        if (quest = 0) {
+            let challenge = ChallengeNode.makeNode0();
+            return;
+        }
+
+        if (quest = 1) {
+            do challenge.dispose();
+            let challenge = ChallengeNode.makeNode1();
+            return;
+        }
+
         return;
     }
 }

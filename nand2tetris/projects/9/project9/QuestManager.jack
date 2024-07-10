@@ -27,10 +27,6 @@ class QuestManager {
 
         return;
     }
-    // pendingNPC | questNumber  (0[SHIMON] | 0[quest])
-    // pendingNPC | questNumber  (0[SHIMON] | 1[quest])
-    // pendingNPC | questNumber  (1[GINI]   | 2[quest])
-    // pendingNPC | questNumber  (0[SHIMON] | 3[quest])
 
     function boolean getHasStarted() {
         return hasQuestStarted;
@@ -55,20 +51,24 @@ class QuestManager {
         // so more then just 1 int conditional
     }
     
-    function int getActiveSubQuest() {
-        return activeSubQuest;
-    }
-
     function void increment() {
         let activeQuest = activeQuest + 1;
         do NPC.setPending(pendingNPCs[activeQuest]);
         do Dialogue.makeNode(activeQuest);
+        do NPC.makeChallengeNode(activeQuest);
         return;
     }
 
-    function void inActiveSubQuest() {
-        let activeSubQuest = activeSubQuest + 1;
+    function void manageQuest() {
+        if (activeQuest = 0) {
+            do Game.setNewLookup(true);
+            do QuestManager.increment();
+            do UserInterface.drawChallengeFrame();
+            // do ChallengeNode.draw();
+        } 
+        if (activeQuest = 1) {
+            // do Game.setNewLookup(false);  // Manage this from here
+        }
         return;
     }
-
 }

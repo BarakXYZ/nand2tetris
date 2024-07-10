@@ -49,7 +49,7 @@ class UserInterface {
 
         // do UserInterface.drawEntireScreenBorders();
 
-        // do UserInterface.drawMainFrame();
+        do UserInterface.drawMainFrame();
 
         do UserInterface.drawViewport();
 
