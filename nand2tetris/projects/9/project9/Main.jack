@@ -1,11 +1,16 @@
 class Main {
 
+    static String test;
+    static int i;
+
     function void main() {
-        
         var Game game;
+
+        let i = 2500;
         let game = Game.new();
 
         // INIT
+        do ChallengeNode.init();
         do NPC.init();
         do QuestManager.init();
         do Sprites.init();
@@ -15,7 +20,14 @@ class Main {
         do Draw.init();
         do UserInterface.init();
         do Debug.init();
-        // do Debug.run();
+        do Debug.run();
+        
+        // while (~(i = 0)) {
+        //     let test = "something";
+        //     do Output.moveCursor(0,0);
+        //     do Output.printString(test);
+        //     do test.dispose();
+        // }
 
         do game.run();
 

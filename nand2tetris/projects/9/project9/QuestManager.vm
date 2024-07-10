@@ -68,9 +68,6 @@ return
 function QuestManager.getActive 0
 push static 0
 return
-function QuestManager.getActiveSubQuest 0
-push static 1
-return
 function QuestManager.increment 0
 push static 0
 push constant 1
@@ -86,12 +83,33 @@ pop temp 0
 push static 0
 call Dialogue.makeNode 1
 pop temp 0
+push static 0
+call NPC.makeChallengeNode 1
+pop temp 0
 push constant 0
 return
-function QuestManager.inActiveSubQuest 0
-push static 1
+function QuestManager.manageQuest 0
+push static 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+call Game.setNewLookup 1
+pop temp 0
+call QuestManager.increment 0
+pop temp 0
+call UserInterface.drawChallengeFrame 0
+pop temp 0
+label IF_FALSE0
+push static 0
 push constant 1
-add
-pop static 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+label IF_FALSE1
 push constant 0
 return

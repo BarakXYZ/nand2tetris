@@ -1,6 +1,10 @@
 function Main.main 1
+push constant 2500
+pop static 1
 call Game.new 0
 pop local 0
+call ChallengeNode.init 0
+pop temp 0
 call NPC.init 0
 pop temp 0
 call QuestManager.init 0
@@ -18,6 +22,8 @@ pop temp 0
 call UserInterface.init 0
 pop temp 0
 call Debug.init 0
+pop temp 0
+call Debug.run 0
 pop temp 0
 push local 0
 call Game.run 1

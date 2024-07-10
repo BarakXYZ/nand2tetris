@@ -8,27 +8,27 @@ call NPC.initGini 0
 pop this 1
 push pointer 0
 return
-function Game.run 4
+function Game.run 3
 push argument 0
 pop pointer 0
 push constant 0
 pop local 0
 push constant 0
 not
-pop local 3
+pop static 0
 label WHILE_EXP0
 push local 0
 not
 not
 if-goto WHILE_END0
-push local 3
+push static 0
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 call NPC.interact 0
 pop temp 0
-push constant 0
-pop local 3
+call QuestManager.manageQuest 0
+pop temp 0
 label IF_FALSE0
 push constant 50
 call Sys.wait 1
@@ -47,7 +47,7 @@ call Lookup.run 1
 pop temp 0
 push constant 0
 not
-pop local 3
+pop static 0
 label IF_FALSE1
 push local 1
 call Input.isAnswer 1
@@ -69,5 +69,10 @@ pop local 0
 label IF_FALSE3
 goto WHILE_EXP0
 label WHILE_END0
+push constant 0
+return
+function Game.setNewLookup 0
+push argument 0
+pop static 0
 push constant 0
 return

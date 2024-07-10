@@ -7,7 +7,23 @@ goto IF_FALSE0
 label IF_TRUE0
 call DialogueNode.makeNode0 0
 pop static 0
+push constant 0
+return
 label IF_FALSE0
+push argument 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 0
+call DialogueNode.dispose 1
+pop temp 0
+call DialogueNode.makeNode1 0
+pop static 0
+push constant 0
+return
+label IF_FALSE1
 push constant 0
 return
 function Dialogue.draw 0
@@ -35,10 +51,6 @@ call Input.waitForEnter 0
 pop temp 0
 goto WHILE_EXP0
 label WHILE_END0
-push constant 0
-not
-call QuestManager.setHasStarted 1
-pop temp 0
 call UserInterface.clearInstruction 0
 pop temp 0
 goto IF_END0

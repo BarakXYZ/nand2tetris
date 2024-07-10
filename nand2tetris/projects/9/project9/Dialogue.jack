@@ -12,17 +12,16 @@ class Dialogue {
             // do currentNode.dispose();
             // let i = i + 1;
             // }
+            return;
         }
+
+        if(quest = 1) {
+            do currentNode.dispose();
+            let currentNode = DialogueNode.makeNode1();
+            return;
+        }
+
         return;
-
-        // if(QuestManager.getActive() = 1) {
-        //     // Dispose the first node
-        // do currentNode.dispose();
-        //     // Create the second node
-        //     // Store it statically
-        //     return;
-        // }
-
     }
 
     function void draw() {
@@ -33,7 +32,7 @@ class Dialogue {
                 do Sys.wait(300);
                 do Input.waitForEnter();
             }
-            do QuestManager.setHasStarted(true);
+            // do QuestManager.manageQuest();
             do UserInterface.clearInstruction();
         }
         else {
