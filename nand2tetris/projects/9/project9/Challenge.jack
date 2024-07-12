@@ -1,19 +1,30 @@
 class Challenge {
 
         static int maxLen, row, col;
-        static String input;
+        static String selBuff, tempBuff;
+        static Array buffArr, trackBuffArr;
+        static int selBuffIndex;
         static Array answers;
+        static boolean isArrow, isDownArrow, isUpArrow, isEnter;
+        static ChallengeBuffer cBuff0;
 
         function void init() {
-            let maxLen = 9;
-            let row = 19;
-            let col = 7;
-            let input = String.new(10);
+            let cBuff0 = ChallengeBuffer.new();
+            let row = 5;
+            let col = 11;
+            let selBuff = cBuff0.getBufferAt(13);  // default buffer
+            let tempBuff = cBuff0.getBufferAt(13);  // default buffer
+            let maxLen = cBuff0.getMaxStrLen() - 1;
+
+            let selBuffIndex = 13;
+
+            let isArrow = false;
+            let isEnter = false;
 
             do Challenge.initAnswers();
             return;
         }
-        
+
         function void initAnswers() {
             let answers = Array.new(30);
             
@@ -34,31 +45,34 @@ class Challenge {
             // Exits if 'Escape' (140) is pressed
             while (~(c = 140)) {
                 do Draw.sprite();
+                do Challenge.resetParams();
 
                 do Input.manageCharAndTimeBuffer(c);
                 let c = Keyboard.keyPressed();
 
                 // if 'Enter': insert answer and exit 'Answer Mode'
                 if (Input.isEnter(c)) {
-                    // do Challenge.checkAnswer();
-                    let c = 140;
+                    // do Challenge.checkAnswer();  // To be implemented
+
+                    let isEnter = true;
                 }
 
-                // Append or Erase char if non-zero & no Escape (140)
-                if ((~(c = 0)) & (~(c = 140))) {
+                if (c = 131) { do Challenge.upArrow(); }
+                if (c = 133) { do Challenge.downArrow(); }
+
+                // Append / Erase char if non-zero & no Enter & no Escape & no Arrow
+                if ((~(c = 0)) & (~(isEnter)) & (~(isArrow)) & (~(c = 140))) {
                     do Debug.key(c);
                     do Debug.event();
                     
                     // is erase? (129 == backspace)
-                    if ((input.length() > 0) & (c = 129)) { do Challenge.eraseChar(); }
+                    if ((selBuff.length() > 0) & (c = 129)) { do Challenge.eraseChar(); }
                     else {  // is append
-                        if ((input.length() < maxLen) & (~(c = 129))) {
+                        if ((selBuff.length() < maxLen) & (~(c = 129))) {
                             do Challenge.appendChar(c); 
                         }
                     }
                 }
-
-
 
             }
             do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
@@ -66,9 +80,18 @@ class Challenge {
             return;
         }
 
+        function void resetParams() {
+            let isArrow = false;
+            let isEnter = false;
+            let isUpArrow = false;
+            let isDownArrow = false;
+
+            return;
+        }
+
 
         function boolean check() {
-            if (input = answers[QuestManager.getActive()]) {
+            if (selBuff = answers[QuestManager.getActive()]) {
                 do QuestManager.increment();
                 return true;
             }
@@ -80,9 +103,9 @@ class Challenge {
         //** Append Characater:
         // Prints the updated string to the given row & col coords */
         function void appendChar(char c) {
-            do input.appendChar(c);  // built-in String method
-            do Output.moveCursor(row, col);
-            do Output.printString(input);
+            do selBuff.appendChar(c);  // built-in String method
+            do Output.moveCursor(row + selBuffIndex, col);
+            do Output.printString(selBuff);
             return;
         }
 
@@ -90,12 +113,45 @@ class Challenge {
         // Prints the updated string to the given row & col coords */
         function void eraseChar() {
             // Clean old screen buffer (last char)
-            do input.appendChar(String.backSpace());
-            do Output.moveCursor(row, col);
-            do Output.printString(input);
+            do selBuff.appendChar(String.backSpace());
+            do Output.moveCursor(row + selBuffIndex, col);
+            do Output.printString(selBuff);
 
-            do input.eraseLastChar();  // erase backspace
-            do input.eraseLastChar();  // erase actual char
+            do selBuff.eraseLastChar();  // erase backspace
+            do selBuff.eraseLastChar();  // erase actual char
+            return;
+        }
+
+        function void upArrow() {
+            let isArrow = true;
+            let isUpArrow = true;
+            do UserInterface.drawBufferSel(selBuffIndex, false);
+            if (selBuffIndex = 0) { let selBuffIndex = 14; }
+            else { 
+                if (selBuffIndex = 13) { let selBuffIndex = 11; }
+                else { let selBuffIndex = selBuffIndex - 1; } 
+            }
+            do Challenge.handleBuffer();
+            do UserInterface.drawBufferSel(selBuffIndex, true);
+            return;
+        }
+
+        function void downArrow() {
+            let isArrow = true;
+            let isDownArrow = true;
+            do UserInterface.drawBufferSel(selBuffIndex, false);
+            if (selBuffIndex = 14) { let selBuffIndex = 0; }
+            else { 
+                if (selBuffIndex = 11) { let selBuffIndex = 13; }
+                else { let selBuffIndex = selBuffIndex + 1; } 
+            }
+            do Challenge.handleBuffer();
+            do UserInterface.drawBufferSel(selBuffIndex, true);
+            return;
+        }
+
+        function void handleBuffer() {
+            let selBuff = cBuff0.getBufferAt(selBuffIndex);
             return;
         }
 

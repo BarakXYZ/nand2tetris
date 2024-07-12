@@ -1,0 +1,52 @@
+class ChallengeBuffer {
+    field String buff0, buff1, buff2, buff3, buff4, buff5, buff6, buff7, buff8;
+    field String buff9, buff10, buff11, buff12, buff13, buff14;
+    field Array arrBuff;
+    field int strSize; 
+    
+    constructor ChallengeBuffer new() {
+        let strSize = 7;
+        let buff0 = String.new(strSize);
+        let buff1 = String.new(strSize);
+        let buff2 = String.new(strSize);
+        let buff3 = String.new(strSize);
+        let buff4 = String.new(strSize);
+        let buff5 = String.new(strSize);
+        let buff6 = String.new(strSize);
+        let buff7 = String.new(strSize);
+        let buff8 = String.new(strSize);
+        let buff9 = String.new(strSize);
+        let buff10 = String.new(strSize);
+        let buff11 = String.new(strSize);
+        let buff12 = String.new(strSize);
+        let buff13 = String.new(strSize);
+        let buff14 = String.new(strSize);
+
+        let arrBuff = Array.new(15);
+
+        let arrBuff[0] = buff0;
+        let arrBuff[1] = buff1;
+        let arrBuff[2] = buff2;
+        let arrBuff[3] = buff3;
+        let arrBuff[4] = buff4;
+        let arrBuff[5] = buff5;
+        let arrBuff[6] = buff6;
+        let arrBuff[7] = buff7;
+        let arrBuff[8] = buff8;
+        let arrBuff[9] = buff9;
+        let arrBuff[10] = buff10;
+        let arrBuff[11] = buff11;
+        let arrBuff[12] = buff12;
+        let arrBuff[13] = buff13;
+        let arrBuff[14] = buff14;
+        return this;
+    }
+
+    method String getBufferAt(int index) {
+        return arrBuff[index];
+    }
+    
+    method int getMaxStrLen() {
+        return strSize;
+    }
+}
