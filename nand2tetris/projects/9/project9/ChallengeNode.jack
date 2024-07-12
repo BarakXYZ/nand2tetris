@@ -10,7 +10,7 @@ class ChallengeNode {
 
     function void init() {
         let startRow = 5;
-        let startCol = 7;
+        let startCol = 3;
         let lineIndex = String.new(3);
         return;
     }
@@ -38,6 +38,7 @@ class ChallengeNode {
         }
 
         do lineIndex.setInt(aCurrentRow);
+        do lineIndex.appendChar(46);
         do Output.printString(lineIndex);
         do lineIndex.dispose();
         

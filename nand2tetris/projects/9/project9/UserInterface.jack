@@ -77,24 +77,25 @@ class UserInterface {
     }
 
     function void drawViewport() {
-        do UserInterface.drawUnfilledRectangle(134, 20, 354, 45);  // title
-        do UserInterface.drawUnfilledRectangle(134, 45, 354, 174);  // viewport
+        do UserInterface.drawUnfilledRectangle(136, 20, 354, 45);  // title
+        do UserInterface.drawUnfilledRectangle(136, 45, 354, 174);  // viewport
         return;
     }
 
     function void drawTextBox() {
-        do UserInterface.drawUnfilledRectangle(134, 174, 440, 229);
+        do UserInterface.drawUnfilledRectangle(136, 174, 440, 229);
         return;
     }
 
     function void drawChallengeFrame() {
-        do UserInterface.drawUnfilledRectangle(52, 20, 134, 45);  // title
-        do Output.moveCursor(3, 7);
+        do UserInterface.drawUnfilledRectangle(1, 20, 136, 45);  // title
+        do Output.moveCursor(3, 1);
         do Output.printString("Challenge");
         do Output.moveCursor(21, 8);
         do Output.printString(answerInstruction);  // [A]nswer
 
-        do UserInterface.drawUnfilledRectangle(52, 45, 134, 174);  // frame
+        do UserInterface.drawUnfilledRectangle(1, 20, 80, 188);  // Code Frame
+        do UserInterface.drawUnfilledRectangle(80, 20, 136, 188);  // Comment Frame
         return;
     }
 
@@ -201,8 +202,8 @@ class UserInterface {
 
     function void drawSelArrows(Array selCoordDraw) {
 
-        do Output.moveCursor(selCoordDraw[0], selCoordDraw[1]);
-        do Output.printChar(selRightArrow);
+        // do Output.moveCursor(selCoordDraw[0], selCoordDraw[1]);
+        // do Output.printChar(selRightArrow);
 
         do Output.moveCursor(selCoordDraw[2], selCoordDraw[3]);
         do Output.printChar(selLeftArrow);
@@ -210,8 +211,23 @@ class UserInterface {
         do Output.moveCursor(selCoordDraw[4], selCoordDraw[5]);
         do Output.printChar(asterisk);
 
+        do UserInterface.drawTextBox();
+
         return;
     }
+
+    function void drawBufferSel(int selBuffer, boolean draw) {
+        let selBuffer = selBuffer + 5;  // 5 being the base index row (0)
+        do Output.moveCursor(selBuffer, 17);
+        if (draw) { do Output.printChar(selLeftArrow); }
+        else { do Output.printChar(32); }
+        do UserInterface.drawChallengeFrame();
+        do UserInterface.drawTextBox();
+        return;
+    }
+
+    // TODO
+    // Create a dedicated function for drawing the active [A]nswer mode thingy
 
     function void eraseSelArrows(Array selCoordErase) {
 
@@ -223,6 +239,8 @@ class UserInterface {
 
         do Output.moveCursor(selCoordErase[4], selCoordErase[5]);
         do Output.printChar(blankSpace);
+
+        do UserInterface.drawTextBox();
 
         return;
     }
@@ -241,9 +259,9 @@ class UserInterface {
 
     function void initAnswerSelCoords() {
         let selCoordAnswer = Array.new(6);
-        let selCoordAnswer[0] = 19;
+        let selCoordAnswer[0] = 18;
         let selCoordAnswer[1] = 5;
-        let selCoordAnswer[2] = 19;
+        let selCoordAnswer[2] = 18;
         let selCoordAnswer[3] = 17;
         let selCoordAnswer[4] = 22;
         let selCoordAnswer[5] = 11;
@@ -270,7 +288,7 @@ class UserInterface {
 
     function void clearDialogueBox() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(135, 175, 439, 228);
+        do Screen.drawRectangle(137, 175, 439, 228);
         do Screen.setColor(true);
         return;
     }

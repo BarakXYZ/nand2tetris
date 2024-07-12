@@ -14,6 +14,7 @@ class Helpers {
             if (~(str1.charAt(index) = str2.charAt(index))) { return false; }
             let index = index + 1;
         }
+
         return true;
     }
 
