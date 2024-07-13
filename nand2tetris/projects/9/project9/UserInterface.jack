@@ -4,7 +4,7 @@ class UserInterface {
     static String enterInstruction;
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
-    static String challengeTitle, tempTitle, contentTitle;
+    static String challengeTitle, tempTitle, contentTitle, lookupTitle;
     static Array selCoordAnswer, selCoordLookUp;
     static String blankPromptLine, incorrectSignal;
 
@@ -15,6 +15,7 @@ class UserInterface {
         let challengeTitle = "Challenge";
         let tempTitle = "temp";
         let contentTitle = "Content";
+        let lookupTitle = "[L]ookup Address";
         let maxTitleLen = 30;
         let titleStartRowIndex = 3;
         let titleStartColumnIndex = 16;
@@ -127,8 +128,7 @@ class UserInterface {
         do Screen.drawLine(290, 243, 258, 255);  // Right Diagonal
         
         do Output.moveCursor(21, 39);
-        // do Output.printString("[@]Lookup Address");
-        do Output.printString("[L]ookup Address");
+        do Output.printString(lookupTitle);
         do Output.moveCursor(21, 29);
         do Output.printChar(atSign);
         return;
@@ -198,16 +198,17 @@ class UserInterface {
         return;
     }
 
-    function void printAlignedTitle(String title) {
+    function void printAlignedTitle(String aTitle) {
         var int delta;
-        let delta = maxTitleLen - title.length();
-        do Output.moveCursor(
-            titleStartRowIndex, titleStartColumnIndex + (delta / 2) - 1);
+        do UserInterface.clearViewportTitle();
+
+        let delta = maxTitleLen - aTitle.length();
+        do Output.moveCursor(titleStartRowIndex, titleStartColumnIndex + (delta / 2) - 1);
         do Output.printChar(atSign);
-        do Output.printString(title);
-        do title.dispose();
+        do Output.printString(aTitle);
         return;
     }
+
 
     function void drawSelArrows(Array selCoordDraw) {
 
@@ -310,6 +311,13 @@ class UserInterface {
         do Screen.drawRectangle(1, 21, 79, 187);
         do Screen.drawRectangle(81, 21, 135, 187);
         do Screen.drawRectangle(1, 189, 135, 228);
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearViewportTitle() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(137, 21, 353, 44);
         do Screen.setColor(true);
         return;
     }

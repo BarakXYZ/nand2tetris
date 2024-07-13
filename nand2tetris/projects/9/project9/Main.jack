@@ -5,8 +5,18 @@ class Main {
     static int i;
 
     function void main() {
-
+        
+        // test
+        // let test1 = String.new(10);
+        // let test2 = "something";
+        //
+        // do Helpers.strCopy(test1, test2);
+        // do Output.moveCursor(0,0);
+        // do Output.printString(test1);
+        // do Sys.wait(30000);
+        
         // INIT
+        do ChallengeBuffer.init();
         do ChallengeNode.init();
         do ContentNode.init();
         do NPC.init();

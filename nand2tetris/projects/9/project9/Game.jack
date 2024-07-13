@@ -1,6 +1,6 @@
 class Game {
 
-    static boolean isNewLookup, isNewQuest;
+    static boolean isNewLookup, isNewQuest, isLookupEnabled;
 
     // constructor Game new() {
     //            
@@ -14,6 +14,7 @@ class Game {
 
         let quit = false;
         let isNewLookup = true;
+        let isLookupEnabled = false;
 
         while (~(quit)) {
             do Debug.activeQuest();           
@@ -21,7 +22,7 @@ class Game {
                 let isNewLookup = false;
                 let isNewQuest = false;
                 do NPC.interact();
-                do QuestManager.manageQuest();  // Check special case quests
+                // do QuestManager.manageQuest();  // Check special case quests
             }
 
             do Sys.wait(50);
@@ -29,7 +30,7 @@ class Game {
             let c = Keyboard.keyPressed();
 
             // '@' or 'L' pressed ([@][L]ookup Mode)
-            if (Input.isLookup(c)) {
+            if (Input.isLookup(c) & isLookupEnabled) {
                 do Lookup.run(c);
                 let isNewLookup = true;
             }
@@ -52,6 +53,11 @@ class Game {
 
     function void setNewQuest(boolean cond) {
         let isNewQuest = cond;
+        return;
+    }
+
+    function void setIsLookupEnabled(boolean cond) {
+        let isLookupEnabled = cond;
         return;
     }
 }

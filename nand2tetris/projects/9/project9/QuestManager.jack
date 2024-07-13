@@ -51,6 +51,7 @@ class QuestManager {
         do NPC.makeContentNode(activeQuest);
         do Game.setNewQuest(true);
         do QuestManager.manageQuest();
+        do Challenge.manageBuffer();  // cause we're manipulating the index
         return;
     }
 
@@ -66,6 +67,7 @@ class QuestManager {
         }
         if (activeQuest = 3) {
             do UserInterface.drawLookupFrame();
+            do Game.setIsLookupEnabled(true);
             return;
         }
         return;
