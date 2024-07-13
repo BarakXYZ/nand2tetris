@@ -1,20 +1,25 @@
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
-    static String answerInstruction, escapeInstruction, clearInstruction;
+    static String challengeInstruction, escapeInstruction, clearInstruction;
     static String enterInstruction;
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
+    static String challengeTitle, tempTitle, contentTitle;
     static Array selCoordAnswer, selCoordLookUp;
-    static String blankPromptLine;
+    static String blankPromptLine, incorrectSignal;
 
     function void init() {
         var int i;
         let i = 0;
 
+        let challengeTitle = "Challenge";
+        let tempTitle = "temp";
+        let contentTitle = "Content";
         let maxTitleLen = 30;
         let titleStartRowIndex = 3;
         let titleStartColumnIndex = 16;
-        let answerInstruction = "[A]nswer";
+        // let challengeInstruction = "[A]nswer Mode";
+        let challengeInstruction = "[C]hallenge Mode";
         let selRightArrow = 62;
         let selLeftArrow = 60;
         let selUpArrow = 94;
@@ -25,11 +30,12 @@ class UserInterface {
         let unknownFriend = "** ? **";
         let callingFriend = "** ! **";
         let clearBarFriend = "       ";
-        let blankPromptLine = "                            ";
+        let blankPromptLine = "                                    ";
+        let incorrectSignal = "XXX Incorrect, try again XXX";
 
         let escapeInstruction = " ** Press 'Escape' to Exit Current Mode **";
         let enterInstruction = " ** Press 'Enter' to continue **";
-        let clearInstruction = "                                    ";
+        let clearInstruction = "                                            ";
 
         do UserInterface.initAnswerSelCoords();
         do UserInterface.initLookUpSelCoords();
@@ -88,27 +94,30 @@ class UserInterface {
     }
 
     function void drawChallengeFrame() {
-        do UserInterface.drawUnfilledRectangle(1, 20, 136, 45);  // title
+        do UserInterface.drawUnfilledRectangle(0, 20, 136, 45);  // title
         do Output.moveCursor(3, 1);
-        do Output.printString("Challenge");
-        do Output.moveCursor(21, 8);
-        do Output.printString(answerInstruction);  // [A]nswer
+        do Output.printString(challengeTitle);
+        do Output.moveCursor(3, 12);
+        do Output.printString(tempTitle);
+        do Output.moveCursor(21, 0);
+        do Output.printString(challengeInstruction);  // [A]nswer
 
-        do UserInterface.drawUnfilledRectangle(1, 20, 80, 188);  // Code Frame
+        do UserInterface.drawUnfilledRectangle(0, 20, 80, 188);  // Code Frame
         do UserInterface.drawUnfilledRectangle(80, 20, 136, 188);  // Comment Frame
+        do UserInterface.drawUnfilledRectangle(0, 188, 136, 229);  // Answer Frame
         return;
     }
 
     function void drawContentFrame() {
         do UserInterface.drawUnfilledRectangle(354, 20, 440, 45);  // title
         do Output.moveCursor(3, 46);
-        do Output.printString("Content");
+        do Output.printString(contentTitle);
 
         do UserInterface.drawUnfilledRectangle(354, 45, 440, 174);  // frame
         return;
     }
 
-    function void drawAddrLookupUI() {
+    function void drawLookupFrame() {
         
         // Frame
         do Screen.drawLine(226, 229, 290, 229);  // Upper line
@@ -216,18 +225,21 @@ class UserInterface {
         return;
     }
 
-    function void drawBufferSel(int selBuffer, boolean draw) {
+    function void drawChallengeSel(int selBuffer, boolean draw) {
         let selBuffer = selBuffer + 5;  // 5 being the base index row (0)
         do Output.moveCursor(selBuffer, 17);
+
         if (draw) { do Output.printChar(selLeftArrow); }
         else { do Output.printChar(32); }
+
         do UserInterface.drawChallengeFrame();
         do UserInterface.drawTextBox();
+
+        do Output.moveCursor(22, 11);
+        if (draw) { do Output.printChar(asterisk); }
+        else { do Output.printChar(32); }
         return;
     }
-
-    // TODO
-    // Create a dedicated function for drawing the active [A]nswer mode thingy
 
     function void eraseSelArrows(Array selCoordErase) {
 
@@ -292,4 +304,27 @@ class UserInterface {
         do Screen.setColor(true);
         return;
     }
+
+    function void clearChallenge() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(1, 21, 79, 187);
+        do Screen.drawRectangle(81, 21, 135, 187);
+        do Screen.drawRectangle(1, 189, 135, 228);
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void signalIncorrectAnswer() {
+        do Output.moveCursor(0,0);
+        do Output.printString(clearInstruction);
+        do Output.moveCursor(0,0);
+        do Output.printString(incorrectSignal);
+        do Sys.wait(2500);
+        do Output.moveCursor(0,0);
+        do Output.printString(clearInstruction);
+        do Output.moveCursor(0,0);
+        do Output.printString(escapeInstruction);
+        return;
+    }
+
 }

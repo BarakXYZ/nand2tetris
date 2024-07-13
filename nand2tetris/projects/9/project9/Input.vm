@@ -15,9 +15,9 @@ return
 label IF_FALSE0
 push constant 0
 return
-function Input.isAnswer 0
+function Input.isChallenge 0
 push argument 0
-push constant 65
+push constant 67
 eq
 if-goto IF_TRUE0
 goto IF_FALSE0

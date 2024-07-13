@@ -1,9 +1,10 @@
 class ChallengeNode {
 
-    field int nodeIndex, currentRow, lastLine;
-    field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
-    field String t15, t16, t17, t18, t19;
-    field Array content;
+    field int nodeIndex, currentRow, lastLine, queries;
+    field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11;
+    field String a0, a1, a2;
+    field String r0, r1;
+    field Array content, answers, registers;
 
     static int startRow, startCol; 
     static String lineIndex;
@@ -16,6 +17,7 @@ class ChallengeNode {
     }
 
     method void draw() {
+        
         while (~(currentRow = lastLine)) {
             do UserInterface.clearDialogueBox();
             do ChallengeNode.drawLineIndex(currentRow);
@@ -25,7 +27,11 @@ class ChallengeNode {
 
             let currentRow = currentRow + 1;
         }
-        // dispose?
+
+        do Output.moveCursor(18, 1);
+        do Output.printString(registers[0]);
+        do Output.moveCursor(19, 1);
+        do Output.printString(registers[1]);
         return;
     }
 
@@ -37,6 +43,7 @@ class ChallengeNode {
             do Output.moveCursor(startRow + aCurrentRow, startCol - 3);
         }
 
+        let lineIndex = String.new(4);
         do lineIndex.setInt(aCurrentRow);
         do lineIndex.appendChar(46);
         do Output.printString(lineIndex);
@@ -45,102 +52,15 @@ class ChallengeNode {
         return;
     }
 
-    method void dispose() {
-        //** Dispose all Strings *//
-        do t0.dispose();
-        do t1.dispose();
-        do t2.dispose();
-        do t3.dispose();
-        do t4.dispose();
-        do t5.dispose();
-        do t6.dispose();
-        do t7.dispose();
-        do t8.dispose();
-        do t9.dispose();
-        do t10.dispose();
-        do t11.dispose();
-        do t12.dispose();
-        do t13.dispose();
-        do t14.dispose();
-        do t15.dispose();
-        do t16.dispose();
-        do t17.dispose();
-        do t18.dispose();
-        do t19.dispose();
-
-        //** Dispose Array *//
-        do content.dispose();
-
-        //** Dispose Object *//
-        do Memory.deAlloc(this);
-        return;
-    }
-
-    //** NODES *//
-
-    constructor ChallengeNode makeNode0() {
-
-        let nodeIndex = 0;
+    method void assignContentToArr(int aNodeIndex, int aLastLine, int aQueries) {
+        
+        var int i;
         let currentRow = 0;
-        let lastLine = 0;
+        let nodeIndex = aNodeIndex;
+        let lastLine = aLastLine;
+        let queries = aQueries;
 
-        let t0 = "";
-        let t1 = "";
-        let t2 = "";
-        let t3 = "";
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let content = Array.new(1);
-
-        return this;
-    }
-
-    constructor ChallengeNode makeNode1() {
-        let nodeIndex = 0;
-        let currentRow = 0;
-        let lastLine = 12;
-
-        let t0 = "@555";
-        let t1 = "D=M";
-        let t2 = "A=D+1";
-        let t3 = "AMD=D+M";
-        let t4 = "@SHIMON";
-        let t5 = "MD=D+1";
-        let t6 = "@9090";
-        let t7 = "MD=A";
-        let t8 = "@191919";
-        let t9 = "0;JMP";
-        let t10 = "D-1;JEQ";
-        let t11 = "M=D+1";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let content = Array.new(lastLine);
+        let content = Array.new(12);
 
         let content[0] = t0;
         let content[1] = t1;
@@ -157,6 +77,171 @@ class ChallengeNode {
         let content[10] = t10;
         let content[11] = t11;
 
+        let answers = Array.new(3);
+        let answers[0] = a0;
+        let answers[1] = a1;
+        let answers[2] = a2;
+
+        let registers = Array.new(2);
+        let registers[0] = r0;
+        let registers[1] = r1;
+
+        return;
+    }
+
+    method boolean checkAnswer(String buff13, String buff14) {
+        if (queries = 1) { return Helpers.strComp(buff13, a0); }
+        else { return Helpers.strComp(buff13, a0) & Helpers.strComp(buff14, a1); }
+    }
+
+    method void dispose() {
+
+        do lineIndex.dispose();
+
+        //** Dispose all Strings *//
+        do t0.dispose();
+        do t1.dispose();
+        do t2.dispose();
+        do t3.dispose();
+        do t4.dispose();
+        do t5.dispose();
+        do t6.dispose();
+        do t7.dispose();
+        do t8.dispose();
+        do t9.dispose();
+        do t10.dispose();
+        do t11.dispose();
+
+        do a0.dispose();
+        do a1.dispose();
+        do a2.dispose();
+
+        do r0.dispose();
+        do r1.dispose();
+
+        //** Dispose Array *//
+        do content.dispose();
+        do answers.dispose();
+        do registers.dispose();
+
+        //** Dispose Object *//
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //** NODES *//
+
+    constructor ChallengeNode makeNode0() {
+
+        let nodeIndex = 0;
+        let currentRow = 0;
+        let lastLine = 0;
+
+
+        let t0 = "";
+        let t1 = "";
+        let t2 = "";
+        let t3 = "";
+        let t4 = "";
+        let t5 = "";
+        let t6 = "";
+        let t7 = "";
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+
+        let a0 = "";
+        let a1 = "";
+        let a2 = "";
+
+        let r0 = "";
+        let r1 = "";
+
+        do assignContentToArr(0, 0, 0);
+
         return this;
     }
+
+    constructor ChallengeNode makeNode1() {
+
+        let t0 = "@42";
+        let t1 = "D=A";
+        let t2 = "@555";
+        let t3 = "M=D";
+        let t4 = "";
+        let t5 = "";
+        let t6 = "";
+        let t7 = "";
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+
+        let a0 = "42";
+        let a1 = "";
+        let a2 = "";
+
+        let r0 = "RAM[555]=";
+        let r1 = "";
+
+        do assignContentToArr(1, 4, 1);
+
+        return this;
+    }
+
+    constructor ChallengeNode makeNode2() {
+
+        let t0 = "@SHIMON";
+        let t1 = "D=M+A";
+        let t2 = "@40";
+        let t3 = "A=D-A";
+        let t4 = "M=D-1";
+        let t5 = "";
+        let t6 = "";
+        let t7 = "";
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "596";
+        let a1 = "42";
+        let a2 = "";
+
+        let r0 = "RAM[557]=";
+        let r1 = "RAM[555]=";
+
+        do assignContentToArr(2, 5, 2);
+
+        return this;
+    }
+
+    constructor ChallengeNode makeNode3() {
+
+        let t0 = "@357";
+        let t1 = "D=M";
+        let t2 = "@666";
+        let t3 = "M=M+D";
+        let t4 = "";
+        let t5 = "";
+        let t6 = "";
+        let t7 = "";
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "999";
+        let a1 = "";
+        let a2 = "";
+
+        let r0 = "RAM[666]=";
+        let r1 = "";
+
+        do assignContentToArr(3, 4, 1);
+
+        return this;
+    }
+
 }

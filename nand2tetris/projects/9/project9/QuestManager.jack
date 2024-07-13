@@ -1,11 +1,10 @@
 class QuestManager {
-    static int activeQuest, activeSubQuest;
+    static int activeQuest;
     static boolean hasQuestStarted;
     static Array pendingNPCs;
     
     function void init() {
         let activeQuest = 0;
-        let activeSubQuest = 0;
         let hasQuestStarted = false;
 
         do QuestManager.initPendingNPCs();
@@ -23,7 +22,8 @@ class QuestManager {
         let pendingNPCs[0] = 0;  // Shimon
         let pendingNPCs[1] = 0;  // Shimon
         let pendingNPCs[2] = 0;  // Shimon
-        let pendingNPCs[3] = 1;  // Gini
+        let pendingNPCs[3] = 0;  // Shimon
+        let pendingNPCs[4] = 0;  // Shimon
 
         return;
     }
@@ -39,35 +39,34 @@ class QuestManager {
 
     function int getActive() {
         return activeQuest;
-        // e.g. can later be checked by the characters themselves
-        // if 0:
-            // Shimon's intro quest
-        // if 2:
-            // Gini's quest
-        // etc.
-
-        // or essentially, if not 2, gini isn't pending
-        // or if not 2.1 (maybe there are sub-stages to a quest)
-        // so more then just 1 int conditional
     }
     
-    function void increment() {
+    function void complete() {
         let activeQuest = activeQuest + 1;
         do NPC.setPending(pendingNPCs[activeQuest]);
+        do UserInterface.clearChallenge();
+        do Challenge.resetBuffer();
         do Dialogue.makeNode(activeQuest);
         do NPC.makeChallengeNode(activeQuest);
+        do NPC.makeContentNode(activeQuest);
+        do Game.setNewQuest(true);
+        do QuestManager.manageQuest();
         return;
     }
 
     function void manageQuest() {
         if (activeQuest = 0) {
-            do Game.setNewLookup(true);
-            do QuestManager.increment();
+            do QuestManager.complete();
             do UserInterface.drawChallengeFrame();
-            // do ChallengeNode.draw();
+            return;
         } 
-        if (activeQuest = 1) {
-            // do Game.setNewLookup(false);  // Manage this from here
+        if (activeQuest = 2) {
+            do UserInterface.drawContentFrame();
+            return;
+        }
+        if (activeQuest = 3) {
+            do UserInterface.drawLookupFrame();
+            return;
         }
         return;
     }

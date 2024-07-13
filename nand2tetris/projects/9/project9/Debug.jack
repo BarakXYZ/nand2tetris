@@ -1,12 +1,14 @@
 class Debug {
 
     static int countEnter, eventCounter1, eventCounter2;
+    static String currQuest;
 
     function void init() {
 
         let countEnter = 0;
         let eventCounter1 = 0;
         let eventCounter2 = 0;
+        let currQuest = "Active Quest: ";
 
         return;
     }
@@ -19,21 +21,21 @@ class Debug {
     }
 
     function void key(char c) {
-        do Output.moveCursor(14,3);
+        do Output.moveCursor(22,60);
         do Output.printInt(c);
         return;
     }
 
     function void event() {
         let eventCounter1 = eventCounter1 + 1;
-        do Output.moveCursor(15,3);
+        do Output.moveCursor(21,60);
         do Output.printInt(eventCounter1);
     return;
     }
 
     function void event2() {
         let eventCounter2 = eventCounter2 + 1;
-        do Output.moveCursor(16,3);
+        do Output.moveCursor(20,60);
         do Output.printInt(eventCounter2);
         return;
     }
@@ -103,6 +105,13 @@ class Debug {
             let i = i + 1;
             let n = n + 1;
         }
+        return;
+    }
+
+    function void activeQuest() {
+        do Output.moveCursor(19, 60);
+        // do Output.printString(currQuest);
+        do Output.printInt(QuestManager.getActive());
         return;
     }
 

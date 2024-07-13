@@ -6,7 +6,7 @@ class Dialogue {
         // var int i;
         // let i = 0;
 
-        if(quest = 0) {
+        if (quest = 0) {
             // while (i < 1000) {  // test overflow and dispose
             let currentNode = DialogueNode.makeNode0();
             // do currentNode.dispose();
@@ -15,9 +15,21 @@ class Dialogue {
             return;
         }
 
-        if(quest = 1) {
+        if (quest = 1) {
             do currentNode.dispose();
             let currentNode = DialogueNode.makeNode1();
+            return;
+        }
+
+        if (quest = 2) {
+            do currentNode.dispose();
+            let currentNode = DialogueNode.makeNode2();
+            return;
+        }
+
+        if (quest = 3) {
+            do currentNode.dispose();
+            let currentNode = DialogueNode.makeNode3();
             return;
         }
 
@@ -32,17 +44,14 @@ class Dialogue {
                 do Sys.wait(300);
                 do Input.waitForEnter();
             }
-            // do QuestManager.manageQuest();
             do UserInterface.clearInstruction();
         }
         else {
             // default pending quest to complete dialogue
             // For now can just be something simple
-            do currentNode.advance();  // default 3 lines
+            // do currentNode.advance();  // default 3 lines
         }
         return;
     }
 
-    // function boolean advance() {
-    // }
 }

@@ -1,29 +1,94 @@
 function UserInterface.init 1
 push constant 0
 pop local 0
+push constant 9
+call String.new 1
+push constant 67
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+pop static 17
+push constant 4
+call String.new 1
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 109
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+pop static 18
+push constant 7
+call String.new 1
+push constant 67
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+pop static 19
 push constant 30
 pop static 0
 push constant 3
 pop static 2
 push constant 16
 pop static 1
-push constant 8
+push constant 16
 call String.new 1
 push constant 91
 call String.appendChar 2
-push constant 65
+push constant 67
 call String.appendChar 2
 push constant 93
 call String.appendChar 2
-push constant 110
+push constant 104
 call String.appendChar 2
-push constant 115
+push constant 97
 call String.appendChar 2
-push constant 119
+push constant 108
+call String.appendChar 2
+push constant 108
 call String.appendChar 2
 push constant 101
 call String.appendChar 2
-push constant 114
+push constant 110
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 100
+call String.appendChar 2
+push constant 101
 call String.appendChar 2
 pop static 3
 push constant 62
@@ -106,7 +171,7 @@ call String.appendChar 2
 push constant 32
 call String.appendChar 2
 pop static 16
-push constant 28
+push constant 36
 call String.new 1
 push constant 32
 call String.appendChar 2
@@ -164,7 +229,82 @@ push constant 32
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-pop static 19
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+pop static 22
+push constant 28
+call String.new 1
+push constant 88
+call String.appendChar 2
+push constant 88
+call String.appendChar 2
+push constant 88
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 73
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 44
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 121
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 88
+call String.appendChar 2
+push constant 88
+call String.appendChar 2
+push constant 88
+call String.appendChar 2
+pop static 23
 push constant 42
 call String.new 1
 push constant 32
@@ -319,8 +459,24 @@ call String.appendChar 2
 push constant 42
 call String.appendChar 2
 pop static 6
-push constant 36
+push constant 44
 call String.new 1
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
 push constant 32
 call String.appendChar 2
 push constant 32
@@ -478,7 +634,7 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawChallengeFrame 0
-push constant 1
+push constant 0
 push constant 20
 push constant 136
 push constant 45
@@ -488,36 +644,24 @@ push constant 3
 push constant 1
 call Output.moveCursor 2
 pop temp 0
-push constant 9
-call String.new 1
-push constant 67
-call String.appendChar 2
-push constant 104
-call String.appendChar 2
-push constant 97
-call String.appendChar 2
-push constant 108
-call String.appendChar 2
-push constant 108
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 103
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
+push static 17
+call Output.printString 1
+pop temp 0
+push constant 3
+push constant 12
+call Output.moveCursor 2
+pop temp 0
+push static 18
 call Output.printString 1
 pop temp 0
 push constant 21
-push constant 8
+push constant 0
 call Output.moveCursor 2
 pop temp 0
 push static 3
 call Output.printString 1
 pop temp 0
-push constant 1
+push constant 0
 push constant 20
 push constant 80
 push constant 188
@@ -527,6 +671,12 @@ push constant 80
 push constant 20
 push constant 136
 push constant 188
+call UserInterface.drawUnfilledRectangle 4
+pop temp 0
+push constant 0
+push constant 188
+push constant 136
+push constant 229
 call UserInterface.drawUnfilledRectangle 4
 pop temp 0
 push constant 0
@@ -542,22 +692,7 @@ push constant 3
 push constant 46
 call Output.moveCursor 2
 pop temp 0
-push constant 7
-call String.new 1
-push constant 67
-call String.appendChar 2
-push constant 111
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 116
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 116
-call String.appendChar 2
+push static 19
 call Output.printString 1
 pop temp 0
 push constant 354
@@ -568,7 +703,7 @@ call UserInterface.drawUnfilledRectangle 4
 pop temp 0
 push constant 0
 return
-function UserInterface.drawAddrLookupUI 0
+function UserInterface.drawLookupFrame 0
 push constant 226
 push constant 229
 push constant 290
@@ -914,7 +1049,7 @@ call UserInterface.drawTextBox 0
 pop temp 0
 push constant 0
 return
-function UserInterface.drawBufferSel 0
+function UserInterface.drawChallengeSel 0
 push argument 0
 push constant 5
 add
@@ -940,6 +1075,23 @@ call UserInterface.drawChallengeFrame 0
 pop temp 0
 call UserInterface.drawTextBox 0
 pop temp 0
+push constant 22
+push constant 11
+call Output.moveCursor 2
+pop temp 0
+push argument 1
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 11
+call Output.printChar 1
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push constant 32
+call Output.printChar 1
+pop temp 0
+label IF_END1
 push constant 0
 return
 function UserInterface.eraseSelArrows 0
@@ -995,9 +1147,9 @@ return
 function UserInterface.initLookUpSelCoords 0
 push constant 6
 call Array.new 1
-pop static 18
+pop static 21
 push constant 0
-push static 18
+push static 21
 add
 push constant 21
 pop temp 0
@@ -1005,7 +1157,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 18
+push static 21
 add
 push constant 27
 pop temp 0
@@ -1013,7 +1165,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 18
+push static 21
 add
 push constant 21
 pop temp 0
@@ -1021,7 +1173,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 18
+push static 21
 add
 push constant 37
 pop temp 0
@@ -1029,7 +1181,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 18
+push static 21
 add
 push constant 22
 pop temp 0
@@ -1037,7 +1189,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 5
-push static 18
+push static 21
 add
 push constant 32
 pop temp 0
@@ -1049,9 +1201,9 @@ return
 function UserInterface.initAnswerSelCoords 0
 push constant 6
 call Array.new 1
-pop static 17
+pop static 20
 push constant 0
-push static 17
+push static 20
 add
 push constant 18
 pop temp 0
@@ -1059,7 +1211,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 17
+push static 20
 add
 push constant 5
 pop temp 0
@@ -1067,7 +1219,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 17
+push static 20
 add
 push constant 18
 pop temp 0
@@ -1075,7 +1227,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 17
+push static 20
 add
 push constant 17
 pop temp 0
@@ -1083,7 +1235,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 17
+push static 20
 add
 push constant 22
 pop temp 0
@@ -1091,7 +1243,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 5
-push static 17
+push static 20
 add
 push constant 11
 pop temp 0
@@ -1101,24 +1253,24 @@ pop that 0
 push constant 0
 return
 function UserInterface.getSelCoordAnswer 0
-push static 17
+push static 20
 return
 function UserInterface.getSelCoordLookUp 0
-push static 18
+push static 21
 return
 function UserInterface.clearPromptLines 0
 push constant 0
 push constant 0
 call Output.moveCursor 2
 pop temp 0
-push static 19
+push static 22
 call Output.printString 1
 pop temp 0
 push constant 1
 push constant 0
 call Output.moveCursor 2
 pop temp 0
-push static 19
+push static 22
 call Output.printString 1
 pop temp 0
 push constant 0
@@ -1136,6 +1288,68 @@ pop temp 0
 push constant 0
 not
 call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function UserInterface.clearChallenge 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 1
+push constant 21
+push constant 79
+push constant 187
+call Screen.drawRectangle 4
+pop temp 0
+push constant 81
+push constant 21
+push constant 135
+push constant 187
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+push constant 189
+push constant 135
+push constant 228
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function UserInterface.signalIncorrectAnswer 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push static 5
+call Output.printString 1
+pop temp 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push static 23
+call Output.printString 1
+pop temp 0
+push constant 2500
+call Sys.wait 1
+pop temp 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push static 5
+call Output.printString 1
+pop temp 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push static 4
+call Output.printString 1
 pop temp 0
 push constant 0
 return
