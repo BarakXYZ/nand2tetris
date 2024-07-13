@@ -105,6 +105,8 @@ call Game.setNewQuest 1
 pop temp 0
 call QuestManager.manageQuest 0
 pop temp 0
+call Challenge.manageBuffer 0
+pop temp 0
 push constant 0
 return
 function QuestManager.manageQuest 0
@@ -139,6 +141,10 @@ if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
 call UserInterface.drawLookupFrame 0
+pop temp 0
+push constant 0
+not
+call Game.setIsLookupEnabled 1
 pop temp 0
 push constant 0
 return

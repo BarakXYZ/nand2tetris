@@ -4,6 +4,8 @@ pop local 0
 push constant 0
 not
 pop static 0
+push constant 0
+pop static 2
 label WHILE_EXP0
 push local 0
 not
@@ -23,8 +25,6 @@ push constant 0
 pop static 1
 call NPC.interact 0
 pop temp 0
-call QuestManager.manageQuest 0
-pop temp 0
 label IF_FALSE0
 push constant 50
 call Sys.wait 1
@@ -35,6 +35,8 @@ call Keyboard.keyPressed 0
 pop local 1
 push local 1
 call Input.isLookup 1
+push static 2
+and
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
@@ -75,5 +77,10 @@ return
 function Game.setNewQuest 0
 push argument 0
 pop static 1
+push constant 0
+return
+function Game.setIsLookupEnabled 0
+push argument 0
+pop static 2
 push constant 0
 return

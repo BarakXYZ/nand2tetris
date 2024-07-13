@@ -1,19 +1,19 @@
 function Challenge.init 0
-call ChallengeBuffer.new 0
-pop static 11
+call Challenge.initBuffers 0
+pop temp 0
 push constant 5
 pop static 1
 push constant 11
 pop static 2
-push static 11
+push static 18
 push constant 13
 call ChallengeBuffer.getBufferAt 2
 pop static 3
-push static 11
+push static 18
 push constant 13
 call ChallengeBuffer.getBufferAt 2
 pop static 4
-push static 11
+push static 18
 call ChallengeBuffer.getMaxStrLen 1
 push constant 1
 sub
@@ -21,19 +21,21 @@ pop static 0
 push constant 13
 pop static 7
 push constant 0
-pop static 9
-push constant 0
 pop static 10
+push constant 0
+pop static 11
 call Challenge.initAnswers 0
 pop temp 0
 push constant 0
 return
 function Challenge.initAnswers 0
-push constant 30
+push constant 5
+pop static 20
+push static 20
 call Array.new 1
-pop static 8
+pop static 9
 push constant 0
-push static 8
+push static 9
 add
 push constant 1
 call String.new 1
@@ -44,7 +46,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 8
+push static 9
 add
 push constant 3
 call String.new 1
@@ -59,7 +61,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 8
+push static 9
 add
 push constant 5
 call String.new 1
@@ -77,6 +79,76 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+push constant 0
+return
+function Challenge.initBuffers 0
+call ChallengeBuffer.new 0
+pop static 12
+call ChallengeBuffer.new 0
+pop static 13
+call ChallengeBuffer.new 0
+pop static 14
+call ChallengeBuffer.new 0
+pop static 15
+call ChallengeBuffer.new 0
+pop static 16
+call ChallengeBuffer.new 0
+pop static 17
+push constant 10
+call Array.new 1
+pop static 19
+push constant 0
+push static 19
+add
+push static 12
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 19
+add
+push static 13
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 19
+add
+push static 14
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 19
+add
+push static 15
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 19
+add
+push static 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push static 19
+add
+push static 17
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push static 12
+pop static 18
+push constant 0
+pop static 8
 push constant 0
 return
 function Challenge.run 0
@@ -113,12 +185,12 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 13
-push static 11
+push static 18
 add
 pop pointer 1
 push that 0
 push constant 14
-push static 11
+push static 18
 add
 pop pointer 1
 push that 0
@@ -131,7 +203,7 @@ pop argument 0
 label IF_FALSE1
 push constant 0
 not
-pop static 10
+pop static 11
 label IF_FALSE0
 push argument 0
 push constant 131
@@ -155,10 +227,10 @@ push argument 0
 push constant 0
 eq
 not
-push static 10
+push static 11
 not
 and
-push static 9
+push static 10
 not
 and
 push argument 0
@@ -219,9 +291,9 @@ push constant 0
 return
 function Challenge.resetParams 0
 push constant 0
-pop static 9
-push constant 0
 pop static 10
+push constant 0
+pop static 11
 push constant 0
 return
 function Challenge.appendChar 0
@@ -265,7 +337,7 @@ return
 function Challenge.upArrow 0
 push constant 0
 not
-pop static 9
+pop static 10
 push static 7
 push constant 0
 call UserInterface.drawChallengeSel 2
@@ -303,7 +375,7 @@ return
 function Challenge.downArrow 0
 push constant 0
 not
-pop static 9
+pop static 10
 push static 7
 push constant 0
 call UserInterface.drawChallengeSel 2
@@ -339,7 +411,7 @@ pop temp 0
 push constant 0
 return
 function Challenge.manageBuffer 0
-push static 11
+push static 18
 push static 7
 call ChallengeBuffer.getBufferAt 2
 pop static 3
@@ -351,11 +423,19 @@ pop temp 0
 push constant 0
 return
 function Challenge.resetBuffer 0
-push static 11
+push static 18
 call ChallengeBuffer.dispose 1
 pop temp 0
 call ChallengeBuffer.new 0
-pop static 11
+pop static 18
+push static 8
+push static 5
+add
+push static 18
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 push static 7
 push constant 0
 call UserInterface.drawChallengeSel 2
@@ -365,5 +445,26 @@ return
 function Challenge.setSelBuffIndex 0
 push argument 0
 pop static 7
+push constant 0
+return
+function Challenge.setCurrentBuffer 0
+push argument 0
+pop static 8
+push static 8
+push static 19
+add
+pop pointer 1
+push that 0
+pop static 18
+call Challenge.manageBuffer 0
+pop temp 0
+push constant 0
+return
+function Challenge.drawBuffer 0
+push static 18
+call ChallengeBuffer.draw 1
+pop temp 0
+call UserInterface.drawChallengeFrame 0
+pop temp 0
 push constant 0
 return

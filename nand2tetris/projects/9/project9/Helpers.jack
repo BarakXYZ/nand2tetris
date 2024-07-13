@@ -18,4 +18,16 @@ class Helpers {
         return true;
     }
 
+    function void strCopy(String str1, String str2) {
+        var int i, lenStr2;
+        let i = 0;
+        let lenStr2 = str2.length();
+
+        while (i < lenStr2) {
+            do str1.appendChar(str2.charAt(i));
+            let i = i + 1;
+        }
+
+        return;
+    }
 }

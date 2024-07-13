@@ -3,18 +3,21 @@ class Challenge {
         static int maxLen, row, col;
         static String selBuff, tempBuff;
         static Array buffArr, trackBuffArr;
-        static int selBuffIndex;
+        static int selBuffIndex, groupBuffIndex;
         static Array answers;
         static boolean isArrow, isEnter;
-        static ChallengeBuffer cBuff0;
+        static ChallengeBuffer b0, b1, b2, b3, b4, b5;
+        static ChallengeBuffer currentBuffer;
+        static Array bufferArr;
+        static int buffArrSize;
 
         function void init() {
-            let cBuff0 = ChallengeBuffer.new();
+            do Challenge.initBuffers();
             let row = 5;
             let col = 11;
-            let selBuff = cBuff0.getBufferAt(13);  // default buffer
-            let tempBuff = cBuff0.getBufferAt(13);  // default buffer
-            let maxLen = cBuff0.getMaxStrLen() - 1;
+            let selBuff = currentBuffer.getBufferAt(13);  // default buffer
+            let tempBuff = currentBuffer.getBufferAt(13);  // default buffer
+            let maxLen = currentBuffer.getMaxStrLen() - 1;
 
             let selBuffIndex = 13;
 
@@ -26,12 +29,34 @@ class Challenge {
         }
 
         function void initAnswers() {
-            let answers = Array.new(30);
+            let buffArrSize = 5;
+            let answers = Array.new(buffArrSize);
             
             let answers[0] = "6";
             let answers[1] = "555";
             let answers[2] = "99999";
 
+            return;
+        }
+
+        function void initBuffers() {
+            let b0 = ChallengeBuffer.new();
+            let b1 = ChallengeBuffer.new();
+            let b2 = ChallengeBuffer.new();
+            let b3 = ChallengeBuffer.new();
+            let b4 = ChallengeBuffer.new();
+            let b5 = ChallengeBuffer.new();
+
+            let bufferArr = Array.new(10);
+            let bufferArr[0] = b0;
+            let bufferArr[1] = b1;
+            let bufferArr[2] = b2;
+            let bufferArr[3] = b3;
+            let bufferArr[4] = b4;
+            let bufferArr[5] = b5;
+
+            let currentBuffer = b0;
+            let groupBuffIndex = 0;  // default Shimon group
             return;
         }
 
@@ -53,13 +78,12 @@ class Challenge {
 
                 // if 'Enter': insert answer and exit 'Answer Mode'
                 if (Input.isEnter(c)) {
-                    if (NPC.checkChallengeAnswer(cBuff0[13], cBuff0[14])) {
+                    if (NPC.checkChallengeAnswer(currentBuffer[13], currentBuffer[14])) {
                         let c = 140;
                         // check if need to rearrange UI a bit (we need to!)
                         // Lookup functionality:
-                            // Visting other addresses (checks etc.)
-                            // draw new sprites and figure out the limitations
-                            // Storing multiple buffers without losing them
+                            // draw new sprites and figure out the limitations - X
+                            // Draw the correct challenge on visit - X
 
                         // Plot twist and an interesting challenge
                         // master challenge and wrap up
@@ -144,20 +168,34 @@ class Challenge {
         }
 
         function void manageBuffer() {
-            let selBuff = cBuff0.getBufferAt(selBuffIndex);
+            let selBuff = currentBuffer.getBufferAt(selBuffIndex);
             do UserInterface.drawChallengeSel(selBuffIndex, true);
             return;
         }
         
         function void resetBuffer() {
-            do cBuff0.dispose();
-            let cBuff0 = ChallengeBuffer.new();
+            do currentBuffer.dispose();
+            let currentBuffer = ChallengeBuffer.new();
+            let buffArr[groupBuffIndex] = currentBuffer;  // maybe reset all buffers
             do UserInterface.drawChallengeSel(selBuffIndex, false);
             return;
         } 
 
         function void setSelBuffIndex(int aIndex) {
             let selBuffIndex = aIndex;
+            return;
+        }
+
+        function void setCurrentBuffer(int aIndex) {
+            let groupBuffIndex = aIndex;
+            let currentBuffer = bufferArr[groupBuffIndex];
+            do Challenge.manageBuffer();
+            return;
+        }
+
+        function void drawBuffer() {
+            do currentBuffer.draw();
+            do UserInterface.drawChallengeFrame();
             return;
         }
 }

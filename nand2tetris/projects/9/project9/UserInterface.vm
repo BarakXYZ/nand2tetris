@@ -50,6 +50,41 @@ call String.appendChar 2
 push constant 116
 call String.appendChar 2
 pop static 19
+push constant 16
+call String.new 1
+push constant 91
+call String.appendChar 2
+push constant 76
+call String.appendChar 2
+push constant 93
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 107
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 100
+call String.appendChar 2
+push constant 100
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+pop static 20
 push constant 30
 pop static 0
 push constant 3
@@ -245,7 +280,7 @@ push constant 32
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-pop static 22
+pop static 23
 push constant 28
 call String.new 1
 push constant 88
@@ -304,7 +339,7 @@ push constant 88
 call String.appendChar 2
 push constant 88
 call String.appendChar 2
-pop static 23
+pop static 24
 push constant 42
 call String.new 1
 push constant 32
@@ -738,40 +773,7 @@ push constant 21
 push constant 39
 call Output.moveCursor 2
 pop temp 0
-push constant 16
-call String.new 1
-push constant 91
-call String.appendChar 2
-push constant 76
-call String.appendChar 2
-push constant 93
-call String.appendChar 2
-push constant 111
-call String.appendChar 2
-push constant 111
-call String.appendChar 2
-push constant 107
-call String.appendChar 2
-push constant 117
-call String.appendChar 2
-push constant 112
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 65
-call String.appendChar 2
-push constant 100
-call String.appendChar 2
-push constant 100
-call String.appendChar 2
-push constant 114
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 115
-call String.appendChar 2
-push constant 115
-call String.appendChar 2
+push static 20
 call Output.printString 1
 pop temp 0
 push constant 21
@@ -988,6 +990,8 @@ pop temp 0
 push constant 0
 return
 function UserInterface.printAlignedTitle 1
+call UserInterface.clearViewportTitle 0
+pop temp 0
 push static 0
 push argument 0
 call String.length 1
@@ -1008,9 +1012,6 @@ call Output.printChar 1
 pop temp 0
 push argument 0
 call Output.printString 1
-pop temp 0
-push argument 0
-call String.dispose 1
 pop temp 0
 push constant 0
 return
@@ -1147,9 +1148,9 @@ return
 function UserInterface.initLookUpSelCoords 0
 push constant 6
 call Array.new 1
-pop static 21
+pop static 22
 push constant 0
-push static 21
+push static 22
 add
 push constant 21
 pop temp 0
@@ -1157,7 +1158,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 21
+push static 22
 add
 push constant 27
 pop temp 0
@@ -1165,7 +1166,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 21
+push static 22
 add
 push constant 21
 pop temp 0
@@ -1173,7 +1174,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 21
+push static 22
 add
 push constant 37
 pop temp 0
@@ -1181,7 +1182,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 21
+push static 22
 add
 push constant 22
 pop temp 0
@@ -1189,7 +1190,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 5
-push static 21
+push static 22
 add
 push constant 32
 pop temp 0
@@ -1201,9 +1202,9 @@ return
 function UserInterface.initAnswerSelCoords 0
 push constant 6
 call Array.new 1
-pop static 20
+pop static 21
 push constant 0
-push static 20
+push static 21
 add
 push constant 18
 pop temp 0
@@ -1211,7 +1212,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 20
+push static 21
 add
 push constant 5
 pop temp 0
@@ -1219,7 +1220,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 20
+push static 21
 add
 push constant 18
 pop temp 0
@@ -1227,7 +1228,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 20
+push static 21
 add
 push constant 17
 pop temp 0
@@ -1235,7 +1236,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 20
+push static 21
 add
 push constant 22
 pop temp 0
@@ -1243,7 +1244,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 5
-push static 20
+push static 21
 add
 push constant 11
 pop temp 0
@@ -1253,24 +1254,24 @@ pop that 0
 push constant 0
 return
 function UserInterface.getSelCoordAnswer 0
-push static 20
+push static 21
 return
 function UserInterface.getSelCoordLookUp 0
-push static 21
+push static 22
 return
 function UserInterface.clearPromptLines 0
 push constant 0
 push constant 0
 call Output.moveCursor 2
 pop temp 0
-push static 22
+push static 23
 call Output.printString 1
 pop temp 0
 push constant 1
 push constant 0
 call Output.moveCursor 2
 pop temp 0
-push static 22
+push static 23
 call Output.printString 1
 pop temp 0
 push constant 0
@@ -1319,6 +1320,22 @@ call Screen.setColor 1
 pop temp 0
 push constant 0
 return
+function UserInterface.clearViewportTitle 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 137
+push constant 21
+push constant 353
+push constant 44
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
 function UserInterface.signalIncorrectAnswer 0
 push constant 0
 push constant 0
@@ -1331,7 +1348,7 @@ push constant 0
 push constant 0
 call Output.moveCursor 2
 pop temp 0
-push static 23
+push static 24
 call Output.printString 1
 pop temp 0
 push constant 2500

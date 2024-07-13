@@ -1,15 +1,15 @@
 class Lookup {
         
         static int maxLen, row, col;
-        static String input;
+        static String lookupInput, lookupTemp;
 
         function void init() {
 
             let maxLen = 6;
             let row = 21;
             let col = 30;
-            let input = String.new(7);
-            // let input = "";
+            let lookupTemp = String.new(7);
+            let lookupInput = String.new(7);
 
             return;
         }
@@ -41,9 +41,11 @@ class Lookup {
                     do Debug.event();
                     
                     // is erase? (129 == backspace)
-                    if ((input.length() > 0) & (c = 129)) { do Lookup.eraseChar(); }
+                    if ((lookupInput.length() > 0) & (c = 129)) { 
+                        do Lookup.eraseChar();
+                    }
                     else {  // is append
-                        if ((input.length() < maxLen) & (~(c = 129))) {
+                        if ((lookupInput.length() < (maxLen)) & (~(c = 129))) {
                             do Lookup.appendChar(c); 
                         }
                     }
@@ -60,25 +62,40 @@ class Lookup {
             var int activeQuest;
             let activeQuest = QuestManager.getActive();
 
-            if (Helpers.strComp(input, "SHIMON")) {
-                do NPC.setActive(0);
-                do UserInterface.printAlignedTitle(input);
+            if (Helpers.strComp(lookupInput, "SHIMON")) {
+                do Lookup.new(0, 0);
                 return;
             }
-            if ((activeQuest > 0) & (Helpers.strComp(input, "GINI"))) {
-                do NPC.setActive(1);
-                do UserInterface.printAlignedTitle(input);
+            if ((activeQuest > 0) & (Helpers.strComp(lookupInput, "357"))) {
+                do Lookup.new(0, 1);
                 return;
             }
+            return;
+        }
+
+        function void new(int activeNPC, int currBuff) {
+            do NPC.setActive(activeNPC);
+            do Challenge.setCurrentBuffer(currBuff);
+            do Challenge.drawBuffer();
+
+            // do lookupTemp.dispose();
+            // let lookupTemp = String.new(7);
+            // do Helpers.strCopy(lookupTemp, lookupInput);
+            // do lookupInput.dispose();
+            // let lookupInput = String.new(7);
+            // do Helpers.strCopy(lookupInput, lookupTemp);
+
+            do UserInterface.printAlignedTitle(lookupInput);
+
             return;
         }
 
         //** Append Characater:
         // Prints the updated string to the given row & col coords */
         function void appendChar(char c) {
-            do input.appendChar(c);  // built-in String method
+            do lookupInput.appendChar(c);  // built-in String method
             do Output.moveCursor(row, col);
-            do Output.printString(input);
+            do Output.printString(lookupInput);
             return;
         }
 
@@ -86,12 +103,12 @@ class Lookup {
         // Prints the updated string to the given row & col coords */
         function void eraseChar() {
             // Clean old screen buffer (last char)
-            do input.appendChar(String.backSpace());
+            do lookupInput.appendChar(String.backSpace());
             do Output.moveCursor(row, col);
-            do Output.printString(input);
+            do Output.printString(lookupInput);
 
-            do input.eraseLastChar();  // erase backspace
-            do input.eraseLastChar();  // erase actual char
+            do lookupInput.eraseLastChar();  // erase backspace
+            do lookupInput.eraseLastChar();  // erase actual char
             return;
         }
 }
