@@ -5,8 +5,8 @@ class Input {
         return false;
     } 
 
-    function boolean isAnswer(char c) {
-        if (c = 65) { return true; }
+    function boolean isChallenge(char c) {
+        if (c = 67) { return true; }
         return false;
     }
 

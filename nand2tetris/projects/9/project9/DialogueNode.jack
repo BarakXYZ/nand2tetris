@@ -2,7 +2,7 @@ class DialogueNode {
 
     field int nodeIndex, currentLine, lastLine, numOfBatches, currentBatch;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
-    field String t15, t16, t17, t18, t19;
+    field String t15, t16, t17, t18, t19, t20, t21, t22, t23;
     field Array mainDialogue;
     field boolean hasEnded;
 
@@ -34,122 +34,17 @@ class DialogueNode {
         return hasEnded;
     }
 
-    method void dispose() {
-        //** Dispose all Strings *//
-        do t0.dispose();
-        do t1.dispose();
-        do t2.dispose();
-        do t3.dispose();
-        do t4.dispose();
-        do t5.dispose();
-        do t6.dispose();
-        do t7.dispose();
-        do t8.dispose();
-        do t9.dispose();
-        do t10.dispose();
-        do t11.dispose();
-        do t12.dispose();
-        do t13.dispose();
-        do t14.dispose();
-        do t15.dispose();
-        do t16.dispose();
-        do t17.dispose();
-        do t18.dispose();
-        do t19.dispose();
-
-        //** Dispose Array *//
-        do mainDialogue.dispose();
-
-        //** Dispose Object *//
-        do Memory.deAlloc(this);
+    method void initNodeParams(int aIndex, int aLastLine) {
+        let nodeIndex = aIndex;
+        let lastLine = aLastLine;
+        let currentLine = 0;
+        let hasEnded = false;
         return;
     }
 
-    //** NODES *//
-
-    constructor DialogueNode makeNode0() {
-        let nodeIndex = 0;
-        let currentLine = 0;
-        let lastLine = 12;
-        let hasEnded = false;
-
-        let t0 = "Hello there young programmer!";
-        let t1 = "I'm glad you showed up. Before we";
-        let t2 = "move on to build a compiler, I have";
-        let t3 = "a few challenges for you!";
-
-        let t4 = "I want to make sure you have all the";
-        let t5 = "basics figured out. So I've prepared";
-        let t6 = "some interesting assembly challenges";
-        let t7 = "for you to solve.";
-
-        let t8 = "It's a bit involved, but not worries.";
-        let t9 = "Like always we'll start with the big ";
-        let t10 = "picture, go over everything step-by";
-        let t11 = "-step and get you up and running!";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let mainDialogue = Array.new(lastLine + 3);
-
-        let mainDialogue[0] = t0;
-        let mainDialogue[1] = t1;
-        let mainDialogue[2] = t2;
-        let mainDialogue[3] = t3;
-
-        let mainDialogue[4] = t4;
-        let mainDialogue[5] = t5;
-        let mainDialogue[6] = t6;
-        let mainDialogue[7] = t7;
-
-        let mainDialogue[8] = t8;
-        let mainDialogue[9] = t9;
-        let mainDialogue[10] = t10;
-        let mainDialogue[11] = t11;
-
-        return this;
-    }
-    
-    constructor DialogueNode makeNode1() {
-        let nodeIndex = 1;
-        let currentLine = 0;
-        let lastLine = 20;
-        let hasEnded = false;
-
-        let t0 = "This is the 'Challenge' pane.";
-        let t1 = "The assembly code you'll need to";
-        let t2 = "solve will be shown here.";
-        let t3 = "Notice each line has a number.";
-
-        let t4 = "somethingsomething";
-        let t5 = "basics figured out. So I've prepared";
-        let t6 = "some interesting assembly challenges";
-        let t7 = "for you to solve.";
-
-        let t8 = "It's a bit involved, But not worries.";
-        let t9 = "Like always we'll start with the big ";
-        let t10 = "picture, go over everything step-by";
-        let t11 = "-step and get you up and running!";
-
-        let t12 = "This is the 'Challenge' pane.";
-        let t13 = "The assembly code you'll need to";
-        let t14 = "solve will be shown here. Let's";
-        let t15 = "start with a simple challenge.";
-
-        let t16 = "test2";
-        let t17 = "test3";
-        let t18 = "";
-        let t19 = "";
-
-        let mainDialogue = Array.new(lastLine + 3);
+    method void assignDialogueToArr() {
+        
+        let mainDialogue = Array.new(24);
 
         let mainDialogue[0] = t0;
         let mainDialogue[1] = t1;
@@ -167,7 +62,7 @@ class DialogueNode {
         let mainDialogue[11] = t11;
 
         let mainDialogue[12] = t12;
-        let mainDialogue[13] = t13; 
+        let mainDialogue[13] = t13;
         let mainDialogue[14] = t14;
         let mainDialogue[15] = t15;
 
@@ -175,6 +70,204 @@ class DialogueNode {
         let mainDialogue[17] = t17;
         let mainDialogue[18] = t18;
         let mainDialogue[19] = t19;
+
+        let mainDialogue[20] = t20;
+        let mainDialogue[21] = t21;
+        let mainDialogue[22] = t22;
+        let mainDialogue[23] = t23;
+
+        return;
+    }
+
+    method void dispose() {
+        //** Dispose all Strings *//
+        do t0.dispose();
+        do t1.dispose();
+        do t2.dispose();
+        do t3.dispose();
+
+        do t4.dispose();
+        do t5.dispose();
+        do t6.dispose();
+        do t7.dispose();
+
+        do t8.dispose();
+        do t9.dispose();
+        do t10.dispose();
+        do t11.dispose();
+
+        do t12.dispose();
+        do t13.dispose();
+        do t14.dispose();
+        do t15.dispose();
+
+        do t16.dispose();
+        do t17.dispose();
+        do t18.dispose();
+        do t19.dispose();
+
+        do t20.dispose();
+        do t21.dispose();
+        do t22.dispose();
+        do t23.dispose();
+
+        //** Dispose Array *//
+        do mainDialogue.dispose();
+
+        //** Dispose Object *//
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //** NODES *//
+
+    constructor DialogueNode makeNode0() {
+        do initNodeParams(0, 12);
+
+        let t0 = "Hello there young programmer!";
+        let t1 = "I'm glad you showed up. Before we";
+        let t2 = "move on to build a compiler, I have";
+        let t3 = "a few challenges for you!";
+
+        let t4 = "I want to make sure you have all the";
+        let t5 = "basics figured out. So I've prepared";
+        let t6 = "some interesting assembly challenges";
+        let t7 = "for you to solve!";
+
+        let t8 = "They're a bit involved, but no ";
+        let t9 = "worries! We'll start with the big ";
+        let t10 = "picture, go over everything step-by";
+        let t11 = "-step and get you up and running!";
+
+        let t12 = "";
+        let t13 = "";
+        let t14 = "";
+        let t15 = "";
+
+        let t16 = "";
+        let t17 = "";
+        let t18 = "";
+        let t19 = "";
+
+        let t20 = "";
+        let t21 = "";
+        let t22 = "";
+        let t23 = "";
+
+        do assignDialogueToArr();
+
+        return this;
+    }
+    
+    constructor DialogueNode makeNode1() {
+        do initNodeParams(1, 24);
+
+        let t0 = "This is the 'Challenge' pane.";
+        let t1 = "The assembly code you'll need to";
+        let t2 = "solve will be shown there.";
+        let t3 = "Notice each line has a number.";
+
+        let t4 = "Press 'C' to enter the 'Challenge";
+        let t5 = "Mode', Then start typing your ";
+        let t6 = "answers. When you're ready, press";
+        let t7 = "'Enter' to submit your answers.";
+
+        let t8 = "You can also use the Up & Down";
+        let t9 = "arrows to navigate the buffers.";
+        let t10 = "You have Answer Buffers and";
+        let t11 = "convenient temp buffers.";
+
+        let t12 = "Answer Buffers will be checked";
+        let t13 = "internally to see if your answer";
+        let t14 = "is correct. The Temp Buffers";
+        let t15 = "will serve as helpers--";
+
+        let t16 = "--to track the flow of";
+        let t17 = "registers for your convenience.";
+        let t18 = "They will be useful when the";
+        let t19 = "challenges become harder! (soon)";
+
+        let t20 = "Ok, let's start!";
+        let t21 = "Here's your first challenge.";
+        let t22 = "Don't worry, it won't stay";
+        let t23 = "simple for long ;)";
+
+        do assignDialogueToArr();
+
+        return this;
+    }
+    constructor DialogueNode makeNode2() {
+        do initNodeParams(2, 20);
+
+        let t0 = "Nice job!";
+        let t1 = "I already see you got what it takes!";
+        let t2 = "So let's spice it up then...";
+        let t3 = "Here's the 'Content' pane.";
+
+        let t4 = "In it, you'll see the attributes";
+        let t5 = "of the currently selected memory cell";
+        let t6 = "For example: my address=555, and my-";
+        let t7 = "value (that you've just set) inM=42";
+
+        let t8 = "So let's introduce a challenge that";
+        let t9 = "is using these parameters.";
+        let t10 = "";
+        let t11 = "Oh! And just another quick reminder:";
+
+        let t12 = "You can use the Up & Down arrow keys";
+        let t13 = "to use the temp buffers for tracking";
+        let t14 = "the flow of the program (Instead of";
+        let t15 = "tracking the flow in your head)";
+
+        let t16 = "Good luck!";
+        let t17 = "";
+        let t18 = "";
+        let t19 = "";
+
+        let t20 = "";
+        let t21 = "";
+        let t22 = "";
+        let t23 = "";
+
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeNode3() {
+        do initNodeParams(3, 16);
+
+        let t0 = "Phew! Phew! You got this, huh?!";
+        let t1 = "Ok, let's move on...";
+        let t2 = "Let me introduce the 'Lookup' utility";
+        let t3 = "You can use it to...lookup addresses!";
+
+        let t4 = "By pressing 'L', you'll enter the";
+        let t5 = "'[L]ookup Mode', where you can type";
+        let t6 = "an address, look it up (by pressing";
+        let t7 = "'Enter') and see what's inside!";
+
+        let t8 = "In this challenge, you will actually";
+        let t9 = "need to go lookup and solve another ";
+        let t10 = "address's challenge to know its inM";
+        let t11 = "(value), then come back to my address";
+
+        let t12 = "to complete the main challenge!";
+        let t13 = "I'll be here waiting, good luck!";
+        let t14 = "";
+        let t15 = "";
+
+        let t16 = "";
+        let t17 = "";
+        let t18 = "";
+        let t19 = "";
+
+        let t20 = "";
+        let t21 = "";
+        let t22 = "";
+        let t23 = "";
+
+        do assignDialogueToArr();
 
         return this;
     }

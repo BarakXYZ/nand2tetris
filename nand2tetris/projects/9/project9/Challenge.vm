@@ -1,19 +1,19 @@
 function Challenge.init 0
 call ChallengeBuffer.new 0
-pop static 13
+pop static 11
 push constant 5
 pop static 1
 push constant 11
 pop static 2
-push static 13
+push static 11
 push constant 13
 call ChallengeBuffer.getBufferAt 2
 pop static 3
-push static 13
+push static 11
 push constant 13
 call ChallengeBuffer.getBufferAt 2
 pop static 4
-push static 13
+push static 11
 call ChallengeBuffer.getMaxStrLen 1
 push constant 1
 sub
@@ -23,7 +23,7 @@ pop static 7
 push constant 0
 pop static 9
 push constant 0
-pop static 12
+pop static 10
 call Challenge.initAnswers 0
 pop temp 0
 push constant 0
@@ -83,8 +83,10 @@ function Challenge.run 0
 push constant 0
 call UserInterface.drawInstruction 1
 pop temp 0
-call UserInterface.getSelCoordAnswer 0
-call UserInterface.drawSelArrows 1
+push static 7
+push constant 0
+not
+call UserInterface.drawChallengeSel 2
 pop temp 0
 push constant 200
 call Sys.wait 1
@@ -110,33 +112,50 @@ call Input.isEnter 1
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push constant 13
+push static 11
+add
+pop pointer 1
+push that 0
+push constant 14
+push static 11
+add
+pop pointer 1
+push that 0
+call NPC.checkChallengeAnswer 2
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 140
+pop argument 0
+label IF_FALSE1
 push constant 0
 not
-pop static 12
+pop static 10
 label IF_FALSE0
 push argument 0
 push constant 131
 eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-call Challenge.upArrow 0
-pop temp 0
-label IF_FALSE1
-push argument 0
-push constant 133
-eq
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-call Challenge.downArrow 0
+call Challenge.upArrow 0
 pop temp 0
 label IF_FALSE2
+push argument 0
+push constant 133
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+call Challenge.downArrow 0
+pop temp 0
+label IF_FALSE3
 push argument 0
 push constant 0
 eq
 not
-push static 12
+push static 10
 not
 and
 push static 9
@@ -147,9 +166,9 @@ push constant 140
 eq
 not
 and
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
 push argument 0
 call Debug.key 1
 pop temp 0
@@ -163,13 +182,13 @@ push argument 0
 push constant 129
 eq
 and
-if-goto IF_TRUE4
-goto IF_FALSE4
-label IF_TRUE4
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
 call Challenge.eraseChar 0
 pop temp 0
-goto IF_END4
-label IF_FALSE4
+goto IF_END5
+label IF_FALSE5
 push static 3
 call String.length 1
 push static 0
@@ -179,19 +198,20 @@ push constant 129
 eq
 not
 and
-if-goto IF_TRUE5
-goto IF_FALSE5
-label IF_TRUE5
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
 push argument 0
 call Challenge.appendChar 1
 pop temp 0
-label IF_FALSE5
-label IF_END4
-label IF_FALSE3
+label IF_FALSE6
+label IF_END5
+label IF_FALSE4
 goto WHILE_EXP0
 label WHILE_END0
-call UserInterface.getSelCoordAnswer 0
-call UserInterface.eraseSelArrows 1
+push static 7
+push constant 0
+call UserInterface.drawChallengeSel 2
 pop temp 0
 call UserInterface.clearInstruction 0
 pop temp 0
@@ -201,34 +221,9 @@ function Challenge.resetParams 0
 push constant 0
 pop static 9
 push constant 0
-pop static 12
-push constant 0
-pop static 11
-push constant 0
 pop static 10
 push constant 0
 return
-function Challenge.check 0
-push static 3
-call QuestManager.getActive 0
-push static 8
-add
-pop pointer 1
-push that 0
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-call QuestManager.increment 0
-pop temp 0
-push constant 0
-not
-return
-goto IF_END0
-label IF_FALSE0
-push constant 0
-return
-label IF_END0
 function Challenge.appendChar 0
 push static 3
 push argument 0
@@ -271,12 +266,9 @@ function Challenge.upArrow 0
 push constant 0
 not
 pop static 9
-push constant 0
-not
-pop static 11
 push static 7
 push constant 0
-call UserInterface.drawBufferSel 2
+call UserInterface.drawChallengeSel 2
 pop temp 0
 push static 7
 push constant 0
@@ -304,12 +296,7 @@ sub
 pop static 7
 label IF_END1
 label IF_END0
-call Challenge.handleBuffer 0
-pop temp 0
-push static 7
-push constant 0
-not
-call UserInterface.drawBufferSel 2
+call Challenge.manageBuffer 0
 pop temp 0
 push constant 0
 return
@@ -317,12 +304,9 @@ function Challenge.downArrow 0
 push constant 0
 not
 pop static 9
-push constant 0
-not
-pop static 10
 push static 7
 push constant 0
-call UserInterface.drawBufferSel 2
+call UserInterface.drawChallengeSel 2
 pop temp 0
 push static 7
 push constant 14
@@ -350,19 +334,36 @@ add
 pop static 7
 label IF_END1
 label IF_END0
-call Challenge.handleBuffer 0
-pop temp 0
-push static 7
-push constant 0
-not
-call UserInterface.drawBufferSel 2
+call Challenge.manageBuffer 0
 pop temp 0
 push constant 0
 return
-function Challenge.handleBuffer 0
-push static 13
+function Challenge.manageBuffer 0
+push static 11
 push static 7
 call ChallengeBuffer.getBufferAt 2
 pop static 3
+push static 7
+push constant 0
+not
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push constant 0
+return
+function Challenge.resetBuffer 0
+push static 11
+call ChallengeBuffer.dispose 1
+pop temp 0
+call ChallengeBuffer.new 0
+pop static 11
+push static 7
+push constant 0
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push constant 0
+return
+function Challenge.setSelBuffIndex 0
+push argument 0
+pop static 7
 push constant 0
 return

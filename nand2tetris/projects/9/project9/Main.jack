@@ -5,36 +5,10 @@ class Main {
     static int i;
 
     function void main() {
-        var Game game;
-        var ChallengeBuffer cBuff;
-        
-        let cBuff = ChallengeBuffer.new();
-        let arrTest = Array.new(3);
-        let i = 20000;
-        let test1 = "something";
-        // let test2 = String.new(50);
-        // let test2 = "somethingElse";
-
-        let test2 = cBuff.getBufferAt(0);
-
-        do test2.appendChar(65);
-        do test2.appendChar(65);
-        do test2.appendChar(65);
-        do test2.appendChar(65);
-
-        do Output.moveCursor(0,0);
-        do Output.printString(cBuff.getBufferAt(0));
-
-        do Output.moveCursor(1,0);
-        do Output.printString(test2);
-        
-        // do Sys.wait(30000);
-        
-
-        let game = Game.new();
 
         // INIT
         do ChallengeNode.init();
+        do ContentNode.init();
         do NPC.init();
         do QuestManager.init();
         do Sprites.init();
@@ -44,16 +18,9 @@ class Main {
         do Draw.init();
         do UserInterface.init();
         do Debug.init();
-        do Debug.run();
+        // do Debug.run();
         
-        // while (~(i = 0)) {
-        //     let test = "something";
-        //     do Output.moveCursor(0,0);
-        //     do Output.printString(test);
-        //     do test.dispose();
-        // }
-
-        do game.run();
+        do Game.run();
 
         return;
     }

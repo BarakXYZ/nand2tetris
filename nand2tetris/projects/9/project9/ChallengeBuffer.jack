@@ -39,6 +39,7 @@ class ChallengeBuffer {
         let arrBuff[12] = buff12;
         let arrBuff[13] = buff13;
         let arrBuff[14] = buff14;
+
         return this;
     }
 
@@ -48,5 +49,30 @@ class ChallengeBuffer {
     
     method int getMaxStrLen() {
         return strSize;
+    }
+    
+    method void dispose() {
+        
+        do buff0.dispose();
+        do buff1.dispose();
+        do buff2.dispose();
+        do buff3.dispose();
+        do buff4.dispose();
+        do buff5.dispose();
+        do buff6.dispose();
+        do buff7.dispose();
+        do buff8.dispose();
+        do buff9.dispose();
+        do buff10.dispose();
+        do buff11.dispose();
+        do buff12.dispose();
+        do buff13.dispose();
+        do buff14.dispose();
+
+        do arrBuff.dispose();
+
+        do Memory.deAlloc(this);
+
+        return;
     }
 }

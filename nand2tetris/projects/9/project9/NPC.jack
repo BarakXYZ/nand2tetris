@@ -7,46 +7,31 @@ class NPC {
     static int numOfNPCs;
     static int activeNPC;  // Perhaps needs to be tracked through game?
     static int pendingNPC;
-    static ChallengeNode challenge;
+    static ChallengeNode challengeNode;
+    static ContentNode contentNode;
     
     function void init() {
         let numOfNPCs = 0;
         let activeNPC = 0;
-        let challenge = ChallengeNode.makeNode0();
+        let challengeNode = ChallengeNode.makeNode0();
+        let contentNode = ContentNode.makeBlank();
 
         return;
     }
 
-    constructor NPC initShimon() {
-        let activeNPC = 0;
+    function void interact() {
+        
+        if (pendingNPC = activeNPC) {
+            do challengeNode.draw();
+            do contentNode.draw();
+            do Dialogue.draw();
+            do QuestManager.manageQuest();
+        }
+        else {
+            // default dialogue of this NPC at this point
+        }
 
-        let npc = Array.new(5);
-
-        let npc[0] = 5;                   // Array size
-        let npc[1] = "@SHIMON";           // Name
-        let npc[2] = 555;                 // inM
-        let npc[3] = "Master of Memory";  // Role
-        let npc[4] = 1;                   // Stage (Story Line)
-        // let character[5] = pointerToCurrentDialog?
-        // Essentially a pointer to a dialog object that contains the dialog to
-        // print with an array[0] size so we can loop over it?
-
-        let name = "@SHIMON";
-        let role = "Master of Memory";
-        let inM = 555;
-        let npcIndex = 1;
-
-        let numOfNPCs = numOfNPCs + 1;  // needs to be init somewhere
-        return this;
-    }
-
-    constructor NPC initGini() {
-        let name = "@GINI";
-        let role = "BFF";
-        let inM = 4;
-        let npcIndex = 2;
-
-        return this;
+        return;
     }
     
     method void dispose() {
@@ -54,20 +39,6 @@ class NPC {
         return;
     }
     
-    function void interact() {
-        
-        if (pendingNPC = activeNPC) {
-            do challenge.draw();
-            do Dialogue.draw();
-        }
-        else {
-            // default dialogue of this NPC at this point
-        }
-
-        // Possibily enter a loop and also be responsibile for drawing sprite?
-        // do Dialogue.speak(npcIndex);
-        return;
-    }
 
     method int getStage() {
         return npc[4];
@@ -77,18 +48,6 @@ class NPC {
         let npc[4] = npc[4] + 1;  // increment stage by 1
         return;
     }
-
-    // What the character asks itself upon interaction?
-        // Which stage is the player in the total storyline?
-            // Depending on the stage:
-                // Have I already spoke with the player regarding his current quest?
-                    // No:
-                        // Unfold the quest dialogue to the player
-                        // Mark already spoke to character as true
-                    // Yes:
-                        // Say the default text until quest is done
-                        // do nothing
-
 
     function void setPending(int index) {
         let pendingNPC = index;
@@ -110,16 +69,50 @@ class NPC {
     function void makeChallengeNode(int quest) {
 
         if (quest = 0) {
-            let challenge = ChallengeNode.makeNode0();
+            let challengeNode = ChallengeNode.makeNode0();
+            do Challenge.setSelBuffIndex(13);
             return;
         }
 
         if (quest = 1) {
-            do challenge.dispose();
-            let challenge = ChallengeNode.makeNode1();
+            do challengeNode.dispose();
+            let challengeNode = ChallengeNode.makeNode1();
+            do Challenge.setSelBuffIndex(13);
+            return;
+        }
+
+        if (quest = 2) {
+            do challengeNode.dispose();
+            let challengeNode = ChallengeNode.makeNode2();
+            do Challenge.setSelBuffIndex(0);
+            return;
+        }
+
+        if (quest = 3) {
+            do challengeNode.dispose();
+            let challengeNode = ChallengeNode.makeNode3();
+            do Challenge.setSelBuffIndex(0);
             return;
         }
 
         return;
+    }
+
+    function void makeContentNode(int quest) {
+        if (quest = 2) {
+            let contentNode = ContentNode.makeShimon();
+            return;
+        }
+
+        return;
+    }
+
+    function boolean checkChallengeAnswer(String buff13, String buff14) {
+        var boolean ret;
+        let ret = challengeNode.checkAnswer(buff13, buff14);
+        do Output.moveCursor(0,0);
+        if (ret) { do QuestManager.complete(); }
+        else { do UserInterface.signalIncorrectAnswer(); }
+        return ret;
     }
 }

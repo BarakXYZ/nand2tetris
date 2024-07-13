@@ -1,0 +1,75 @@
+class ContentNode {
+    field String symbolicName, address, inM, role;
+    // field String effect0, effect1;
+    field Array arrContent;
+    field int items;
+
+    static int baseRow, baseCol;
+    
+    function void init() {
+        let baseRow = 5;
+        let baseCol = 45;
+        return;
+    }
+
+    method void draw() {
+        var int i;
+        let i = 0;
+
+        while (i < items) {
+            do Output.moveCursor(baseRow + i, baseCol);
+            do Output.printString(arrContent[i]);
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    constructor ContentNode makeBlank() {
+        let symbolicName = "";
+        let address = "";
+        let inM = "";
+        let role = "";
+
+        do assignToArr(0);
+
+        return this;
+    }
+    constructor ContentNode makeShimon() {
+        let symbolicName = "@SHIMON";
+        let address = "addr=555";
+        let inM = "inM=42";
+        let role = "Master of Memory";
+        
+        do assignToArr(4);
+
+        return this;
+    }
+
+    method void assignToArr(int aItems) {
+        let items = aItems;
+
+        let arrContent = Array.new(10);
+
+        let arrContent[0] = symbolicName;
+        let arrContent[1] = address;
+        let arrContent[2] = inM;
+        let arrContent[3] = role;
+
+        return;
+    }
+    
+    method void dispose() {
+
+        do symbolicName.dispose();
+        do address.dispose();
+        do inM.dispose();
+        do role.dispose();
+
+        do arrContent.dispose();
+
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

@@ -5,7 +5,7 @@ class Challenge {
         static Array buffArr, trackBuffArr;
         static int selBuffIndex;
         static Array answers;
-        static boolean isArrow, isDownArrow, isUpArrow, isEnter;
+        static boolean isArrow, isEnter;
         static ChallengeBuffer cBuff0;
 
         function void init() {
@@ -39,7 +39,8 @@ class Challenge {
         //** if 'A' is pressed, enter '[A]nswer mode' */
         function void run(char c) {
             do UserInterface.drawInstruction(0);
-            do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
+            // do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
+            do UserInterface.drawChallengeSel(selBuffIndex , true);
             do Sys.wait(200);
 
             // Exits if 'Escape' (140) is pressed
@@ -52,7 +53,17 @@ class Challenge {
 
                 // if 'Enter': insert answer and exit 'Answer Mode'
                 if (Input.isEnter(c)) {
-                    // do Challenge.checkAnswer();  // To be implemented
+                    if (NPC.checkChallengeAnswer(cBuff0[13], cBuff0[14])) {
+                        let c = 140;
+                        // check if need to rearrange UI a bit (we need to!)
+                        // Lookup functionality:
+                            // Visting other addresses (checks etc.)
+                            // draw new sprites and figure out the limitations
+                            // Storing multiple buffers without losing them
+
+                        // Plot twist and an interesting challenge
+                        // master challenge and wrap up
+                    }
 
                     let isEnter = true;
                 }
@@ -75,7 +86,7 @@ class Challenge {
                 }
 
             }
-            do UserInterface.eraseSelArrows(UserInterface.getSelCoordAnswer());
+            do UserInterface.drawChallengeSel(selBuffIndex , false);
             do UserInterface.clearInstruction();
             return;
         }
@@ -83,21 +94,7 @@ class Challenge {
         function void resetParams() {
             let isArrow = false;
             let isEnter = false;
-            let isUpArrow = false;
-            let isDownArrow = false;
-
             return;
-        }
-
-
-        function boolean check() {
-            if (selBuff = answers[QuestManager.getActive()]) {
-                do QuestManager.increment();
-                return true;
-            }
-            else {
-                return false;
-            }
         }
 
         //** Append Characater:
@@ -124,35 +121,43 @@ class Challenge {
 
         function void upArrow() {
             let isArrow = true;
-            let isUpArrow = true;
-            do UserInterface.drawBufferSel(selBuffIndex, false);
+            do UserInterface.drawChallengeSel(selBuffIndex, false);
             if (selBuffIndex = 0) { let selBuffIndex = 14; }
             else { 
                 if (selBuffIndex = 13) { let selBuffIndex = 11; }
                 else { let selBuffIndex = selBuffIndex - 1; } 
             }
-            do Challenge.handleBuffer();
-            do UserInterface.drawBufferSel(selBuffIndex, true);
+            do Challenge.manageBuffer();
             return;
         }
 
         function void downArrow() {
             let isArrow = true;
-            let isDownArrow = true;
-            do UserInterface.drawBufferSel(selBuffIndex, false);
+            do UserInterface.drawChallengeSel(selBuffIndex, false);
             if (selBuffIndex = 14) { let selBuffIndex = 0; }
             else { 
                 if (selBuffIndex = 11) { let selBuffIndex = 13; }
                 else { let selBuffIndex = selBuffIndex + 1; } 
             }
-            do Challenge.handleBuffer();
-            do UserInterface.drawBufferSel(selBuffIndex, true);
+            do Challenge.manageBuffer();
             return;
         }
 
-        function void handleBuffer() {
+        function void manageBuffer() {
             let selBuff = cBuff0.getBufferAt(selBuffIndex);
+            do UserInterface.drawChallengeSel(selBuffIndex, true);
             return;
         }
+        
+        function void resetBuffer() {
+            do cBuff0.dispose();
+            let cBuff0 = ChallengeBuffer.new();
+            do UserInterface.drawChallengeSel(selBuffIndex, false);
+            return;
+        } 
 
+        function void setSelBuffIndex(int aIndex) {
+            let selBuffIndex = aIndex;
+            return;
+        }
 }

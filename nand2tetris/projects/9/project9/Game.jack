@@ -1,17 +1,13 @@
 class Game {
 
-    field NPC shimon, gini;
-    static boolean isNewLookup;
+    static boolean isNewLookup, isNewQuest;
 
-    constructor Game new() {
-        
-        let shimon = NPC.initShimon();
-        let gini = NPC.initGini();
+    // constructor Game new() {
+    //            
+    //     return this;
+    // }
 
-        return this;
-    }
-
-    method void run() {
+    function void run() {
         var boolean quit;
         var char c;
         var int activeNPC;
@@ -20,18 +16,26 @@ class Game {
         let isNewLookup = true;
 
         while (~(quit)) {
-            
-            if (isNewLookup) { do NPC.interact(); do QuestManager.manageQuest(); }
+            do Debug.activeQuest();           
+            if (isNewLookup | isNewQuest) { 
+                let isNewLookup = false;
+                let isNewQuest = false;
+                do NPC.interact();
+                do QuestManager.manageQuest();  // Check special case quests
+            }
 
             do Sys.wait(50);
             do Draw.sprite();
             let c = Keyboard.keyPressed();
 
             // '@' or 'L' pressed ([@][L]ookup Mode)
-            if (Input.isLookup(c)) { do Lookup.run(c); let isNewLookup = true; }
+            if (Input.isLookup(c)) {
+                do Lookup.run(c);
+                let isNewLookup = true;
+            }
 
-            // 'A' pressed ([A]nswer Mode)
-            if (Input.isAnswer(c)) { do Challenge.run(c); }
+            // 'C' pressed ([C]hallenge Mode)
+            if (Input.isChallenge(c)) { do Challenge.run(c); }
 
             // 'Q' then 'Y' to quit
             if (Input.isQuit(c)) { let quit = true; } 
@@ -43,6 +47,11 @@ class Game {
 
     function void setNewLookup(boolean cond) {
         let isNewLookup = cond;
+        return;
+    }
+
+    function void setNewQuest(boolean cond) {
+        let isNewQuest = cond;
         return;
     }
 }
