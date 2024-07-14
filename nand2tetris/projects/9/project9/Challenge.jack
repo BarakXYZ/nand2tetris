@@ -81,6 +81,8 @@ class Challenge {
                     if (NPC.checkChallengeAnswer(currentBuffer[13], currentBuffer[14])) {
                         let c = 140;
                         // check if need to rearrange UI a bit (we need to!)
+                        // Fix asterisk on Challenge pane when it summoned
+                        // Fix the UI of the content (it slips data)
                         // Lookup functionality:
                             // draw new sprites and figure out the limitations - X
                             // Draw the correct challenge on visit - X

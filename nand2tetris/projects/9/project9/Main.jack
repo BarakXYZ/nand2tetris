@@ -13,6 +13,9 @@ class Main {
         // do Helpers.strCopy(test1, test2);
         // do Output.moveCursor(0,0);
         // do Output.printString(test1);
+        do UserInterface.drawViewport();
+        do Sprites.drawEnemy1();
+        return;
         // do Sys.wait(30000);
         
         // INIT

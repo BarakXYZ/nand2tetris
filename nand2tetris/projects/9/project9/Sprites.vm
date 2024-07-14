@@ -134,3 +134,236 @@ call SpriteQuestionMark.drawQuestionMark 1
 pop temp 0
 push constant 0
 return
+function Sprites.drawEnemy1 10
+push constant 180
+pop local 0
+push constant 110
+pop local 1
+push constant 12
+pop local 2
+push constant 20
+pop local 3
+push constant 14
+pop local 4
+push constant 2
+pop local 5
+push constant 1
+pop local 6
+push constant 50
+pop local 7
+push constant 40
+pop local 8
+push constant 55
+neg
+pop local 9
+push local 0
+push local 8
+sub
+push local 1
+push local 9
+add
+push local 6
+push local 7
+call Sprites.drawHorn 4
+pop temp 0
+push local 0
+push local 8
+add
+push local 1
+push local 9
+add
+push local 6
+neg
+push local 7
+call Sprites.drawHorn 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 0
+push local 1
+push constant 40
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push local 0
+push local 1
+push constant 37
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+not
+push local 0
+push local 1
+push local 2
+call Sprites.drawEnemyEye1 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 0
+push local 3
+sub
+push local 1
+push local 4
+add
+push local 0
+push local 3
+sub
+push constant 45
+add
+push local 1
+push local 4
+add
+push constant 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 0
+push constant 10
+sub
+push local 1
+push local 4
+add
+push local 0
+push constant 4
+sub
+push local 1
+push local 4
+add
+push constant 10
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push local 0
+push constant 8
+sub
+push local 1
+push local 4
+add
+push constant 2
+add
+push local 0
+push constant 6
+sub
+push local 1
+push local 4
+add
+push constant 10
+add
+push constant 2
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Sprites.drawEnemyEye1 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 1
+push argument 2
+push argument 3
+sub
+push constant 14
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 1
+push argument 2
+push argument 3
+sub
+push constant 12
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+push argument 2
+push argument 3
+sub
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push argument 1
+push constant 12
+sub
+push argument 2
+push constant 14
+sub
+push argument 1
+push constant 12
+add
+push argument 2
+push constant 13
+sub
+call Screen.drawRectangle 4
+pop temp 0
+label IF_END0
+push constant 0
+return
+function Sprites.drawHorn 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 30
+push argument 2
+call Math.multiply 2
+add
+push argument 1
+push argument 3
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 15
+push argument 2
+call Math.multiply 2
+add
+push argument 1
+push argument 3
+push constant 10
+sub
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 20
+push argument 2
+call Math.multiply 2
+add
+push argument 1
+push argument 3
+push constant 30
+sub
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return

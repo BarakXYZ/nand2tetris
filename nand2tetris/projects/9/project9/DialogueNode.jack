@@ -174,8 +174,8 @@ class DialogueNode {
 
         let t8 = "You can also use the Up & Down";
         let t9 = "arrows to navigate the buffers.";
-        let t10 = "You have Answer Buffers and";
-        let t11 = "convenient temp buffers.";
+        let t10 = "You have 2 Answer Buffers and";
+        let t11 = "12 convenient temp buffers.";
 
         let t12 = "Answer Buffers will be checked";
         let t13 = "internally to see if your answer";
