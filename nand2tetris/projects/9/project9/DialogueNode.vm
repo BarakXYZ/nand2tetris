@@ -1871,7 +1871,7 @@ call String.appendChar 2
 push constant 46
 call String.appendChar 2
 pop this 14
-push constant 27
+push constant 29
 call String.new 1
 push constant 89
 call String.appendChar 2
@@ -1888,6 +1888,10 @@ call String.appendChar 2
 push constant 118
 call String.appendChar 2
 push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 50
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
@@ -1928,8 +1932,14 @@ call String.appendChar 2
 push constant 100
 call String.appendChar 2
 pop this 15
-push constant 24
+push constant 27
 call String.new 1
+push constant 49
+call String.appendChar 2
+push constant 50
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
 push constant 99
 call String.appendChar 2
 push constant 111

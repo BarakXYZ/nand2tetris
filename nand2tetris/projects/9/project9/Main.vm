@@ -1,4 +1,10 @@
 function Main.main 0
+call UserInterface.drawViewport 0
+pop temp 0
+call Sprites.drawEnemy1 0
+pop temp 0
+push constant 0
+return
 call ChallengeBuffer.init 0
 pop temp 0
 call ChallengeNode.init 0

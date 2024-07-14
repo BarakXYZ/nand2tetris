@@ -101,4 +101,95 @@ function void drawQuestionMark3() {
 	return;
 }
 
+// Draw enemy1 (challenge 3 reg357)
+function void drawEnemy1() {
+	var int x, y, offY, offMouthX, offMouthY, spikiness, direction, length;
+	var int hornWidth, hornsOffY;
+	let x = 240;
+	let y = 110;
+	let offY = 12;
+	let offMouthX = 20;
+	let offMouthY = 14;
+	let spikiness = 2; // Higher value for more spiky, lower for less
+    let direction = 1; // 1 for right rotation, -1 for left rotation
+	let length = 50;   // Length of the horns
+	let hornWidth = 40; // Distance between the horns
+	let hornsOffY = -55;  // Vertical offset of the horns
+
+	// Draw left horn
+    do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);
+
+    // Draw right horn
+    do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);
+
+	// body
+	do Screen.setColor(true);
+	do Screen.drawCircle(x, y, 40);
+	do Screen.setColor(false);
+	do Screen.drawCircle(x, y, 37);
+
+	do Sprites.drawEnemyEye1(true, x, y, offY);
+
+	// Mouth
+	do Screen.setColor(true);
+	do Screen.drawRectangle(x-offMouthX, y+offMouthY, x-offMouthX+45, y+offMouthY+2);
+	// Teeth
+	do Screen.drawRectangle(x-10, y+offMouthY, x-4, y+offMouthY+10);
+	do Screen.setColor(false);
+	do Screen.drawRectangle(x-8, y+offMouthY+2, x-6, y+offMouthY+10-2);
+
+    // Draw a spiky, rotated triangle
+    // do Sprites.drawTriangle(x, y, spikiness, direction);
+
+
+	return;
+}
+
+function void drawEnemyEye1(boolean isOpened, int x, int y, int offY) {
+	
+	// Eye
+	do Screen.setColor(true);
+	do Screen.drawCircle(x, y - offY, 14);
+
+	// Stroke
+	do Screen.setColor(false);
+	do Screen.drawCircle(x, y - offY, 12);
+	do Screen.setColor(true);
+
+	if (isOpened) {
+		do Screen.drawCircle(x, y - offY, 5);  // inner
+	}
+	else {
+		do Screen.drawRectangle(x-12, y-14, x+12, y-13);  // closed
+	}
+
+	return;
+}
+
+// // Helper function to draw a spiky, rotated triangle using rectangles
+// function void drawTriangle(int x, int y, int spikiness, int direction) {
+//     var int i;
+//     do Screen.setColor(true);
+//     let i = 0;
+//     while (i < 30) {
+//         do Screen.drawRectangle(x - ((i / spikiness) * direction), y + i, x + ((i / spikiness) * direction), y + i + 1);
+//         let i = i + 1;
+//     }
+//     return;
+// }
+
+
+
+// Helper function to draw a horn using lines
+function void drawHorn(int x, int y, int direction, int length) {
+	do Screen.setColor(true);
+    // Line 1
+    do Screen.drawLine(x, y, x + (30 * direction), y + length);
+    // Line 2
+    do Screen.drawLine(x, y, x + (15 * direction), y + (length - 10));
+    // Line 3
+    do Screen.drawLine(x, y, x + (20 * direction), y + (length - 30));
+    return;
+}
+
 }
