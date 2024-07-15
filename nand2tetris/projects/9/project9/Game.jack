@@ -17,7 +17,9 @@ class Game {
         let isLookupEnabled = false;
 
         while (~(quit)) {
-            do Debug.activeQuest();           
+
+            do Debug.activeQuest();
+
             if (isNewLookup | isNewQuest) { 
                 let isNewLookup = false;
                 let isNewQuest = false;
@@ -33,6 +35,9 @@ class Game {
             if (Input.isLookup(c) & isLookupEnabled) {
                 do Lookup.run(c);
                 let isNewLookup = true;
+                // do we want to set it even if there's no new lookup necessarily?
+                // Because we can just spam 'L'. Maybe need to be set from the
+                // lookup and only if succesful?
             }
 
             // 'C' pressed ([C]hallenge Mode)

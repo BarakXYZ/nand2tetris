@@ -130,16 +130,14 @@ goto IF_FALSE0
 label IF_TRUE0
 push constant 0
 push constant 0
-call Lookup.new 2
-pop temp 0
 push constant 0
-call NPC.setActive 1
+call Lookup.new 3
 pop temp 0
 push constant 0
 return
 label IF_FALSE0
 push local 0
-push constant 0
+push constant 2
 gt
 push static 3
 push constant 3
@@ -155,12 +153,10 @@ and
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push constant 0
 push constant 1
-call Lookup.new 2
-pop temp 0
 push constant 1
-call NPC.setActive 1
+push constant 1
+call Lookup.new 3
 pop temp 0
 push constant 0
 return
@@ -170,6 +166,9 @@ return
 function Lookup.new 0
 push argument 0
 call NPC.setActive 1
+pop temp 0
+push argument 2
+call NPC.setChallengeNode 1
 pop temp 0
 push argument 1
 call Challenge.setCurrentBuffer 1

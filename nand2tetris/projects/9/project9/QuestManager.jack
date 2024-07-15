@@ -44,7 +44,7 @@ class QuestManager {
     function void complete() {
         let activeQuest = activeQuest + 1;
         do NPC.setPending(pendingNPCs[activeQuest]);
-        do UserInterface.clearChallenge();
+        do UserInterface.clearChallengeAll();
         do Challenge.resetBuffer();
         do Dialogue.makeNode(activeQuest);
         do NPC.makeChallengeNode(activeQuest);

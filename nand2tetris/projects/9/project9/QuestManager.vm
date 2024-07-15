@@ -86,7 +86,7 @@ pop pointer 1
 push that 0
 call NPC.setPending 1
 pop temp 0
-call UserInterface.clearChallenge 0
+call UserInterface.clearChallengeAll 0
 pop temp 0
 call Challenge.resetBuffer 0
 pop temp 0

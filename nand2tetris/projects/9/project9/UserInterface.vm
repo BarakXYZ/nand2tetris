@@ -1328,7 +1328,7 @@ call Screen.setColor 1
 pop temp 0
 push constant 0
 return
-function UserInterface.clearChallenge 0
+function UserInterface.clearChallengeAll 0
 push constant 0
 call Screen.setColor 1
 pop temp 0
@@ -1343,6 +1343,54 @@ push constant 21
 push constant 135
 push constant 187
 call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+push constant 189
+push constant 135
+push constant 228
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function UserInterface.clearChallengeCode 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 1
+push constant 21
+push constant 79
+push constant 187
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function UserInterface.clearChallengeComment 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 81
+push constant 21
+push constant 135
+push constant 187
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function UserInterface.clearChallengeAnswer 0
+push constant 0
+call Screen.setColor 1
 pop temp 0
 push constant 1
 push constant 189
