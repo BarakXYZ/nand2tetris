@@ -200,7 +200,7 @@ return
 function ChallengeBuffer.draw 1
 push argument 0
 pop pointer 0
-call UserInterface.clearChallenge 0
+call UserInterface.clearChallengeComment 0
 pop temp 0
 push constant 0
 pop local 0

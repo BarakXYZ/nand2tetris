@@ -1,6 +1,6 @@
 class Debug {
 
-    static int countEnter, eventCounter1, eventCounter2;
+    static int countEnter, eventCounter1, eventCounter2, numOfInteractions;
     static String currQuest;
 
     function void init() {
@@ -9,6 +9,7 @@ class Debug {
         let eventCounter1 = 0;
         let eventCounter2 = 0;
         let currQuest = "Active Quest: ";
+        let numOfInteractions = 0;
 
         return;
     }
@@ -112,6 +113,16 @@ class Debug {
         do Output.moveCursor(19, 60);
         // do Output.printString(currQuest);
         do Output.printInt(QuestManager.getActive());
+        return;
+    }
+
+    function void interactions() {
+        var String str;
+        let str = "interact:";
+        let numOfInteractions = numOfInteractions + 1;
+        do Output.moveCursor(18, 54);
+        do Output.printString(str);
+        do Output.printInt(numOfInteractions);
         return;
     }
 

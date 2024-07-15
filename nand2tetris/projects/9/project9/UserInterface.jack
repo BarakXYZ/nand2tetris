@@ -316,11 +316,32 @@ class UserInterface {
         return;
     }
 
-    function void clearChallenge() {
+    function void clearChallengeAll() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 21, 79, 187);
-        do Screen.drawRectangle(81, 21, 135, 187);
-        do Screen.drawRectangle(1, 189, 135, 228);
+        do Screen.drawRectangle(1, 21, 79, 187);  // Code Frame
+        do Screen.drawRectangle(81, 21, 135, 187);  // Comment Frame
+        do Screen.drawRectangle(1, 189, 135, 228);  // Answer Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeCode() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(1, 21, 79, 187);  // Code Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeComment() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(81, 21, 135, 187);  // Comment Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeAnswer() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(1, 189, 135, 228);  // Answer Frame
         do Screen.setColor(true);
         return;
     }

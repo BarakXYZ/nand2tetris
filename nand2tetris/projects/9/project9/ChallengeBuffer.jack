@@ -63,7 +63,7 @@ class ChallengeBuffer {
     method void draw() {
         var int i;
 
-        do UserInterface.clearChallenge();
+        do UserInterface.clearChallengeComment();
         let i = 0;
         while (i < buffSize) {
             // do UserInterface.clearDialogueBox();

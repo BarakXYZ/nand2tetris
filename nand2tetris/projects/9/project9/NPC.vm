@@ -10,12 +10,8 @@ pop static 4
 push constant 0
 return
 function NPC.interact 0
-push static 2
-push static 1
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+call Debug.interactions 0
+pop temp 0
 push static 3
 call ChallengeNode.draw 1
 pop temp 0
@@ -26,9 +22,6 @@ call Dialogue.draw 0
 pop temp 0
 call QuestManager.manageQuest 0
 pop temp 0
-goto IF_END0
-label IF_FALSE0
-label IF_END0
 push constant 0
 return
 function NPC.dispose 0
@@ -138,7 +131,30 @@ label IF_TRUE3
 push static 3
 call ChallengeNode.dispose 1
 pop temp 0
-call ChallengeNode.makeNode3 0
+push constant 2
+call Array.new 1
+pop static 5
+push constant 0
+push static 5
+add
+call ChallengeNode.makeNode31 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 5
+add
+call ChallengeNode.makeNode32 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push static 5
+add
+pop pointer 1
+push that 0
 pop static 3
 push constant 0
 call Challenge.setSelBuffIndex 1
@@ -146,6 +162,47 @@ pop temp 0
 push constant 0
 return
 label IF_FALSE3
+push argument 0
+push constant 4
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+push static 5
+add
+pop pointer 1
+push that 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 1
+push static 5
+add
+pop pointer 1
+push that 0
+call Memory.deAlloc 1
+pop temp 0
+push static 3
+call ChallengeNode.dispose 1
+pop temp 0
+push static 5
+call Array.dispose 1
+pop temp 0
+push constant 0
+call Challenge.setSelBuffIndex 1
+pop temp 0
+push constant 0
+return
+label IF_FALSE4
+push constant 0
+return
+function NPC.setChallengeNode 0
+push argument 0
+push static 5
+add
+pop pointer 1
+push that 0
+pop static 3
 push constant 0
 return
 function NPC.makeContentNode 0

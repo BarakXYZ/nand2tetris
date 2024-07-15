@@ -7,13 +7,14 @@ class NPC {
     static int numOfNPCs;
     static int activeNPC;  // Perhaps needs to be tracked through game?
     static int pendingNPC;
-    static ChallengeNode challengeNode;
+    static ChallengeNode currChallengeNode;
     static ContentNode contentNode;
+    static Array challengeNodeArr;
     
     function void init() {
         let numOfNPCs = 0;
         let activeNPC = 0;
-        let challengeNode = ChallengeNode.makeNode0();
+        let currChallengeNode = ChallengeNode.makeNode0();
         let contentNode = ContentNode.makeBlank();
 
         return;
@@ -21,15 +22,16 @@ class NPC {
 
     function void interact() {
         
-        if (pendingNPC = activeNPC) {
-            do challengeNode.draw();
+        do Debug.interactions();
+        // if (pendingNPC = activeNPC) {
+            do currChallengeNode.draw();
             do contentNode.draw();
             do Dialogue.draw();
             do QuestManager.manageQuest();
-        }
-        else {
+        // }
+        // else {
             // default dialogue of this NPC at this point
-        }
+        // }
 
         return;
     }
@@ -69,32 +71,52 @@ class NPC {
     function void makeChallengeNode(int quest) {
 
         if (quest = 0) {
-            let challengeNode = ChallengeNode.makeNode0();
+            let currChallengeNode = ChallengeNode.makeNode0();
             do Challenge.setSelBuffIndex(13);
             return;
         }
 
         if (quest = 1) {
-            do challengeNode.dispose();
-            let challengeNode = ChallengeNode.makeNode1();
+            do currChallengeNode.dispose();
+            let currChallengeNode = ChallengeNode.makeNode1();
             do Challenge.setSelBuffIndex(13);
             return;
         }
 
         if (quest = 2) {
-            do challengeNode.dispose();
-            let challengeNode = ChallengeNode.makeNode2();
+            do currChallengeNode.dispose();
+            let currChallengeNode = ChallengeNode.makeNode2();
             do Challenge.setSelBuffIndex(0);
             return;
         }
 
         if (quest = 3) {
-            do challengeNode.dispose();
-            let challengeNode = ChallengeNode.makeNode3();
+            do currChallengeNode.dispose();
+            let challengeNodeArr = Array.new(2);
+            let challengeNodeArr[0] = ChallengeNode.makeNode31();
+            let challengeNodeArr[1] = ChallengeNode.makeNode32();
+            let currChallengeNode = challengeNodeArr[0];
             do Challenge.setSelBuffIndex(0);
             return;
         }
 
+        if (quest = 4) {
+            do Memory.deAlloc(challengeNodeArr[0]);
+            do Memory.deAlloc(challengeNodeArr[1]);
+            do currChallengeNode.dispose();
+            do challengeNodeArr.dispose();
+
+            // Make the new node and array
+
+            do Challenge.setSelBuffIndex(0);
+            return;
+        }
+
+        return;
+    }
+
+    function void setChallengeNode(int aIndex) {
+        let currChallengeNode = challengeNodeArr[aIndex];
         return;
     }
 
@@ -109,7 +131,7 @@ class NPC {
 
     function boolean checkChallengeAnswer(String buff13, String buff14) {
         var boolean ret;
-        let ret = challengeNode.checkAnswer(buff13, buff14);
+        let ret = currChallengeNode.checkAnswer(buff13, buff14);
         do Output.moveCursor(0,0);
         if (ret) { do QuestManager.complete(); }
         else { do UserInterface.signalIncorrectAnswer(); }

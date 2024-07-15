@@ -1,46 +1,53 @@
 class ChallengeNode {
 
-    field int nodeIndex, currentRow, lastLine, queries;
+    field int linesNum, answersNum, nodeIndex, currentRow, numLines, queries;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11;
     field String a0, a1, a2;
-    field String r0, r1;
+    field String r0, r1, r2;
     field Array content, answers, registers;
 
-    static int startRow, startCol; 
+    static int startRowCode, startCol, startRowReg; 
     static String lineIndex;
 
     function void init() {
-        let startRow = 5;
+        let startRowCode = 5;
         let startCol = 3;
+        let startRowReg = 18;
         let lineIndex = String.new(3);
         return;
     }
 
     method void draw() {
         
-        while (~(currentRow = lastLine)) {
+        // do UserInterface.clearChallengeCode();  // Ok something 
+        // do UserInterface.clearChallengeAnswer();  // here is wrong
+
+        while (~(currentRow = numLines)) {
             do UserInterface.clearDialogueBox();
             do ChallengeNode.drawLineIndex(currentRow);
 
-            do Output.moveCursor(startRow + currentRow, startCol);
+            do Output.moveCursor(startRowCode + currentRow, startCol);
             do Output.printString(content[currentRow]);
 
             let currentRow = currentRow + 1;
         }
+        let currentRow = 0;
 
-        do Output.moveCursor(18, 1);
+        do Output.moveCursor(startRowReg, 1);
         do Output.printString(registers[0]);
-        do Output.moveCursor(19, 1);
+        do Output.moveCursor(startRowReg + 1, 1);
         do Output.printString(registers[1]);
+        do Output.moveCursor(startRowReg + 2, 1);
+        do Output.printString(registers[2]);
         return;
     }
 
     function void drawLineIndex(int aCurrentRow) {
         if (~(aCurrentRow > 9)) {
-            do Output.moveCursor(startRow + aCurrentRow, startCol - 2);
+            do Output.moveCursor(startRowCode + aCurrentRow, startCol - 2);
         }
         else {
-            do Output.moveCursor(startRow + aCurrentRow, startCol - 3);
+            do Output.moveCursor(startRowCode + aCurrentRow, startCol - 3);
         }
 
         let lineIndex = String.new(4);
@@ -52,14 +59,9 @@ class ChallengeNode {
         return;
     }
 
-    method void assignContentToArr(int aNodeIndex, int aLastLine, int aQueries) {
+    method void assignContentToArr() {
         
-        var int i;
         let currentRow = 0;
-        let nodeIndex = aNodeIndex;
-        let lastLine = aLastLine;
-        let queries = aQueries;
-
         let content = Array.new(12);
 
         let content[0] = t0;
@@ -82,9 +84,10 @@ class ChallengeNode {
         let answers[1] = a1;
         let answers[2] = a2;
 
-        let registers = Array.new(2);
+        let registers = Array.new(3);
         let registers[0] = r0;
         let registers[1] = r1;
+        let registers[2] = r2;
 
         return;
     }
@@ -118,6 +121,7 @@ class ChallengeNode {
 
         do r0.dispose();
         do r1.dispose();
+        do r2.dispose();
 
         //** Dispose Array *//
         do content.dispose();
@@ -135,7 +139,8 @@ class ChallengeNode {
 
         let nodeIndex = 0;
         let currentRow = 0;
-        let lastLine = 0;
+        let numLines = 0;
+        let queries = 0;
 
 
         let t0 = "";
@@ -157,13 +162,18 @@ class ChallengeNode {
 
         let r0 = "";
         let r1 = "";
+        let r2 = "";
 
-        do assignContentToArr(0, 0, 0);
+        do assignContentToArr();
 
         return this;
     }
 
     constructor ChallengeNode makeNode1() {
+
+        let nodeIndex = 1;
+        let numLines = 4;
+        let queries = 1;
 
         let t0 = "@42";
         let t1 = "D=A";
@@ -184,13 +194,18 @@ class ChallengeNode {
 
         let r0 = "RAM[555]=";
         let r1 = "";
+        let r2 = "";
 
-        do assignContentToArr(1, 4, 1);
+        do assignContentToArr();
 
         return this;
     }
 
     constructor ChallengeNode makeNode2() {
+
+        let nodeIndex = 2;
+        let numLines = 5;
+        let queries = 2;
 
         let t0 = "@SHIMON";
         let t1 = "D=M+A";
@@ -211,13 +226,18 @@ class ChallengeNode {
 
         let r0 = "RAM[557]=";
         let r1 = "RAM[555]=";
+        let r2 = "";
 
-        do assignContentToArr(2, 5, 2);
+        do assignContentToArr();
 
         return this;
     }
 
-    constructor ChallengeNode makeNode3() {
+    constructor ChallengeNode makeNode31() {
+
+        let nodeIndex = 31;
+        let numLines = 4;
+        let queries = 1;
 
         let t0 = "@357";
         let t1 = "D=M";
@@ -238,10 +258,44 @@ class ChallengeNode {
 
         let r0 = "RAM[666]=";
         let r1 = "";
+        let r2 = "";
 
-        do assignContentToArr(3, 4, 1);
+        do assignContentToArr();
 
         return this;
     }
+
+    constructor ChallengeNode makeNode32() {
+        
+        let nodeIndex = 32;
+        let numLines = 8;
+        let queries = 2;
+
+        let t0 = "@5";
+        let t1 = "D=M+A";
+        let t2 = "A=D-A";
+        let t3 = "D=D+1";
+        let t4 = "A=D-M-A";
+        let t5 = "D=A+M+D";
+        let t6 = "@357";
+        let t7 = "M=D";
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "5";
+        let a1 = "7";
+        let a2 = "3";
+
+        let r0 = "RAM[5]=";
+        let r1 = "RAM[7]=";
+        let r2 = "RAM[3]=";
+
+        do assignContentToArr();
+
+        return this;
+    }
+
 
 }
