@@ -64,10 +64,12 @@ class Lookup {
 
             if (Helpers.strComp(lookupInput, "SHIMON")) {
                 do Lookup.new(0, 0);
+                do NPC.setActive(0);
                 return;
             }
             if ((activeQuest > 0) & (Helpers.strComp(lookupInput, "357"))) {
                 do Lookup.new(0, 1);
+                do NPC.setActive(1);
                 return;
             }
             return;

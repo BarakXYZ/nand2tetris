@@ -628,6 +628,10 @@ push constant 0
 return
 function UserInterface.drawEntireScreenBorders 0
 push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
 push constant 0
 push constant 511
 push constant 255
@@ -637,6 +641,10 @@ push constant 0
 return
 function UserInterface.drawMainFrame 0
 push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
 push constant 20
 push constant 440
 push constant 229
@@ -645,6 +653,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawViewport 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push constant 136
 push constant 20
 push constant 354
@@ -660,6 +672,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawTextBox 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push constant 136
 push constant 174
 push constant 440
@@ -669,6 +685,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawChallengeFrame 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push constant 0
 push constant 20
 push constant 136
@@ -717,6 +737,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawContentFrame 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push constant 354
 push constant 20
 push constant 440
@@ -739,6 +763,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawLookupFrame 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push constant 226
 push constant 229
 push constant 290
@@ -786,6 +814,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawFriendsFrames 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push constant 440
 push constant 20
 push constant 511
@@ -925,6 +957,10 @@ pop temp 0
 push constant 0
 return
 function UserInterface.drawUnfilledRectangle 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
 push argument 0
 push argument 1
 push argument 2

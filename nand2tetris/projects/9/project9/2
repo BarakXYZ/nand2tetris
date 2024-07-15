@@ -61,7 +61,7 @@ class NPC {
     function void setActive(int index) {
         let activeNPC = index;
         // 0 == Shimon
-        // 1 == @357
+        // 1 == Gini
         // 2 == ...
         return;
     }

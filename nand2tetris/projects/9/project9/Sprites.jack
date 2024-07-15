@@ -10,38 +10,38 @@ static int shimonSmallCoord, giniSmallCoord;
 
 function void init() {
 	
-	let currentSelSprite = 0;
+    let currentSelSprite = 0;
 	
-	// let shimonSmallCoord = 6333;
-	let shimonSmallCoord = 7165;
-	let giniSmallCoord = 5148;
+    // let shimonSmallCoord = 6333;
+    let shimonSmallCoord = 7165;
+    let giniSmallCoord = 5148;
 
-	// let shimonBigCoord = 1899;
-	let shimonBigCoord = 1739;
-	let giniBigCoord = 1482;
+    // let shimonBigCoord = 1899;
+    let shimonBigCoord = 1739;
+    let giniBigCoord = 1482;
 
-	let questionMarkCoord1 = 5341;
-	let questionMarkCoord2 = 3485;
-	let questionMarkCoord3 = 1501;
-	return;
+    let questionMarkCoord1 = 5341;
+    let questionMarkCoord2 = 3485;
+    let questionMarkCoord3 = 1501;
+    return;
 }
 
 function void setCurrentSprite(int sel) {
-	let currentSelSprite = sel;
-	return;
+    let currentSelSprite = sel;
+    return;
 }
 
 function int getCurrentSprite() {
-	return currentSelSprite;
+    return currentSelSprite;
 }
 
-function void drawCurrentSelSprite(boolean isFlipped) {
-	var int activeNPC;
-	let activeNPC = NPC.getActive();
+function void drawCurrentSelSprite(boolean cond) {
+    var int activeNPC;
+    let activeNPC = NPC.getActive();
 
-	if (activeNPC = 0) { do Sprites.drawSpriteShimon(~isFlipped); return; }
-	if (activeNPC = 1) { do Sprites.drawSpriteGini(~isFlipped); return; }
-	return;
+    if (activeNPC = 0) { do Sprites.drawSpriteShimon(~cond); return; }
+    if (activeNPC = 1) { do Sprites.drawEnemy(~cond); return; }
+    return;
 }
 
 
@@ -50,139 +50,127 @@ function void drawCurrentSelSprite(boolean isFlipped) {
 //	 and on top of that, offseting by a few pixels to not override the sel arrow */
 function void clearViewport() {
 
-	do Screen.setColor(false);
-	do Screen.drawRectangle(144, 47, 353, 173);
-	do Screen.setColor(true);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(144, 47, 353, 173);
+    do Screen.setColor(true);
 
-	return;
+    return;
 }
 
 
 // Draw Shimon Big & Small
 function void drawSpriteShimon(boolean isFlipped) {
-	if (isFlipped) { do SpriteShimon.drawShimonBig(shimonBigCoord); }
-	else { do SpriteShimon.drawShimonBigFlipped(shimonBigCoord); }
-	return;
+    if (isFlipped) { do SpriteShimon.drawShimonBig(shimonBigCoord); }
+    else { do SpriteShimon.drawShimonBigFlipped(shimonBigCoord); }
+    return;
 }
 
 function void drawSpriteShimonSmall() {
-	do SpriteShimon.drawShimonSmall(shimonSmallCoord);
-	return;
+    do SpriteShimon.drawShimonSmall(shimonSmallCoord);
+    return;
 }
 
 
 // Draw Gini Big & Small
 function void drawSpriteGini(boolean isFlipped) {
-	if (isFlipped) { do SpriteGini.drawGiniBig(giniBigCoord); }
-	else { do SpriteGini.drawGiniBigFlipped(giniBigCoord); }
-	return;
+    if (isFlipped) { do SpriteGini.drawGiniBig(giniBigCoord); }
+    else { do SpriteGini.drawGiniBigFlipped(giniBigCoord); }
+    return;
 }
 
 function void drawSpriteGiniSmall() {
-	do SpriteGini.drawGiniSmall(giniSmallCoord);
-	return;
+    do SpriteGini.drawGiniSmall(giniSmallCoord);
+    return;
 }
 
 // Draw Question Mark
 function void drawQuestionMark1() {
-	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord1);
-	return;
+    do SpriteQuestionMark.drawQuestionMark(questionMarkCoord1);
+    return;
 }
 
 // Draw Question Mark
 function void drawQuestionMark2() {
-	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord2);
-	return;
+    do SpriteQuestionMark.drawQuestionMark(questionMarkCoord2);
+    return;
 }
 
 // Draw Question Mark
 function void drawQuestionMark3() {
-	do SpriteQuestionMark.drawQuestionMark(questionMarkCoord3);
-	return;
+    do SpriteQuestionMark.drawQuestionMark(questionMarkCoord3);
+    return;
 }
 
-// Draw enemy1 (challenge 3 reg357)
-function void drawEnemy1() {
-	var int x, y, offY, offMouthX, offMouthY, spikiness, direction, length;
-	var int hornWidth, hornsOffY;
-	let x = 240;
-	let y = 110;
-	let offY = 12;
-	let offMouthX = 20;
-	let offMouthY = 14;
-	let spikiness = 2; // Higher value for more spiky, lower for less
+// Draw enemy (challenge 3 reg357)
+function void drawEnemy(boolean isEyeOpened) {
+    var int x, y, offY, offMouthX, offMouthY, spikiness, direction, length;
+    var int hornWidth, hornsOffY;
+    let x = 240;
+    let y = 110;
+    let offY = 12;
+    let offMouthX = 20;
+    let offMouthY = 14;
+    let spikiness = 2; // Higher value for more spiky, lower for less
     let direction = 1; // 1 for right rotation, -1 for left rotation
-	let length = 50;   // Length of the horns
-	let hornWidth = 40; // Distance between the horns
-	let hornsOffY = -55;  // Vertical offset of the horns
+    let length = 50;   // Length of the horns
+    let hornWidth = 40; // Distance between the horns
+    let hornsOffY = -55;  // Vertical offset of the horns
 
-	// Draw left horn
-    do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);
+    do Sprites.drawTriangle(x, y - 60, spikiness, direction);  // Middle Horn
+    // do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);  // L
+    // do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);  // R
 
-    // Draw right horn
-    do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);
+    // body
+    do Screen.setColor(true);
+    do Screen.drawCircle(x, y, 40);
+    do Screen.setColor(false);
+    do Screen.drawCircle(x, y, 37);
 
-	// body
-	do Screen.setColor(true);
-	do Screen.drawCircle(x, y, 40);
-	do Screen.setColor(false);
-	do Screen.drawCircle(x, y, 37);
+    do Sprites.drawEnemyEye1(isEyeOpened, x, y, offY, 1);
 
-	do Sprites.drawEnemyEye1(true, x, y, offY);
+    // Mouth
+    do Screen.setColor(true);
+    do Screen.drawRectangle(x-offMouthX, y+offMouthY, x-offMouthX+45, y+offMouthY+2);
+    // Teeth
+    do Screen.drawRectangle(x-10, y+offMouthY, x-4, y+offMouthY+10);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(x-8, y+offMouthY+2, x-6, y+offMouthY+10-2);
 
-	// Mouth
-	do Screen.setColor(true);
-	do Screen.drawRectangle(x-offMouthX, y+offMouthY, x-offMouthX+45, y+offMouthY+2);
-	// Teeth
-	do Screen.drawRectangle(x-10, y+offMouthY, x-4, y+offMouthY+10);
-	do Screen.setColor(false);
-	do Screen.drawRectangle(x-8, y+offMouthY+2, x-6, y+offMouthY+10-2);
-
-    // Draw a spiky, rotated triangle
-    // do Sprites.drawTriangle(x, y, spikiness, direction);
-
-
-	return;
+    return;
 }
 
-function void drawEnemyEye1(boolean isOpened, int x, int y, int offY) {
-	
-	// Eye
-	do Screen.setColor(true);
-	do Screen.drawCircle(x, y - offY, 14);
+//** Radius -> bigger value for smaller eye, 1 for regular size *//
+function void drawEnemyEye1(boolean isOpened, int x, int y, int offY, int radius) {
+    // Eye
+    do Screen.setColor(true);
+    do Screen.drawCircle(x, y - offY, 14 / radius);
+    
+    // Stroke
+    do Screen.setColor(false);
+    do Screen.drawCircle(x, y - offY, 12 / radius);
+    do Screen.setColor(true);
 
-	// Stroke
-	do Screen.setColor(false);
-	do Screen.drawCircle(x, y - offY, 12);
-	do Screen.setColor(true);
+    if (isOpened) { do Screen.drawCircle(x, y - offY, 5 / radius); }  // inner
+    else { do Screen.drawRectangle(x-12, y-14, x+12, y-13); } // closed
 
-	if (isOpened) {
-		do Screen.drawCircle(x, y - offY, 5);  // inner
-	}
-	else {
-		do Screen.drawRectangle(x-12, y-14, x+12, y-13);  // closed
-	}
-
-	return;
+    return;
 }
 
-// // Helper function to draw a spiky, rotated triangle using rectangles
-// function void drawTriangle(int x, int y, int spikiness, int direction) {
-//     var int i;
-//     do Screen.setColor(true);
-//     let i = 0;
-//     while (i < 30) {
-//         do Screen.drawRectangle(x - ((i / spikiness) * direction), y + i, x + ((i / spikiness) * direction), y + i + 1);
-//         let i = i + 1;
-//     }
-//     return;
-// }
+// Helper function to draw a spiky, rotated triangle using rectangles
+function void drawTriangle(int x, int y, int spikiness, int direction) {
+    var int i;
+    do Screen.setColor(true);
+    let i = 0;
+    while (i < 30) {
+        do Screen.drawRectangle(x - ((i / spikiness) * direction), y + i, x + ((i / spikiness) * direction), y + i + 1);
+        let i = i + 1;
+    }
+    return;
+}
 
 
-
-// Helper function to draw a horn using lines
 function void drawHorn(int x, int y, int direction, int length) {
-	do Screen.setColor(true);
+    do Screen.setColor(true);
     // Line 1
     do Screen.drawLine(x, y, x + (30 * direction), y + length);
     // Line 2
