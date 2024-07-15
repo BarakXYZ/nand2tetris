@@ -3,6 +3,7 @@ class Draw {
     static bool isFlipped;
 
     function void init() {
+        let isFlipped = true;
         let counter = 0;
         return;
     }
@@ -13,26 +14,21 @@ class Draw {
             do Sprites.clearViewport();
 
             if (~isFlipped) {
-                // do Sprites.drawGiniBigFlipped(1642);
-                // do Sprites.drawSpriteShimon(true, ~isFlipped);
                 do Sprites.drawCurrentSelSprite(~isFlipped);
-                let isFlipped = true;
+                let isFlipped = ~isFlipped;
             }
             else {
-                // do Sprites.drawGiniBig(1642);
-                // do Sprites.drawSpriteShimon(true, ~isFlipped);
                 do Sprites.drawCurrentSelSprite(~isFlipped);
-                let isFlipped = false;
+                let isFlipped = ~isFlipped;
             }
         }
-        else {
-            let counter = counter + 1;
-        }
+        else { let counter = counter + 1; }
         return;
     }
 
     function void spriteDirect() {
-        do Sprites.drawCurrentSelSprite(false);
+        do Sprites.drawCurrentSelSprite(~isFlipped);
+        let isFlipped = ~isFlipped;
         return;
     }
 }

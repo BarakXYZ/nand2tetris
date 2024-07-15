@@ -74,27 +74,32 @@ class UserInterface {
     }
 
     function void drawEntireScreenBorders() {
+        do Screen.setColor(true);
         do UserInterface.drawUnfilledRectangle(0, 0, 511, 255);
         return;
     }
 
     function void drawMainFrame() {
+        do Screen.setColor(true);
         do UserInterface.drawUnfilledRectangle(0, 20, 440, 229);
         return;
     }
 
     function void drawViewport() {
+        do Screen.setColor(true);
         do UserInterface.drawUnfilledRectangle(136, 20, 354, 45);  // title
         do UserInterface.drawUnfilledRectangle(136, 45, 354, 174);  // viewport
         return;
     }
 
     function void drawTextBox() {
+        do Screen.setColor(true);
         do UserInterface.drawUnfilledRectangle(136, 174, 440, 229);
         return;
     }
 
     function void drawChallengeFrame() {
+        do Screen.setColor(true);
         do UserInterface.drawUnfilledRectangle(0, 20, 136, 45);  // title
         do Output.moveCursor(3, 1);
         do Output.printString(challengeTitle);
@@ -110,6 +115,7 @@ class UserInterface {
     }
 
     function void drawContentFrame() {
+        do Screen.setColor(true);
         do UserInterface.drawUnfilledRectangle(354, 20, 440, 45);  // title
         do Output.moveCursor(3, 46);
         do Output.printString(contentTitle);
@@ -119,6 +125,7 @@ class UserInterface {
     }
 
     function void drawLookupFrame() {
+        do Screen.setColor(true);
         
         // Frame
         do Screen.drawLine(226, 229, 290, 229);  // Upper line
@@ -135,6 +142,7 @@ class UserInterface {
     }
 
     function void drawFriendsFrames() {
+        do Screen.setColor(true);
 
         do UserInterface.drawUnfilledRectangle(440, 20, 511, 77);
         do UserInterface.drawUnfilledRectangle(440, 77, 511, 139);  // Comp a bit
@@ -175,6 +183,8 @@ class UserInterface {
     }
 
     function void drawUnfilledRectangle(int x1, int y1, int x2, int y2) {
+        do Screen.setColor(true);
+
         do Screen.drawLine(x1, y1, x2, y1);  // Upper line
         do Screen.drawLine(x1, y2, x2, y2);  // Bottom line
         do Screen.drawLine(x1, y1, x1, y2);  // Left line

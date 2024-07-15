@@ -13,10 +13,9 @@ class Main {
         // do Helpers.strCopy(test1, test2);
         // do Output.moveCursor(0,0);
         // do Output.printString(test1);
-        do UserInterface.drawViewport();
-        do Sprites.drawEnemy1();
-        return;
-        // do Sys.wait(30000);
+        // do UserInterface.drawViewport();
+        // do Sprites.drawEnemy1();
+        // return;
         
         // INIT
         do ChallengeBuffer.init();
@@ -25,10 +24,10 @@ class Main {
         do NPC.init();
         do QuestManager.init();
         do Sprites.init();
+        do Draw.init();
         do Draw.spriteDirect();  // Preview Sprite fast
         do Lookup.init();
         do Challenge.init();
-        do Draw.init();
         do UserInterface.init();
         do Debug.init();
         // do Debug.run();
