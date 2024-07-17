@@ -72,14 +72,14 @@ class NPC {
 
         if (quest = 0) {
             let currChallengeNode = ChallengeNode.makeNode0();
-            do Challenge.setSelBuffIndex(13);
+            do Challenge.setSelBuffIndex(12);
             return;
         }
 
         if (quest = 1) {
             do currChallengeNode.dispose();
             let currChallengeNode = ChallengeNode.makeNode1();
-            do Challenge.setSelBuffIndex(13);
+            do Challenge.setSelBuffIndex(12);
             return;
         }
 
@@ -129,9 +129,9 @@ class NPC {
         return;
     }
 
-    function boolean checkChallengeAnswer(String buff13, String buff14) {
+    function boolean checkChallengeAnswer(String buff12, String buff13, String buff14) {
         var boolean ret;
-        let ret = currChallengeNode.checkAnswer(buff13, buff14);
+        let ret = currChallengeNode.checkAnswer(buff12, buff13, buff14);
         do Output.moveCursor(0,0);
         if (ret) { do QuestManager.complete(); }
         else { do UserInterface.signalIncorrectAnswer(); }

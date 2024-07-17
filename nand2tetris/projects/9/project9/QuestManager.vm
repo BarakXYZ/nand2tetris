@@ -105,7 +105,8 @@ call Game.setNewQuest 1
 pop temp 0
 call QuestManager.manageQuest 0
 pop temp 0
-call Challenge.manageBuffer 0
+push constant 0
+call Challenge.manageBuffer 1
 pop temp 0
 push constant 0
 return
@@ -117,8 +118,6 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 call QuestManager.complete 0
-pop temp 0
-call UserInterface.drawChallengeFrame 0
 pop temp 0
 push constant 0
 return

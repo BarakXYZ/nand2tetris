@@ -43,9 +43,6 @@ label IF_TRUE1
 push local 1
 call Lookup.run 1
 pop temp 0
-push constant 0
-not
-pop static 0
 label IF_FALSE1
 push local 1
 call Input.isChallenge 1

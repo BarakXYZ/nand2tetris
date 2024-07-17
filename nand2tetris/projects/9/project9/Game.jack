@@ -24,7 +24,6 @@ class Game {
                 let isNewLookup = false;
                 let isNewQuest = false;
                 do NPC.interact();
-                // do QuestManager.manageQuest();  // Check special case quests
             }
 
             do Sys.wait(50);
@@ -32,13 +31,7 @@ class Game {
             let c = Keyboard.keyPressed();
 
             // '@' or 'L' pressed ([@][L]ookup Mode)
-            if (Input.isLookup(c) & isLookupEnabled) {
-                do Lookup.run(c);
-                let isNewLookup = true;
-                // do we want to set it even if there's no new lookup necessarily?
-                // Because we can just spam 'L'. Maybe need to be set from the
-                // lookup and only if succesful?
-            }
+            if (Input.isLookup(c) & isLookupEnabled) { do Lookup.run(c); }
 
             // 'C' pressed ([C]hallenge Mode)
             if (Input.isChallenge(c)) { do Challenge.run(c); }

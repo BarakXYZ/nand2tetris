@@ -118,11 +118,22 @@ class Debug {
 
     function void interactions() {
         var String str;
-        let str = "interact:";
+        let str = "act:";
         let numOfInteractions = numOfInteractions + 1;
-        do Output.moveCursor(18, 54);
+        do Output.moveCursor(18, 57);
         do Output.printString(str);
         do Output.printInt(numOfInteractions);
+        do str.dispose();
+        return;
+    }
+
+    function void activeBuff() {
+        var String str;
+        let str = "buf:";
+        do Output.moveCursor(17, 57);
+        do Output.printString(str);
+        do Output.printInt(Challenge.getSelBuffIndex());
+        do str.dispose();
         return;
     }
 

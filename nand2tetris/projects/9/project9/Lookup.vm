@@ -164,6 +164,8 @@ label IF_FALSE1
 push constant 0
 return
 function Lookup.new 0
+call UserInterface.clearChallengeAll 0
+pop temp 0
 push argument 0
 call NPC.setActive 1
 pop temp 0
@@ -177,6 +179,10 @@ call Challenge.drawBuffer 0
 pop temp 0
 push static 3
 call UserInterface.printAlignedTitle 1
+pop temp 0
+push constant 0
+not
+call Game.setNewLookup 1
 pop temp 0
 push constant 0
 return

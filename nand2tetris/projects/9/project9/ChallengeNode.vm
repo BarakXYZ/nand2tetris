@@ -3,7 +3,7 @@ push constant 5
 pop static 0
 push constant 3
 pop static 1
-push constant 18
+push constant 17
 pop static 2
 push constant 3
 call String.new 1
@@ -304,8 +304,13 @@ push argument 1
 push this 18
 call Helpers.strComp 2
 return
-goto IF_END0
 label IF_FALSE0
+push this 5
+push constant 2
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
 push argument 1
 push this 18
 call Helpers.strComp 2
@@ -314,7 +319,28 @@ push this 19
 call Helpers.strComp 2
 and
 return
-label IF_END0
+label IF_FALSE1
+push this 5
+push constant 3
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 1
+push this 18
+call Helpers.strComp 2
+push argument 2
+push this 19
+call Helpers.strComp 2
+and
+push argument 3
+push this 20
+call Helpers.strComp 2
+and
+return
+label IF_FALSE2
+push constant 0
+return
 function ChallengeNode.dispose 0
 push argument 0
 pop pointer 0
