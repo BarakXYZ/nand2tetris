@@ -200,8 +200,6 @@ return
 function ChallengeBuffer.draw 1
 push argument 0
 pop pointer 0
-call UserInterface.clearChallengeComment 0
-pop temp 0
 push constant 0
 pop local 0
 label WHILE_EXP0
@@ -211,7 +209,7 @@ lt
 not
 if-goto WHILE_END0
 push local 0
-push constant 12
+push constant 11
 eq
 if-goto IF_TRUE0
 goto IF_FALSE0

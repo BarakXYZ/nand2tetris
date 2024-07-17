@@ -15,11 +15,11 @@ class Challenge {
             do Challenge.initBuffers();
             let row = 5;
             let col = 11;
-            let selBuff = currentBuffer.getBufferAt(13);  // default buffer
-            let tempBuff = currentBuffer.getBufferAt(13);  // default buffer
+            let selBuff = currentBuffer.getBufferAt(12);  // default buffer
+            let tempBuff = currentBuffer.getBufferAt(12);  // default buffer
             let maxLen = currentBuffer.getMaxStrLen() - 1;
 
-            let selBuffIndex = 13;
+            let selBuffIndex = 12;
 
             let isArrow = false;
             let isEnter = false;
@@ -64,12 +64,12 @@ class Challenge {
         //** if 'A' is pressed, enter '[A]nswer mode' */
         function void run(char c) {
             do UserInterface.drawInstruction(0);
-            // do UserInterface.drawSelArrows(UserInterface.getSelCoordAnswer());
             do UserInterface.drawChallengeSel(selBuffIndex , true);
             do Sys.wait(200);
 
             // Exits if 'Escape' (140) is pressed
             while (~(c = 140)) {
+                do Debug.activeBuff();
                 do Draw.sprite();
                 do Challenge.resetParams();
 
@@ -78,17 +78,8 @@ class Challenge {
 
                 // if 'Enter': insert answer and exit 'Answer Mode'
                 if (Input.isEnter(c)) {
-                    if (NPC.checkChallengeAnswer(currentBuffer[13], currentBuffer[14])) {
+                    if (NPC.checkChallengeAnswer(currentBuffer[12], currentBuffer[13], currentBuffer[14])) {
                         let c = 140;
-                        // check if need to rearrange UI a bit (we need to!)
-                        // Fix asterisk on Challenge pane when it summoned
-                        // Fix the UI of the content (it slips data)
-                        // Lookup functionality:
-                            // draw new sprites and figure out the limitations - X
-                            // Draw the correct challenge on visit - X
-
-                        // Plot twist and an interesting challenge
-                        // master challenge and wrap up
                     }
 
                     let isEnter = true;
@@ -150,10 +141,10 @@ class Challenge {
             do UserInterface.drawChallengeSel(selBuffIndex, false);
             if (selBuffIndex = 0) { let selBuffIndex = 14; }
             else { 
-                if (selBuffIndex = 13) { let selBuffIndex = 11; }
+                if (selBuffIndex = 12) { let selBuffIndex = 10; }
                 else { let selBuffIndex = selBuffIndex - 1; } 
             }
-            do Challenge.manageBuffer();
+            do Challenge.manageBuffer(true);
             return;
         }
 
@@ -162,16 +153,16 @@ class Challenge {
             do UserInterface.drawChallengeSel(selBuffIndex, false);
             if (selBuffIndex = 14) { let selBuffIndex = 0; }
             else { 
-                if (selBuffIndex = 11) { let selBuffIndex = 13; }
+                if (selBuffIndex = 10) { let selBuffIndex = 12; }
                 else { let selBuffIndex = selBuffIndex + 1; } 
             }
-            do Challenge.manageBuffer();
+            do Challenge.manageBuffer(true);
             return;
         }
 
-        function void manageBuffer() {
+        function void manageBuffer(boolean isBufferSelected) {
             let selBuff = currentBuffer.getBufferAt(selBuffIndex);
-            do UserInterface.drawChallengeSel(selBuffIndex, true);
+            do UserInterface.drawChallengeSel(selBuffIndex, isBufferSelected);
             return;
         }
         
@@ -183,6 +174,10 @@ class Challenge {
             return;
         } 
 
+        function int getSelBuffIndex() {
+            return selBuffIndex;
+        }
+
         function void setSelBuffIndex(int aIndex) {
             let selBuffIndex = aIndex;
             return;
@@ -191,7 +186,7 @@ class Challenge {
         function void setCurrentBuffer(int aIndex) {
             let groupBuffIndex = aIndex;
             let currentBuffer = bufferArr[groupBuffIndex];
-            do Challenge.manageBuffer();
+            do Challenge.manageBuffer(false);
             return;
         }
 

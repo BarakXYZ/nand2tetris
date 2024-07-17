@@ -12,7 +12,7 @@ class ChallengeNode {
     function void init() {
         let startRowCode = 5;
         let startCol = 3;
-        let startRowReg = 18;
+        let startRowReg = 17;
         let lineIndex = String.new(3);
         return;
     }
@@ -92,9 +92,15 @@ class ChallengeNode {
         return;
     }
 
-    method boolean checkAnswer(String buff13, String buff14) {
-        if (queries = 1) { return Helpers.strComp(buff13, a0); }
-        else { return Helpers.strComp(buff13, a0) & Helpers.strComp(buff14, a1); }
+    method boolean checkAnswer(String buff12, String buff13, String buff14) {
+        if (queries = 1) { return Helpers.strComp(buff12, a0); }
+        if (queries = 2) {
+            return Helpers.strComp(buff12, a0) & Helpers.strComp(buff13, a1);
+        }
+        if (queries = 3) {
+            return Helpers.strComp(buff12, a0) & Helpers.strComp(buff13, a1) & Helpers.strComp(buff14, a2);
+        }
+        return false;
     }
 
     method void dispose() {

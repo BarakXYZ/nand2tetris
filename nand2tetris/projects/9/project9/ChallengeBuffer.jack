@@ -7,7 +7,7 @@ class ChallengeBuffer {
     static int buffSize, startRow, startCol; 
 
     function void init() {
-        let buffSize = 15;  // Skipping 12, so 14 defacto
+        let buffSize = 15;  // Skipping 11, so 14 defacto
         let startRow = 5;
         let startCol = 11;
         return;
@@ -63,12 +63,10 @@ class ChallengeBuffer {
     method void draw() {
         var int i;
 
-        do UserInterface.clearChallengeComment();
         let i = 0;
         while (i < buffSize) {
-            // do UserInterface.clearDialogueBox();
 
-            if (i = 12) { let i = i + 1; }  // Skip 12
+            if (i = 11) { let i = i + 1; }  // Skip 11
             do Output.moveCursor(startRow + i, startCol);
             do Output.printString(arrBuff[i]);
 

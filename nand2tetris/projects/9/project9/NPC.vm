@@ -82,7 +82,7 @@ goto IF_FALSE0
 label IF_TRUE0
 call ChallengeNode.makeNode0 0
 pop static 3
-push constant 13
+push constant 12
 call Challenge.setSelBuffIndex 1
 pop temp 0
 push constant 0
@@ -99,7 +99,7 @@ call ChallengeNode.dispose 1
 pop temp 0
 call ChallengeNode.makeNode1 0
 pop static 3
-push constant 13
+push constant 12
 call Challenge.setSelBuffIndex 1
 pop temp 0
 push constant 0
@@ -223,7 +223,8 @@ function NPC.checkChallengeAnswer 1
 push static 3
 push argument 0
 push argument 1
-call ChallengeNode.checkAnswer 3
+push argument 2
+call ChallengeNode.checkAnswer 4
 pop local 0
 push constant 0
 push constant 0

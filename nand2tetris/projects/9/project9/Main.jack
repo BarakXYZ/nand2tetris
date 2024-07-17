@@ -37,3 +37,9 @@ class Main {
         return;
     }
 }
+
+// TODOS:
+// 4. Content frame overflowing with text
+// 7. Content needs to be displayed correctly depending on the NPC interacting with
+// 8. Plot twist and an interesting challenge
+// 9. master challenge and wrap up

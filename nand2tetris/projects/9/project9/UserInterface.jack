@@ -1,7 +1,7 @@
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
     static String challengeInstruction, escapeInstruction, clearInstruction;
-    static String enterInstruction;
+    static String enterInstruction, arrowInst, arrowInstClear;
     static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
     static String challengeTitle, tempTitle, contentTitle, lookupTitle;
@@ -21,6 +21,8 @@ class UserInterface {
         let titleStartColumnIndex = 16;
         // let challengeInstruction = "[A]nswer Mode";
         let challengeInstruction = "[C]hallenge Mode";
+        let arrowInst = "Up-Down to Nav Buffers";
+        let arrowInstClear = "                      ";
         let selRightArrow = 62;
         let selLeftArrow = 60;
         let selUpArrow = 94;
@@ -56,7 +58,7 @@ class UserInterface {
 
         // do UserInterface.drawEntireScreenBorders();
 
-        do UserInterface.drawMainFrame();
+        // do UserInterface.drawMainFrame();
 
         do UserInterface.drawViewport();
 
@@ -108,9 +110,9 @@ class UserInterface {
         do Output.moveCursor(21, 0);
         do Output.printString(challengeInstruction);  // [A]nswer
 
-        do UserInterface.drawUnfilledRectangle(0, 20, 80, 188);  // Code Frame
-        do UserInterface.drawUnfilledRectangle(80, 20, 136, 188);  // Comment Frame
-        do UserInterface.drawUnfilledRectangle(0, 188, 136, 229);  // Answer Frame
+        do UserInterface.drawUnfilledRectangle(0, 20, 80, 174);  // Code Frame
+        do UserInterface.drawUnfilledRectangle(80, 20, 136, 174);  // Comment Frame
+        do UserInterface.drawUnfilledRectangle(0, 174, 136, 229);  // Answer Frame
         return;
     }
 
@@ -246,9 +248,18 @@ class UserInterface {
         do UserInterface.drawChallengeFrame();
         do UserInterface.drawTextBox();
 
-        do Output.moveCursor(22, 11);
-        if (draw) { do Output.printChar(asterisk); }
-        else { do Output.printChar(32); }
+        do Output.moveCursor(21, 17);
+        // do Output.moveCursor(22, 8);  // old mid
+        if (draw) {
+            do Output.printChar(asterisk);
+            do Output.moveCursor(22, 0);
+            do Output.printString(arrowInst);
+        }
+        else {
+            do Output.printChar(32);
+            do Output.moveCursor(22, 0);
+            do Output.printString(arrowInstClear);
+        }
         return;
     }
 
@@ -318,30 +329,30 @@ class UserInterface {
 
     function void clearChallengeAll() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 21, 79, 187);  // Code Frame
-        do Screen.drawRectangle(81, 21, 135, 187);  // Comment Frame
-        do Screen.drawRectangle(1, 189, 135, 228);  // Answer Frame
+        do Screen.drawRectangle(1, 21, 79, 173);  // Code Frame
+        do Screen.drawRectangle(81, 21, 135, 173);  // Comment Frame
+        do Screen.drawRectangle(1, 175, 135, 228);  // Answer Frame
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeCode() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 21, 79, 187);  // Code Frame
+        do Screen.drawRectangle(1, 21, 79, 173);  // Code Frame
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeComment() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(81, 21, 135, 187);  // Comment Frame
+        do Screen.drawRectangle(81, 21, 135, 173);  // Comment Frame
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeAnswer() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 189, 135, 228);  // Answer Frame
+        do Screen.drawRectangle(1, 175, 135, 228);  // Answer Frame
         do Screen.setColor(true);
         return;
     }

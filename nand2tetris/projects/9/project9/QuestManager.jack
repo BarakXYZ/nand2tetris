@@ -51,14 +51,14 @@ class QuestManager {
         do NPC.makeContentNode(activeQuest);
         do Game.setNewQuest(true);
         do QuestManager.manageQuest();
-        do Challenge.manageBuffer();  // cause we're manipulating the index
+        do Challenge.manageBuffer(false);  // cause we're manipulating the index
         return;
     }
 
     function void manageQuest() {
         if (activeQuest = 0) {
             do QuestManager.complete();
-            do UserInterface.drawChallengeFrame();
+            // do UserInterface.drawChallengeFrame();
             return;
         } 
         if (activeQuest = 2) {

@@ -179,5 +179,4 @@ function void drawHorn(int x, int y, int direction, int length) {
     do Screen.drawLine(x, y, x + (20 * direction), y + (length - 30));
     return;
 }
-
 }

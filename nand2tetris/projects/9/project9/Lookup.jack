@@ -74,12 +74,14 @@ class Lookup {
         }
 
         function void new(int activeNPC, int currBuff, int challengeNode) {
+            do UserInterface.clearChallengeAll();
             do NPC.setActive(activeNPC);
             do NPC.setChallengeNode(challengeNode);
             do Challenge.setCurrentBuffer(currBuff);
             do Challenge.drawBuffer();
             
             do UserInterface.printAlignedTitle(lookupInput);
+            do Game.setNewLookup(true);
 
             return;
         }
