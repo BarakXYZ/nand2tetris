@@ -1,80 +1,110 @@
 class ContentNode {
-    field String symbolicName, address, inM, role;
+    field String name, address, val, lvl, role;
+    field int items;
     // field String effect0, effect1;
     field Array arrContent;
-    field int items;
-
+    static String tName, tAddr, tVal, tLVL, tRole;
     static int baseRow, baseCol;
+    static Array arrFixedTitleContent;
     
     function void init() {
         let baseRow = 5;
         let baseCol = 45;
+        
+        let tName = "Name:    ";
+        let tAddr = "Address: ";
+        let tVal  = "Value:   ";
+        let tLVL  = "Level:   ";
+        let tRole = "*";
+
+        let arrFixedTitleContent = Array.new(5);
+        let arrFixedTitleContent[0] = tName;
+        let arrFixedTitleContent[1] = tAddr;
+        let arrFixedTitleContent[2] = tVal;
+        let arrFixedTitleContent[3] = tLVL;
+        let arrFixedTitleContent[4] = tRole;
+
         return;
     }
 
     method void draw() {
         var int i;
         let i = 0;
+        while ((i < items) & (items > 1)) {
 
-        while (i < items) {
-            do Output.moveCursor(baseRow + i, baseCol);
+            if (i = (items - 1)) { do Output.moveCursor(baseRow + i + 1, baseCol); }
+            else { do Output.moveCursor(baseRow + i, baseCol); }
+
+            do Output.printString(arrFixedTitleContent[i]);
             do Output.printString(arrContent[i]);
             let i = i + 1;
         }
+
+        do UserInterface.printAlignedTitle(arrContent[0]);
 
         return;
     }
 
     constructor ContentNode makeBlank() {
-        let symbolicName = "";
+        let name = "SHIMON";
         let address = "";
-        let inM = "";
+        let val = "";
+        let lvl = "";
         let role = "";
 
-        do assignToArr(0);
+        let items = 0;
+
+        do assignToArr();
 
         return this;
     }
     constructor ContentNode makeShimon() {
-        let symbolicName = "@SHIMON";
-        let address = "addr=555";
-        let inM = "inM=42";
+        let name = "SHIMON";
+        let address = "555";
+        let val = "42";
+        let lvl = "32768";
         let role = "Master of Memory";
+
+        let items = 5;
         
-        do assignToArr(4);
+        do assignToArr();
 
         return this;
     }
 
     constructor ContentNode make357() {
-        let symbolicName = "@357";
-        let address = "addr=357";
-        let inM = "inM=?";
-        let role = "Forgotten Memory";
+        let name = "GNIRUT";
+        let address = "357";
+        let val = "?";
+        let lvl = "3";
+        let role = "OPS I SEG FAULT";
         
-        do assignToArr(4);
+        let items = 5;
+
+        do assignToArr();
 
         return this;
     }
 
-    method void assignToArr(int aItems) {
-        let items = aItems;
+    method void assignToArr() {
 
-        let arrContent = Array.new(10);
+        let arrContent = Array.new(5);
 
-        let arrContent[0] = symbolicName;
+        let arrContent[0] = name;
         let arrContent[1] = address;
-        let arrContent[2] = inM;
-        let arrContent[3] = role;
+        let arrContent[2] = val;
+        let arrContent[3] = lvl;
+        let arrContent[4] = role;
 
         return;
     }
     
     method void dispose() {
 
-        do symbolicName.dispose();
+        do name.dispose();
         do address.dispose();
-        do inM.dispose();
+        do val.dispose();
+        do lvl.dispose();
         do role.dispose();
 
         do arrContent.dispose();

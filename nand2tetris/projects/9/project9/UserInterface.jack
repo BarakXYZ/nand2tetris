@@ -20,8 +20,6 @@ class UserInterface {
         do UserInterface.initLookUpSelCoords();
         do UserInterface.draw();
 
-        // do UserInterface.printAlignedTitle("SHIMON");  // should happen elsewhere
-
         return;
     }
 
@@ -142,7 +140,7 @@ class UserInterface {
     function void drawContentFrame() {
         do Screen.setColor(true);
         do UserInterface.drawUnfilledRec(vpX2, vpY1, coX2, vpY1 + vpOffY1);  // title
-        do Output.moveCursor(3, 46);
+        do Output.moveCursor(3, 50);
         do Output.printString(contentTitle);
 
         do UserInterface.drawUnfilledRec(vpX2, vpY1 + vpOffY1, coX2, vpY2);  // frame

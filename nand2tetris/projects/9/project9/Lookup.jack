@@ -62,11 +62,11 @@ class Lookup {
             var int activeQuest;
             let activeQuest = QuestManager.getActive();
 
-            if (Helpers.strComp(lookupInput, "SHIMON")) {
+            if (Helpers.strComp(lookupInput, "SHIMON") | Helpers.strComp(lookupInput, "555")) {
                 do Lookup.new(0);
                 return;
             }
-            if ((activeQuest > 2) & (Helpers.strComp(lookupInput, "357"))) {
+            if (Helpers.strComp(lookupInput, "GNIRUT") | Helpers.strComp(lookupInput, "357")) {
                 do Lookup.new(1);
                 return;
             }
@@ -82,7 +82,6 @@ class Lookup {
             do Challenge.setCurrentBuffer(aIndex);
             do Challenge.drawBuffer();
             
-            do UserInterface.printAlignedTitle(lookupInput);
             do Game.setNewLookup(true);
 
             return;

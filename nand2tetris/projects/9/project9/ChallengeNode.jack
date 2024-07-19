@@ -1,18 +1,20 @@
 class ChallengeNode {
 
-    field int linesNum, answersNum, nodeIndex, currentRow, numLines, queries;
+    field int nodeIndex, currentRow, numLines, numHints, queries;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11;
     field String a0, a1, a2;
     field String r0, r1, r2;
-    field Array content, answers, registers;
+    field Array assembly, answers, registers;
 
-    static int startRowCode, startCol, startRowReg; 
+    static int startRowCode, startCol, startRowReg, startRowHints, assemblyArrSize;
     static String lineIndex;
 
     function void init() {
         let startRowCode = 5;
         let startCol = 3;
         let startRowReg = 17;
+        let startRowHints = 11;
+        let assemblyArrSize = 10;
         let lineIndex = String.new(3);
         return;
     }
@@ -27,18 +29,36 @@ class ChallengeNode {
             do ChallengeNode.drawLineIndex(currentRow);
 
             do Output.moveCursor(startRowCode + currentRow, startCol);
-            do Output.printString(content[currentRow]);
+            do Output.printString(assembly[currentRow]);
 
             let currentRow = currentRow + 1;
         }
         let currentRow = 0;
 
+        do drawHints();
+        do drawRegisters();
+        return;
+    }
+
+    method void drawRegisters() {
         do Output.moveCursor(startRowReg, 1);
         do Output.printString(registers[0]);
         do Output.moveCursor(startRowReg + 1, 1);
         do Output.printString(registers[1]);
         do Output.moveCursor(startRowReg + 2, 1);
         do Output.printString(registers[2]);
+        return;
+    }
+
+    method void drawHints() {
+        var int i;
+        let i = 0;
+
+        while (i < numHints) {
+            do Output.moveCursor(startRowHints + i, 0);
+            do Output.printString(assembly[(assemblyArrSize - 1) - (numHints + i)]);
+            let i = i + 1;
+        }
         return;
     }
 
@@ -62,22 +82,22 @@ class ChallengeNode {
     method void assignContentToArr() {
         
         let currentRow = 0;
-        let content = Array.new(12);
+        let assembly = Array.new(assemblyArrSize);
 
-        let content[0] = t0;
-        let content[1] = t1;
-        let content[2] = t2;
-        let content[3] = t3;
+        let assembly[0] = t0;
+        let assembly[1] = t1;
+        let assembly[2] = t2;
+        let assembly[3] = t3;
 
-        let content[4] = t4;
-        let content[5] = t5;
-        let content[6] = t6;
-        let content[7] = t7;
+        let assembly[4] = t4;
+        let assembly[5] = t5;
+        let assembly[6] = t6;
+        let assembly[7] = t7;
 
-        let content[8] = t8;
-        let content[9] = t9;
-        let content[10] = t10;
-        let content[11] = t11;
+        let assembly[8] = t8;
+        let assembly[9] = t9;
+        let assembly[10] = t10;
+        let assembly[11] = t11;
 
         let answers = Array.new(3);
         let answers[0] = a0;
@@ -130,7 +150,7 @@ class ChallengeNode {
         do r2.dispose();
 
         //** Dispose Array *//
-        do content.dispose();
+        do assembly.dispose();
         do answers.dispose();
         do registers.dispose();
 
@@ -275,7 +295,8 @@ class ChallengeNode {
         
         let nodeIndex = 32;
         let numLines = 8;
-        let queries = 2;
+        let numHints = 3;
+        let queries = 1;
 
         let t0 = "@5";
         let t1 = "D=M+A";
@@ -286,17 +307,17 @@ class ChallengeNode {
         let t6 = "@357";
         let t7 = "M=D";
         let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
+        let t9 = "RAM[3]=5";
+        let t10 = "RAM[5]=7";
+        let t11 = "RAM[7]=3";
         
-        let a0 = "5";
-        let a1 = "7";
-        let a2 = "3";
+        let a0 = "34";
+        let a1 = "";
+        let a2 = "";
 
-        let r0 = "RAM[5]=";
-        let r1 = "RAM[7]=";
-        let r2 = "RAM[3]=";
+        let r0 = "RAM[357]=";
+        let r1 = "";
+        let r2 = "";
 
         do assignContentToArr();
 

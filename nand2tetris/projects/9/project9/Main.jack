@@ -5,7 +5,8 @@ class Main {
     static int i;
 
     function void main() {
-        
+        // var int som;
+        // let som = 32768;
         // INIT
         do ChallengeBuffer.init();
         do ChallengeNode.init();
@@ -28,6 +29,6 @@ class Main {
 }
 
 // TODOS:
+// 0. Draw hints properly
 // 1. Plot twist and an interesting challenge
 // 2. master challenge and wrap up
-// 3. Print Aligned Title should be connected and controlled by the ContentNode
