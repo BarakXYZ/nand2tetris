@@ -2,58 +2,81 @@ class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
     static String challengeInstruction, escapeInstruction, clearInstruction;
     static String enterInstruction, arrowInst, arrowInstClear;
-    static char selRightArrow, selLeftArrow, selUpArrow, blankSpace, asterisk, atSign;
+    static char selRightArrow, selLeftArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
     static String challengeTitle, tempTitle, contentTitle, lookupTitle;
     static Array selCoordAnswer, selCoordLookUp;
     static String blankPromptLine, incorrectSignal;
+    static int vpX1, vpX2, vpY1, vpY2, vpOffY1, vpOffY2;
+    static int coX2, chX1, chX2;
 
     function void init() {
-        var int i;
-        let i = 0;
+        do UserInterface.initStrCoords();
+        do UserInterface.initStrInstructions();
+        do UserInterface.initSymbols();
+        do UserInterface.initUICoords();
 
-        let challengeTitle = "Challenge";
-        let tempTitle = "temp";
-        let contentTitle = "Content";
-        let lookupTitle = "[L]ookup Address";
+        do UserInterface.initAnswerSelCoords();
+        do UserInterface.initLookUpSelCoords();
+        do UserInterface.draw();
+
+        // do UserInterface.printAlignedTitle("SHIMON");  // should happen elsewhere
+
+        return;
+    }
+
+    function void initStrCoords() {
         let maxTitleLen = 30;
         let titleStartRowIndex = 3;
         let titleStartColumnIndex = 16;
-        // let challengeInstruction = "[A]nswer Mode";
-        let challengeInstruction = "[C]hallenge Mode";
-        let arrowInst = "Up-Down to Nav Buffers";
-        let arrowInstClear = "                      ";
+        return;
+    }
+
+    function void initSymbols() {
         let selRightArrow = 62;
         let selLeftArrow = 60;
-        let selUpArrow = 94;
         let blankSpace = 32;
         let asterisk = 42;
         let atSign = 64;
+        return;
+    }
+
+    function void initStrInstructions() {
+        let challengeInstruction = "[C]hallenge Mode";
+        let lookupTitle = "[L]ookup Address";
+        let challengeTitle = "Challenge";
+        let tempTitle = "temp";
+        let contentTitle = "Content";
+        let arrowInst = "Up-Down to Nav Buffers";
+        let arrowInstClear = "                      ";
         let currentSelFriend = ">> @ <<";
         let unknownFriend = "** ? **";
         let callingFriend = "** ! **";
         let clearBarFriend = "       ";
         let blankPromptLine = "                                    ";
         let incorrectSignal = "XXX Incorrect, try again XXX";
-
         let escapeInstruction = " ** Press 'Escape' to Exit Current Mode **";
         let enterInstruction = " ** Press 'Enter' to continue **";
         let clearInstruction = "                                            ";
-
-        do UserInterface.initAnswerSelCoords();
-        do UserInterface.initLookUpSelCoords();
-        do UserInterface.draw();
-
-        do UserInterface.printAlignedTitle("SHIMON");
-
         return;
     }
 
-    method void dispose() {
-        do Memory.deAlloc(this);
+    function void initUICoords() {
+
+        let vpX1 = 136;
+        let vpY1 = 20;
+        let vpX2 = 354;
+        let vpY2 = 174;
+        
+        let coX2 = 511;
+        let chX1 = 0;
+        let chX2 = 80;
+
+        let vpOffY1 = 25;
+        let vpOffY2 = 55;
+
         return;
     }
-    
     function void draw() {
 
         // do UserInterface.drawEntireScreenBorders();
@@ -77,32 +100,32 @@ class UserInterface {
 
     function void drawEntireScreenBorders() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRectangle(0, 0, 511, 255);
+        do UserInterface.drawUnfilledRec(0, 0, 511, 255);
         return;
     }
 
     function void drawMainFrame() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRectangle(0, 20, 440, 229);
+        do UserInterface.drawUnfilledRec(0, vpY1, coX2, vpY2 + vpOffY2);
         return;
     }
 
     function void drawViewport() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRectangle(136, 20, 354, 45);  // title
-        do UserInterface.drawUnfilledRectangle(136, 45, 354, 174);  // viewport
+        do UserInterface.drawUnfilledRec(vpX1, vpY1, vpX2, vpY2 - 129);  // title
+        do UserInterface.drawUnfilledRec(vpX1, vpY1 + vpOffY1, vpX2, vpY2);  // viewport
         return;
     }
 
     function void drawTextBox() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRectangle(136, 174, 440, 229);
+        do UserInterface.drawUnfilledRec(vpX1, vpY2, coX2, vpY2 + vpOffY2);
         return;
     }
 
     function void drawChallengeFrame() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRectangle(0, 20, 136, 45);  // title
+        do UserInterface.drawUnfilledRec(chX1, vpY1, vpX1, vpY1 + vpOffY1);  // title
         do Output.moveCursor(3, 1);
         do Output.printString(challengeTitle);
         do Output.moveCursor(3, 12);
@@ -110,19 +133,19 @@ class UserInterface {
         do Output.moveCursor(21, 0);
         do Output.printString(challengeInstruction);  // [A]nswer
 
-        do UserInterface.drawUnfilledRectangle(0, 20, 80, 174);  // Code Frame
-        do UserInterface.drawUnfilledRectangle(80, 20, 136, 174);  // Comment Frame
-        do UserInterface.drawUnfilledRectangle(0, 174, 136, 229);  // Answer Frame
+        do UserInterface.drawUnfilledRec(chX1, vpY1, chX2, vpY2);  // Code Frame
+        do UserInterface.drawUnfilledRec(chX2, vpY1, vpX1, vpY2);  // Comment Frame
+        do UserInterface.drawUnfilledRec(chX1, vpY2, vpX1, vpY2 + vpOffY2);  // Answer Frame
         return;
     }
 
     function void drawContentFrame() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRectangle(354, 20, 440, 45);  // title
+        do UserInterface.drawUnfilledRec(vpX2, vpY1, coX2, vpY1 + vpOffY1);  // title
         do Output.moveCursor(3, 46);
         do Output.printString(contentTitle);
 
-        do UserInterface.drawUnfilledRectangle(354, 45, 440, 174);  // frame
+        do UserInterface.drawUnfilledRec(vpX2, vpY1 + vpOffY1, coX2, vpY2);  // frame
         return;
     }
 
@@ -130,9 +153,9 @@ class UserInterface {
         do Screen.setColor(true);
         
         // Frame
-        do Screen.drawLine(226, 229, 290, 229);  // Upper line
-        do Screen.drawLine(226, 229, 226, 243);  // Left line
-        do Screen.drawLine(290, 229, 290, 243);  // Right line
+        do Screen.drawLine(226, vpY2 + vpOffY2, 290, vpY2 + vpOffY2);  // Upper line
+        do Screen.drawLine(226, vpY2 + vpOffY2, 226, 243);  // Left line
+        do Screen.drawLine(290, vpY2 + vpOffY2, 290, 243);  // Right line
         do Screen.drawLine(226, 243, 258, 255);  // Left Diagonal
         do Screen.drawLine(290, 243, 258, 255);  // Right Diagonal
         
@@ -146,10 +169,10 @@ class UserInterface {
     function void drawFriendsFrames() {
         do Screen.setColor(true);
 
-        do UserInterface.drawUnfilledRectangle(440, 20, 511, 77);
-        do UserInterface.drawUnfilledRectangle(440, 77, 511, 139);  // Comp a bit
-        do UserInterface.drawUnfilledRectangle(440, 139, 511, 197);
-        do UserInterface.drawUnfilledRectangle(440, 197, 511, 255);
+        do UserInterface.drawUnfilledRec(coX2, vpY1, 511, 77);
+        do UserInterface.drawUnfilledRec(coX2, 77, 511, 139);  // Comp a bit
+        do UserInterface.drawUnfilledRec(coX2, 139, 511, 197);
+        do UserInterface.drawUnfilledRec(coX2, 197, 511, 255);
 
 
         do Sprites.drawQuestionMark1();
@@ -184,7 +207,7 @@ class UserInterface {
         return;
     }
 
-    function void drawUnfilledRectangle(int x1, int y1, int x2, int y2) {
+    function void drawUnfilledRec(int x1, int y1, int x2, int y2) {
         do Screen.setColor(true);
 
         do Screen.drawLine(x1, y1, x2, y1);  // Upper line
@@ -322,44 +345,51 @@ class UserInterface {
 
     function void clearDialogueBox() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(137, 175, 439, 228);
+        do Screen.drawRectangle(vpX1 + 1, vpY2 + 1, 439, 228);
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeAll() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 21, 79, 173);  // Code Frame
-        do Screen.drawRectangle(81, 21, 135, 173);  // Comment Frame
-        do Screen.drawRectangle(1, 175, 135, 228);  // Answer Frame
+        do Screen.drawRectangle(1, vpY1 + 1, 79, vpY2 - 1);  // Code Frame
+        do Screen.drawRectangle(81, vpY1 + 1, vpX1 - 1, vpY2 - 1);  // Comment Frame
+        do Screen.drawRectangle(1, vpY2 + 1, vpX1 - 1, 228);  // Answer Frame
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeCode() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 21, 79, 173);  // Code Frame
+        do Screen.drawRectangle(chX1 + 1, vpY1 + 1, 79, vpY2 - 1);  // Code Frame
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeComment() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(81, 21, 135, 173);  // Comment Frame
+        do Screen.drawRectangle(81, vpY1 + 1, vpX1 - 1, vpY2 - 1);  // Comment Frame
         do Screen.setColor(true);
         return;
     }
 
     function void clearChallengeAnswer() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(1, 175, 135, 228);  // Answer Frame
+        do Screen.drawRectangle(chX1 + 1, vpY2 + 1, vpX1 - 1, 228);  // Answer Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearContentFrame() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(vpX2 + 1, vpY1 + vpOffY1 + 1, coX2 - 1, vpY2 - 1);
         do Screen.setColor(true);
         return;
     }
 
     function void clearViewportTitle() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(137, 21, 353, 44);
+        do Screen.drawRectangle(vpX1 + 1, vpY1 + 1, vpX2 - 1, 44);
         do Screen.setColor(true);
         return;
     }

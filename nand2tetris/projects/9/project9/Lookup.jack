@@ -63,21 +63,23 @@ class Lookup {
             let activeQuest = QuestManager.getActive();
 
             if (Helpers.strComp(lookupInput, "SHIMON")) {
-                do Lookup.new(0, 0, 0);
+                do Lookup.new(0);
                 return;
             }
             if ((activeQuest > 2) & (Helpers.strComp(lookupInput, "357"))) {
-                do Lookup.new(1, 1, 1);
+                do Lookup.new(1);
                 return;
             }
             return;
         }
 
-        function void new(int activeNPC, int currBuff, int challengeNode) {
+        function void new(int aIndex) {
             do UserInterface.clearChallengeAll();
-            do NPC.setActive(activeNPC);
-            do NPC.setChallengeNode(challengeNode);
-            do Challenge.setCurrentBuffer(currBuff);
+            do UserInterface.clearContentFrame();
+            do NPC.setActive(aIndex);
+            do NPC.setChallengeNode(aIndex);
+            do NPC.setContentNode(aIndex);
+            do Challenge.setCurrentBuffer(aIndex);
             do Challenge.drawBuffer();
             
             do UserInterface.printAlignedTitle(lookupInput);
