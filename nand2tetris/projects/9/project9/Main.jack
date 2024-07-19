@@ -6,17 +6,6 @@ class Main {
 
     function void main() {
         
-        // test
-        // let test1 = String.new(10);
-        // let test2 = "something";
-        //
-        // do Helpers.strCopy(test1, test2);
-        // do Output.moveCursor(0,0);
-        // do Output.printString(test1);
-        // do UserInterface.drawViewport();
-        // do Sprites.drawEnemy1();
-        // return;
-        
         // INIT
         do ChallengeBuffer.init();
         do ChallengeNode.init();
@@ -39,7 +28,6 @@ class Main {
 }
 
 // TODOS:
-// 4. Content frame overflowing with text
-// 7. Content needs to be displayed correctly depending on the NPC interacting with
-// 8. Plot twist and an interesting challenge
-// 9. master challenge and wrap up
+// 1. Plot twist and an interesting challenge
+// 2. master challenge and wrap up
+// 3. Print Aligned Title should be connected and controlled by the ContentNode

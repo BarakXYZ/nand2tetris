@@ -46,6 +46,17 @@ class ContentNode {
         return this;
     }
 
+    constructor ContentNode make357() {
+        let symbolicName = "@357";
+        let address = "addr=357";
+        let inM = "inM=?";
+        let role = "Forgotten Memory";
+        
+        do assignToArr(4);
+
+        return this;
+    }
+
     method void assignToArr(int aItems) {
         let items = aItems;
 

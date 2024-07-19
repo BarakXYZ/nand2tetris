@@ -129,9 +129,7 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-push constant 0
-push constant 0
-call Lookup.new 3
+call Lookup.new 1
 pop temp 0
 push constant 0
 return
@@ -154,9 +152,7 @@ if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 1
-push constant 1
-push constant 1
-call Lookup.new 3
+call Lookup.new 1
 pop temp 0
 push constant 0
 return
@@ -166,13 +162,18 @@ return
 function Lookup.new 0
 call UserInterface.clearChallengeAll 0
 pop temp 0
+call UserInterface.clearContentFrame 0
+pop temp 0
 push argument 0
 call NPC.setActive 1
 pop temp 0
-push argument 2
+push argument 0
 call NPC.setChallengeNode 1
 pop temp 0
-push argument 1
+push argument 0
+call NPC.setContentNode 1
+pop temp 0
+push argument 0
 call Challenge.setCurrentBuffer 1
 pop temp 0
 call Challenge.drawBuffer 0

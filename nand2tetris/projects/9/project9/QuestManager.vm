@@ -150,3 +150,8 @@ return
 label IF_FALSE2
 push constant 0
 return
+function QuestManager.setQuest 0
+push argument 0
+pop static 0
+push constant 0
+return

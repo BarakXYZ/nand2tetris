@@ -72,4 +72,9 @@ class QuestManager {
         }
         return;
     }
+
+    function void setQuest(int level) {
+        let activeQuest = level;
+        return;
+    }
 }

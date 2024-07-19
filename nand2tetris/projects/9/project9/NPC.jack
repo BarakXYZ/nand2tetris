@@ -8,14 +8,14 @@ class NPC {
     static int activeNPC;  // Perhaps needs to be tracked through game?
     static int pendingNPC;
     static ChallengeNode currChallengeNode;
-    static ContentNode contentNode;
-    static Array challengeNodeArr;
+    static ContentNode currContentNode;
+    static Array challengeNodeArr, contentNodeArr;
     
     function void init() {
         let numOfNPCs = 0;
         let activeNPC = 0;
         let currChallengeNode = ChallengeNode.makeNode0();
-        let contentNode = ContentNode.makeBlank();
+        let currContentNode = ContentNode.makeBlank();
 
         return;
     }
@@ -25,7 +25,7 @@ class NPC {
         do Debug.interactions();
         // if (pendingNPC = activeNPC) {
             do currChallengeNode.draw();
-            do contentNode.draw();
+            do currContentNode.draw();
             do Dialogue.draw();
             do QuestManager.manageQuest();
         // }
@@ -96,7 +96,7 @@ class NPC {
             let challengeNodeArr[0] = ChallengeNode.makeNode31();
             let challengeNodeArr[1] = ChallengeNode.makeNode32();
             let currChallengeNode = challengeNodeArr[0];
-            do Challenge.setSelBuffIndex(0);
+            do Challenge.setSelBuffIndex(12);
             return;
         }
 
@@ -122,10 +122,21 @@ class NPC {
 
     function void makeContentNode(int quest) {
         if (quest = 2) {
-            let contentNode = ContentNode.makeShimon();
+            let contentNodeArr = Array.new(2);
+            let contentNodeArr[0] = ContentNode.makeShimon();
+            let currContentNode = contentNodeArr[0];
+            return;
+        }
+        if (quest = 3) {
+            let contentNodeArr[1] = ContentNode.make357();
             return;
         }
 
+        return;
+    }
+
+    function void setContentNode(int aIndex) {
+        let currContentNode = contentNodeArr[aIndex];
         return;
     }
 
