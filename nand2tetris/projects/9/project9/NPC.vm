@@ -1,21 +1,19 @@
 function NPC.init 0
 push constant 0
 pop static 0
-push constant 0
-pop static 1
 call ChallengeNode.makeNode0 0
-pop static 3
+pop static 1
 call ContentNode.makeBlank 0
-pop static 4
+pop static 2
 push constant 0
 return
 function NPC.interact 0
 call Debug.interactions 0
 pop temp 0
-push static 3
+push static 1
 call ChallengeNode.draw 1
 pop temp 0
-push static 4
+push static 2
 call ContentNode.draw 1
 pop temp 0
 call Dialogue.draw 0
@@ -25,11 +23,11 @@ pop temp 0
 push constant 0
 return
 function NPC.getActive 0
-push static 1
+push static 0
 return
 function NPC.setActive 0
 push argument 0
-pop static 1
+pop static 0
 push constant 0
 return
 function NPC.makeChallengeNode 0
@@ -40,7 +38,7 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 call ChallengeNode.makeNode0 0
-pop static 3
+pop static 1
 push constant 12
 call Challenge.setSelBuffIndex 1
 pop temp 0
@@ -53,11 +51,11 @@ eq
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push static 3
+push static 1
 call ChallengeNode.dispose 1
 pop temp 0
 call ChallengeNode.makeNode1 0
-pop static 3
+pop static 1
 push constant 12
 call Challenge.setSelBuffIndex 1
 pop temp 0
@@ -70,11 +68,11 @@ eq
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push static 3
+push static 1
 call ChallengeNode.dispose 1
 pop temp 0
 call ChallengeNode.makeNode2 0
-pop static 3
+pop static 1
 push constant 0
 call Challenge.setSelBuffIndex 1
 pop temp 0
@@ -87,14 +85,14 @@ eq
 if-goto IF_TRUE3
 goto IF_FALSE3
 label IF_TRUE3
-push static 3
+push static 1
 call ChallengeNode.dispose 1
 pop temp 0
 push constant 2
 call Array.new 1
-pop static 5
+pop static 3
 push constant 0
-push static 5
+push static 3
 add
 call ChallengeNode.makeNode31 0
 pop temp 0
@@ -102,7 +100,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 5
+push static 3
 add
 call ChallengeNode.makeNode32 0
 pop temp 0
@@ -110,11 +108,11 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 0
-push static 5
+push static 3
 add
 pop pointer 1
 push that 0
-pop static 3
+pop static 1
 push constant 12
 call Challenge.setSelBuffIndex 1
 pop temp 0
@@ -128,23 +126,23 @@ if-goto IF_TRUE4
 goto IF_FALSE4
 label IF_TRUE4
 push constant 0
-push static 5
+push static 3
 add
 pop pointer 1
 push that 0
 call Memory.deAlloc 1
 pop temp 0
 push constant 1
-push static 5
+push static 3
 add
 pop pointer 1
 push that 0
 call Memory.deAlloc 1
 pop temp 0
-push static 3
+push static 1
 call ChallengeNode.dispose 1
 pop temp 0
-push static 5
+push static 3
 call Array.dispose 1
 pop temp 0
 push constant 0
@@ -157,11 +155,11 @@ push constant 0
 return
 function NPC.setChallengeNode 0
 push argument 0
-push static 5
+push static 3
 add
 pop pointer 1
 push that 0
-pop static 3
+pop static 1
 push constant 0
 return
 function NPC.makeContentNode 0
@@ -173,9 +171,9 @@ goto IF_FALSE0
 label IF_TRUE0
 push constant 2
 call Array.new 1
-pop static 6
+pop static 4
 push constant 0
-push static 6
+push static 4
 add
 call ContentNode.makeShimon 0
 pop temp 0
@@ -183,11 +181,11 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 0
-push static 6
+push static 4
 add
 pop pointer 1
 push that 0
-pop static 4
+pop static 2
 push constant 0
 return
 label IF_FALSE0
@@ -198,7 +196,7 @@ if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 1
-push static 6
+push static 4
 add
 call ContentNode.make357 0
 pop temp 0
@@ -212,21 +210,21 @@ push constant 0
 return
 function NPC.setContentNode 0
 push argument 0
-push static 6
+push static 4
 add
 pop pointer 1
 push that 0
-pop static 4
+pop static 2
 push constant 0
 return
 function NPC.checkChallengeAnswer 1
-push static 3
+push static 1
 call ChallengeNode.isCompleted 1
 not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push static 3
+push static 1
 push argument 0
 push argument 1
 push argument 2
@@ -240,21 +238,12 @@ push local 0
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push static 3
+push static 1
 call ChallengeNode.isEnemy 1
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push static 4
-call ContentNode.reveal 1
-pop temp 0
-push static 3
-call ChallengeNode.complete 1
-pop temp 0
-call QuestManager.getActive 0
-call Dialogue.update 1
-pop temp 0
-call Dialogue.draw 0
+call NPC.defeatEnemy 0
 pop temp 0
 goto IF_END2
 label IF_FALSE2
@@ -273,7 +262,21 @@ label IF_FALSE0
 push constant 0
 return
 label IF_END0
+function NPC.defeatEnemy 0
+push static 2
+call ContentNode.reveal 1
+pop temp 0
+push static 1
+call ChallengeNode.complete 1
+pop temp 0
+call QuestManager.getActive 0
+call Dialogue.update 1
+pop temp 0
+call Dialogue.draw 0
+pop temp 0
+push constant 0
+return
 function NPC.isEnemyDefeated 0
-push static 3
+push static 1
 call ChallengeNode.isCompleted 1
 return
