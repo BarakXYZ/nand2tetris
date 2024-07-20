@@ -19,24 +19,14 @@ class NPC {
     function void interact() {
         
         do Debug.interactions();
-        // if (pendingNPC = activeNPC) {
-            do currChallengeNode.draw();
-            do currContentNode.draw();
-            do Dialogue.draw();  // Listen for enter
-            do QuestManager.manageQuest();
-        // }
-        // else {
-            // default dialogue of this NPC at this point
-        // }
+        do currChallengeNode.draw();
+        do currContentNode.draw();
+        do Dialogue.draw();  // Listen for enter
+        do QuestManager.manageQuest();
 
         return;
     }
     
-    function void setPending(int index) {
-        let pendingNPC = index;
-        return;
-    }
-
     function int getActive() {
         return activeNPC;
     }
@@ -130,6 +120,8 @@ class NPC {
                 if (currChallengeNode.isEnemy()) {
                     do currContentNode.reveal();
                     do currChallengeNode.complete();
+                    do Dialogue.update(QuestManager.getActive());
+                    do Dialogue.draw();
                 }
                 else { do QuestManager.complete(); }  // main quest
             }
