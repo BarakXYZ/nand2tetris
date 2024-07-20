@@ -40,7 +40,11 @@ function void drawCurrentSelSprite(boolean cond) {
     let activeNPC = NPC.getActive();
 
     if (activeNPC = 0) { do Sprites.drawSpriteShimon(~cond); return; }
-    if (activeNPC = 1) { do Sprites.drawEnemy(~cond); return; }
+    if (activeNPC = 1) {
+        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond);}
+        else { do Sprites.drawHappyFlower(~cond);}
+        return;
+    }
     return;
 }
 
@@ -116,7 +120,7 @@ function void drawEnemy(boolean isEyeOpened) {
     let hornWidth = 40; // Distance between the horns
     let hornsOffY = -55;  // Vertical offset of the horns
 
-    do Sprites.drawTriangle(x, y - 60, spikiness, direction);  // Middle Horn
+    do Sprites.drawTriangle(30, x, y - 60, spikiness, direction, true);  // Middle Horn
     // do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);  // L
     // do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);  // R
 
@@ -156,13 +160,41 @@ function void drawEnemyEye1(boolean isOpened, int x, int y, int offY, int radius
     return;
 }
 
-// Helper function to draw a spiky, rotated triangle using rectangles
-function void drawTriangle(int x, int y, int spikiness, int direction) {
+function void drawTriangle(int size, int x, int y, int spikiness, int dir, bool draw) {
     var int i;
-    do Screen.setColor(true);
+    do Screen.setColor(draw);
     let i = 0;
-    while (i < 30) {
-        do Screen.drawRectangle(x - ((i / spikiness) * direction), y + i, x + ((i / spikiness) * direction), y + i + 1);
+    while (i < size) {
+        do Screen.drawRectangle(x - ((i / spikiness) * dir), y + i, x + ((i / spikiness) * dir), y + i + 1);
+        let i = i + 1;
+    }
+    return;
+}
+
+function void drawUpsideTriangle(int size, int x, int y, int spikiness, int dir, bool draw) {
+    var int i;
+    var int offset;
+    var int startX;
+    var int endX;
+    
+    do Screen.setColor(draw);
+    let i = 0;
+    while (i < size) {
+        let offset = (i / spikiness) * dir;
+        let startX = x - offset;
+        let endX = x + offset;
+        
+        // Draw rectangle line by line, correcting for possible illegal coordinates
+        if (startX < 0) {
+            let startX = 0;
+        }
+        if (endX > 511) {
+            let endX = 511;
+        }
+        if (y - i > 0) {
+            do Screen.drawRectangle(startX, y - i, endX, y - i + 1);
+        }
+
         let i = i + 1;
     }
     return;
@@ -179,4 +211,61 @@ function void drawHorn(int x, int y, int direction, int length) {
     do Screen.drawLine(x, y, x + (20 * direction), y + (length - 30));
     return;
 }
+
+function void drawHappyFlower(boolean switch) {
+
+    var int x, y, offX1, offY1, offX2, offY2, r1, r2;
+    let x = 240;
+    let y = 110;
+
+    // let offX1 = 12;
+    let offY1 = 40;
+    let offX2 = 34;
+    let offY2 = 20;
+
+    let r1 = 22;
+    let r2 = 20;
+
+    // Draw Petals
+    do Sprites.drawPetal(x, y - offY1, r1, r2);  // Top Petal
+    do Sprites.drawPetal(x, y + offY1, r1, r2);  // Bottom Petal
+    do Sprites.drawPetal(x + offX2, y - offY2, r1, r2);  // Top Right Petal
+    do Sprites.drawPetal(x - offX2, y - offY2, r1, r2);  // Top Left Petal
+    do Sprites.drawPetal(x + offX2, y + offY2, r1, r2);  // Bot Right Petal
+    do Sprites.drawPetal(x - offX2, y + offY2, r1, r2);  // Bot Left Petal
+
+    // body
+    do Screen.setColor(true);
+    do Screen.drawCircle(x, y, 40);
+
+    // Face
+    if (switch) { do Sprites.drawFlowerFace(x, y, 2, 1); }
+    else { do Sprites.drawFlowerFace(x, y, 1, 1); }
+
+    return;
+}
+
+function void drawPetal(int x, int y, int r1, int r2) {
+    do Screen.setColor(true);
+    do Screen.drawCircle(x, y, r1);
+    do Screen.setColor(false);
+    do Screen.drawCircle(x, y, r2);
+    return;
+}
+
+function void drawFlowerFace(int x, int y, int spikiness, int direction) {
+    let y = y + 35;
+    do Sprites.drawUpsideTriangle(23, x, y, spikiness, direction, false);
+    do Sprites.drawUpsideTriangle(23, x, y - 4, spikiness, direction, true);
+
+    let y = y - 62;
+    do Sprites.drawTriangle(15, x - 12, y, spikiness, direction, false);
+    do Sprites.drawTriangle(15, x - 12, y + 2, spikiness, direction, true);
+
+    do Sprites.drawTriangle(15, x + 12, y, spikiness, direction, false);
+    do Sprites.drawTriangle(15, x + 12, y + 2, spikiness, direction, true);
+
+    return;
+}
+
 }

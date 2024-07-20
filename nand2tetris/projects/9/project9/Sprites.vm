@@ -47,10 +47,22 @@ eq
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
+call NPC.isEnemyDefeated 0
+not
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
 push argument 0
 not
 call Sprites.drawEnemy 1
 pop temp 0
+goto IF_END2
+label IF_FALSE2
+push argument 0
+not
+call Sprites.drawHappyFlower 1
+pop temp 0
+label IF_END2
 push constant 0
 return
 label IF_FALSE1
@@ -156,13 +168,16 @@ pop local 8
 push constant 55
 neg
 pop local 9
+push constant 30
 push local 0
 push local 1
 push constant 60
 sub
 push local 5
 push local 6
-call Sprites.drawTriangle 4
+push constant 0
+not
+call Sprites.drawTriangle 6
 pop temp 0
 push constant 0
 not
@@ -314,42 +329,114 @@ label IF_END0
 push constant 0
 return
 function Sprites.drawTriangle 1
-push constant 0
-not
+push argument 5
 call Screen.setColor 1
 pop temp 0
 push constant 0
 pop local 0
 label WHILE_EXP0
 push local 0
-push constant 30
+push argument 0
 lt
 not
 if-goto WHILE_END0
-push argument 0
+push argument 1
 push local 0
-push argument 2
-call Math.divide 2
 push argument 3
+call Math.divide 2
+push argument 4
 call Math.multiply 2
 sub
-push argument 1
+push argument 2
 push local 0
 add
-push argument 0
+push argument 1
 push local 0
-push argument 2
-call Math.divide 2
 push argument 3
+call Math.divide 2
+push argument 4
 call Math.multiply 2
 add
-push argument 1
+push argument 2
 push local 0
 add
 push constant 1
 add
 call Screen.drawRectangle 4
 pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Sprites.drawUpsideTriangle 4
+push argument 5
+call Screen.setColor 1
+pop temp 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push argument 0
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 3
+call Math.divide 2
+push argument 4
+call Math.multiply 2
+pop local 1
+push argument 1
+push local 1
+sub
+pop local 2
+push argument 1
+push local 1
+add
+pop local 3
+push local 2
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop local 2
+label IF_FALSE0
+push local 3
+push constant 511
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 511
+pop local 3
+label IF_FALSE1
+push argument 2
+push local 0
+sub
+push constant 0
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 2
+push argument 2
+push local 0
+sub
+push local 3
+push argument 2
+push local 0
+sub
+push constant 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE2
 push local 0
 push constant 1
 add
@@ -402,6 +489,203 @@ push constant 30
 sub
 add
 call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Sprites.drawHappyFlower 8
+push constant 240
+pop local 0
+push constant 110
+pop local 1
+push constant 40
+pop local 3
+push constant 34
+pop local 4
+push constant 20
+pop local 5
+push constant 22
+pop local 6
+push constant 20
+pop local 7
+push local 0
+push local 1
+push local 3
+sub
+push local 6
+push local 7
+call Sprites.drawPetal 4
+pop temp 0
+push local 0
+push local 1
+push local 3
+add
+push local 6
+push local 7
+call Sprites.drawPetal 4
+pop temp 0
+push local 0
+push local 4
+add
+push local 1
+push local 5
+sub
+push local 6
+push local 7
+call Sprites.drawPetal 4
+pop temp 0
+push local 0
+push local 4
+sub
+push local 1
+push local 5
+sub
+push local 6
+push local 7
+call Sprites.drawPetal 4
+pop temp 0
+push local 0
+push local 4
+add
+push local 1
+push local 5
+add
+push local 6
+push local 7
+call Sprites.drawPetal 4
+pop temp 0
+push local 0
+push local 4
+sub
+push local 1
+push local 5
+add
+push local 6
+push local 7
+call Sprites.drawPetal 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 0
+push local 1
+push constant 40
+call Screen.drawCircle 3
+pop temp 0
+push argument 0
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push local 1
+push constant 2
+push constant 1
+call Sprites.drawFlowerFace 4
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push local 0
+push local 1
+push constant 1
+push constant 1
+call Sprites.drawFlowerFace 4
+pop temp 0
+label IF_END0
+push constant 0
+return
+function Sprites.drawPetal 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 2
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 3
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Sprites.drawFlowerFace 0
+push argument 1
+push constant 35
+add
+pop argument 1
+push constant 23
+push argument 0
+push argument 1
+push argument 2
+push argument 3
+push constant 0
+call Sprites.drawUpsideTriangle 6
+pop temp 0
+push constant 23
+push argument 0
+push argument 1
+push constant 4
+sub
+push argument 2
+push argument 3
+push constant 0
+not
+call Sprites.drawUpsideTriangle 6
+pop temp 0
+push argument 1
+push constant 62
+sub
+pop argument 1
+push constant 15
+push argument 0
+push constant 12
+sub
+push argument 1
+push argument 2
+push argument 3
+push constant 0
+call Sprites.drawTriangle 6
+pop temp 0
+push constant 15
+push argument 0
+push constant 12
+sub
+push argument 1
+push constant 2
+add
+push argument 2
+push argument 3
+push constant 0
+not
+call Sprites.drawTriangle 6
+pop temp 0
+push constant 15
+push argument 0
+push constant 12
+add
+push argument 1
+push argument 2
+push argument 3
+push constant 0
+call Sprites.drawTriangle 6
+pop temp 0
+push constant 15
+push argument 0
+push constant 12
+add
+push argument 1
+push constant 2
+add
+push argument 2
+push argument 3
+push constant 0
+not
+call Sprites.drawTriangle 6
 pop temp 0
 push constant 0
 return

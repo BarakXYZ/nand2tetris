@@ -140,12 +140,25 @@ class NPC {
         return;
     }
 
-    function boolean checkChallengeAnswer(String buff12, String buff13, String buff14) {
+    function boolean checkChallengeAnswer(String a1, String a2, String a3) {
         var boolean ret;
-        let ret = currChallengeNode.checkAnswer(buff12, buff13, buff14);
-        do Output.moveCursor(0,0);
-        if (ret) { do QuestManager.complete(); }
-        else { do UserInterface.signalIncorrectAnswer(); }
-        return ret;
+        if (~(currChallengeNode.isCompleted())) {
+            let ret = currChallengeNode.checkAnswer(a1, a2, a3);
+            do Output.moveCursor(0,0);
+            if (ret) {
+                if (currChallengeNode.isEnemy()) {
+                    do currContentNode.reveal(a1);
+                    do currChallengeNode.complete();
+                }
+                else { do QuestManager.complete(); }  // main quest
+            }
+            else { do UserInterface.signalIncorrectAnswer(); }
+            return ret;
+        }
+        else { return false; }  // keeps cursor in buffer
+    }
+
+    function boolean isEnemyDefeated() {
+        return currChallengeNode.isCompleted();
     }
 }

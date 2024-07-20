@@ -1,8 +1,8 @@
 function ContentNode.init 0
 push constant 5
-pop static 5
-push constant 45
 pop static 6
+push constant 45
+pop static 7
 push constant 9
 call String.new 1
 push constant 78
@@ -87,16 +87,25 @@ call String.appendChar 2
 push constant 32
 call String.appendChar 2
 pop static 3
+push constant 3
+call String.new 1
+push constant 82
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+pop static 5
 push constant 1
 call String.new 1
 push constant 42
 call String.appendChar 2
 pop static 4
-push constant 5
+push constant 8
 call Array.new 1
-pop static 7
+pop static 8
 push constant 0
-push static 7
+push static 8
 add
 push static 0
 pop temp 0
@@ -104,7 +113,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 7
+push static 8
 add
 push static 1
 pop temp 0
@@ -112,7 +121,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 7
+push static 8
 add
 push static 2
 pop temp 0
@@ -120,7 +129,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 7
+push static 8
 add
 push static 3
 pop temp 0
@@ -128,9 +137,33 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 7
+push static 8
 add
 push static 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push static 8
+add
+push static 5
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push static 8
+add
+push static 5
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push static 8
+add
+push static 5
 pop temp 0
 pop pointer 1
 push temp 0
@@ -144,48 +177,50 @@ push constant 0
 pop local 0
 label WHILE_EXP0
 push local 0
-push this 5
+push this 8
 lt
-push this 5
+push this 8
 push constant 1
 gt
 and
 not
 if-goto WHILE_END0
 push local 0
-push this 5
+push this 8
+push this 9
+sub
 push constant 1
 sub
 eq
+push local 0
+push this 8
+push this 9
+sub
+eq
+or
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push static 5
-push local 0
-add
+push static 6
 push constant 1
 add
-push static 6
-call Output.moveCursor 2
-pop temp 0
-goto IF_END0
+pop static 6
 label IF_FALSE0
-push static 5
+push static 6
 push local 0
 add
-push static 6
+push static 7
 call Output.moveCursor 2
 pop temp 0
-label IF_END0
 push local 0
-push static 7
+push static 8
 add
 pop pointer 1
 push that 0
 call Output.printString 1
 pop temp 0
 push local 0
-push this 6
+push this 10
 add
 pop pointer 1
 push that 0
@@ -198,32 +233,155 @@ pop local 0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
-push this 6
+push this 10
 add
 pop pointer 1
 push that 0
 call UserInterface.printAlignedTitle 1
 pop temp 0
+push constant 5
+pop static 6
+push constant 0
+return
+function ContentNode.assignToArr 0
+push argument 0
+pop pointer 0
+push constant 8
+call Array.new 1
+pop this 10
+push constant 0
+push this 10
+add
+push this 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push this 10
+add
+push this 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push this 10
+add
+push this 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push this 10
+add
+push this 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push this 10
+add
+push this 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push this 10
+add
+push this 5
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push this 10
+add
+push this 6
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push this 10
+add
+push this 7
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function ContentNode.reveal 0
+push argument 0
+pop pointer 0
+push this 2
+call String.dispose 1
+pop temp 0
+push argument 1
+pop this 2
+push static 6
+push constant 2
+add
+push static 7
+call Output.moveCursor 2
+pop temp 0
+push constant 2
+push static 8
+add
+pop pointer 1
+push that 0
+call Output.printString 1
+pop temp 0
+push this 2
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+function ContentNode.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call String.dispose 1
+pop temp 0
+push this 1
+call String.dispose 1
+pop temp 0
+push this 2
+call String.dispose 1
+pop temp 0
+push this 3
+call String.dispose 1
+pop temp 0
+push this 4
+call String.dispose 1
+pop temp 0
+push this 5
+call String.dispose 1
+pop temp 0
+push this 6
+call String.dispose 1
+pop temp 0
+push this 7
+call String.dispose 1
+pop temp 0
+push this 10
+call Array.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
 push constant 0
 return
 function ContentNode.makeBlank 0
-push constant 7
+push constant 11
 call Memory.alloc 1
 pop pointer 0
-push constant 6
+push constant 0
 call String.new 1
-push constant 83
-call String.appendChar 2
-push constant 72
-call String.appendChar 2
-push constant 73
-call String.appendChar 2
-push constant 77
-call String.appendChar 2
-push constant 79
-call String.appendChar 2
-push constant 78
-call String.appendChar 2
 pop this 0
 push constant 0
 call String.new 1
@@ -238,14 +396,25 @@ push constant 0
 call String.new 1
 pop this 4
 push constant 0
+call String.new 1
 pop this 5
+push constant 0
+call String.new 1
+pop this 6
+push constant 0
+call String.new 1
+pop this 7
+push constant 0
+pop this 9
+push constant 0
+pop this 8
 push pointer 0
 call ContentNode.assignToArr 1
 pop temp 0
 push pointer 0
 return
 function ContentNode.makeShimon 0
-push constant 7
+push constant 11
 call Memory.alloc 1
 pop pointer 0
 push constant 6
@@ -327,15 +496,26 @@ call String.appendChar 2
 push constant 121
 call String.appendChar 2
 pop this 4
-push constant 5
+push constant 0
+call String.new 1
 pop this 5
+push constant 0
+call String.new 1
+pop this 6
+push constant 0
+call String.new 1
+pop this 7
+push constant 0
+pop this 9
+push constant 5
+pop this 8
 push pointer 0
 call ContentNode.assignToArr 1
 pop temp 0
 push pointer 0
 return
 function ContentNode.make357 0
-push constant 7
+push constant 11
 call Memory.alloc 1
 pop pointer 0
 push constant 6
@@ -405,84 +585,63 @@ call String.appendChar 2
 push constant 84
 call String.appendChar 2
 pop this 4
-push constant 5
+push constant 7
+call String.new 1
+push constant 91
+call String.appendChar 2
+push constant 51
+call String.appendChar 2
+push constant 93
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 53
+call String.appendChar 2
 pop this 5
+push constant 7
+call String.new 1
+push constant 91
+call String.appendChar 2
+push constant 53
+call String.appendChar 2
+push constant 93
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 55
+call String.appendChar 2
+pop this 6
+push constant 7
+call String.new 1
+push constant 91
+call String.appendChar 2
+push constant 55
+call String.appendChar 2
+push constant 93
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 51
+call String.appendChar 2
+pop this 7
+push constant 3
+pop this 9
+push constant 8
+pop this 8
 push pointer 0
 call ContentNode.assignToArr 1
 pop temp 0
 push pointer 0
-return
-function ContentNode.assignToArr 0
-push argument 0
-pop pointer 0
-push constant 5
-call Array.new 1
-pop this 6
-push constant 0
-push this 6
-add
-push this 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 1
-push this 6
-add
-push this 1
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 2
-push this 6
-add
-push this 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 3
-push this 6
-add
-push this 3
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 4
-push this 6
-add
-push this 4
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 0
-return
-function ContentNode.dispose 0
-push argument 0
-pop pointer 0
-push this 0
-call String.dispose 1
-pop temp 0
-push this 1
-call String.dispose 1
-pop temp 0
-push this 2
-call String.dispose 1
-pop temp 0
-push this 3
-call String.dispose 1
-pop temp 0
-push this 4
-call String.dispose 1
-pop temp 0
-push this 6
-call Array.dispose 1
-pop temp 0
-push pointer 0
-call Memory.deAlloc 1
-pop temp 0
-push constant 0
 return

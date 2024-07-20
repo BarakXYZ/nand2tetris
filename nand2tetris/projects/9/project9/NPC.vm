@@ -262,6 +262,12 @@ push constant 0
 return
 function NPC.checkChallengeAnswer 1
 push static 3
+call ChallengeNode.isCompleted 1
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push static 3
 push argument 0
 push argument 1
 push argument 2
@@ -272,15 +278,39 @@ push constant 0
 call Output.moveCursor 2
 pop temp 0
 push local 0
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 3
+call ChallengeNode.isEnemy 1
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push static 4
+push argument 0
+call ContentNode.reveal 2
+pop temp 0
+push static 3
+call ChallengeNode.complete 1
+pop temp 0
+goto IF_END2
+label IF_FALSE2
 call QuestManager.complete 0
 pop temp 0
-goto IF_END0
-label IF_FALSE0
+label IF_END2
+goto IF_END1
+label IF_FALSE1
 call UserInterface.signalIncorrectAnswer 0
 pop temp 0
-label IF_END0
+label IF_END1
 push local 0
+return
+goto IF_END0
+label IF_FALSE0
+push constant 0
+return
+label IF_END0
+function NPC.isEnemyDefeated 0
+push static 3
+call ChallengeNode.isCompleted 1
 return
