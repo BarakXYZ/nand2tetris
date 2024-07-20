@@ -1,6 +1,6 @@
 class ChallengeNode {
 
-    field int nodeIndex, currentRow, numLines, numHints, queries;
+    field int currentRow, numLines, numHints, queries;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11;
     field String a0, a1, a2;
     field String r0, r1, r2;
@@ -161,13 +161,11 @@ class ChallengeNode {
 
     //** NODES *//
 
-    constructor ChallengeNode makeNode0() {
+    constructor ChallengeNode makeChallengeBlank() {
 
-        let nodeIndex = 0;
         let currentRow = 0;
         let numLines = 0;
         let queries = 0;
-
 
         let t0 = "";
         let t1 = "";
@@ -198,9 +196,8 @@ class ChallengeNode {
         return this;
     }
 
-    constructor ChallengeNode makeNode1() {
+    constructor ChallengeNode makeChallenge1() {
 
-        let nodeIndex = 1;
         let numLines = 4;
         let queries = 1;
 
@@ -233,9 +230,8 @@ class ChallengeNode {
         return this;
     }
 
-    constructor ChallengeNode makeNode2() {
+    constructor ChallengeNode makeChallenge2() {
 
-        let nodeIndex = 2;
         let numLines = 5;
         let queries = 2;
 
@@ -268,9 +264,8 @@ class ChallengeNode {
         return this;
     }
 
-    constructor ChallengeNode makeNode31() {
+    constructor ChallengeNode makeChallenge3() {
 
-        let nodeIndex = 31;
         let numLines = 4;
         let queries = 1;
 
@@ -303,9 +298,8 @@ class ChallengeNode {
         return this;
     }
 
-    constructor ChallengeNode makeNode32() {
+    constructor ChallengeNode makeChallengeGNIRUT() {
         
-        let nodeIndex = 32;
         let numLines = 8;
         let numHints = 3;
         let queries = 1;
@@ -340,4 +334,74 @@ class ChallengeNode {
     }
 
 
+    constructor ChallengeNode makeChallenge4() {
+        
+        let numLines = 9;
+        let numHints = 0;
+        let queries = 1;
+
+        let t0 = "@LOLO";
+        let t1 = "D=M";
+        let t2 = "@GNIRUT";
+        let t3 = "D=D-M";
+        let t4 = "@100";
+        let t5 = "D;JNE";
+        let t6 = "D=D+M";
+        let t7 = "@101";
+        let t8 = "M=D";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "";
+        let a1 = "";
+        let a2 = "";
+
+        let r0 = "RAM[101]=";
+        let r1 = "";
+        let r2 = "";
+
+        let isEnemy = false;
+        let isCompleted = false;
+
+        do assignContentToArr();
+
+        return this;
+    }
+
+
+    constructor ChallengeNode makeChallengeLOLO() {
+        
+        let numLines = 9;
+        let numHints = 0;
+        let queries = 1;
+
+        let t0 = "D=A+1";
+        let t1 = "@LOL";
+        let t2 = "M=D-1";
+        let t3 = "(LOLI)";
+        let t4 = "MD=M-D";
+        let t5 = "@LOLI";
+        let t6 = "D+1;JEQ";
+        let t7 = "@LOLO";
+        let t8 = "M=D";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "0";
+        let a1 = "";
+        let a2 = "";
+
+        let r0 = "RAM[1010]=";
+        let r1 = "";
+        let r2 = "";
+
+        let isEnemy = true;
+        let isCompleted = false;
+
+        do assignContentToArr();
+
+        return this;
+    }
 }

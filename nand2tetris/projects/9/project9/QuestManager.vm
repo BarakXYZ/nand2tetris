@@ -1,67 +1,9 @@
 function QuestManager.init 0
 push constant 0
 pop static 0
-push constant 0
-pop static 1
-call QuestManager.initPendingNPCs 0
-pop temp 0
 push static 0
 call Dialogue.makeNode 1
 pop temp 0
-push constant 0
-return
-function QuestManager.initPendingNPCs 0
-push constant 30
-call Array.new 1
-pop static 2
-push constant 0
-push static 2
-add
-push constant 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 1
-push static 2
-add
-push constant 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 2
-push static 2
-add
-push constant 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 3
-push static 2
-add
-push constant 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 4
-push static 2
-add
-push constant 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 0
-return
-function QuestManager.getHasStarted 0
-push static 1
-return
-function QuestManager.setHasStarted 0
-push argument 0
-pop static 1
 push constant 0
 return
 function QuestManager.getActive 0
@@ -80,10 +22,7 @@ push static 0
 call Dialogue.makeNode 1
 pop temp 0
 push static 0
-call NPC.makeChallengeNode 1
-pop temp 0
-push static 0
-call NPC.makeContentNode 1
+call NPC.updateChallengeNode 1
 pop temp 0
 push constant 0
 not
@@ -115,6 +54,9 @@ if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 call UserInterface.drawContentFrame 0
+pop temp 0
+push constant 0
+call NPC.updateContentNode 1
 pop temp 0
 push constant 0
 return

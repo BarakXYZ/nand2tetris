@@ -4,13 +4,11 @@ class Lookup {
         static String lookupInput, lookupTemp;
 
         function void init() {
-
             let maxLen = 6;
             let row = 21;
             let col = 30;
             let lookupTemp = String.new(7);
             let lookupInput = String.new(7);
-
             return;
         }
 
@@ -62,12 +60,16 @@ class Lookup {
             var int activeQuest;
             let activeQuest = QuestManager.getActive();
 
-            if (Helpers.strComp(lookupInput, "SHIMON") | Helpers.strComp(lookupInput, "555")) {
+            if (Helpers.strComp(lookupInput, NPC.getName(0)) | Helpers.strComp(lookupInput, NPC.getAddr(0))) {
                 do Lookup.new(0);
                 return;
             }
-            if (Helpers.strComp(lookupInput, "GNIRUT") | Helpers.strComp(lookupInput, "357")) {
+            if (Helpers.strComp(lookupInput, NPC.getName(1)) | Helpers.strComp(lookupInput, NPC.getAddr(1))) {
                 do Lookup.new(1);
+                return;
+            }
+            if (Helpers.strComp(lookupInput, NPC.getName(2)) | Helpers.strComp(lookupInput, NPC.getAddr(2))) {
+                if (QuestManager.getActive() > 3) { do Lookup.new(2); }
                 return;
             }
             return;

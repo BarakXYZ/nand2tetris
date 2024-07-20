@@ -1,40 +1,12 @@
 class QuestManager {
     static int activeQuest;
-    static boolean hasQuestStarted;
-    static Array pendingNPCs;
     
     function void init() {
         let activeQuest = 0;
-        let hasQuestStarted = false;
-
-        do QuestManager.initPendingNPCs();
-
         do Dialogue.makeNode(activeQuest);
-        
         return;
     }
     
-    function void initPendingNPCs() {
-        let pendingNPCs = Array.new(30);
-        
-        let pendingNPCs[0] = 0;  // Shimon
-        let pendingNPCs[1] = 0;  // Shimon
-        let pendingNPCs[2] = 0;  // Shimon
-        let pendingNPCs[3] = 0;  // Shimon
-        let pendingNPCs[4] = 0;  // Shimon
-
-        return;
-    }
-
-    function boolean getHasStarted() {
-        return hasQuestStarted;
-    }
-
-    function void setHasStarted(boolean cond) {
-        let hasQuestStarted = cond;
-        return;
-    }
-
     function int getActive() {
         return activeQuest;
     }
@@ -44,8 +16,7 @@ class QuestManager {
         do UserInterface.clearChallengeAll();
         do Challenge.resetBuffer();
         do Dialogue.makeNode(activeQuest);
-        do NPC.makeChallengeNode(activeQuest);
-        do NPC.makeContentNode(activeQuest);
+        do NPC.updateChallengeNode(activeQuest);
         do Game.setNewQuest(true);
         do QuestManager.manageQuest();
         do Challenge.manageBuffer(false);  // cause we're manipulating the index
@@ -60,6 +31,7 @@ class QuestManager {
         } 
         if (activeQuest = 2) {
             do UserInterface.drawContentFrame();
+            do NPC.updateContentNode(0);
             return;
         }
         if (activeQuest = 3) {

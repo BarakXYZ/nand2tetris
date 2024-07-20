@@ -7,10 +7,6 @@ call ChallengeNode.init 0
 pop temp 0
 call ContentNode.init 0
 pop temp 0
-call NPC.init 0
-pop temp 0
-call QuestManager.init 0
-pop temp 0
 call Sprites.init 0
 pop temp 0
 call Draw.init 0
@@ -24,6 +20,10 @@ pop temp 0
 call UserInterface.init 0
 pop temp 0
 call Debug.init 0
+pop temp 0
+call QuestManager.init 0
+pop temp 0
+call NPC.init 0
 pop temp 0
 call Game.run 0
 pop temp 0

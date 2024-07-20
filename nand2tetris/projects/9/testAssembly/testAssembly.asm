@@ -1,0 +1,10 @@
+@1010
+D=A+1
+@LOLI
+M=D-1
+(LOLI)
+MD=M-D
+@LOLI
+D+1;JEQ
+@1010
+M=D
