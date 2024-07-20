@@ -81,6 +81,7 @@ class Lookup {
             do NPC.setContentNode(aIndex);
             do Challenge.setCurrentBuffer(aIndex);
             do Challenge.drawBuffer();
+            do Dialogue.setDialogueNode(aIndex);
             
             do Game.setNewLookup(true);
 

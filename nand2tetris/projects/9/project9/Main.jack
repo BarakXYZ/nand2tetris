@@ -10,6 +10,8 @@ class Main {
         // return;
 
         // INIT
+        do Dialogue.init();
+        // do Dialogue.makeNode(0);
         do ChallengeBuffer.init();
         do ChallengeNode.init();
         do ContentNode.init();
@@ -31,6 +33,5 @@ class Main {
 }
 
 // TODOS:
-// 1. Enemy and flower should also say something fun upon interaction (dialouge)
 // 2. Plot twist and an interesting challenge
 // 3. master challenge and wrap up

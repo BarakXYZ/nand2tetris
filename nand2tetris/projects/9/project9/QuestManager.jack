@@ -9,8 +9,6 @@ class QuestManager {
 
         do QuestManager.initPendingNPCs();
 
-        do NPC.setPending(pendingNPCs[activeQuest]);
-
         do Dialogue.makeNode(activeQuest);
         
         return;
@@ -43,7 +41,6 @@ class QuestManager {
     
     function void complete() {
         let activeQuest = activeQuest + 1;
-        do NPC.setPending(pendingNPCs[activeQuest]);
         do UserInterface.clearChallengeAll();
         do Challenge.resetBuffer();
         do Dialogue.makeNode(activeQuest);

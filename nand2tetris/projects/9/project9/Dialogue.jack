@@ -1,55 +1,92 @@
 class Dialogue {
 
-    static DialogueNode currentNode;
+    static DialogueNode currDialogueNode;
+    static Array dialogueNodeArr;
+
+    function void init() {
+        let dialogueNodeArr = Array.new(10);
+        return;
+    }
 
     function void makeNode(int quest) {
 
         if (quest = 0) {
-            let currentNode = DialogueNode.makeNode0();
+            let dialogueNodeArr[0] = DialogueNode.makeNode0();
+            let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 1) {
-            do currentNode.dispose();
-            let currentNode = DialogueNode.makeNode1();
+            do currDialogueNode.dispose();
+            let dialogueNodeArr[0] = DialogueNode.makeNode1();
+            let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 2) {
-            do currentNode.dispose();
-            let currentNode = DialogueNode.makeNode2();
+            do currDialogueNode.dispose();
+            let dialogueNodeArr[0] = DialogueNode.makeNode2();
+            let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 3) {
-            do currentNode.dispose();
-            let currentNode = DialogueNode.makeNode3();
+            do currDialogueNode.dispose();
+            do Memory.deAlloc(dialogueNodeArr[0]);
+            do dialogueNodeArr.dispose();
+            let dialogueNodeArr = Array.new(2);
+
+            let dialogueNodeArr[0] = DialogueNode.makeNode31();
+            let dialogueNodeArr[1] = DialogueNode.makeNode32();
+            let currDialogueNode = dialogueNodeArr[0];
+            return;
+        }
+
+        if (quest = 4) {
+            // clear both nodes!
             return;
         }
 
         return;
     }
 
+    function void update(int quest) {
+        if (quest = 3) {
+            do currDialogueNode.dispose();
+            do Memory.deAlloc(dialogueNodeArr[1]);
+            let dialogueNodeArr[1] = DialogueNode.makeNode33();
+            let currDialogueNode = dialogueNodeArr[1];
+            return;
+        }
+        return;
+    }
+
+    function void setDialogueNode(int aIndex) {
+        let currDialogueNode = dialogueNodeArr[aIndex];
+        return;
+    }
+
     function void draw() {
-        if (~(QuestManager.getHasStarted())) {
+        var boolean isDefault;
+        do UserInterface.clearDialogueBox();
+
+        if (~(currDialogueNode.hasEnded())) {
+            let isDefault = false;
             do UserInterface.drawInstruction(1);
-            while (~(currentNode.hasEnded())) {
-                do currentNode.advance();
+            while (~(currDialogueNode.hasEnded())) {
+                do currDialogueNode.draw(isDefault);
                 do Sys.wait(300);
                 do Input.waitForEnter();
             }
-            do UserInterface.clearInstruction();
-        }
-        else {
-            // default pending quest to complete dialogue
-            // For now can just be something simple
-            // do currentNode.advance();  // default 3 lines
+        } else {
+            let isDefault = true;
+            do currDialogueNode.draw(isDefault);
         }
         return;
     }
 
     function void endDialogue() {
-        do currentNode.endDialogue();
+        do currDialogueNode.end();
         return;
     }
 

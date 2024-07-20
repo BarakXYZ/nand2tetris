@@ -1,3 +1,9 @@
+function Dialogue.init 0
+push constant 10
+call Array.new 1
+pop static 1
+push constant 0
+return
 function Dialogue.makeNode 0
 push argument 0
 push constant 0
@@ -5,7 +11,19 @@ eq
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push constant 0
+push static 1
+add
 call DialogueNode.makeNode0 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
 pop static 0
 push constant 0
 return
@@ -19,7 +37,19 @@ label IF_TRUE1
 push static 0
 call DialogueNode.dispose 1
 pop temp 0
+push constant 0
+push static 1
+add
 call DialogueNode.makeNode1 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
 pop static 0
 push constant 0
 return
@@ -33,7 +63,19 @@ label IF_TRUE2
 push static 0
 call DialogueNode.dispose 1
 pop temp 0
+push constant 0
+push static 1
+add
 call DialogueNode.makeNode2 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
 pop static 0
 push constant 0
 return
@@ -47,19 +89,111 @@ label IF_TRUE3
 push static 0
 call DialogueNode.dispose 1
 pop temp 0
-call DialogueNode.makeNode3 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+call Memory.deAlloc 1
+pop temp 0
+push static 1
+call Array.dispose 1
+pop temp 0
+push constant 2
+call Array.new 1
+pop static 1
+push constant 0
+push static 1
+add
+call DialogueNode.makeNode31 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 1
+add
+call DialogueNode.makeNode32 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
 pop static 0
 push constant 0
 return
 label IF_FALSE3
+push argument 0
+push constant 4
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
 push constant 0
 return
-function Dialogue.draw 0
-call QuestManager.getHasStarted 0
+label IF_FALSE4
+push constant 0
+return
+function Dialogue.update 0
+push argument 0
+push constant 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push static 0
+call DialogueNode.dispose 1
+pop temp 0
+push constant 1
+push static 1
+add
+pop pointer 1
+push that 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 1
+push static 1
+add
+call DialogueNode.makeNode33 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 0
+push constant 0
+return
+label IF_FALSE0
+push constant 0
+return
+function Dialogue.setDialogueNode 0
+push argument 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 0
+push constant 0
+return
+function Dialogue.draw 1
+call UserInterface.clearDialogueBox 0
+pop temp 0
+push static 0
+call DialogueNode.hasEnded 1
 not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push constant 0
+pop local 0
 push constant 1
 call UserInterface.drawInstruction 1
 pop temp 0
@@ -70,7 +204,8 @@ not
 not
 if-goto WHILE_END0
 push static 0
-call DialogueNode.advance 1
+push local 0
+call DialogueNode.draw 2
 pop temp 0
 push constant 300
 call Sys.wait 1
@@ -79,16 +214,21 @@ call Input.waitForEnter 0
 pop temp 0
 goto WHILE_EXP0
 label WHILE_END0
-call UserInterface.clearInstruction 0
-pop temp 0
 goto IF_END0
 label IF_FALSE0
+push constant 0
+not
+pop local 0
+push static 0
+push local 0
+call DialogueNode.draw 2
+pop temp 0
 label IF_END0
 push constant 0
 return
 function Dialogue.endDialogue 0
 push static 0
-call DialogueNode.endDialogue 1
+call DialogueNode.end 1
 pop temp 0
 push constant 0
 return

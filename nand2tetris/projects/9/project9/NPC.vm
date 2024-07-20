@@ -24,11 +24,6 @@ call QuestManager.manageQuest 0
 pop temp 0
 push constant 0
 return
-function NPC.setPending 0
-push argument 0
-pop static 2
-push constant 0
-return
 function NPC.getActive 0
 push static 1
 return
@@ -255,6 +250,11 @@ call ContentNode.reveal 1
 pop temp 0
 push static 3
 call ChallengeNode.complete 1
+pop temp 0
+call QuestManager.getActive 0
+call Dialogue.update 1
+pop temp 0
+call Dialogue.draw 0
 pop temp 0
 goto IF_END2
 label IF_FALSE2

@@ -6,13 +6,6 @@ pop static 1
 call QuestManager.initPendingNPCs 0
 pop temp 0
 push static 0
-push static 2
-add
-pop pointer 1
-push that 0
-call NPC.setPending 1
-pop temp 0
-push static 0
 call Dialogue.makeNode 1
 pop temp 0
 push constant 0
@@ -79,13 +72,6 @@ push static 0
 push constant 1
 add
 pop static 0
-push static 0
-push static 2
-add
-pop pointer 1
-push that 0
-call NPC.setPending 1
-pop temp 0
 call UserInterface.clearChallengeAll 0
 pop temp 0
 call Challenge.resetBuffer 0

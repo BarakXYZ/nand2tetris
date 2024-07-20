@@ -1,4 +1,6 @@
 function Main.main 0
+call Dialogue.init 0
+pop temp 0
 call ChallengeBuffer.init 0
 pop temp 0
 call ChallengeNode.init 0
