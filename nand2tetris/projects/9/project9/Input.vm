@@ -81,6 +81,17 @@ call Draw.sprite 0
 pop temp 0
 call Keyboard.keyPressed 0
 pop local 0
+push local 0
+push constant 34
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call Dialogue.endDialogue 0
+pop temp 0
+push constant 128
+pop local 0
+label IF_FALSE0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0

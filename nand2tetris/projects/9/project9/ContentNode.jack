@@ -1,9 +1,9 @@
 class ContentNode {
-    field String name, address, val, lvl, role, r1, r2, r3;
+    field String name, address, val, lvl, status1, status2, r1, r2, r3, a1;
     field int items, ramNum;
     // field String effect0, effect1;
     field Array arrContent;
-    static String tName, tAddr, tVal, tLVL, tRole, tRAM;
+    static String tName, tAddr, tVal, tLVL, tStatus, tRAM;
     static int baseRow, baseCol;
     static Array arrFixedTitleContent;
     
@@ -16,14 +16,14 @@ class ContentNode {
         let tVal  = "Value:   ";
         let tLVL  = "Level:   ";
         let tRAM = "RAM";
-        let tRole = "*";
+        let tStatus = "";
 
         let arrFixedTitleContent = Array.new(8);
         let arrFixedTitleContent[0] = tName;
         let arrFixedTitleContent[1] = tAddr;
         let arrFixedTitleContent[2] = tVal;
         let arrFixedTitleContent[3] = tLVL;
-        let arrFixedTitleContent[4] = tRole;
+        let arrFixedTitleContent[4] = tStatus;
 
         let arrFixedTitleContent[5] = tRAM;
         let arrFixedTitleContent[6] = tRAM;
@@ -62,7 +62,7 @@ class ContentNode {
         let arrContent[2] = val;
         let arrContent[3] = lvl;
 
-        let arrContent[4] = role;
+        let arrContent[4] = status1;
 
         let arrContent[5] = r1;
         let arrContent[6] = r2;
@@ -71,12 +71,17 @@ class ContentNode {
         return;
     }
     
-    method void reveal(String answer) {
-        do val.dispose();
-        let val = answer;
+    method void reveal() {
+        let arrContent[2] = a1;
         do Output.moveCursor(baseRow + 2, baseCol);
         do Output.printString(arrFixedTitleContent[2]);
-        do Output.printString(val);
+        do Output.printString(arrContent[2]);
+        
+        let arrContent[4] = status2;
+        do Output.moveCursor(baseRow + 5, baseCol);
+        do Output.printString(arrFixedTitleContent[4]);
+        do Output.printString(arrContent[4]);
+
         return;
     }
 
@@ -86,11 +91,14 @@ class ContentNode {
         do address.dispose();
         do val.dispose();
         do lvl.dispose();
-        do role.dispose();
+        do status1.dispose();
+        do status2.dispose();
 
         do r1.dispose();
         do r2.dispose();
         do r3.dispose();
+
+        do a1.dispose();
 
         do arrContent.dispose();
 
@@ -104,11 +112,14 @@ class ContentNode {
         let val = "";
         let lvl = "";
 
-        let role = "";
+        let status1 = "";
+        let status2 = "";
 
         let r1 = "";
         let r2 = "";
         let r3 = "";
+
+        let a1 = "";
 
         let ramNum = 0;
         let items = 0;
@@ -123,11 +134,14 @@ class ContentNode {
         let val = "42";
         let lvl = "32768";
 
-        let role = "Master of Memory";
+        let status1 = "Master of Memory";
+        let status2 = "";
 
         let r1 = "";
         let r2 = "";
         let r3 = "";
+
+        let a1 = "";
 
         let ramNum = 0;
         let items = 5;
@@ -143,11 +157,14 @@ class ContentNode {
         let val = "?";
         let lvl = "3";
         
-        let role = "OPS I SEG FAULT";
+        let status1 = "OPS I SEG FAULT";
+        let status2 = "OPS I DID IT AGAIN";
 
         let r1 = "[3] = 5";
         let r2 = "[5] = 7";
         let r3 = "[7] = 3";
+
+        let a1 = "21";
 
         let ramNum = 3;
         let items = 8;

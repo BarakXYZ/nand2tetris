@@ -30,6 +30,11 @@ class DialogueNode {
         return;
     }
 
+    method void endDialogue() {
+        let hasEnded = true;
+        return;
+    }
+    
     method boolean hasEnded() {
         return hasEnded;
     }

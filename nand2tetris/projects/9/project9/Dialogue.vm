@@ -86,3 +86,9 @@ label IF_FALSE0
 label IF_END0
 push constant 0
 return
+function Dialogue.endDialogue 0
+push static 0
+call DialogueNode.endDialogue 1
+pop temp 0
+push constant 0
+return

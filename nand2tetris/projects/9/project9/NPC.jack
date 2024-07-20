@@ -1,9 +1,5 @@
 class NPC {
     
-    field Array npc;
-    field String name, role;
-    field int inM, npcIndex;
-
     static int numOfNPCs;
     static int activeNPC;  // Perhaps needs to be tracked through game?
     static int pendingNPC;
@@ -26,7 +22,7 @@ class NPC {
         // if (pendingNPC = activeNPC) {
             do currChallengeNode.draw();
             do currContentNode.draw();
-            do Dialogue.draw();
+            do Dialogue.draw();  // Listen for enter
             do QuestManager.manageQuest();
         // }
         // else {
@@ -36,21 +32,6 @@ class NPC {
         return;
     }
     
-    method void dispose() {
-        do Memory.deAlloc(this);
-        return;
-    }
-    
-
-    method int getStage() {
-        return npc[4];
-    }
-
-    method void incStage() {
-        let npc[4] = npc[4] + 1;  // increment stage by 1
-        return;
-    }
-
     function void setPending(int index) {
         let pendingNPC = index;
         return;
@@ -147,7 +128,7 @@ class NPC {
             do Output.moveCursor(0,0);
             if (ret) {
                 if (currChallengeNode.isEnemy()) {
-                    do currContentNode.reveal(a1);
+                    do currContentNode.reveal();
                     do currChallengeNode.complete();
                 }
                 else { do QuestManager.complete(); }  // main quest

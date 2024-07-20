@@ -75,6 +75,14 @@ label IF_FALSE1
 label IF_FALSE0
 push constant 0
 return
+function DialogueNode.endDialogue 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+pop this 30
+push constant 0
+return
 function DialogueNode.hasEnded 0
 push argument 0
 pop pointer 0

@@ -39,6 +39,9 @@ class Game {
             // 'Q' then 'Y' to quit
             if (Input.isQuit(c)) { let quit = true; } 
 
+            // Skip Level (Debugging)
+            if (c = 34) { do QuestManager.complete(); }
+
         }
 
         return;

@@ -62,6 +62,15 @@ push constant 0
 not
 pop local 0
 label IF_FALSE3
+push local 1
+push constant 34
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+call QuestManager.complete 0
+pop temp 0
+label IF_FALSE4
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
