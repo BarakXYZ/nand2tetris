@@ -2,11 +2,6 @@ class Game {
 
     static boolean isNewLookup, isNewQuest, isLookupEnabled;
 
-    // constructor Game new() {
-    //            
-    //     return this;
-    // }
-
     function void run() {
         var boolean quit;
         var char c;
