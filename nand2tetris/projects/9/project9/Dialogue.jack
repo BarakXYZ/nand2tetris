@@ -4,7 +4,7 @@ class Dialogue {
     static Array dialogueNodeArr;
 
     function void init() {
-        let dialogueNodeArr = Array.new(10);
+        let dialogueNodeArr = Array.new(5);
         return;
     }
 
@@ -33,9 +33,6 @@ class Dialogue {
         if (quest = 3) {
             do currDialogueNode.dispose();
             do Memory.deAlloc(dialogueNodeArr[0]);
-            do dialogueNodeArr.dispose();
-            let dialogueNodeArr = Array.new(2);
-
             let dialogueNodeArr[0] = DialogueNode.makeNode31();
             let dialogueNodeArr[1] = DialogueNode.makeNode32();
             let currDialogueNode = dialogueNodeArr[0];
@@ -43,7 +40,12 @@ class Dialogue {
         }
 
         if (quest = 4) {
-            // clear both nodes!
+            do currDialogueNode.dispose();
+            do Memory.deAlloc(dialogueNodeArr[0]);
+            let dialogueNodeArr[0] = DialogueNode.makeNode40();
+            let dialogueNodeArr[2] = DialogueNode.makeNode41();
+
+            let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 

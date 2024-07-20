@@ -6,17 +6,11 @@ class Main {
 
     function void main() {
         
-        // do Sprites.drawHappyFlower();
-        // return;
-
-        // INIT
+        // INIT  (Order matters)
         do Dialogue.init();
-        // do Dialogue.makeNode(0);
         do ChallengeBuffer.init();
         do ChallengeNode.init();
         do ContentNode.init();
-        do NPC.init();
-        do QuestManager.init();
         do Sprites.init();
         do Draw.init();
         do Draw.spriteDirect();  // Preview Sprite fast
@@ -25,6 +19,9 @@ class Main {
         do UserInterface.init();
         do Debug.init();
         // do Debug.run();
+
+        do QuestManager.init();
+        do NPC.init();
         
         do Game.run();
 
@@ -33,5 +30,10 @@ class Main {
 }
 
 // TODOS:
+// 1. Create 2 more challenges and wrap up!
 // 2. Plot twist and an interesting challenge
 // 3. master challenge and wrap up
+
+// Small bugs:
+    // 1. SHIMON on start title not showing
+    // 2. 'Enter' instruction thingy seems to not go after finishing dialogue?

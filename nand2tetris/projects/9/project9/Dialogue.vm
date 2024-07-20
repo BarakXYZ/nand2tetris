@@ -1,5 +1,5 @@
 function Dialogue.init 0
-push constant 10
+push constant 5
 call Array.new 1
 pop static 1
 push constant 0
@@ -96,12 +96,6 @@ pop pointer 1
 push that 0
 call Memory.deAlloc 1
 pop temp 0
-push static 1
-call Array.dispose 1
-pop temp 0
-push constant 2
-call Array.new 1
-pop static 1
 push constant 0
 push static 1
 add
@@ -133,6 +127,38 @@ eq
 if-goto IF_TRUE4
 goto IF_FALSE4
 label IF_TRUE4
+push static 0
+call DialogueNode.dispose 1
+pop temp 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+push static 1
+add
+call DialogueNode.makeNode40 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 1
+add
+call DialogueNode.makeNode41 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 0
 push constant 0
 return
 label IF_FALSE4

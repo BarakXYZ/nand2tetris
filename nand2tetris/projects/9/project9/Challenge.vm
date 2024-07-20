@@ -460,7 +460,9 @@ push argument 0
 pop static 7
 push constant 0
 return
-function Challenge.setCurrentBuffer 0
+function Challenge.setCurrentBuffer 1
+push constant 0
+pop local 0
 push argument 0
 pop static 8
 push static 8
@@ -469,7 +471,7 @@ add
 pop pointer 1
 push that 0
 pop static 18
-push constant 0
+push local 0
 call Challenge.manageBuffer 1
 pop temp 0
 push constant 0

@@ -184,9 +184,11 @@ class Challenge {
         }
 
         function void setCurrentBuffer(int aIndex) {
+            var boolean isBuffSel;
+            let isBuffSel = false;
             let groupBuffIndex = aIndex;
             let currentBuffer = bufferArr[groupBuffIndex];
-            do Challenge.manageBuffer(false);
+            do Challenge.manageBuffer(isBuffSel);
             return;
         }
 

@@ -66,6 +66,31 @@ label IF_END2
 push constant 0
 return
 label IF_FALSE1
+push local 0
+push constant 2
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+call NPC.isEnemyDefeated 0
+not
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push argument 0
+not
+call Sprites.drawEnemy 1
+pop temp 0
+goto IF_END4
+label IF_FALSE4
+push argument 0
+not
+call Sprites.drawHappyFlower 1
+pop temp 0
+label IF_END4
+push constant 0
+return
+label IF_FALSE3
 push constant 0
 return
 function Sprites.clearViewport 0

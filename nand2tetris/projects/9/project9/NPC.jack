@@ -3,24 +3,86 @@ class NPC {
     static int activeNPC;
     static ChallengeNode currChallengeNode;
     static ContentNode currContentNode;
-    static Array challengeNodeArr, contentNodeArr;
+    static Array challengeNodes, contentNodes, npcNames, npcAddresses;
     
     function void init() {
+        do NPC.initNames();
+        do NPC.initAddresses();
+        do NPC.initContents();
+        do NPC.initChallenges();
         let activeNPC = 0;
-        let currChallengeNode = ChallengeNode.makeNode0();
-        let currContentNode = ContentNode.makeBlank();
-
         return;
     }
 
-    function void interact() {
+    function void initNames() {
+        let npcNames = Array.new(5);
+        let npcNames[0] = "SHIMON";
+        let npcNames[1] = "GNIRUT";
+        let npcNames[2] = "LOLO";
+        let npcNames[3] = "";
+        let npcNames[4] = "";
+        return;
+    }
+
+    function void initAddresses() {
+        let npcAddresses = Array.new(5);
+        let npcAddresses[0] = "555";
+        let npcAddresses[1] = "357";
+        let npcAddresses[2] = "1010";
+        let npcAddresses[3] = "";
+        let npcAddresses[4] = "";
+        return;
+    }
+
+    function void initContents() {
+        let contentNodes = Array.new(5);
+        let contentNodes[0] = ContentNode.makeBlank();
+        let contentNodes[1] = ContentNode.makeGNIRUT();
+        let contentNodes[2] = ContentNode.makeLOLO();
+        let contentNodes[3] = ContentNode.makeBlank();
+        let contentNodes[4] = ContentNode.makeBlank();
         
+        let currContentNode = contentNodes[0];
+        return;
+    }
+
+    function void initChallenges() {
+        let challengeNodes = Array.new(5);
+        let challengeNodes[0] = ChallengeNode.makeChallengeBlank();
+        let challengeNodes[1] = ChallengeNode.makeChallengeGNIRUT();
+        let challengeNodes[2] = ChallengeNode.makeChallengeLOLO();
+        let challengeNodes[3] = ChallengeNode.makeChallengeBlank();
+        let challengeNodes[4] = ChallengeNode.makeChallengeBlank();
+
+        let currChallengeNode = challengeNodes[0];
+        return;
+    }
+
+    function void updateContentNode(int aIndex) {
+        let currContentNode = contentNodes[aIndex];
+        do currContentNode.dispose();
+        if(aIndex = 0) {
+            let contentNodes[0] = ContentNode.makeSHIMON();
+        }
+        let currContentNode = contentNodes[0];
+        return;
+    }
+
+
+    function String getName(int aIndex) {
+        return npcNames[aIndex];
+    }
+
+    function String getAddr(int aIndex) {
+        return npcAddresses[aIndex];
+    }
+
+    function void interact() {
         do Debug.interactions();
         do currChallengeNode.draw();
         do currContentNode.draw();
         do Dialogue.draw();  // Listen for enter
         do QuestManager.manageQuest();
-
         return;
     }
     
@@ -28,83 +90,32 @@ class NPC {
         return activeNPC;
     }
 
-    function void setActive(int index) {
-        let activeNPC = index;
-        // 0 == Shimon
-        // 1 == @357
-        // 2 == ...
+    function void setActive(int aIndex) {
+        let activeNPC = aIndex;
+        // 0 == @SHIMON  // @555
+        // 1 == @GNIRUT  // @357
+        // 2 == @LOLO    // @1010
         return;
     }
 
-    function void makeChallengeNode(int quest) {
-
-        if (quest = 0) {
-            let currChallengeNode = ChallengeNode.makeNode0();
-            do Challenge.setSelBuffIndex(12);
-            return;
-        }
-
-        if (quest = 1) {
-            do currChallengeNode.dispose();
-            let currChallengeNode = ChallengeNode.makeNode1();
-            do Challenge.setSelBuffIndex(12);
-            return;
-        }
-
-        if (quest = 2) {
-            do currChallengeNode.dispose();
-            let currChallengeNode = ChallengeNode.makeNode2();
-            do Challenge.setSelBuffIndex(0);
-            return;
-        }
-
-        if (quest = 3) {
-            do currChallengeNode.dispose();
-            let challengeNodeArr = Array.new(2);
-            let challengeNodeArr[0] = ChallengeNode.makeNode31();
-            let challengeNodeArr[1] = ChallengeNode.makeNode32();
-            let currChallengeNode = challengeNodeArr[0];
-            do Challenge.setSelBuffIndex(12);
-            return;
-        }
-
-        if (quest = 4) {
-            do Memory.deAlloc(challengeNodeArr[0]);
-            do Memory.deAlloc(challengeNodeArr[1]);
-            do currChallengeNode.dispose();
-            do challengeNodeArr.dispose();
-
-            // Make the new node and array
-
-            do Challenge.setSelBuffIndex(0);
-            return;
-        }
-
+    function void updateChallengeNode(int quest) {
+        do currChallengeNode.dispose();
+        if (quest = 1) { let challengeNodes[0] = ChallengeNode.makeChallenge1(); }
+        if (quest = 2) { let challengeNodes[0] = ChallengeNode.makeChallenge2(); }
+        if (quest = 3) { let challengeNodes[0] = ChallengeNode.makeChallenge3(); }
+        if (quest = 4) { let challengeNodes[0] = ChallengeNode.makeChallenge4(); }
+        let currChallengeNode = challengeNodes[0];
+        do Challenge.setSelBuffIndex(12);  // Reset Cursor (buffer) location
         return;
     }
 
     function void setChallengeNode(int aIndex) {
-        let currChallengeNode = challengeNodeArr[aIndex];
-        return;
-    }
-
-    function void makeContentNode(int quest) {
-        if (quest = 2) {
-            let contentNodeArr = Array.new(2);
-            let contentNodeArr[0] = ContentNode.makeShimon();
-            let currContentNode = contentNodeArr[0];
-            return;
-        }
-        if (quest = 3) {
-            let contentNodeArr[1] = ContentNode.make357();
-            return;
-        }
-
+        let currChallengeNode = challengeNodes[aIndex];
         return;
     }
 
     function void setContentNode(int aIndex) {
-        let currContentNode = contentNodeArr[aIndex];
+        let currContentNode = contentNodes[aIndex];
         return;
     }
 
@@ -134,4 +145,5 @@ class NPC {
     function boolean isEnemyDefeated() {
         return currChallengeNode.isCompleted();
     }
+
 }

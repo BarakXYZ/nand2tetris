@@ -342,10 +342,10 @@ class DialogueNode {
         let t22 = "";
         let t23 = "";
 
-        let td0 = "JUJU";
-        let td1 = "GAGA";
-        let td2 = "PIPI";
-        let td3 = "KAKA";
+        let td0 = "I CAME, I SAW, I CRASHED.";
+        let td1 = "Wh00p$...";
+        let td2 = "*#&(&@(*$&(&%)!*@#&(!*))";
+        let td3 = "^&#!@^!^@)#!)!)!)!)@*@";
 
         do assignDialogueToArr();
 
@@ -396,4 +396,92 @@ class DialogueNode {
         return this;
     }
 
+
+    constructor DialogueNode makeNode40() {
+        do initNodeParams(8);
+        let hasEnded = false;
+
+        let t0 = "Woohoo! You definitely know what ";
+        let t1 = "you're doing! Big respect.";
+        let t2 = "We have 2 more challenges to go, but";
+        let t3 = "they won't be easy...";
+
+        let t4 = "In this one you'll also need to face";
+        let t5 = "some jumping (goto) logic.";
+        let t6 = "Good luck!";
+        let t7 = "";
+
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+
+        let t12 = "";
+        let t13 = "";
+        let t14 = "";
+        let t15 = "";
+
+        let t16 = "";
+        let t17 = "";
+        let t18 = "";
+        let t19 = "";
+
+        let t20 = "";
+        let t21 = "";
+        let t22 = "";
+        let t23 = "";
+
+        let td0 = "Jump like a frog and think like a";
+        let td1 = "borg! Have you managed to figure";
+        let td2 = "it out yet?!";
+        let td3 = "I count on you, you got this!";
+
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeNode41() {
+        do initNodeParams(0);
+        let hasEnded = true;  // Enemy Dialogue == true
+
+        let t0 = "";
+        let t1 = "";
+        let t2 = "";
+        let t3 = "";
+
+        let t4 = "";
+        let t5 = "";
+        let t6 = "";
+        let t7 = "";
+
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+
+        let t12 = "";
+        let t13 = "";
+        let t14 = "";
+        let t15 = "";
+
+        let t16 = "";
+        let t17 = "";
+        let t18 = "";
+        let t19 = "";
+
+        let t20 = "";
+        let t21 = "";
+        let t22 = "";
+        let t23 = "";
+
+        let td0 = "I'm here.";
+        let td1 = "               I'm there.";
+        let td2 = "      I'm everywhere!";
+        let td3 = "You got no chance lol(0)";
+
+        do assignDialogueToArr();
+
+        return this;
+    }
 }

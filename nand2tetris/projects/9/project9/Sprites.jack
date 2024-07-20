@@ -12,11 +12,9 @@ function void init() {
 	
     let currentSelSprite = 0;
 	
-    // let shimonSmallCoord = 6333;
     let shimonSmallCoord = 7165;
     let giniSmallCoord = 5148;
 
-    // let shimonBigCoord = 1899;
     let shimonBigCoord = 1739;
     let giniBigCoord = 1482;
 
@@ -45,6 +43,12 @@ function void drawCurrentSelSprite(boolean cond) {
         else { do Sprites.drawHappyFlower(~cond);}
         return;
     }
+    if (activeNPC = 2) {
+        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond);}
+        else { do Sprites.drawHappyFlower(~cond);}
+        return;
+    }
+
     return;
 }
 
