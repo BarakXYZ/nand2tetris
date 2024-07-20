@@ -4,17 +4,16 @@ class ChallengeNode {
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11;
     field String a0, a1, a2;
     field String r0, r1, r2;
-    field Array assembly, answers, registers;
+    field Array content, answers, registers;
+    field boolean isCompleted, isEnemy;
 
-    static int startRowCode, startCol, startRowReg, startRowHints, assemblyArrSize;
+    static int startRowCode, startCol, startRowReg; 
     static String lineIndex;
 
     function void init() {
         let startRowCode = 5;
         let startCol = 3;
         let startRowReg = 17;
-        let startRowHints = 11;
-        let assemblyArrSize = 10;
         let lineIndex = String.new(3);
         return;
     }
@@ -29,13 +28,12 @@ class ChallengeNode {
             do ChallengeNode.drawLineIndex(currentRow);
 
             do Output.moveCursor(startRowCode + currentRow, startCol);
-            do Output.printString(assembly[currentRow]);
+            do Output.printString(content[currentRow]);
 
             let currentRow = currentRow + 1;
         }
         let currentRow = 0;
 
-        do drawHints();
         do drawRegisters();
         return;
     }
@@ -50,17 +48,6 @@ class ChallengeNode {
         return;
     }
 
-    method void drawHints() {
-        var int i;
-        let i = 0;
-
-        while (i < numHints) {
-            do Output.moveCursor(startRowHints + i, 0);
-            do Output.printString(assembly[(assemblyArrSize - 1) - (numHints + i)]);
-            let i = i + 1;
-        }
-        return;
-    }
 
     function void drawLineIndex(int aCurrentRow) {
         if (~(aCurrentRow > 9)) {
@@ -82,22 +69,22 @@ class ChallengeNode {
     method void assignContentToArr() {
         
         let currentRow = 0;
-        let assembly = Array.new(assemblyArrSize);
+        let content = Array.new(12);
 
-        let assembly[0] = t0;
-        let assembly[1] = t1;
-        let assembly[2] = t2;
-        let assembly[3] = t3;
+        let content[0] = t0;
+        let content[1] = t1;
+        let content[2] = t2;
+        let content[3] = t3;
 
-        let assembly[4] = t4;
-        let assembly[5] = t5;
-        let assembly[6] = t6;
-        let assembly[7] = t7;
+        let content[4] = t4;
+        let content[5] = t5;
+        let content[6] = t6;
+        let content[7] = t7;
 
-        let assembly[8] = t8;
-        let assembly[9] = t9;
-        let assembly[10] = t10;
-        let assembly[11] = t11;
+        let content[8] = t8;
+        let content[9] = t9;
+        let content[10] = t10;
+        let content[11] = t11;
 
         let answers = Array.new(3);
         let answers[0] = a0;
@@ -121,6 +108,19 @@ class ChallengeNode {
             return Helpers.strComp(buff12, a0) & Helpers.strComp(buff13, a1) & Helpers.strComp(buff14, a2);
         }
         return false;
+    }
+
+    method boolean isEnemy() {
+        return isEnemy;
+    }
+    
+    method boolean isCompleted() {
+        return isCompleted;
+    }
+
+    method void complete() {
+        let isCompleted = true;
+        return;
     }
 
     method void dispose() {
@@ -150,7 +150,7 @@ class ChallengeNode {
         do r2.dispose();
 
         //** Dispose Array *//
-        do assembly.dispose();
+        do content.dispose();
         do answers.dispose();
         do registers.dispose();
 
@@ -190,6 +190,9 @@ class ChallengeNode {
         let r1 = "";
         let r2 = "";
 
+        let isEnemy = false;
+        let isCompleted = false;
+
         do assignContentToArr();
 
         return this;
@@ -221,6 +224,9 @@ class ChallengeNode {
         let r0 = "RAM[555]=";
         let r1 = "";
         let r2 = "";
+
+        let isEnemy = false;
+        let isCompleted = false;
 
         do assignContentToArr();
 
@@ -254,6 +260,9 @@ class ChallengeNode {
         let r1 = "RAM[555]=";
         let r2 = "";
 
+        let isEnemy = false;
+        let isCompleted = false;
+
         do assignContentToArr();
 
         return this;
@@ -268,7 +277,7 @@ class ChallengeNode {
         let t0 = "@357";
         let t1 = "D=M";
         let t2 = "@666";
-        let t3 = "M=M+D";
+        let t3 = "M=A+D";
         let t4 = "";
         let t5 = "";
         let t6 = "";
@@ -278,13 +287,16 @@ class ChallengeNode {
         let t10 = "";
         let t11 = "";
         
-        let a0 = "999";
+        let a0 = "687";
         let a1 = "";
         let a2 = "";
 
         let r0 = "RAM[666]=";
         let r1 = "";
         let r2 = "";
+
+        let isEnemy = false;
+        let isCompleted = false;  // not really being used
 
         do assignContentToArr();
 
@@ -311,13 +323,16 @@ class ChallengeNode {
         let t10 = "RAM[5]=7";
         let t11 = "RAM[7]=3";
         
-        let a0 = "34";
+        let a0 = "21";
         let a1 = "";
         let a2 = "";
 
         let r0 = "RAM[357]=";
         let r1 = "";
         let r2 = "";
+
+        let isEnemy = true;
+        let isCompleted = false;
 
         do assignContentToArr();
 

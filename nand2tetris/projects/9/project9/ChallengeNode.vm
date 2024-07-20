@@ -5,13 +5,9 @@ push constant 3
 pop static 1
 push constant 17
 pop static 2
-push constant 11
-pop static 3
-push constant 10
-pop static 4
 push constant 3
 call String.new 1
-pop static 5
+pop static 3
 push constant 0
 return
 function ChallengeNode.draw 0
@@ -50,9 +46,6 @@ goto WHILE_EXP0
 label WHILE_END0
 push constant 0
 pop this 1
-push pointer 0
-call ChallengeNode.drawHints 1
-pop temp 0
 push pointer 0
 call ChallengeNode.drawRegisters 1
 pop temp 0
@@ -100,44 +93,6 @@ call Output.printString 1
 pop temp 0
 push constant 0
 return
-function ChallengeNode.drawHints 1
-push argument 0
-pop pointer 0
-push constant 0
-pop local 0
-label WHILE_EXP0
-push local 0
-push this 3
-lt
-not
-if-goto WHILE_END0
-push static 3
-push local 0
-add
-push constant 0
-call Output.moveCursor 2
-pop temp 0
-push static 4
-push constant 1
-sub
-push this 3
-push local 0
-add
-sub
-push this 23
-add
-pop pointer 1
-push that 0
-call Output.printString 1
-pop temp 0
-push local 0
-push constant 1
-add
-pop local 0
-goto WHILE_EXP0
-label WHILE_END0
-push constant 0
-return
 function ChallengeNode.drawLineIndex 0
 push argument 0
 push constant 9
@@ -167,19 +122,19 @@ pop temp 0
 label IF_END0
 push constant 4
 call String.new 1
-pop static 5
-push static 5
+pop static 3
+push static 3
 push argument 0
 call String.setInt 2
 pop temp 0
-push static 5
+push static 3
 push constant 46
 call String.appendChar 2
 pop temp 0
-push static 5
+push static 3
 call Output.printString 1
 pop temp 0
-push static 5
+push static 3
 call String.dispose 1
 pop temp 0
 push constant 0
@@ -189,7 +144,7 @@ push argument 0
 pop pointer 0
 push constant 0
 pop this 1
-push static 4
+push constant 12
 call Array.new 1
 pop this 23
 push constant 0
@@ -394,10 +349,28 @@ return
 label IF_FALSE2
 push constant 0
 return
+function ChallengeNode.isEnemy 0
+push argument 0
+pop pointer 0
+push this 27
+return
+function ChallengeNode.isCompleted 0
+push argument 0
+pop pointer 0
+push this 26
+return
+function ChallengeNode.complete 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+pop this 26
+push constant 0
+return
 function ChallengeNode.dispose 0
 push argument 0
 pop pointer 0
-push static 5
+push static 3
 call String.dispose 1
 pop temp 0
 push this 5
@@ -469,7 +442,7 @@ pop temp 0
 push constant 0
 return
 function ChallengeNode.makeNode0 0
-push constant 26
+push constant 28
 call Memory.alloc 1
 pop pointer 0
 push constant 0
@@ -534,13 +507,17 @@ pop this 21
 push constant 0
 call String.new 1
 pop this 22
+push constant 0
+pop this 27
+push constant 0
+pop this 26
 push pointer 0
 call ChallengeNode.assignContentToArr 1
 pop temp 0
 push pointer 0
 return
 function ChallengeNode.makeNode1 0
-push constant 26
+push constant 28
 call Memory.alloc 1
 pop pointer 0
 push constant 1
@@ -651,13 +628,17 @@ pop this 21
 push constant 0
 call String.new 1
 pop this 22
+push constant 0
+pop this 27
+push constant 0
+pop this 26
 push pointer 0
 call ChallengeNode.assignContentToArr 1
 pop temp 0
 push pointer 0
 return
 function ChallengeNode.makeNode2 0
-push constant 26
+push constant 28
 call Memory.alloc 1
 pop pointer 0
 push constant 2
@@ -816,13 +797,17 @@ pop this 21
 push constant 0
 call String.new 1
 pop this 22
+push constant 0
+pop this 27
+push constant 0
+pop this 26
 push pointer 0
 call ChallengeNode.assignContentToArr 1
 pop temp 0
 push pointer 0
 return
 function ChallengeNode.makeNode31 0
-push constant 26
+push constant 28
 call Memory.alloc 1
 pop pointer 0
 push constant 31
@@ -868,7 +853,7 @@ push constant 77
 call String.appendChar 2
 push constant 61
 call String.appendChar 2
-push constant 77
+push constant 65
 call String.appendChar 2
 push constant 43
 call String.appendChar 2
@@ -901,11 +886,11 @@ call String.new 1
 pop this 16
 push constant 3
 call String.new 1
-push constant 57
+push constant 54
 call String.appendChar 2
-push constant 57
+push constant 56
 call String.appendChar 2
-push constant 57
+push constant 55
 call String.appendChar 2
 pop this 17
 push constant 0
@@ -941,13 +926,17 @@ pop this 21
 push constant 0
 call String.new 1
 pop this 22
+push constant 0
+pop this 27
+push constant 0
+pop this 26
 push pointer 0
 call ChallengeNode.assignContentToArr 1
 pop temp 0
 push pointer 0
 return
 function ChallengeNode.makeNode32 0
-push constant 26
+push constant 28
 call Memory.alloc 1
 pop pointer 0
 push constant 32
@@ -1120,9 +1109,9 @@ call String.appendChar 2
 pop this 16
 push constant 2
 call String.new 1
-push constant 51
+push constant 50
 call String.appendChar 2
-push constant 52
+push constant 49
 call String.appendChar 2
 pop this 17
 push constant 0
@@ -1158,6 +1147,11 @@ pop this 21
 push constant 0
 call String.new 1
 pop this 22
+push constant 0
+not
+pop this 27
+push constant 0
+pop this 26
 push pointer 0
 call ChallengeNode.assignContentToArr 1
 pop temp 0

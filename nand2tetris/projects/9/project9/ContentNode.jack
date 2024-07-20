@@ -1,9 +1,9 @@
 class ContentNode {
-    field String name, address, val, lvl, role;
-    field int items;
+    field String name, address, val, lvl, role, r1, r2, r3;
+    field int items, ramNum;
     // field String effect0, effect1;
     field Array arrContent;
-    static String tName, tAddr, tVal, tLVL, tRole;
+    static String tName, tAddr, tVal, tLVL, tRole, tRAM;
     static int baseRow, baseCol;
     static Array arrFixedTitleContent;
     
@@ -15,14 +15,19 @@ class ContentNode {
         let tAddr = "Address: ";
         let tVal  = "Value:   ";
         let tLVL  = "Level:   ";
+        let tRAM = "RAM";
         let tRole = "*";
 
-        let arrFixedTitleContent = Array.new(5);
+        let arrFixedTitleContent = Array.new(8);
         let arrFixedTitleContent[0] = tName;
         let arrFixedTitleContent[1] = tAddr;
         let arrFixedTitleContent[2] = tVal;
         let arrFixedTitleContent[3] = tLVL;
         let arrFixedTitleContent[4] = tRole;
+
+        let arrFixedTitleContent[5] = tRAM;
+        let arrFixedTitleContent[6] = tRAM;
+        let arrFixedTitleContent[7] = tRAM;
 
         return;
     }
@@ -32,26 +37,80 @@ class ContentNode {
         let i = 0;
         while ((i < items) & (items > 1)) {
 
-            if (i = (items - 1)) { do Output.moveCursor(baseRow + i + 1, baseCol); }
-            else { do Output.moveCursor(baseRow + i, baseCol); }
+            if ((i = (items - ramNum - 1)) | (i = (items - ramNum))) {
+                let baseRow = baseRow + 1;
+            }
+            do Output.moveCursor(baseRow + i, baseCol);
 
             do Output.printString(arrFixedTitleContent[i]);
             do Output.printString(arrContent[i]);
             let i = i + 1;
         }
 
-        do UserInterface.printAlignedTitle(arrContent[0]);
+        do UserInterface.printAlignedTitle(arrContent[0]);  // Name
+        let baseRow = 5;  // Reset
 
         return;
     }
 
+    method void assignToArr() {
+
+        let arrContent = Array.new(8);
+
+        let arrContent[0] = name;
+        let arrContent[1] = address;
+        let arrContent[2] = val;
+        let arrContent[3] = lvl;
+
+        let arrContent[4] = role;
+
+        let arrContent[5] = r1;
+        let arrContent[6] = r2;
+        let arrContent[7] = r3;
+
+        return;
+    }
+    
+    method void reveal(String answer) {
+        do val.dispose();
+        let val = answer;
+        do Output.moveCursor(baseRow + 2, baseCol);
+        do Output.printString(arrFixedTitleContent[2]);
+        do Output.printString(val);
+        return;
+    }
+
+    method void dispose() {
+
+        do name.dispose();
+        do address.dispose();
+        do val.dispose();
+        do lvl.dispose();
+        do role.dispose();
+
+        do r1.dispose();
+        do r2.dispose();
+        do r3.dispose();
+
+        do arrContent.dispose();
+
+        do Memory.deAlloc(this);
+        return;
+    }
+
     constructor ContentNode makeBlank() {
-        let name = "SHIMON";
+        let name = "";
         let address = "";
         let val = "";
         let lvl = "";
+
         let role = "";
 
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+
+        let ramNum = 0;
         let items = 0;
 
         do assignToArr();
@@ -63,8 +122,14 @@ class ContentNode {
         let address = "555";
         let val = "42";
         let lvl = "32768";
+
         let role = "Master of Memory";
 
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+
+        let ramNum = 0;
         let items = 5;
         
         do assignToArr();
@@ -77,40 +142,20 @@ class ContentNode {
         let address = "357";
         let val = "?";
         let lvl = "3";
-        let role = "OPS I SEG FAULT";
         
-        let items = 5;
+        let role = "OPS I SEG FAULT";
+
+        let r1 = "[3] = 5";
+        let r2 = "[5] = 7";
+        let r3 = "[7] = 3";
+
+        let ramNum = 3;
+        let items = 8;
 
         do assignToArr();
 
         return this;
     }
 
-    method void assignToArr() {
-
-        let arrContent = Array.new(5);
-
-        let arrContent[0] = name;
-        let arrContent[1] = address;
-        let arrContent[2] = val;
-        let arrContent[3] = lvl;
-        let arrContent[4] = role;
-
-        return;
-    }
-    
-    method void dispose() {
-
-        do name.dispose();
-        do address.dispose();
-        do val.dispose();
-        do lvl.dispose();
-        do role.dispose();
-
-        do arrContent.dispose();
-
-        do Memory.deAlloc(this);
-        return;
-    }
 
 }
