@@ -23,6 +23,9 @@ class Helpers {
         let i = 0;
         let lenStr2 = str2.length();
 
+        do str1.dispose();
+        let str1 = String.new(lenStr2);
+
         while (i < lenStr2) {
             do str1.appendChar(str2.charAt(i));
             let i = i + 1;

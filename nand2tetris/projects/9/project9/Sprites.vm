@@ -576,19 +576,23 @@ push argument 0
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push constant 23
+push constant 15
 push local 0
 push local 1
 push constant 2
 push constant 1
-call Sprites.drawFlowerFace 4
+call Sprites.drawFlowerFace 6
 pop temp 0
 goto IF_END0
 label IF_FALSE0
+push constant 23
+push constant 10
 push local 0
 push local 1
 push constant 1
 push constant 1
-call Sprites.drawFlowerFace 4
+call Sprites.drawFlowerFace 6
 pop temp 0
 label IF_END0
 push constant 0
@@ -614,75 +618,75 @@ pop temp 0
 push constant 0
 return
 function Sprites.drawFlowerFace 0
-push argument 1
+push argument 3
 push constant 35
 add
-pop argument 1
-push constant 23
+pop argument 3
 push argument 0
-push argument 1
 push argument 2
 push argument 3
+push argument 4
+push argument 5
 push constant 0
 call Sprites.drawUpsideTriangle 6
 pop temp 0
-push constant 23
 push argument 0
-push argument 1
+push argument 2
+push argument 3
 push constant 4
 sub
-push argument 2
-push argument 3
+push argument 4
+push argument 5
 push constant 0
 not
 call Sprites.drawUpsideTriangle 6
 pop temp 0
-push argument 1
+push argument 3
 push constant 62
 sub
-pop argument 1
-push constant 15
-push argument 0
-push constant 12
-sub
+pop argument 3
 push argument 1
 push argument 2
+push constant 12
+sub
 push argument 3
+push argument 4
+push argument 5
 push constant 0
 call Sprites.drawTriangle 6
 pop temp 0
-push constant 15
-push argument 0
+push argument 1
+push argument 2
 push constant 12
 sub
-push argument 1
+push argument 3
 push constant 2
 add
-push argument 2
-push argument 3
+push argument 4
+push argument 5
 push constant 0
 not
 call Sprites.drawTriangle 6
 pop temp 0
-push constant 15
-push argument 0
-push constant 12
-add
 push argument 1
 push argument 2
+push constant 12
+add
 push argument 3
+push argument 4
+push argument 5
 push constant 0
 call Sprites.drawTriangle 6
 pop temp 0
-push constant 15
-push argument 0
+push argument 1
+push argument 2
 push constant 12
 add
-push argument 1
+push argument 3
 push constant 2
 add
-push argument 2
-push argument 3
+push argument 4
+push argument 5
 push constant 0
 not
 call Sprites.drawTriangle 6

@@ -31,6 +31,8 @@ class Input {
             do Sys.wait(50);
             do Draw.sprite();
             let c = Keyboard.keyPressed();
+
+            if (c = 34) { do Dialogue.endDialogue(); let c = 128; }
         }
         return;
     }

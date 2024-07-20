@@ -239,8 +239,8 @@ function void drawHappyFlower(boolean switch) {
     do Screen.drawCircle(x, y, 40);
 
     // Face
-    if (switch) { do Sprites.drawFlowerFace(x, y, 2, 1); }
-    else { do Sprites.drawFlowerFace(x, y, 1, 1); }
+    if (switch) { do Sprites.drawFlowerFace(23, 15, x, y, 2, 1); }
+    else { do Sprites.drawFlowerFace(23, 10, x, y, 1, 1); }
 
     return;
 }
@@ -253,17 +253,17 @@ function void drawPetal(int x, int y, int r1, int r2) {
     return;
 }
 
-function void drawFlowerFace(int x, int y, int spikiness, int direction) {
+function void drawFlowerFace(int s1, int s2, int x, int y, int spikiness, int dir) {
     let y = y + 35;
-    do Sprites.drawUpsideTriangle(23, x, y, spikiness, direction, false);
-    do Sprites.drawUpsideTriangle(23, x, y - 4, spikiness, direction, true);
+    do Sprites.drawUpsideTriangle(s1, x, y, spikiness, dir, false);
+    do Sprites.drawUpsideTriangle(s1, x, y - 4, spikiness, dir, true);
 
     let y = y - 62;
-    do Sprites.drawTriangle(15, x - 12, y, spikiness, direction, false);
-    do Sprites.drawTriangle(15, x - 12, y + 2, spikiness, direction, true);
+    do Sprites.drawTriangle(s2, x - 12, y, spikiness, dir, false);
+    do Sprites.drawTriangle(s2, x - 12, y + 2, spikiness, dir, true);
 
-    do Sprites.drawTriangle(15, x + 12, y, spikiness, direction, false);
-    do Sprites.drawTriangle(15, x + 12, y + 2, spikiness, direction, true);
+    do Sprites.drawTriangle(s2, x + 12, y, spikiness, dir, false);
+    do Sprites.drawTriangle(s2, x + 12, y + 2, spikiness, dir, true);
 
     return;
 }
