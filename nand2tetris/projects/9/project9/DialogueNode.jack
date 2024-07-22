@@ -232,7 +232,7 @@ class DialogueNode {
         let t4 = "In it, you'll see the attributes";
         let t5 = "of the currently selected memory cell";
         let t6 = "For example: my address=555, and my-";
-        let t7 = "value (that you've just set) inM=42";
+        let t7 = "value (that you've just set) value=42";
 
         let t8 = "So let's introduce a challenge that";
         let t9 = "is using these parameters.";
@@ -280,8 +280,8 @@ class DialogueNode {
 
         let t8 = "In this challenge, you will actually";
         let t9 = "need to go lookup and solve another ";
-        let t10 = "address's challenge to know its inM";
-        let t11 = "(value), then come back to my address";
+        let t10 = "address's challenge to know its value.";
+        let t11 = "Then come back to my address";
 
         let t12 = "to complete the main challenge!";
         let t13 = "I'll be here waiting, good luck!";

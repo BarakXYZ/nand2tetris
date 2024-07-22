@@ -336,7 +336,7 @@ class ChallengeNode {
 
     constructor ChallengeNode makeChallenge4() {
         
-        let numLines = 9;
+        let numLines = 11;
         let numHints = 0;
         let queries = 1;
 
@@ -344,20 +344,20 @@ class ChallengeNode {
         let t1 = "D=M";
         let t2 = "@GNIRUT";
         let t3 = "D=D-M";
-        let t4 = "@100";
-        let t5 = "D;JNE";
-        let t6 = "D=D+M";
-        let t7 = "@101";
-        let t8 = "M=D";
-        let t9 = "";
-        let t10 = "";
+        let t4 = "(FROGGY)";
+        let t5 = "@SHIMON";
+        let t6 = "D=M-D";
+        let t7 = "@FROGGY";
+        let t8 = "D+1;JGE";
+        let t9 = "@201";
+        let t10 = "M=A-D";
         let t11 = "";
         
-        let a0 = "";
+        let a0 = "222";
         let a1 = "";
         let a2 = "";
 
-        let r0 = "RAM[101]=";
+        let r0 = "RAM[201]=";
         let r1 = "";
         let r2 = "";
 
