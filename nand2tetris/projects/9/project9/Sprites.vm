@@ -93,22 +93,6 @@ return
 label IF_FALSE3
 push constant 0
 return
-function Sprites.clearViewport 0
-push constant 0
-call Screen.setColor 1
-pop temp 0
-push constant 144
-push constant 47
-push constant 353
-push constant 173
-call Screen.drawRectangle 4
-pop temp 0
-push constant 0
-not
-call Screen.setColor 1
-pop temp 0
-push constant 0
-return
 function Sprites.drawSpriteShimon 0
 push argument 0
 if-goto IF_TRUE0
