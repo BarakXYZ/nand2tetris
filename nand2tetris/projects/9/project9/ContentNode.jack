@@ -158,14 +158,14 @@ class ContentNode {
         let val = "?";
         let lvl = "3";
         
-        let status1 = "OPS I SEG FAULT";
+        let status1 = "OPS I SEG FAULT AGN";
         let status2 = "OPS I DID IT AGAIN";
 
         let r1 = "[3] = 5";
         let r2 = "[5] = 7";
         let r3 = "[7] = 3";
 
-        let a1 = "21";
+        let a1 = "18";
 
         let ramNum = 3;
         let items = 8;
