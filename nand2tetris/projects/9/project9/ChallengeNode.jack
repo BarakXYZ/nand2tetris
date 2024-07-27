@@ -232,15 +232,15 @@ class ChallengeNode {
 
     constructor ChallengeNode makeChallenge2() {
 
-        let numLines = 5;
+        let numLines = 6;
         let queries = 2;
 
         let t0 = "@SHIMON";
-        let t1 = "D=M+A";
-        let t2 = "@40";
-        let t3 = "A=D-A";
-        let t4 = "M=D-1";
-        let t5 = "";
+        let t1 = "D=M";
+        let t2 = "D=D+A";
+        let t3 = "@40";
+        let t4 = "A=D-A";
+        let t5 = "M=D-1";
         let t6 = "";
         let t7 = "";
         let t8 = "";
@@ -248,12 +248,12 @@ class ChallengeNode {
         let t10 = "";
         let t11 = "";
         
-        let a0 = "596";
-        let a1 = "42";
+        let a0 = "42";
+        let a1 = "596";
         let a2 = "";
 
-        let r0 = "RAM[557]=";
-        let r1 = "RAM[555]=";
+        let r0 = "RAM[555]=";
+        let r1 = "RAM[557]=";
         let r2 = "";
 
         let isEnemy = false;
@@ -282,7 +282,7 @@ class ChallengeNode {
         let t10 = "";
         let t11 = "";
         
-        let a0 = "687";
+        let a0 = "684";
         let a1 = "";
         let a2 = "";
 
@@ -300,24 +300,24 @@ class ChallengeNode {
 
     constructor ChallengeNode makeChallengeGNIRUT() {
         
-        let numLines = 8;
+        let numLines = 11;
         let numHints = 3;
         let queries = 1;
 
         let t0 = "@5";
-        let t1 = "D=M+A";
-        let t2 = "A=D-A";
-        let t3 = "D=D+1";
-        let t4 = "A=D-M-A";
-        let t5 = "D=A+M+D";
-        let t6 = "@357";
-        let t7 = "M=D";
-        let t8 = "";
-        let t9 = "RAM[3]=5";
-        let t10 = "RAM[5]=7";
-        let t11 = "RAM[7]=3";
+        let t1 = "D=A";
+        let t2 = "D=D+M";
+        let t3 = "A=D-A";
+        let t4 = "D=D+1";
+        let t5 = "D=D-M";
+        let t6 = "A=D-A";
+        let t7 = "D=M+D";
+        let t8 = "D=A+D";
+        let t9 = "@357";
+        let t10 = "M=D";
+        let t11 = "";
         
-        let a0 = "21";
+        let a0 = "18";
         let a1 = "";
         let a2 = "";
 
@@ -353,7 +353,7 @@ class ChallengeNode {
         let t10 = "M=A-D";
         let t11 = "";
         
-        let a0 = "222";
+        let a0 = "219";
         let a1 = "";
         let a2 = "";
 
@@ -377,7 +377,7 @@ class ChallengeNode {
         let queries = 1;
 
         let t0 = "D=A+1";
-        let t1 = "@LOL";
+        let t1 = "@LOLI";
         let t2 = "M=D-1";
         let t3 = "(LOLI)";
         let t4 = "MD=M-D";

@@ -35,5 +35,7 @@ class Main {
 // 3. master challenge and wrap up
 
 // Small bugs:
+    // 0. We need to also mention to the user he should see hints inside the content
+    // Also need to explain the user can search via the symName
     // 1. SHIMON on start title not showing
     // 2. 'Enter' instruction thingy seems to not go after finishing dialogue?
