@@ -11,7 +11,7 @@ class ContentNode {
         let baseRow = 5;
         let baseCol = 45;
         
-        let tName = "Name:    ";
+        let tName = "SymName: ";
         let tAddr = "Address: ";
         let tVal  = "Value:   ";
         let tLVL  = "Level:   ";
@@ -108,7 +108,7 @@ class ContentNode {
     }
 
     constructor ContentNode makeBlank() {
-        let name = "";
+        let name = "SHIMON";
         let address = "";
         let val = "";
         let lvl = "";

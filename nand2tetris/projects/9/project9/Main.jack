@@ -30,12 +30,11 @@ class Main {
 }
 
 // TODOS:
-// 1. Create 2 more challenges and wrap up!
-// 2. Plot twist and an interesting challenge
-// 3. master challenge and wrap up
+// 1. Create the final challenge and wrap up!
+//     - Some kind of plot twist can be cool
+//     - Combine all techniques into a master challenge
+// - Create an upgraded sprite for @LOLO
 
 // Small bugs:
-    // 0. We need to also mention to the user he should see hints inside the content
-    // Also need to explain the user can search via the symName
-    // 1. SHIMON on start title not showing
-    // 2. 'Enter' instruction thingy seems to not go after finishing dialogue?
+// Additional:
+// 1. We have to expand the UI to allow more comments (make it more spacious)

@@ -701,11 +701,11 @@ pop static 5
 push constant 0
 return
 function UserInterface.initUICoords 0
-push constant 136
+push constant 168
 pop static 26
 push constant 20
 pop static 28
-push constant 354
+push constant 322
 pop static 27
 push constant 174
 pop static 29
@@ -1218,7 +1218,7 @@ push constant 5
 add
 pop argument 0
 push argument 0
-push constant 17
+push constant 21
 call Output.moveCursor 2
 pop temp 0
 push argument 1
@@ -1593,6 +1593,32 @@ add
 push constant 1
 add
 push static 32
+push constant 1
+sub
+push static 29
+push constant 1
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function UserInterface.clearViewport 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 26
+push constant 8
+add
+push static 28
+push static 30
+add
+push constant 1
+add
+push static 27
 push constant 1
 sub
 push static 29

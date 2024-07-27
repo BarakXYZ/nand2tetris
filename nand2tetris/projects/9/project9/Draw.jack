@@ -11,7 +11,7 @@ class Draw {
     function void sprite() {
         if (counter = 25) {
             let counter = 0;
-            do Sprites.clearViewport();
+            do UserInterface.clearViewport();
 
             if (~isFlipped) {
                 do Sprites.drawCurrentSelSprite(~isFlipped);

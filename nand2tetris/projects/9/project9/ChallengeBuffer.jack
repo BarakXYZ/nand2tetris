@@ -14,7 +14,7 @@ class ChallengeBuffer {
     }
     
     constructor ChallengeBuffer new() {
-        let strSize = 7;
+        let strSize = 11;
         let buff0 = String.new(strSize);
         let buff1 = String.new(strSize);
         let buff2 = String.new(strSize);

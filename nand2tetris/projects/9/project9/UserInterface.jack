@@ -61,9 +61,11 @@ class UserInterface {
 
     function void initUICoords() {
 
-        let vpX1 = 136;
+        // let vpX1 = 136;
+        let vpX1 = 168;
         let vpY1 = 20;
-        let vpX2 = 354;
+        // let vpX2 = 354;
+        let vpX2 = 322;
         let vpY2 = 174;
         
         let coX2 = 511;
@@ -261,7 +263,7 @@ class UserInterface {
 
     function void drawChallengeSel(int selBuffer, boolean draw) {
         let selBuffer = selBuffer + 5;  // 5 being the base index row (0)
-        do Output.moveCursor(selBuffer, 17);
+        do Output.moveCursor(selBuffer, 21);
 
         if (draw) { do Output.printChar(selLeftArrow); }
         else { do Output.printChar(32); }
@@ -384,6 +386,16 @@ class UserInterface {
         do Screen.setColor(true);
         return;
     }
+
+    //   We're essentially offesting by 1 pixel to not override the frame itself. 
+    //	 and on top of that, offseting by a few pixels to not override the sel arrow
+    function void clearViewport() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(vpX1 + 8, vpY1 + vpOffY1 + 1, vpX2 - 1, vpY2 - 1);
+        do Screen.setColor(true);
+        return;
+    }
+
 
     function void clearViewportTitle() {
         do Screen.setColor(false);

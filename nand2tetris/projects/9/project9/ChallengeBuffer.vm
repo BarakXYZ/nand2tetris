@@ -11,7 +11,7 @@ function ChallengeBuffer.new 0
 push constant 17
 call Memory.alloc 1
 pop pointer 0
-push constant 7
+push constant 11
 pop this 16
 push this 16
 call String.new 1

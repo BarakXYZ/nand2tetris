@@ -53,17 +53,6 @@ function void drawCurrentSelSprite(boolean cond) {
 }
 
 
-//** Viewport is at x1=134, y1=46, x2=354, y2=174 
-//   We're essentially offesting by 1 pixel to not override the frame itself. 
-//	 and on top of that, offseting by a few pixels to not override the sel arrow */
-function void clearViewport() {
-
-    do Screen.setColor(false);
-    do Screen.drawRectangle(144, 47, 353, 173);
-    do Screen.setColor(true);
-
-    return;
-}
 
 
 // Draw Shimon Big & Small

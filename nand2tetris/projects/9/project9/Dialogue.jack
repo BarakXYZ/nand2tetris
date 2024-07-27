@@ -80,6 +80,7 @@ class Dialogue {
                 do Sys.wait(300);
                 do Input.waitForEnter();
             }
+            do UserInterface.clearInstruction();
         } else {
             let isDefault = true;
             do currDialogueNode.draw(isDefault);

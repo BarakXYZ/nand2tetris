@@ -240,6 +240,8 @@ call Input.waitForEnter 0
 pop temp 0
 goto WHILE_EXP0
 label WHILE_END0
+call UserInterface.clearInstruction 0
+pop temp 0
 goto IF_END0
 label IF_FALSE0
 push constant 0
