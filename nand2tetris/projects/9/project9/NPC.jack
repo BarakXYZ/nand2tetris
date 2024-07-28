@@ -99,7 +99,7 @@ class NPC {
     }
 
     function void updateChallengeNode(int quest) {
-        do currChallengeNode.dispose();
+        do currChallengeNode.dispose();  // Dispose old node
         if (quest = 1) { let challengeNodes[0] = ChallengeNode.makeChallenge1(); }
         if (quest = 2) { let challengeNodes[0] = ChallengeNode.makeChallenge2(); }
         if (quest = 3) { let challengeNodes[0] = ChallengeNode.makeChallenge3(); }

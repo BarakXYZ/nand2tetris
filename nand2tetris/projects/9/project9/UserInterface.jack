@@ -120,7 +120,7 @@ class UserInterface {
     function void drawDialogueBox() {
         do Screen.setColor(true);
         do UserInterface.drawUnfilledRec(vpX1, vpY2, coX2, vpY2 + vpOffY2);  // main
-        do UserInterface.drawUnfilledRec(coX2-38, vpY2, coX2, vpY2+16);  // index
+        do UserInterface.drawUnfilledRec(coX2-38, vpY2, coX2, vpY2+14);  // index
         return;
     }
 

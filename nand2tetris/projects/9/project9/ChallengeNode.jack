@@ -87,10 +87,11 @@ class ChallengeNode {
         let content[10] = t10;
         let content[11] = t11;
 
-        let answers = Array.new(3);
+        let answers = Array.new(4);
         let answers[0] = a0;
         let answers[1] = a1;
         let answers[2] = a2;
+        let answers[3] = a3;
 
         let registers = Array.new(4);
         let registers[0] = r0;
@@ -146,6 +147,7 @@ class ChallengeNode {
         do a0.dispose();
         do a1.dispose();
         do a2.dispose();
+        do a3.dispose();
 
         do r0.dispose();
         do r1.dispose();
