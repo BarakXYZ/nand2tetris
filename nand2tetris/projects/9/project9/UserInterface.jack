@@ -85,7 +85,7 @@ class UserInterface {
 
         do UserInterface.drawViewport();
 
-        do UserInterface.drawTextBox();
+        do UserInterface.drawDialogueBox();
 
         // do UserInterface.drawChallengeFrame();
 
@@ -117,9 +117,10 @@ class UserInterface {
         return;
     }
 
-    function void drawTextBox() {
+    function void drawDialogueBox() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRec(vpX1, vpY2, coX2, vpY2 + vpOffY2);
+        do UserInterface.drawUnfilledRec(vpX1, vpY2, coX2, vpY2 + vpOffY2);  // main
+        do UserInterface.drawUnfilledRec(coX2-38, vpY2, coX2, vpY2+16);  // index
         return;
     }
 
@@ -163,47 +164,6 @@ class UserInterface {
         do Output.printString(lookupTitle);
         do Output.moveCursor(21, 29);
         do Output.printChar(atSign);
-        return;
-    }
-
-    function void drawFriendsFrames() {
-        do Screen.setColor(true);
-
-        do UserInterface.drawUnfilledRec(coX2, vpY1, 511, 77);
-        do UserInterface.drawUnfilledRec(coX2, 77, 511, 139);  // Comp a bit
-        do UserInterface.drawUnfilledRec(coX2, 139, 511, 197);
-        do UserInterface.drawUnfilledRec(coX2, 197, 511, 255);
-
-
-        do Sprites.drawQuestionMark1();
-        do Sprites.drawQuestionMark2();
-        do Sprites.drawQuestionMark3();
-
-
-        do Sprites.drawSpriteShimonSmall();
-        do Output.moveCursor(18, 56);
-        do Output.printString(currentSelFriend);
-        do Output.moveCursor(19, 56);
-        do Output.printString("@SHIMON");
-
-
-        do Output.moveCursor(13, 56);
-        do Output.printString(callingFriend);
-        do Output.moveCursor(14, 57);
-        do Output.printString("@GINI");
-        // do Sprites.drawSpriteGiniSmall();
-
-        do Output.moveCursor(7, 56);
-        do Output.printString(unknownFriend);
-        do Output.moveCursor(8, 57);
-        do Output.printString("@TEST");
-
-        do Output.moveCursor(2, 56);
-        do Output.printString(callingFriend);
-        do Output.moveCursor(3, 57);
-        do Output.printString("@BOBO");
-
-
         return;
     }
 
@@ -256,7 +216,7 @@ class UserInterface {
         do Output.moveCursor(selCoordDraw[4], selCoordDraw[5]);
         do Output.printChar(asterisk);
 
-        do UserInterface.drawTextBox();
+        do UserInterface.drawDialogueBox();
 
         return;
     }
@@ -269,7 +229,7 @@ class UserInterface {
         else { do Output.printChar(32); }
 
         do UserInterface.drawChallengeFrame();
-        do UserInterface.drawTextBox();
+        do UserInterface.drawDialogueBox();
 
         do Output.moveCursor(21, 17);
         if (draw) {
@@ -296,7 +256,7 @@ class UserInterface {
         do Output.moveCursor(selCoordErase[4], selCoordErase[5]);
         do Output.printChar(blankSpace);
 
-        do UserInterface.drawTextBox();
+        do UserInterface.drawDialogueBox();
 
         return;
     }

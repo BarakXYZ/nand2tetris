@@ -36,5 +36,5 @@ class Main {
 //     - Combine all techniques into a master challenge
 // - Create an upgraded sprite for @LOLO
 
-// Small bugs:
 // Additional:
+// Adjust dialogues to the new line characters threshold.

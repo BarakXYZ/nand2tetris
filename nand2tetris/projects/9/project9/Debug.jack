@@ -2,16 +2,17 @@ class Debug {
 
     static int countEnter, eventCounter1, eventCounter2, numOfInteractions;
     static int startDebugRowIndex, startDebugColIndex;
-    static String currQuest;
+    static String currQuest, bufferDebugTitle;
 
     function void init() {
         let startDebugRowIndex = 0;
-        let startDebugColIndex = 58;
+        let startDebugColIndex = 56;
         let countEnter = 0;
         let eventCounter1 = 0;
         let eventCounter2 = 0;
         let currQuest = "Active Quest: ";
         let numOfInteractions = 0;
+        let bufferDebugTitle = "buf:";
         return;
     }
     
@@ -61,12 +62,9 @@ class Debug {
     }
 
     function void activeBuff() {
-        var String str;
-        let str = "buf:";
         do Output.moveCursor(startDebugRowIndex + 5, startDebugColIndex);
-        do Output.printString(str);
+        do Output.printString(bufferDebugTitle);
         do Output.printInt(Challenge.getSelBuffIndex());
-        do str.dispose();
         return;
     }
 
