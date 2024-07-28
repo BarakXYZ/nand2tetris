@@ -842,7 +842,7 @@ sub
 push static 29
 push static 32
 push static 29
-push constant 16
+push constant 14
 add
 call UserInterface.drawUnfilledRec 4
 pop temp 0

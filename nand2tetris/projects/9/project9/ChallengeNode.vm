@@ -252,7 +252,7 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
-push constant 3
+push constant 4
 call Array.new 1
 pop this 25
 push constant 0
@@ -275,6 +275,14 @@ push constant 2
 push this 25
 add
 push this 18
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push this 25
+add
+push this 19
 pop temp 0
 pop pointer 1
 push temp 0
@@ -433,6 +441,9 @@ push this 17
 call String.dispose 1
 pop temp 0
 push this 18
+call String.dispose 1
+pop temp 0
+push this 19
 call String.dispose 1
 pop temp 0
 push this 20
