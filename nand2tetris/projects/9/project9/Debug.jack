@@ -1,16 +1,17 @@
 class Debug {
 
     static int countEnter, eventCounter1, eventCounter2, numOfInteractions;
+    static int startDebugRowIndex, startDebugColIndex;
     static String currQuest;
 
     function void init() {
-
+        let startDebugRowIndex = 0;
+        let startDebugColIndex = 58;
         let countEnter = 0;
         let eventCounter1 = 0;
         let eventCounter2 = 0;
         let currQuest = "Active Quest: ";
         let numOfInteractions = 0;
-
         return;
     }
     
@@ -22,32 +23,52 @@ class Debug {
     }
 
     function void key(char c) {
-        do Output.moveCursor(22,60);
+        do Output.moveCursor(startDebugRowIndex, startDebugColIndex);
         do Output.printInt(c);
         return;
     }
 
     function void event() {
         let eventCounter1 = eventCounter1 + 1;
-        do Output.moveCursor(21,60);
+        do Output.moveCursor(startDebugRowIndex + 1, startDebugColIndex);
         do Output.printInt(eventCounter1);
     return;
     }
 
     function void event2() {
         let eventCounter2 = eventCounter2 + 1;
-        do Output.moveCursor(20,60);
+        do Output.moveCursor(startDebugRowIndex + 2, startDebugColIndex);
         do Output.printInt(eventCounter2);
         return;
     }
 
-    function void strLen(int len, int row, int col) {
-        do Output.moveCursor(row, col);
-        do Output.printInt(len);
-
+    function void activeQuest() {
+        do Output.moveCursor(startDebugRowIndex + 3, startDebugColIndex);
+        // do Output.printString(currQuest);
+        do Output.printInt(QuestManager.getActive());
         return;
     }
 
+    function void interactions() {
+        var String str;
+        let str = "act:";
+        let numOfInteractions = numOfInteractions + 1;
+        do Output.moveCursor(startDebugRowIndex + 4, startDebugColIndex);
+        do Output.printString(str);
+        do Output.printInt(numOfInteractions);
+        do str.dispose();
+        return;
+    }
+
+    function void activeBuff() {
+        var String str;
+        let str = "buf:";
+        do Output.moveCursor(startDebugRowIndex + 5, startDebugColIndex);
+        do Output.printString(str);
+        do Output.printInt(Challenge.getSelBuffIndex());
+        do str.dispose();
+        return;
+    }
 
     function void gridX(int j) {
         var int i;
@@ -106,34 +127,6 @@ class Debug {
             let i = i + 1;
             let n = n + 1;
         }
-        return;
-    }
-
-    function void activeQuest() {
-        do Output.moveCursor(19, 60);
-        // do Output.printString(currQuest);
-        do Output.printInt(QuestManager.getActive());
-        return;
-    }
-
-    function void interactions() {
-        var String str;
-        let str = "act:";
-        let numOfInteractions = numOfInteractions + 1;
-        do Output.moveCursor(18, 57);
-        do Output.printString(str);
-        do Output.printInt(numOfInteractions);
-        do str.dispose();
-        return;
-    }
-
-    function void activeBuff() {
-        var String str;
-        let str = "buf:";
-        do Output.moveCursor(17, 57);
-        do Output.printString(str);
-        do Output.printInt(Challenge.getSelBuffIndex());
-        do str.dispose();
         return;
     }
 

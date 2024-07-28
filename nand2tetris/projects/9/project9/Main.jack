@@ -11,6 +11,7 @@ class Main {
         do ChallengeBuffer.init();
         do ChallengeNode.init();
         do ContentNode.init();
+        do DialogueNode.init();
         do Sprites.init();
         do Draw.init();
         do Draw.spriteDirect();  // Preview Sprite fast
@@ -37,5 +38,3 @@ class Main {
 
 // Small bugs:
 // Additional:
-// Make the dialogue have index for where we are in the dialogue
-// Fix the quit menu thingy

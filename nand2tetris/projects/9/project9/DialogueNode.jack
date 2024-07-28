@@ -1,11 +1,18 @@
 class DialogueNode {
 
     field int currentLine, lastLine, numOfBatches, currentBatch;
+    field int subDialogueIndex, totalDialogues;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
     field String t15, t16, t17, t18, t19, t20, t21, t22, t23;
     field String td0, td1, td2, td3;
     field Array mainDialogue, defaultDialogue;
     field boolean hasEnded;
+    static char slashSymbol;
+
+    function void init() {
+        let slashSymbol = 47;
+        return;
+    }
 
     method void draw(boolean isDefault) {
         var int i;
@@ -17,14 +24,27 @@ class DialogueNode {
             if (isDefault) { do Output.printString(defaultDialogue[i]); }
             else { do Output.printString(mainDialogue[currentLine + i]); }
             let i = i + 1;
-        }
-        let i = 0;
+        } let i = 0;
+
+        do drawDialogueEnumeration();
 
         if (~hasEnded) {
+            let subDialogueIndex = subDialogueIndex + 1;
             let currentLine = currentLine + 4;
-            if (currentLine = lastLine) { let hasEnded = true; }
+            if (currentLine = lastLine) {
+                let subDialogueIndex = 1;
+                let totalDialogues = 1;
+                let hasEnded = true;
+            }
         }
+        return;
+    }
 
+    method void drawDialogueEnumeration() {
+        do Output.moveCursor(19, 60);
+        do Output.printInt(subDialogueIndex);
+        do Output.printChar(slashSymbol);
+        do Output.printInt(totalDialogues);
         return;
     }
 
@@ -39,14 +59,16 @@ class DialogueNode {
 
     method void initNodeParams(int aLastLine) {
         let lastLine = aLastLine;
+        let totalDialogues = lastLine / 4;
+        let subDialogueIndex = 1;
         let currentLine = 0;
         return;
     }
 
     method void assignDialogueToArr() {
-        
-        let defaultDialogue = Array.new(4);
+
         let mainDialogue = Array.new(24);
+        let defaultDialogue = Array.new(6);
 
         let mainDialogue[0] = t0;
         let mainDialogue[1] = t1;
@@ -301,7 +323,7 @@ class DialogueNode {
         let td0 = "Hey again!";
         let td1 = "Have you managed to beat GNIRUT?!";
         let td2 = "Once you do, you'll know its value.";
-        let td3 = "You got this!";
+        let td3 = "aosdmf";
 
         do assignDialogueToArr();
 
@@ -309,7 +331,7 @@ class DialogueNode {
     }
 
     constructor DialogueNode makeNode32() {
-        do initNodeParams(0);
+        do initNodeParams(4);
         let hasEnded = true;
 
         let t0 = "";
@@ -353,7 +375,7 @@ class DialogueNode {
     }
 
     constructor DialogueNode makeNode33() {
-        do initNodeParams(0);
+        do initNodeParams(4);
         let hasEnded = true;
 
         let t0 = "";
@@ -442,7 +464,7 @@ class DialogueNode {
     }
 
     constructor DialogueNode makeNode41() {
-        do initNodeParams(0);
+        do initNodeParams(4);
         let hasEnded = true;  // Enemy Dialogue == true
 
         let t0 = "";
