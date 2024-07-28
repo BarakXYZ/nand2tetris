@@ -48,8 +48,7 @@ class Input {
 
         do Output.moveCursor(0,0);
         do Output.printString("Are you sure you want to quit?");
-        do Output.moveCursor(1,0);
-        do Output.printString("       [Y]es / [N]o");
+        do Output.printString(" [Y]es/[N]o");
         do Sys.wait(500);
 
         while ((~(c = 78)) & (~(c = 89))) {

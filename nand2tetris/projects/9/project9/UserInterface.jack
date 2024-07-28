@@ -51,11 +51,11 @@ class UserInterface {
         let unknownFriend = "** ? **";
         let callingFriend = "** ! **";
         let clearBarFriend = "       ";
-        let blankPromptLine = "                                    ";
+        let blankPromptLine = "                                                  ";
         let incorrectSignal = "XXX Incorrect, try again XXX";
         let escapeInstruction = " ** Press 'Escape' to Exit Current Mode **";
         let enterInstruction = " ** Press 'Enter' to continue **";
-        let clearInstruction = "                                            ";
+        let clearInstruction = "                                                 ";
         return;
     }
 
@@ -338,7 +338,14 @@ class UserInterface {
         do Output.printString(blankPromptLine);
         do Output.moveCursor(1,0);
         do Output.printString(blankPromptLine);
+        do UserInterface.drawUI();
+        return;
+    }
 
+    function void drawUI() {
+        do UserInterface.drawChallengeFrame();
+        do UserInterface.drawViewport();
+        do UserInterface.drawContentFrame();
         return;
     }
 
