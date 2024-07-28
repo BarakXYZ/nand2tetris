@@ -13,7 +13,7 @@ class DialogueNode {
         do UserInterface.clearDialogueBox();
 
         while (i < 4) {
-            do Output.moveCursor(16 + i, 18);
+            do Output.moveCursor(16 + i, 22);
             if (isDefault) { do Output.printString(defaultDialogue[i]); }
             else { do Output.printString(mainDialogue[currentLine + i]); }
             let i = i + 1;

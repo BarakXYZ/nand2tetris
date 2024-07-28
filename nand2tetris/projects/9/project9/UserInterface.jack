@@ -1,10 +1,10 @@
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
     static String challengeInstruction, escapeInstruction, clearInstruction;
-    static String enterInstruction, arrowInst, arrowInstClear;
+    static String enterInstruction, arrowInstruction, arrowInstClear;
     static char selRightArrow, selLeftArrow, blankSpace, asterisk, atSign;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
-    static String challengeTitle, tempTitle, contentTitle, lookupTitle;
+    static String challengeTitle, commentTitle, contentTitle, lookupTitle;
     static Array selCoordAnswer, selCoordLookUp;
     static String blankPromptLine, incorrectSignal;
     static int vpX1, vpX2, vpY1, vpY2, vpOffY1, vpOffY2;
@@ -25,7 +25,7 @@ class UserInterface {
 
     function void initStrCoords() {
         let maxTitleLen = 30;
-        let titleStartRowIndex = 3;
+        let titleStartRowIndex = 2;
         let titleStartColumnIndex = 16;
         return;
     }
@@ -43,9 +43,9 @@ class UserInterface {
         let challengeInstruction = "[C]hallenge Mode";
         let lookupTitle = "[L]ookup Address";
         let challengeTitle = "Challenge";
-        let tempTitle = "temp";
+        let commentTitle = "Comment";
         let contentTitle = "Content";
-        let arrowInst = "Up-Down to Nav Buffers";
+        let arrowInstruction = "Up-Down to Nav Buffers";
         let arrowInstClear = "                      ";
         let currentSelFriend = ">> @ <<";
         let unknownFriend = "** ? **";
@@ -70,9 +70,9 @@ class UserInterface {
         
         let coX2 = 511;
         let chX1 = 0;
-        let chX2 = 80;
+        let chX2 = 84;
 
-        let vpOffY1 = 25;
+        let vpOffY1 = 14;
         let vpOffY2 = 55;
 
         return;
@@ -112,7 +112,7 @@ class UserInterface {
 
     function void drawViewport() {
         do Screen.setColor(true);
-        do UserInterface.drawUnfilledRec(vpX1, vpY1, vpX2, vpY2 - 129);  // title
+        do UserInterface.drawUnfilledRec(vpX1, vpY1, vpX2, vpY1 + vpOffY1);  // title
         do UserInterface.drawUnfilledRec(vpX1, vpY1 + vpOffY1, vpX2, vpY2);  // viewport
         return;
     }
@@ -126,23 +126,23 @@ class UserInterface {
     function void drawChallengeFrame() {
         do Screen.setColor(true);
         do UserInterface.drawUnfilledRec(chX1, vpY1, vpX1, vpY1 + vpOffY1);  // title
-        do Output.moveCursor(3, 1);
+        do Output.moveCursor(titleStartRowIndex, 1);
         do Output.printString(challengeTitle);
-        do Output.moveCursor(3, 12);
-        do Output.printString(tempTitle);
+        do Output.moveCursor(titleStartRowIndex, 12);
+        do Output.printString(commentTitle);
         do Output.moveCursor(21, 0);
         do Output.printString(challengeInstruction);  // [A]nswer
 
         do UserInterface.drawUnfilledRec(chX1, vpY1, chX2, vpY2);  // Code Frame
         do UserInterface.drawUnfilledRec(chX2, vpY1, vpX1, vpY2);  // Comment Frame
-        do UserInterface.drawUnfilledRec(chX1, vpY2, vpX1, vpY2 + vpOffY2);  // Answer Frame
+        do UserInterface.drawUnfilledRec(chX1, vpY2, vpX1, vpY2+vpOffY2);  // Answer Frame
         return;
     }
 
     function void drawContentFrame() {
         do Screen.setColor(true);
         do UserInterface.drawUnfilledRec(vpX2, vpY1, coX2, vpY1 + vpOffY1);  // title
-        do Output.moveCursor(3, 50);
+        do Output.moveCursor(titleStartRowIndex, 48);
         do Output.printString(contentTitle);
 
         do UserInterface.drawUnfilledRec(vpX2, vpY1 + vpOffY1, coX2, vpY2);  // frame
@@ -262,7 +262,7 @@ class UserInterface {
     }
 
     function void drawChallengeSel(int selBuffer, boolean draw) {
-        let selBuffer = selBuffer + 5;  // 5 being the base index row (0)
+        let selBuffer = selBuffer + 4;  // 5 being the base index row (0)
         do Output.moveCursor(selBuffer, 21);
 
         if (draw) { do Output.printChar(selLeftArrow); }
@@ -272,11 +272,10 @@ class UserInterface {
         do UserInterface.drawTextBox();
 
         do Output.moveCursor(21, 17);
-        // do Output.moveCursor(22, 8);  // old mid
         if (draw) {
             do Output.printChar(asterisk);
             do Output.moveCursor(22, 0);
-            do Output.printString(arrowInst);
+            do Output.printString(arrowInstruction);
         }
         else {
             do Output.printChar(32);
@@ -345,7 +344,7 @@ class UserInterface {
 
     function void clearDialogueBox() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(vpX1 + 1, vpY2 + 1, 439, 228);
+        do Screen.drawRectangle(vpX1 + 1, vpY2 + 1, 511, vpY2+vpOffY2-1);
         do Screen.setColor(true);
         return;
     }
@@ -354,7 +353,7 @@ class UserInterface {
         do Screen.setColor(false);
         do Screen.drawRectangle(1, vpY1 + 1, 79, vpY2 - 1);  // Code Frame
         do Screen.drawRectangle(81, vpY1 + 1, vpX1 - 1, vpY2 - 1);  // Comment Frame
-        do Screen.drawRectangle(1, vpY2 + 1, vpX1 - 1, 228);  // Answer Frame
+        do Screen.drawRectangle(1, vpY2 + 1, vpX1 - 1, vpY2+vpOffY2-1);  // Answer Frame
         do Screen.setColor(true);
         return;
     }
@@ -375,7 +374,7 @@ class UserInterface {
 
     function void clearChallengeAnswer() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(chX1 + 1, vpY2 + 1, vpX1 - 1, 228);  // Answer Frame
+        do Screen.drawRectangle(chX1 + 1, vpY2 + 1, vpX1 - 1, vpY2+vpOffY2-1);  // Answer Frame
         do Screen.setColor(true);
         return;
     }
@@ -399,7 +398,7 @@ class UserInterface {
 
     function void clearViewportTitle() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(vpX1 + 1, vpY1 + 1, vpX2 - 1, 44);
+        do Screen.drawRectangle(vpX1 + 1, vpY1 + 1, vpX2 - 1, vpY1 + vpOffY1 - 1);
         do Screen.setColor(true);
         return;
     }

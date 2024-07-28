@@ -14,7 +14,7 @@ if-goto WHILE_END0
 push constant 16
 push local 0
 add
-push constant 18
+push constant 22
 call Output.moveCursor 2
 pop temp 0
 push argument 1

@@ -1,14 +1,14 @@
 class ChallengeBuffer {
     field String buff0, buff1, buff2, buff3, buff4, buff5, buff6, buff7, buff8;
-    field String buff9, buff10, buff11, buff12, buff13, buff14;
+    field String buff9, buff10, buff11, buff12, buff13, buff14, buff15;
     field Array arrBuff;
     field int strSize; 
 
     static int buffSize, startRow, startCol; 
 
     function void init() {
-        let buffSize = 15;  // Skipping 11, so 14 defacto
-        let startRow = 5;
+        let buffSize = 16;  // Skipping 11, so 15 defacto
+        let startRow = 4;
         let startCol = 11;
         return;
     }
@@ -30,8 +30,9 @@ class ChallengeBuffer {
         let buff12 = String.new(strSize);
         let buff13 = String.new(strSize);
         let buff14 = String.new(strSize);
+        let buff15 = String.new(strSize);
 
-        let arrBuff = Array.new(15);
+        let arrBuff = Array.new(buffSize);
 
         let arrBuff[0] = buff0;
         let arrBuff[1] = buff1;
@@ -48,6 +49,7 @@ class ChallengeBuffer {
         let arrBuff[12] = buff12;
         let arrBuff[13] = buff13;
         let arrBuff[14] = buff14;
+        let arrBuff[15] = buff15;
 
         return this;
     }
@@ -93,6 +95,7 @@ class ChallengeBuffer {
         do buff12.dispose();
         do buff13.dispose();
         do buff14.dispose();
+        do buff15.dispose();
 
         do arrBuff.dispose();
 

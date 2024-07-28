@@ -1,6 +1,6 @@
 class Challenge {
 
-        static int maxLen, row, col;
+        static int maxLen, buffStartRow, col;
         static String selBuff, tempBuff;
         static Array buffArr, trackBuffArr;
         static int selBuffIndex, groupBuffIndex;
@@ -13,7 +13,7 @@ class Challenge {
 
         function void init() {
             do Challenge.initBuffers();
-            let row = 5;
+            let buffStartRow = 4;
             let col = 11;
             let selBuff = currentBuffer.getBufferAt(12);  // default buffer
             let tempBuff = currentBuffer.getBufferAt(12);  // default buffer
@@ -115,20 +115,20 @@ class Challenge {
         }
 
         //** Append Characater:
-        // Prints the updated string to the given row & col coords */
+        // Prints the updated string to the given buffStartRow & col coords */
         function void appendChar(char c) {
             do selBuff.appendChar(c);  // built-in String method
-            do Output.moveCursor(row + selBuffIndex, col);
+            do Output.moveCursor(buffStartRow + selBuffIndex, col);
             do Output.printString(selBuff);
             return;
         }
 
         //** Erase Character:
-        // Prints the updated string to the given row & col coords */
+        // Prints the updated string to the given buffStartRow & col coords */
         function void eraseChar() {
             // Clean old screen buffer (last char)
             do selBuff.appendChar(String.backSpace());
-            do Output.moveCursor(row + selBuffIndex, col);
+            do Output.moveCursor(buffStartRow + selBuffIndex, col);
             do Output.printString(selBuff);
 
             do selBuff.eraseLastChar();  // erase backspace
@@ -139,7 +139,7 @@ class Challenge {
         function void upArrow() {
             let isArrow = true;
             do UserInterface.drawChallengeSel(selBuffIndex, false);
-            if (selBuffIndex = 0) { let selBuffIndex = 14; }
+            if (selBuffIndex = 0) { let selBuffIndex = 15; }
             else { 
                 if (selBuffIndex = 12) { let selBuffIndex = 10; }
                 else { let selBuffIndex = selBuffIndex - 1; } 
@@ -151,7 +151,7 @@ class Challenge {
         function void downArrow() {
             let isArrow = true;
             do UserInterface.drawChallengeSel(selBuffIndex, false);
-            if (selBuffIndex = 14) { let selBuffIndex = 0; }
+            if (selBuffIndex = 15) { let selBuffIndex = 0; }
             else { 
                 if (selBuffIndex = 10) { let selBuffIndex = 12; }
                 else { let selBuffIndex = selBuffIndex + 1; } 
