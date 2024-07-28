@@ -37,4 +37,5 @@ class Main {
 
 // Small bugs:
 // Additional:
-// 1. We have to expand the UI to allow more comments (make it more spacious)
+// Make the dialogue have index for where we are in the dialogue
+// Fix the quit menu thingy

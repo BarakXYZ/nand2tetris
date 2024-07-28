@@ -8,8 +8,8 @@ class ContentNode {
     static Array arrFixedTitleContent;
     
     function void init() {
-        let baseRow = 5;
-        let baseCol = 45;
+        let baseRow = 4;
+        let baseCol = 41;
         
         let tName = "SymName: ";
         let tAddr = "Address: ";
@@ -48,7 +48,7 @@ class ContentNode {
         }
 
         do UserInterface.printAlignedTitle(arrContent[0]);  // Name
-        let baseRow = 5;  // Reset
+        let baseRow = 4;  // Reset
 
         return;
     }
