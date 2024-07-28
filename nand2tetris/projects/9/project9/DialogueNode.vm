@@ -10,6 +10,8 @@ push constant 0
 pop local 0
 call UserInterface.clearDialogueBox 0
 pop temp 0
+call UserInterface.drawDialogueBox 0
+pop temp 0
 label WHILE_EXP0
 push local 0
 push constant 4
@@ -22,11 +24,14 @@ add
 push constant 22
 call Output.moveCursor 2
 pop temp 0
-push argument 1
+push this 37
+not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push this 0
 push local 0
+add
 push this 35
 add
 pop pointer 1
@@ -35,10 +40,8 @@ call Output.printString 1
 pop temp 0
 goto IF_END0
 label IF_FALSE0
-push this 0
 push local 0
-add
-push this 34
+push this 36
 add
 pop pointer 1
 push that 0
@@ -51,12 +54,10 @@ add
 pop local 0
 goto WHILE_EXP0
 label WHILE_END0
-push constant 0
-pop local 0
 push pointer 0
 call DialogueNode.drawDialogueEnumeration 1
 pop temp 0
-push this 36
+push this 37
 not
 if-goto IF_TRUE1
 goto IF_FALSE1
@@ -81,7 +82,7 @@ push constant 1
 pop this 5
 push constant 0
 not
-pop this 36
+pop this 37
 label IF_FALSE2
 label IF_FALSE1
 push constant 0
@@ -89,7 +90,7 @@ return
 function DialogueNode.drawDialogueEnumeration 0
 push argument 0
 pop pointer 0
-push constant 19
+push constant 16
 push constant 60
 call Output.moveCursor 2
 pop temp 0
@@ -109,13 +110,13 @@ push argument 0
 pop pointer 0
 push constant 0
 not
-pop this 36
+pop this 37
 push constant 0
 return
 function DialogueNode.hasEnded 0
 push argument 0
 pop pointer 0
-push this 36
+push this 37
 return
 function DialogueNode.initNodeParams 0
 push argument 0
@@ -137,12 +138,9 @@ push argument 0
 pop pointer 0
 push constant 24
 call Array.new 1
-pop this 34
-push constant 6
-call Array.new 1
 pop this 35
 push constant 0
-push this 34
+push this 35
 add
 push this 6
 pop temp 0
@@ -150,7 +148,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push this 34
+push this 35
 add
 push this 7
 pop temp 0
@@ -158,7 +156,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push this 34
+push this 35
 add
 push this 8
 pop temp 0
@@ -166,7 +164,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push this 34
+push this 35
 add
 push this 9
 pop temp 0
@@ -174,7 +172,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push this 34
+push this 35
 add
 push this 10
 pop temp 0
@@ -182,7 +180,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 5
-push this 34
+push this 35
 add
 push this 11
 pop temp 0
@@ -190,7 +188,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 6
-push this 34
+push this 35
 add
 push this 12
 pop temp 0
@@ -198,7 +196,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 7
-push this 34
+push this 35
 add
 push this 13
 pop temp 0
@@ -206,7 +204,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 8
-push this 34
+push this 35
 add
 push this 14
 pop temp 0
@@ -214,7 +212,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 9
-push this 34
+push this 35
 add
 push this 15
 pop temp 0
@@ -222,7 +220,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 10
-push this 34
+push this 35
 add
 push this 16
 pop temp 0
@@ -230,7 +228,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 11
-push this 34
+push this 35
 add
 push this 17
 pop temp 0
@@ -238,7 +236,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 12
-push this 34
+push this 35
 add
 push this 18
 pop temp 0
@@ -246,7 +244,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 13
-push this 34
+push this 35
 add
 push this 19
 pop temp 0
@@ -254,7 +252,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 14
-push this 34
+push this 35
 add
 push this 20
 pop temp 0
@@ -262,7 +260,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 15
-push this 34
+push this 35
 add
 push this 21
 pop temp 0
@@ -270,7 +268,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 16
-push this 34
+push this 35
 add
 push this 22
 pop temp 0
@@ -278,7 +276,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 17
-push this 34
+push this 35
 add
 push this 23
 pop temp 0
@@ -286,7 +284,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 18
-push this 34
+push this 35
 add
 push this 24
 pop temp 0
@@ -294,7 +292,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 19
-push this 34
+push this 35
 add
 push this 25
 pop temp 0
@@ -302,7 +300,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 20
-push this 34
+push this 35
 add
 push this 26
 pop temp 0
@@ -310,7 +308,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 21
-push this 34
+push this 35
 add
 push this 27
 pop temp 0
@@ -318,7 +316,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 22
-push this 34
+push this 35
 add
 push this 28
 pop temp 0
@@ -326,15 +324,18 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 23
-push this 34
+push this 35
 add
 push this 29
 pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+push constant 5
+call Array.new 1
+pop this 36
 push constant 0
-push this 35
+push this 36
 add
 push this 30
 pop temp 0
@@ -342,7 +343,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push this 35
+push this 36
 add
 push this 31
 pop temp 0
@@ -350,7 +351,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push this 35
+push this 36
 add
 push this 32
 pop temp 0
@@ -358,9 +359,17 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push this 35
+push this 36
 add
 push this 33
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push this 36
+add
+push this 34
 pop temp 0
 pop pointer 1
 push temp 0
@@ -455,9 +464,12 @@ push this 33
 call String.dispose 1
 pop temp 0
 push this 34
-call Array.dispose 1
+call String.dispose 1
 pop temp 0
 push this 35
+call Array.dispose 1
+pop temp 0
+push this 36
 call Array.dispose 1
 pop temp 0
 push pointer 0
@@ -466,7 +478,7 @@ pop temp 0
 push constant 0
 return
 function DialogueNode.makeNode0 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -474,7 +486,7 @@ push constant 12
 call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
-pop this 36
+pop this 37
 push constant 29
 call String.new 1
 push constant 72
@@ -1321,13 +1333,16 @@ pop this 32
 push constant 0
 call String.new 1
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode1 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -1335,7 +1350,7 @@ push constant 24
 call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
-pop this 36
+pop this 37
 push constant 29
 call String.new 1
 push constant 84
@@ -2790,13 +2805,16 @@ pop this 32
 push constant 0
 call String.new 1
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode2 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -2804,7 +2822,7 @@ push constant 20
 call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
-pop this 36
+pop this 37
 push constant 9
 call String.new 1
 push constant 78
@@ -3895,13 +3913,16 @@ pop this 32
 push constant 0
 call String.new 1
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode31 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -3909,7 +3930,7 @@ push constant 20
 call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
-pop this 36
+pop this 37
 push constant 31
 call String.new 1
 push constant 80
@@ -5235,28 +5256,39 @@ call String.appendChar 2
 push constant 46
 call String.appendChar 2
 pop this 32
-push constant 6
+push constant 10
 call String.new 1
-push constant 97
+push constant 71
 call String.appendChar 2
 push constant 111
 call String.appendChar 2
-push constant 115
+push constant 32
 call String.appendChar 2
-push constant 100
+push constant 103
 call String.appendChar 2
-push constant 109
+push constant 101
 call String.appendChar 2
-push constant 102
+push constant 116
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 33
 call String.appendChar 2
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode32 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -5265,7 +5297,7 @@ call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
 not
-pop this 36
+pop this 37
 push constant 0
 call String.new 1
 pop this 6
@@ -5510,13 +5542,16 @@ call String.appendChar 2
 push constant 64
 call String.appendChar 2
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode33 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -5525,7 +5560,7 @@ call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
 not
-pop this 36
+pop this 37
 push constant 0
 call String.new 1
 pop this 6
@@ -5762,13 +5797,16 @@ pop this 32
 push constant 0
 call String.new 1
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode40 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -5776,7 +5814,7 @@ push constant 8
 call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
-pop this 36
+pop this 37
 push constant 33
 call String.new 1
 push constant 87
@@ -6449,13 +6487,16 @@ call String.appendChar 2
 push constant 33
 call String.appendChar 2
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0
 push pointer 0
 return
 function DialogueNode.makeNode41 0
-push constant 37
+push constant 38
 call Memory.alloc 1
 pop pointer 0
 push pointer 0
@@ -6464,7 +6505,7 @@ call DialogueNode.initNodeParams 2
 pop temp 0
 push constant 0
 not
-pop this 36
+pop this 37
 push constant 0
 call String.new 1
 pop this 6
@@ -6707,6 +6748,9 @@ call String.appendChar 2
 push constant 41
 call String.appendChar 2
 pop this 33
+push constant 0
+call String.new 1
+pop this 34
 push pointer 0
 call DialogueNode.assignDialogueToArr 1
 pop temp 0

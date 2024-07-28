@@ -4,7 +4,7 @@ class DialogueNode {
     field int subDialogueIndex, totalDialogues;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
     field String t15, t16, t17, t18, t19, t20, t21, t22, t23;
-    field String td0, td1, td2, td3;
+    field String td0, td1, td2, td3, td4;
     field Array mainDialogue, defaultDialogue;
     field boolean hasEnded;
     static char slashSymbol;
@@ -18,13 +18,14 @@ class DialogueNode {
         var int i;
         let i = 0;
         do UserInterface.clearDialogueBox();
+        do UserInterface.drawDialogueBox();
 
         while (i < 4) {
             do Output.moveCursor(16 + i, 22);
-            if (isDefault) { do Output.printString(defaultDialogue[i]); }
-            else { do Output.printString(mainDialogue[currentLine + i]); }
+            if (~(hasEnded)) { do Output.printString(mainDialogue[currentLine+i]); }
+            else { do Output.printString(defaultDialogue[i]); }
             let i = i + 1;
-        } let i = 0;
+        }
 
         do drawDialogueEnumeration();
 
@@ -41,7 +42,7 @@ class DialogueNode {
     }
 
     method void drawDialogueEnumeration() {
-        do Output.moveCursor(19, 60);
+        do Output.moveCursor(16, 60);
         do Output.printInt(subDialogueIndex);
         do Output.printChar(slashSymbol);
         do Output.printInt(totalDialogues);
@@ -68,7 +69,6 @@ class DialogueNode {
     method void assignDialogueToArr() {
 
         let mainDialogue = Array.new(24);
-        let defaultDialogue = Array.new(6);
 
         let mainDialogue[0] = t0;
         let mainDialogue[1] = t1;
@@ -100,10 +100,12 @@ class DialogueNode {
         let mainDialogue[22] = t22;
         let mainDialogue[23] = t23;
 
+        let defaultDialogue = Array.new(5);
         let defaultDialogue[0] = td0;
         let defaultDialogue[1] = td1;
         let defaultDialogue[2] = td2;
         let defaultDialogue[3] = td3;
+        let defaultDialogue[4] = td4;
 
         return;
     }
@@ -144,6 +146,7 @@ class DialogueNode {
         do td1.dispose();
         do td2.dispose();
         do td3.dispose();
+        do td4.dispose();
 
         do mainDialogue.dispose();
         do defaultDialogue.dispose();
@@ -193,6 +196,7 @@ class DialogueNode {
         let td1 = "";
         let td2 = "";
         let td3 = "";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -237,6 +241,7 @@ class DialogueNode {
         let td1 = "";
         let td2 = "";
         let td3 = "";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -280,6 +285,7 @@ class DialogueNode {
         let td1 = "";
         let td2 = "";
         let td3 = "";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -323,7 +329,8 @@ class DialogueNode {
         let td0 = "Hey again!";
         let td1 = "Have you managed to beat GNIRUT?!";
         let td2 = "Once you do, you'll know its value.";
-        let td3 = "aosdmf";
+        let td3 = "Go get it!";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -368,6 +375,7 @@ class DialogueNode {
         let td1 = "Wh00p$...";
         let td2 = "*#&(&@(*$&(&%)!*@#&(!*))";
         let td3 = "^&#!@^!^@)#!)!)!)!)@*@";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -412,6 +420,7 @@ class DialogueNode {
         let td1 = "a deadly segmentation fault!";
         let td2 = "I owe you one <3";
         let td3 = "";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -457,6 +466,7 @@ class DialogueNode {
         let td1 = "borg! Have you managed to figure";
         let td2 = "it out yet?!";
         let td3 = "I count on you, you got this!";
+        let td4 = "";
 
         do assignDialogueToArr();
 
@@ -501,6 +511,7 @@ class DialogueNode {
         let td1 = "               I'm there.";
         let td2 = "      I'm everywhere!";
         let td3 = "You got no chance lol(0)";
+        let td4 = "";
 
         do assignDialogueToArr();
 
