@@ -4,48 +4,27 @@ class Dialogue {
     static Array dialogueNodeArr;
 
     function void init() {
+        do Dialogue.initDialogues();
+        return;
+    }
+
+    function void initDialogues() {
         let dialogueNodeArr = Array.new(5);
+        let dialogueNodeArr[0] = DialogueNode.makeIntro();
+        let dialogueNodeArr[1] = DialogueNode.makeEnemyGNIRUT();
+        let dialogueNodeArr[2] = DialogueNode.makeEnemyLOLO();
+        let currDialogueNode = dialogueNodeArr[0];
         return;
     }
 
     function void makeNode(int quest) {
-
-        if (quest = 0) {
-            let dialogueNodeArr[0] = DialogueNode.makeIntro();
-            let currDialogueNode = dialogueNodeArr[0];
-            return;
-        }
-
-        if (quest = 1) {
-            do currDialogueNode.dispose();
-            let dialogueNodeArr[0] = DialogueNode.makeSHIMON1();
-            let currDialogueNode = dialogueNodeArr[0];
-            return;
-        }
-
-        if (quest = 2) {
-            do currDialogueNode.dispose();
-            let dialogueNodeArr[0] = DialogueNode.makeSHIMON2();
-            let currDialogueNode = dialogueNodeArr[0];
-            return;
-        }
-
-        if (quest = 3) {
-            do currDialogueNode.dispose();
-            let dialogueNodeArr[0] = DialogueNode.makeSHIMON3();
-            let dialogueNodeArr[1] = DialogueNode.makeEnemyGNIRUT();
-            let currDialogueNode = dialogueNodeArr[0];
-            return;
-        }
-
-        if (quest = 4) {
-            do currDialogueNode.dispose();
-            let dialogueNodeArr[0] = DialogueNode.makeSHIMON4();
-            let dialogueNodeArr[2] = DialogueNode.makeEnemyLOLO();
-            let currDialogueNode = dialogueNodeArr[0];
-            return;
-        }
-
+        do currDialogueNode.dispose();
+        if (quest = 0) { let dialogueNodeArr[0] = DialogueNode.makeIntro(); }
+        if (quest = 1) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON1(); }
+        if (quest = 2) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON2(); }
+        if (quest = 3) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON3(); }
+        if (quest = 4) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON4(); }
+        let currDialogueNode = dialogueNodeArr[0];
         return;
     }
 

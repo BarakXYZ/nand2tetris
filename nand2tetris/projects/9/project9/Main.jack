@@ -9,11 +9,11 @@ class Main {
         var int i;
 
         // INIT  (Order matters)
+        do DialogueNode.init();
         do Dialogue.init();
         do ChallengeBuffer.init();
         do ChallengeNode.init();
         do ContentNode.init();
-        do DialogueNode.init();
         do Sprites.init();
         do Draw.init();
         do Draw.spriteDirect();  // Preview Sprite fast

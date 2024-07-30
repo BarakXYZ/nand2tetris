@@ -1,16 +1,12 @@
 function Dialogue.init 0
+call Dialogue.initDialogues 0
+pop temp 0
+push constant 0
+return
+function Dialogue.initDialogues 0
 push constant 5
 call Array.new 1
 pop static 1
-push constant 0
-return
-function Dialogue.makeNode 0
-push argument 0
-push constant 0
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
 push constant 0
 push static 1
 add
@@ -19,114 +15,10 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
-push constant 0
-push static 1
-add
-pop pointer 1
-push that 0
-pop static 0
-push constant 0
-return
-label IF_FALSE0
-push argument 0
-push constant 1
-eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push static 0
-call DialogueNode.dispose 1
-pop temp 0
-push constant 0
-push static 1
-add
-call DialogueNode.makeSHIMON1 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 0
-push static 1
-add
-pop pointer 1
-push that 0
-pop static 0
-push constant 0
-return
-label IF_FALSE1
-push argument 0
-push constant 2
-eq
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
-push static 0
-call DialogueNode.dispose 1
-pop temp 0
-push constant 0
-push static 1
-add
-call DialogueNode.makeSHIMON2 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 0
-push static 1
-add
-pop pointer 1
-push that 0
-pop static 0
-push constant 0
-return
-label IF_FALSE2
-push argument 0
-push constant 3
-eq
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
-push static 0
-call DialogueNode.dispose 1
-pop temp 0
-push constant 0
-push static 1
-add
-call DialogueNode.makeSHIMON3 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
 push constant 1
 push static 1
 add
 call DialogueNode.makeEnemyGNIRUT 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 0
-push static 1
-add
-pop pointer 1
-push that 0
-pop static 0
-push constant 0
-return
-label IF_FALSE3
-push argument 0
-push constant 4
-eq
-if-goto IF_TRUE4
-goto IF_FALSE4
-label IF_TRUE4
-push static 0
-call DialogueNode.dispose 1
-pop temp 0
-push constant 0
-push static 1
-add
-call DialogueNode.makeSHIMON4 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -147,7 +39,91 @@ push that 0
 pop static 0
 push constant 0
 return
+function Dialogue.makeNode 0
+push static 0
+call DialogueNode.dispose 1
+pop temp 0
+push argument 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+push static 1
+add
+call DialogueNode.makeIntro 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE0
+push argument 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+push static 1
+add
+call DialogueNode.makeSHIMON1 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE1
+push argument 0
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+push static 1
+add
+call DialogueNode.makeSHIMON2 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE2
+push argument 0
+push constant 3
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+push static 1
+add
+call DialogueNode.makeSHIMON3 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE3
+push argument 0
+push constant 4
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+push static 1
+add
+call DialogueNode.makeSHIMON4 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 label IF_FALSE4
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 0
 push constant 0
 return
 function Dialogue.updateToFriend 0
