@@ -104,6 +104,7 @@ class NPC {
         if (quest = 2) { let challengeNodes[0] = ChallengeNode.makeChallenge2(); }
         if (quest = 3) { let challengeNodes[0] = ChallengeNode.makeChallenge3(); }
         if (quest = 4) { let challengeNodes[0] = ChallengeNode.makeChallenge4(); }
+        if (quest = 5) { let challengeNodes[0] = ChallengeNode.makeChallenge5(); }
         let currChallengeNode = challengeNodes[0];
         do Challenge.setSelActiveBuffIndex(12);  // Reset Cursor (buffer) location
         return;

@@ -24,6 +24,7 @@ class Dialogue {
         if (quest = 2) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON2(); }
         if (quest = 3) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON3(); }
         if (quest = 4) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON4(); }
+        if (quest = 5) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON5(); }
         let currDialogueNode = dialogueNodeArr[0];
         return;
     }

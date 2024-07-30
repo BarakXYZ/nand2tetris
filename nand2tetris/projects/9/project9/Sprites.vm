@@ -54,7 +54,8 @@ goto IF_FALSE2
 label IF_TRUE2
 push argument 0
 not
-call Sprites.drawEnemy 1
+push local 0
+call Sprites.drawEnemy 2
 pop temp 0
 goto IF_END2
 label IF_FALSE2
@@ -79,7 +80,8 @@ goto IF_FALSE4
 label IF_TRUE4
 push argument 0
 not
-call Sprites.drawEnemy 1
+push local 0
+call Sprites.drawEnemy 2
 pop temp 0
 goto IF_END4
 label IF_FALSE4
@@ -188,6 +190,34 @@ push constant 0
 not
 call Sprites.drawTriangle 6
 pop temp 0
+push argument 1
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push local 8
+sub
+push local 1
+push local 9
+add
+push local 6
+push local 7
+call Sprites.drawHorn 4
+pop temp 0
+push local 0
+push local 8
+add
+push local 1
+push local 9
+add
+push local 6
+neg
+push local 7
+call Sprites.drawHorn 4
+pop temp 0
+label IF_FALSE0
 push constant 0
 not
 call Screen.setColor 1
