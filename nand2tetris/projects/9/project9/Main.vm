@@ -1,4 +1,6 @@
 function Main.main 2
+call DialogueNode.init 0
+pop temp 0
 call Dialogue.init 0
 pop temp 0
 call ChallengeBuffer.init 0
@@ -6,8 +8,6 @@ pop temp 0
 call ChallengeNode.init 0
 pop temp 0
 call ContentNode.init 0
-pop temp 0
-call DialogueNode.init 0
 pop temp 0
 call Sprites.init 0
 pop temp 0
