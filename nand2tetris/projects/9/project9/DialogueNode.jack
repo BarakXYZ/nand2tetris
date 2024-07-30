@@ -66,6 +66,7 @@ class DialogueNode {
         let dialogueLines = aDialogueLines;
         let defaultDialogueLines = aDefaultDialogueLines;
         let dialoguePages = dialogueLines / 4;
+        if (dialoguePages = 0) { let dialoguePages = 1; }
         let subDialogueIndex = 1;
         let currLine = 0;
         return;
@@ -364,7 +365,7 @@ class DialogueNode {
         let td1 = "deadly segmentation fault!";
         let td2 = "I owe you one (or zero) <3";
         let td3 = "";
-        let td4 = "";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
         do assignDialogueToArr();
@@ -407,7 +408,7 @@ class DialogueNode {
         let td1 = "               I'm there.";
         let td2 = "      I'm everywhere!";
         let td3 = "You got no chance lo10";
-        let td4 = "ASKJAKLSJDLKJAS";  // Again, some weird stuff without this
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
         do assignDialogueToArr();

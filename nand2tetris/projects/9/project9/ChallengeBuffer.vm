@@ -1,67 +1,67 @@
 function ChallengeBuffer.init 0
 push constant 16
-pop static 0
-push constant 4
 pop static 1
 push constant 11
 pop static 2
+push constant 4
+pop static 3
+push constant 11
+pop static 4
 push constant 0
 return
 function ChallengeBuffer.new 0
-push constant 18
+push constant 17
 call Memory.alloc 1
 pop pointer 0
-push constant 11
-pop this 17
-push this 17
+push static 2
 call String.new 1
 pop this 0
-push this 17
+push static 2
 call String.new 1
 pop this 1
-push this 17
+push static 2
 call String.new 1
 pop this 2
-push this 17
+push static 2
 call String.new 1
 pop this 3
-push this 17
+push static 2
 call String.new 1
 pop this 4
-push this 17
+push static 2
 call String.new 1
 pop this 5
-push this 17
+push static 2
 call String.new 1
 pop this 6
-push this 17
+push static 2
 call String.new 1
 pop this 7
-push this 17
+push static 2
 call String.new 1
 pop this 8
-push this 17
+push static 2
 call String.new 1
 pop this 9
-push this 17
+push static 2
 call String.new 1
 pop this 10
-push this 17
+push static 2
 call String.new 1
 pop this 11
-push this 17
+push static 2
 call String.new 1
 pop this 12
-push this 17
+push static 2
 call String.new 1
 pop this 13
-push this 17
+push static 2
 call String.new 1
 pop this 14
-push this 17
+push static 2
 call String.new 1
 pop this 15
-push static 0
+push static 1
 call Array.new 1
 pop this 16
 push constant 0
@@ -206,7 +206,7 @@ return
 function ChallengeBuffer.getMaxStrLen 0
 push argument 0
 pop pointer 0
-push this 17
+push static 2
 return
 function ChallengeBuffer.draw 1
 push argument 0
@@ -215,7 +215,7 @@ push constant 0
 pop local 0
 label WHILE_EXP0
 push local 0
-push static 0
+push static 1
 lt
 not
 if-goto WHILE_END0
@@ -230,10 +230,10 @@ push constant 1
 add
 pop local 0
 label IF_FALSE0
-push static 1
+push static 3
 push local 0
 add
-push static 2
+push static 4
 call Output.moveCursor 2
 pop temp 0
 push local 0
@@ -251,57 +251,32 @@ goto WHILE_EXP0
 label WHILE_END0
 push constant 0
 return
-function ChallengeBuffer.dispose 0
+function ChallengeBuffer.dispose 1
 push argument 0
 pop pointer 0
-push this 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push static 1
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 16
+add
+pop pointer 1
+push that 0
+pop static 0
+push static 0
 call String.dispose 1
 pop temp 0
-push this 1
-call String.dispose 1
-pop temp 0
-push this 2
-call String.dispose 1
-pop temp 0
-push this 3
-call String.dispose 1
-pop temp 0
-push this 4
-call String.dispose 1
-pop temp 0
-push this 5
-call String.dispose 1
-pop temp 0
-push this 6
-call String.dispose 1
-pop temp 0
-push this 7
-call String.dispose 1
-pop temp 0
-push this 8
-call String.dispose 1
-pop temp 0
-push this 9
-call String.dispose 1
-pop temp 0
-push this 10
-call String.dispose 1
-pop temp 0
-push this 11
-call String.dispose 1
-pop temp 0
-push this 12
-call String.dispose 1
-pop temp 0
-push this 13
-call String.dispose 1
-pop temp 0
-push this 14
-call String.dispose 1
-pop temp 0
-push this 15
-call String.dispose 1
-pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
 push this 16
 call Array.dispose 1
 pop temp 0
