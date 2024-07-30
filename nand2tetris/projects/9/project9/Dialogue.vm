@@ -14,7 +14,7 @@ label IF_TRUE0
 push constant 0
 push static 1
 add
-call DialogueNode.makeNode0 0
+call DialogueNode.makeIntro 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -40,7 +40,7 @@ pop temp 0
 push constant 0
 push static 1
 add
-call DialogueNode.makeNode1 0
+call DialogueNode.makeSHIMON1 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -66,7 +66,7 @@ pop temp 0
 push constant 0
 push static 1
 add
-call DialogueNode.makeNode2 0
+call DialogueNode.makeSHIMON2 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -92,14 +92,7 @@ pop temp 0
 push constant 0
 push static 1
 add
-pop pointer 1
-push that 0
-call Memory.deAlloc 1
-pop temp 0
-push constant 0
-push static 1
-add
-call DialogueNode.makeNode31 0
+call DialogueNode.makeSHIMON3 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -107,7 +100,7 @@ pop that 0
 push constant 1
 push static 1
 add
-call DialogueNode.makeNode32 0
+call DialogueNode.makeEnemyGNIRUT 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -133,14 +126,7 @@ pop temp 0
 push constant 0
 push static 1
 add
-pop pointer 1
-push that 0
-call Memory.deAlloc 1
-pop temp 0
-push constant 0
-push static 1
-add
-call DialogueNode.makeNode40 0
+call DialogueNode.makeSHIMON4 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -148,7 +134,7 @@ pop that 0
 push constant 2
 push static 1
 add
-call DialogueNode.makeNode41 0
+call DialogueNode.makeEnemyLOLO 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -164,7 +150,7 @@ return
 label IF_FALSE4
 push constant 0
 return
-function Dialogue.update 0
+function Dialogue.updateToFriend 0
 push argument 0
 push constant 3
 eq
@@ -177,14 +163,7 @@ pop temp 0
 push constant 1
 push static 1
 add
-pop pointer 1
-push that 0
-call Memory.deAlloc 1
-pop temp 0
-push constant 1
-push static 1
-add
-call DialogueNode.makeNode33 0
+call DialogueNode.makeFriendGNIRUT 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -209,7 +188,7 @@ push that 0
 pop static 0
 push constant 0
 return
-function Dialogue.draw 1
+function Dialogue.draw 0
 call UserInterface.clearDialogueBox 0
 pop temp 0
 push static 0
@@ -218,8 +197,6 @@ not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push constant 0
-pop local 0
 push constant 1
 call UserInterface.drawInstruction 1
 pop temp 0
@@ -230,8 +207,7 @@ not
 not
 if-goto WHILE_END0
 push static 0
-push local 0
-call DialogueNode.draw 2
+call DialogueNode.draw 1
 pop temp 0
 push constant 300
 call Sys.wait 1
@@ -244,12 +220,8 @@ call UserInterface.clearInstruction 0
 pop temp 0
 goto IF_END0
 label IF_FALSE0
-push constant 0
-not
-pop local 0
 push static 0
-push local 0
-call DialogueNode.draw 2
+call DialogueNode.draw 1
 pop temp 0
 label IF_END0
 push constant 0

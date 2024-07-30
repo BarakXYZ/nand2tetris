@@ -401,7 +401,7 @@ class ChallengeNode {
         let t5 = "@LOLI";
         let t6 = "D+1;JEQ";
         let t7 = "@LOLO";
-        let t8 = "M=D";
+        let t8 = "M=M+D";
         let t9 = "";
         let t10 = "";
         let t11 = "";

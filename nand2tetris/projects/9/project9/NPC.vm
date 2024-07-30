@@ -485,7 +485,7 @@ push static 1
 call ChallengeNode.complete 1
 pop temp 0
 call QuestManager.getActive 0
-call Dialogue.update 1
+call Dialogue.updateToFriend 1
 pop temp 0
 call Dialogue.draw 0
 pop temp 0

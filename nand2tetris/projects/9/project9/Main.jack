@@ -5,7 +5,9 @@ class Main {
     static int i;
 
     function void main() {
-        
+        var DialogueNode testNode;
+        var int i;
+
         // INIT  (Order matters)
         do Dialogue.init();
         do ChallengeBuffer.init();
@@ -20,9 +22,22 @@ class Main {
         do UserInterface.init();
         do Debug.init();
         // do Debug.run();
-
+        
         do QuestManager.init();
         do NPC.init();
+
+        // test
+        // let i = 0;
+        // while (i < 1000) {
+        //     let testNode = DialogueNode.makeSHIMON3();
+        //     do testNode.dispose();
+        //     let testNode = DialogueNode.makeIntro();
+        //     do testNode.dispose();
+        //     let testNode = DialogueNode.makeSHIMON1();
+        //     do testNode.dispose();
+        //     let i = i + 1;
+        // }
+        // return;
         
         do Game.run();
 

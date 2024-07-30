@@ -11,40 +11,37 @@ class Dialogue {
     function void makeNode(int quest) {
 
         if (quest = 0) {
-            let dialogueNodeArr[0] = DialogueNode.makeNode0();
+            let dialogueNodeArr[0] = DialogueNode.makeIntro();
             let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 1) {
             do currDialogueNode.dispose();
-            let dialogueNodeArr[0] = DialogueNode.makeNode1();
+            let dialogueNodeArr[0] = DialogueNode.makeSHIMON1();
             let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 2) {
             do currDialogueNode.dispose();
-            let dialogueNodeArr[0] = DialogueNode.makeNode2();
+            let dialogueNodeArr[0] = DialogueNode.makeSHIMON2();
             let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 3) {
             do currDialogueNode.dispose();
-            do Memory.deAlloc(dialogueNodeArr[0]);
-            let dialogueNodeArr[0] = DialogueNode.makeNode31();
-            let dialogueNodeArr[1] = DialogueNode.makeNode32();
+            let dialogueNodeArr[0] = DialogueNode.makeSHIMON3();
+            let dialogueNodeArr[1] = DialogueNode.makeEnemyGNIRUT();
             let currDialogueNode = dialogueNodeArr[0];
             return;
         }
 
         if (quest = 4) {
             do currDialogueNode.dispose();
-            do Memory.deAlloc(dialogueNodeArr[0]);
-            let dialogueNodeArr[0] = DialogueNode.makeNode40();
-            let dialogueNodeArr[2] = DialogueNode.makeNode41();
-
+            let dialogueNodeArr[0] = DialogueNode.makeSHIMON4();
+            let dialogueNodeArr[2] = DialogueNode.makeEnemyLOLO();
             let currDialogueNode = dialogueNodeArr[0];
             return;
         }
@@ -52,11 +49,11 @@ class Dialogue {
         return;
     }
 
-    function void update(int quest) {
+    //** Update Enemy Node to Completed (Friend) *//
+    function void updateToFriend(int quest) {
         if (quest = 3) {
             do currDialogueNode.dispose();
-            do Memory.deAlloc(dialogueNodeArr[1]);
-            let dialogueNodeArr[1] = DialogueNode.makeNode33();
+            let dialogueNodeArr[1] = DialogueNode.makeFriendGNIRUT();
             let currDialogueNode = dialogueNodeArr[1];
             return;
         }
@@ -69,21 +66,18 @@ class Dialogue {
     }
 
     function void draw() {
-        var boolean isDefault;
         do UserInterface.clearDialogueBox();
 
         if (~(currDialogueNode.hasEnded())) {
-            let isDefault = false;
             do UserInterface.drawInstruction(1);
             while (~(currDialogueNode.hasEnded())) {
-                do currDialogueNode.draw(isDefault);
+                do currDialogueNode.draw();
                 do Sys.wait(300);
                 do Input.waitForEnter();
             }
             do UserInterface.clearInstruction();
         } else {
-            let isDefault = true;
-            do currDialogueNode.draw(isDefault);
+            do currDialogueNode.draw();
         }
         return;
     }
