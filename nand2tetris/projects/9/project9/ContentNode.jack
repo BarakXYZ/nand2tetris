@@ -158,8 +158,8 @@ class ContentNode {
         let val = "?";
         let lvl = "3";
         
-        let status1 = "OPS I SEG FAULT AGN";
-        let status2 = "OPS I DID IT AGAIN";
+        let status1 = "OPS I SEG FAULT AGAIN";
+        let status2 = "OPS YOU DID IT AGAIN!";
 
         let r1 = "[3] = 5";
         let r2 = "[5] = 7";

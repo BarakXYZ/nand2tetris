@@ -1,28 +1,32 @@
 class DialogueNode {
 
-    field int currentLine, lastLine, numOfBatches, currentBatch;
-    field int subDialogueIndex, totalDialogues;
+    field boolean hasEnded;
+    field int currLine, dialogueLines, defaultDialogueLines;
+    field int subDialogueIndex, dialoguePages;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
     field String t15, t16, t17, t18, t19, t20, t21, t22, t23;
     field String td0, td1, td2, td3, td4;
-    field Array mainDialogue, defaultDialogue;
-    field boolean hasEnded;
+    field String tempDisposeStr;
+    field Array mainDialogueArr, defaultDialogueArr;
     static char slashSymbol;
+    static int maxMainDialogue, maxDefaultDialogue;
 
     function void init() {
         let slashSymbol = 47;
+        let maxMainDialogue = 24;
+        let maxDefaultDialogue = 5;
         return;
     }
 
-    method void draw(boolean isDefault) {
+    method void draw() {
         var int i;
         let i = 0;
         do UserInterface.clearDialogueBox();
 
         while (i < 4) {
             do Output.moveCursor(16 + i, 22);
-            if (~(hasEnded)) { do Output.printString(mainDialogue[currentLine+i]); }
-            else { do Output.printString(defaultDialogue[i]); }
+            if (~(hasEnded)) { do Output.printString(mainDialogueArr[currLine+i]); }
+            else { do Output.printString(defaultDialogueArr[i]); }
             let i = i + 1;
         }
 
@@ -31,10 +35,10 @@ class DialogueNode {
 
         if (~hasEnded) {
             let subDialogueIndex = subDialogueIndex + 1;
-            let currentLine = currentLine + 4;
-            if (currentLine = lastLine) {
+            let currLine = currLine + 4;
+            if (currLine = dialogueLines) {
                 let subDialogueIndex = 1;
-                let totalDialogues = 1;
+                let dialoguePages = 1;
                 let hasEnded = true;
             }
         }
@@ -45,7 +49,7 @@ class DialogueNode {
         do Output.moveCursor(16, 60);
         do Output.printInt(subDialogueIndex);
         do Output.printChar(slashSymbol);
-        do Output.printInt(totalDialogues);
+        do Output.printInt(dialoguePages);
         return;
     }
 
@@ -58,108 +62,150 @@ class DialogueNode {
         return hasEnded;
     }
 
-    method void initNodeParams(int aLastLine) {
-        let lastLine = aLastLine;
-        let totalDialogues = lastLine / 4;
+    method void initNodeParams(int aDialogueLines, int aDefaultDialogueLines) {
+        let dialogueLines = aDialogueLines;
+        let defaultDialogueLines = aDefaultDialogueLines;
+        let dialoguePages = dialogueLines / 4;
         let subDialogueIndex = 1;
-        let currentLine = 0;
+        let currLine = 0;
         return;
     }
 
     method void assignDialogueToArr() {
 
-        let mainDialogue = Array.new(24);
+        let mainDialogueArr = Array.new(maxMainDialogue);
+        let defaultDialogueArr = Array.new(maxDefaultDialogue);
 
-        let mainDialogue[0] = t0;
-        let mainDialogue[1] = t1;
-        let mainDialogue[2] = t2;
-        let mainDialogue[3] = t3;
+        let mainDialogueArr[0] = t0;
+        let mainDialogueArr[1] = t1;
+        let mainDialogueArr[2] = t2;
+        let mainDialogueArr[3] = t3;
 
-        let mainDialogue[4] = t4;
-        let mainDialogue[5] = t5;
-        let mainDialogue[6] = t6;
-        let mainDialogue[7] = t7;
+        let mainDialogueArr[4] = t4;
+        let mainDialogueArr[5] = t5;
+        let mainDialogueArr[6] = t6;
+        let mainDialogueArr[7] = t7;
 
-        let mainDialogue[8] = t8;
-        let mainDialogue[9] = t9;
-        let mainDialogue[10] = t10;
-        let mainDialogue[11] = t11;
+        let mainDialogueArr[8] = t8;
+        let mainDialogueArr[9] = t9;
+        let mainDialogueArr[10] = t10;
+        let mainDialogueArr[11] = t11;
 
-        let mainDialogue[12] = t12;
-        let mainDialogue[13] = t13;
-        let mainDialogue[14] = t14;
-        let mainDialogue[15] = t15;
+        let mainDialogueArr[12] = t12;
+        let mainDialogueArr[13] = t13;
+        let mainDialogueArr[14] = t14;
+        let mainDialogueArr[15] = t15;
 
-        let mainDialogue[16] = t16;
-        let mainDialogue[17] = t17;
-        let mainDialogue[18] = t18;
-        let mainDialogue[19] = t19;
+        let mainDialogueArr[16] = t16;
+        let mainDialogueArr[17] = t17;
+        let mainDialogueArr[18] = t18;
+        let mainDialogueArr[19] = t19;
 
-        let mainDialogue[20] = t20;
-        let mainDialogue[21] = t21;
-        let mainDialogue[22] = t22;
-        let mainDialogue[23] = t23;
+        let mainDialogueArr[20] = t20;
+        let mainDialogueArr[21] = t21;
+        let mainDialogueArr[22] = t22;
+        let mainDialogueArr[23] = t23;
 
-        let defaultDialogue = Array.new(5);
-        let defaultDialogue[0] = td0;
-        let defaultDialogue[1] = td1;
-        let defaultDialogue[2] = td2;
-        let defaultDialogue[3] = td3;
-        let defaultDialogue[4] = td4;
+        let defaultDialogueArr[0] = td0;
+        let defaultDialogueArr[1] = td1;
+        let defaultDialogueArr[2] = td2;
+        let defaultDialogueArr[3] = td3;
+        let defaultDialogueArr[4] = td4;
 
         return;
     }
 
     method void dispose() {
-        //** Dispose all Strings *//
-        do t0.dispose();
-        do t1.dispose();
-        do t2.dispose();
-        do t3.dispose();
+        var int i;
+        let i = 0;
 
-        do t4.dispose();
-        do t5.dispose();
-        do t6.dispose();
-        do t7.dispose();
+        //** Dispose Strings *//
+        while (i < maxMainDialogue) {
+            let tempDisposeStr = mainDialogueArr[i];
+            do tempDisposeStr.dispose();
+            let i = i + 1;
+        } let i = 0;
 
-        do t8.dispose();
-        do t9.dispose();
-        do t10.dispose();
-        do t11.dispose();
-
-        do t12.dispose();
-        do t13.dispose();
-        do t14.dispose();
-        do t15.dispose();
-
-        do t16.dispose();
-        do t17.dispose();
-        do t18.dispose();
-        do t19.dispose();
-
-        do t20.dispose();
-        do t21.dispose();
-        do t22.dispose();
-        do t23.dispose();
-
-        do td0.dispose();
-        do td1.dispose();
-        do td2.dispose();
-        do td3.dispose();
-        do td4.dispose();
-
-        do mainDialogue.dispose();
-        do defaultDialogue.dispose();
+        while (i < maxDefaultDialogue) {
+            let tempDisposeStr = defaultDialogueArr[i];
+            do tempDisposeStr.dispose();
+            let i = i + 1;
+        }
+        
+        //** Dispose Arrays *//
+        do mainDialogueArr.dispose();
+        do defaultDialogueArr.dispose();
 
         //** Dispose Object *//
         do Memory.deAlloc(this);
         return;
     }
 
+    method void fillStrBlank() {
+        var int i, offset;
+        let i = 0;
+        let offset = 4;
+        
+        if (defaultDialogueLines = 0) {
+            let td4 = "";
+            let td3 = "";
+            let td2 = "";
+            let td1 = "";
+            let td0 = "";
+        }
+
+        if (dialogueLines < maxMainDialogue) {
+            let t23 = "";
+            let t22 = "";
+            let t21 = "";
+            let t20 = "";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t19 = "";
+            let t18 = "";
+            let t17 = "";
+            let t16 = "";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t15 = "";
+            let t14 = "";
+            let t13 = "";
+            let t12 = "";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t11 = "";
+            let t10 = "";
+            let t9 = "";
+            let t8 = "";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t7 = "";
+            let t6 = "";
+            let t5 = "";
+            let t4 = "";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t3 = "";
+            let t2 = "";
+            let t1 = "";
+            let t0 = "";
+        } return;
+    }
+
     //** NODES *//
 
-    constructor DialogueNode makeNode0() {
-        do initNodeParams(12);
+    constructor DialogueNode makeIntro() {
+        do initNodeParams(12, 0);
         let hasEnded = false;
 
         let t0 = "Hello there young programmer!";
@@ -168,8 +214,8 @@ class DialogueNode {
         let t3 = "I have a few cool challenges for you!";
 
         let t4 = "I want to make sure you have all the";
-        let t5 = "basics nailed out. So I've prepared";
-        let t6 = "some interesting assembly challenges";
+        let t5 = "basics nailed down. So I've prepared";
+        let t6 = "a few interesting Assembly challenges";
         let t7 = "for you to solve!";
 
         let t8 = "They are... a bit involved...";
@@ -177,38 +223,18 @@ class DialogueNode {
         let t10 = "big picture; go through everything";
         let t11 = "step-by-step and get you up and running!";
 
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
-        
-        let td0 = "";
-        let td1 = "";
-        let td2 = "";
-        let td3 = "";
-        let td4 = "";
-
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
     
-    constructor DialogueNode makeNode1() {
-        do initNodeParams(24);
+    constructor DialogueNode makeSHIMON1() {
+        do initNodeParams(24, 0);
         let hasEnded = false;
 
         let t0 = "This is the 'Challenge' pane.";
-        let t1 = "The assembly code you'll need to solve";
+        let t1 = "The Assembly code you'll need to solve";
         let t2 = "will be shown within it.";
         let t3 = "Each line has a corresponding number.";
 
@@ -218,42 +244,37 @@ class DialogueNode {
         let t7 = "submit your response.";
 
         let t8 = "You can also use the Up & Down arrows";
-        let t9 = "to navigate the comment buffers.";
-        let t10 = "You have 4 'Response Buffers' and";
+        let t9 = "to navigate through the comment buffers.";
+        let t10 = "You have 4 'Answer Buffers' and";
         let t11 = "11 convenient 'Comment Buffers'.";
 
-        let t12 = "The 'Response Buffers' will be";
+        let t12 = "The 'Answer Buffers' will be";
         let t13 = "checked internally to see if your";
         let t14 = "response was correct. The Comment Buffers";
         let t15 = "will serve as helpers to track the flow";
 
-        let t16 = "of the assembly program.";
+        let t16 = "of the Assembly program.";
         let t17 = "Soon the challenges will become more";
         let t18 = "difficult, and you'll... need them.";
         let t19 = "        **muahahahah**";
 
-        let t20 = "Ok, let's start!";
+        let t20 = "Ok, let's move on...";
         let t21 = "Here's your first challenge.";
         let t22 = "Enjoy it while it's still... possible.";
-        let t23 = "         GL  (^_^)";
+        let t23 = "            (^_^)";
 
-        let td0 = "";
-        let td1 = "";
-        let td2 = "";
-        let td3 = "";
-        let td4 = "";
-
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
-    constructor DialogueNode makeNode2() {
-        do initNodeParams(16);
+    constructor DialogueNode makeSHIMON2() {
+        do initNodeParams(16, 0);
         let hasEnded = false;
 
         let t0 = "Nice job!";
         let t1 = "I already see you got what it takes!";
-        let t2 = "So let's spice it up then...";
+        let t2 = "Let's spice it up then...";
         let t3 = "Here's the 'Content' pane.";
 
         let t4 = "In it, you'll see the attributes";
@@ -263,37 +284,23 @@ class DialogueNode {
 
         let t8 = "It will also contain additional info";
         let t9 = "which will help you solve the next";
-        let t10 = "challenges. So please look carefully!";
+        let t10 = "challenges. So please look carefully";
+        // let t11 = "and keep all the details in mind!";
         let t11 = "";
 
         let t12 = "Ok, let's move on...";
-        let t13 = "Here is your next challenge...";
-        let t14 = "Good luck and Break a line!";
+        let t13 = "Here's your next challenge...";
+        let t14 = "Good luck, Break a line!";
         let t15 = "";
 
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
-
-        let td0 = "";
-        let td1 = "";
-        let td2 = "";
-        let td3 = "";
-        let td4 = "";
-
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
 
-    constructor DialogueNode makeNode31() {
-        do initNodeParams(20);
+    constructor DialogueNode makeSHIMON3() {
+        do initNodeParams(20, 4);
         let hasEnded = false;
 
         let t0 = "Pew! Pew! You got this, huh?!";
@@ -321,55 +328,21 @@ class DialogueNode {
         let t18 = "";
         let t19 = "";
 
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
-
         let td0 = "Hey again!";
         let td1 = "So... have you met GNIRUT?!";
         let td2 = "Once you beat his challenge, you'll";
         let td3 = "discover his value. Go get him, tiger!";
         let td4 = "";
-
+        
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
 
-    constructor DialogueNode makeNode32() {
-        do initNodeParams(4);
+    constructor DialogueNode makeEnemyGNIRUT() {
+        do initNodeParams(0, 4);
         let hasEnded = true;
-
-        let t0 = "";
-        let t1 = "";
-        let t2 = "";
-        let t3 = "";
-
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
 
         let td0 = "I CAME, I SAW, I CRASHED.";
         let td1 = "     ...Wh00p$...";
@@ -377,44 +350,15 @@ class DialogueNode {
         let td3 = "^&#!@^!^@)#!)!)!)!)@*@";
         let td4 = "";
 
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
 
-    constructor DialogueNode makeNode33() {
-        do initNodeParams(4);
+    constructor DialogueNode makeFriendGNIRUT() {
+        do initNodeParams(0, 4);
         let hasEnded = true;
-
-        let t0 = "";
-        let t1 = "";
-        let t2 = "";
-        let t3 = "";
-
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
 
         let td0 = "Thank you! You've saved me from a";
         let td1 = "deadly segmentation fault!";
@@ -422,14 +366,15 @@ class DialogueNode {
         let td3 = "";
         let td4 = "";
 
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
 
 
-    constructor DialogueNode makeNode40() {
-        do initNodeParams(8);
+    constructor DialogueNode makeSHIMON4() {
+        do initNodeParams(8, 4);
         let hasEnded = false;
 
         let t0 = "Woohoo!";
@@ -442,78 +387,29 @@ class DialogueNode {
         let t6 = "Good luck!";
         let t7 = "";
 
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
-
         let td0 = "Jump like a frog, yet think like a...";
-        let td1 = "borg?! idk.";
+        let td1 = "borg?";
         let td2 = "LOLO likes to jump, catch him!";
         let td3 = "I count on you, jump kiddo jump!";
-
         let td4 = "";  // Without this, there's a bug. It's not being used though.
 
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;
     }
 
-    constructor DialogueNode makeNode41() {
-        do initNodeParams(4);
+    constructor DialogueNode makeEnemyLOLO() {
+        do initNodeParams(0, 4);
         let hasEnded = true;  // Enemy Dialogue == true
-
-        let t0 = "";
-        let t1 = "";
-        let t2 = "";
-        let t3 = "";
-
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
-
-        let t12 = "";
-        let t13 = "";
-        let t14 = "";
-        let t15 = "";
-
-        let t16 = "";
-        let t17 = "";
-        let t18 = "";
-        let t19 = "";
-
-        let t20 = "";
-        let t21 = "";
-        let t22 = "";
-        let t23 = "";
 
         let td0 = "I'm here.";
         let td1 = "               I'm there.";
         let td2 = "      I'm everywhere!";
-        let td3 = "You got no chance lol(0)";
-        let td4 = "";
+        let td3 = "You got no chance lo10";
+        let td4 = "ASKJAKLSJDLKJAS";  // Again, some weird stuff without this
 
+        do fillStrBlank();
         do assignDialogueToArr();
 
         return this;

@@ -1535,11 +1535,15 @@ call String.appendChar 2
 push constant 79
 call String.appendChar 2
 pop this 11
-push constant 3
+push constant 5
 call String.new 1
 push constant 77
 call String.appendChar 2
 push constant 61
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 43
 call String.appendChar 2
 push constant 68
 call String.appendChar 2
