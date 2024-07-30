@@ -423,4 +423,41 @@ class ChallengeNode {
 
         return this;
     }
+
+    constructor ChallengeNode makeChallenge5() {
+        
+        let numLines = 11;
+        let numHints = 0;
+        let queries = 1;
+
+        let t0 = "@WOWOW";
+        let t1 = "D=M+1";
+        let t2 = "@GNIRUT";
+        let t3 = "D=D-M";
+        let t4 = "(SOMO)";
+        let t5 = "@XXXX";
+        let t6 = "D=M-D";
+        let t7 = "@XXX";
+        let t8 = "D+1;JGE";
+        let t9 = "@191";
+        let t10 = "M=D";
+        let t11 = "";
+        
+        let a0 = "12321";
+        let a1 = "";
+        let a2 = "";
+        let a3 = "";
+
+        let r0 = "RAM[201]=";
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+
+        let isEnemy = false;
+        let isCompleted = false;
+
+        do assignContentToArr();
+
+        return this;
+    }
 }

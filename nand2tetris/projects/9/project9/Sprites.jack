@@ -39,20 +39,18 @@ function void drawCurrentSelSprite(boolean cond) {
 
     if (activeNPC = 0) { do Sprites.drawSpriteShimon(~cond); return; }
     if (activeNPC = 1) {
-        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond);}
+        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond, activeNPC);}
         else { do Sprites.drawHappyFlower(~cond);}
         return;
     }
     if (activeNPC = 2) {
-        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond);}
+        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond, activeNPC);}
         else { do Sprites.drawHappyFlower(~cond);}
         return;
     }
 
     return;
 }
-
-
 
 
 // Draw Shimon Big & Small
@@ -99,7 +97,7 @@ function void drawQuestionMark3() {
 }
 
 // Draw enemy (challenge 3 reg357)
-function void drawEnemy(boolean isEyeOpened) {
+function void drawEnemy(boolean isEyeOpened, int level) {
     var int x, y, offY, offMouthX, offMouthY, spikiness, direction, length;
     var int hornWidth, hornsOffY;
     let x = 240;
@@ -114,8 +112,11 @@ function void drawEnemy(boolean isEyeOpened) {
     let hornsOffY = -55;  // Vertical offset of the horns
 
     do Sprites.drawTriangle(30, x, y - 60, spikiness, direction, true);  // Middle Horn
-    // do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);  // L
-    // do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);  // R
+
+    if (level > 1) {
+        do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);  // L
+        do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);  // R
+    }
 
     // body
     do Screen.setColor(true);

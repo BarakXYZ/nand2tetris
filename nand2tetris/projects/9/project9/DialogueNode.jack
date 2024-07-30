@@ -415,4 +415,30 @@ class DialogueNode {
 
         return this;
     }
+
+    constructor DialogueNode makeSHIMON5() {
+        do initNodeParams(8, 4);
+        let hasEnded = false;
+
+        let t0 = "Well well well... you've made it";
+        let t1 = "to the final challenge, huh?";
+        let t2 = "It won't be easy, but give it your";
+        let t3 = "best shoot!";
+
+        let t4 = "We'll combine all the different";
+        let t5 = "components for a master challenge.";
+        let t6 = "You'll face multiple enemeis and surprises.";
+        let t7 = "Good luck! (you'll need it)";
+
+        let td0 = "THIS IS THE FINAL DEFAULT DIALOGUE";
+        let td1 = "THIS IS THE FINAL COUNT DOWN";
+        let td2 = "YEAHHHHHHHHHHHHHHHHHHH";
+        let td3 = "OHHHHHHHHHHHHHHHHH";
+        let td4 = "";  // Without this, there's a bug. It's not being used though.
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
 }
