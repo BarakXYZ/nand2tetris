@@ -161,7 +161,7 @@ pop temp 0
 push static 7
 call Output.printString 1
 pop temp 0
-call Challenge.getSelBuffIndex 0
+call Challenge.getSelActiveBuffIndex 0
 call Output.printInt 1
 pop temp 0
 push constant 0

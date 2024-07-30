@@ -446,16 +446,19 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+push constant 0
+call Challenge.manageBuffer 1
+pop temp 0
 push static 7
 push constant 0
 call UserInterface.drawChallengeSel 2
 pop temp 0
 push constant 0
 return
-function Challenge.getSelBuffIndex 0
+function Challenge.getSelActiveBuffIndex 0
 push static 7
 return
-function Challenge.setSelBuffIndex 0
+function Challenge.setSelActiveBuffIndex 0
 push argument 0
 pop static 7
 push constant 0

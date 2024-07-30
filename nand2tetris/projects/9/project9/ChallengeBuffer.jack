@@ -2,19 +2,19 @@ class ChallengeBuffer {
     field String buff0, buff1, buff2, buff3, buff4, buff5, buff6, buff7, buff8;
     field String buff9, buff10, buff11, buff12, buff13, buff14, buff15;
     field Array arrBuff;
-    field int strSize; 
+    static String tempStr;
 
-    static int buffSize, startRow, startCol; 
+    static int buffSize, strSize, startRow, startCol; 
 
     function void init() {
         let buffSize = 16;  // Skipping 11, so 15 defacto
+        let strSize = 11;
         let startRow = 4;
         let startCol = 11;
         return;
     }
     
     constructor ChallengeBuffer new() {
-        let strSize = 11;
         let buff0 = String.new(strSize);
         let buff1 = String.new(strSize);
         let buff2 = String.new(strSize);
@@ -64,43 +64,28 @@ class ChallengeBuffer {
     
     method void draw() {
         var int i;
-
         let i = 0;
-        while (i < buffSize) {
 
+        while (i < buffSize) {
             if (i = 11) { let i = i + 1; }  // Skip 11
             do Output.moveCursor(startRow + i, startCol);
             do Output.printString(arrBuff[i]);
-
             let i = i + 1;
-        }
-
-        return;
+        } return;
     }
 
     method void dispose() {
-        
-        do buff0.dispose();
-        do buff1.dispose();
-        do buff2.dispose();
-        do buff3.dispose();
-        do buff4.dispose();
-        do buff5.dispose();
-        do buff6.dispose();
-        do buff7.dispose();
-        do buff8.dispose();
-        do buff9.dispose();
-        do buff10.dispose();
-        do buff11.dispose();
-        do buff12.dispose();
-        do buff13.dispose();
-        do buff14.dispose();
-        do buff15.dispose();
+        var int i;
+        let i = 0;
+
+        while (i < buffSize) {
+            let tempStr = arrBuff[i];
+            do tempStr.dispose();
+            let i = i + 1;
+        }
 
         do arrBuff.dispose();
-
         do Memory.deAlloc(this);
-
         return;
     }
 }

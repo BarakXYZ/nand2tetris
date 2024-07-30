@@ -1,4 +1,4 @@
-function Main.main 2
+function Main.main 0
 call DialogueNode.init 0
 pop temp 0
 call Dialogue.init 0

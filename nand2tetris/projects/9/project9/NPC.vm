@@ -410,7 +410,7 @@ pop pointer 1
 push that 0
 pop static 1
 push constant 12
-call Challenge.setSelBuffIndex 1
+call Challenge.setSelActiveBuffIndex 1
 pop temp 0
 push constant 0
 return

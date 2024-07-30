@@ -64,7 +64,7 @@ class Debug {
     function void activeBuff() {
         do Output.moveCursor(startDebugRowIndex + 5, startDebugColIndex);
         do Output.printString(bufferDebugTitle);
-        do Output.printInt(Challenge.getSelBuffIndex());
+        do Output.printInt(Challenge.getSelActiveBuffIndex());
         return;
     }
 
