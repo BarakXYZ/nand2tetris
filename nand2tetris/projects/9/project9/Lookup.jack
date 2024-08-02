@@ -69,7 +69,11 @@ class Lookup {
                 return;
             }
             if (Helpers.strComp(lookupInput, NPC.getName(2)) | Helpers.strComp(lookupInput, NPC.getAddr(2))) {
-                if (QuestManager.getActive() > 3) { do Lookup.new(2); }
+                if (activeQuest > 3) { do Lookup.new(2); }
+                return;
+            }
+            if (Helpers.strComp(lookupInput, NPC.getName(3)) | Helpers.strComp(lookupInput, NPC.getAddr(3))) {
+                if (activeQuest > 4) { do Lookup.new(3); }
                 return;
             }
             return;

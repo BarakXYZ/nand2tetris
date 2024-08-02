@@ -77,8 +77,16 @@ pop that 0
 push constant 3
 push static 5
 add
-push constant 0
+push constant 4
 call String.new 1
+push constant 78
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 78
+call String.appendChar 2
+push constant 68
+call String.appendChar 2
 pop temp 0
 pop pointer 1
 push temp 0
@@ -148,8 +156,14 @@ pop that 0
 push constant 3
 push static 6
 add
-push constant 0
+push constant 3
 call String.new 1
+push constant 50
+call String.appendChar 2
+push constant 56
+call String.appendChar 2
+push constant 57
+call String.appendChar 2
 pop temp 0
 pop pointer 1
 push temp 0
@@ -196,7 +210,7 @@ pop that 0
 push constant 3
 push static 4
 add
-call ContentNode.makeBlank 0
+call ContentNode.makeNAND 0
 pop temp 0
 pop pointer 1
 push temp 0
@@ -248,7 +262,7 @@ pop that 0
 push constant 3
 push static 3
 add
-call ChallengeNode.makeChallengeBlank 0
+call ChallengeNode.makeChallengeNAND 0
 pop temp 0
 pop pointer 1
 push temp 0

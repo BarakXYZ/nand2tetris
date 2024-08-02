@@ -285,13 +285,13 @@ class DialogueNode {
 
         let t8 = "It will also contain additional info";
         let t9 = "which will help you solve the next";
-        let t10 = "challenges. So please look carefully";
+        let t10 = "challenges. So please look carefully.";
         // let t11 = "and keep all the details in mind!";
         let t11 = "";
 
         let t12 = "Ok, let's move on...";
         let t13 = "Here's your next challenge...";
-        let t14 = "Good luck, Break a line!";
+        let t14 = "Good luck and break a line!";
         let t15 = "";
 
         do fillStrBlank();
@@ -405,9 +405,25 @@ class DialogueNode {
         let hasEnded = true;  // Enemy Dialogue == true
 
         let td0 = "I'm here.";
-        let td1 = "               I'm there.";
-        let td2 = "      I'm everywhere!";
-        let td3 = "You got no chance lo10";
+        let td1 = "            I'm there.";
+        let td2 = "                         I'm everywhere!";
+        let td3 = "      You got no chance lo10!@";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeFriendLOLO() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "LILI LALA LOLO";
+        let td1 = "Thank you kind programmer!";
+        let td2 = "These chaotic creatures are annoying!";
+        let td3 = "Please continue with your great work <3";
         let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
@@ -430,10 +446,10 @@ class DialogueNode {
         let t6 = "You'll face multiple enemeis and surprises.";
         let t7 = "Good luck! (you'll need it)";
 
-        let td0 = "THIS IS THE FINAL DEFAULT DIALOGUE";
-        let td1 = "THIS IS THE FINAL COUNT DOWN";
-        let td2 = "YEAHHHHHHHHHHHHHHHHHHH";
-        let td3 = "OHHHHHHHHHHHHHHHHH";
+        let td0 = "IT'S THE FINAL COUNT DOWN";
+        let td1 = "TUTUTU TUUUU... TUTUTU TU TUUU...";
+        let td2 = "You got this!";
+        let td3 = "";
         let td4 = "";  // Without this, there's a bug. It's not being used though.
 
         do fillStrBlank();
@@ -441,4 +457,37 @@ class DialogueNode {
 
         return this;
     }
+
+    constructor DialogueNode makeEnemyNAND() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;  // Enemy Dialogue == true
+
+        let td0 = "You think it will AND?";
+        let td1 = "Well... it NOT.";
+        let td2 = "I mean... it won't.";
+        let td3 = "Sorry English no good :(";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeFriendNAND() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "TEST FRIEND NAND";
+        let td1 = "";
+        let td2 = "";
+        let td3 = "";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
 }

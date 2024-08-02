@@ -19,7 +19,7 @@ class NPC {
         let npcNames[0] = "SHIMON";
         let npcNames[1] = "GNIRUT";
         let npcNames[2] = "LOLO";
-        let npcNames[3] = "";
+        let npcNames[3] = "NAND";
         let npcNames[4] = "";
         return;
     }
@@ -29,7 +29,7 @@ class NPC {
         let npcAddresses[0] = "555";
         let npcAddresses[1] = "357";
         let npcAddresses[2] = "1010";
-        let npcAddresses[3] = "";
+        let npcAddresses[3] = "289";
         let npcAddresses[4] = "";
         return;
     }
@@ -39,7 +39,7 @@ class NPC {
         let contentNodes[0] = ContentNode.makeBlank();
         let contentNodes[1] = ContentNode.makeGNIRUT();
         let contentNodes[2] = ContentNode.makeLOLO();
-        let contentNodes[3] = ContentNode.makeBlank();
+        let contentNodes[3] = ContentNode.makeNAND();
         let contentNodes[4] = ContentNode.makeBlank();
         
         let currContentNode = contentNodes[0];
@@ -51,7 +51,7 @@ class NPC {
         let challengeNodes[0] = ChallengeNode.makeChallengeBlank();
         let challengeNodes[1] = ChallengeNode.makeChallengeGNIRUT();
         let challengeNodes[2] = ChallengeNode.makeChallengeLOLO();
-        let challengeNodes[3] = ChallengeNode.makeChallengeBlank();
+        let challengeNodes[3] = ChallengeNode.makeChallengeNAND();
         let challengeNodes[4] = ChallengeNode.makeChallengeBlank();
 
         let currChallengeNode = challengeNodes[0];
@@ -95,6 +95,7 @@ class NPC {
         // 0 == @SHIMON  // @555
         // 1 == @GNIRUT  // @357
         // 2 == @LOLO    // @1010
+        // 3 == @NAND    // @
         return;
     }
 

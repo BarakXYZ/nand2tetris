@@ -31,6 +31,14 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+push constant 3
+push static 1
+add
+call DialogueNode.makeEnemyNAND 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 push constant 0
 push static 1
 add
@@ -141,16 +149,18 @@ push that 0
 pop static 0
 push constant 0
 return
-function Dialogue.updateToFriend 0
-push argument 0
-push constant 3
+function Dialogue.updateToFriend 1
+call NPC.getActive 0
+pop local 0
+push static 0
+call DialogueNode.dispose 1
+pop temp 0
+push local 0
+push constant 1
 eq
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push static 0
-call DialogueNode.dispose 1
-pop temp 0
 push constant 1
 push static 1
 add
@@ -159,15 +169,43 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+label IF_FALSE0
+push local 0
+push constant 2
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 1
+push static 1
+add
+call DialogueNode.makeFriendLOLO 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE1
+push local 0
+push constant 3
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 1
+push static 1
+add
+call DialogueNode.makeFriendNAND 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE2
 push constant 1
 push static 1
 add
 pop pointer 1
 push that 0
 pop static 0
-push constant 0
-return
-label IF_FALSE0
 push constant 0
 return
 function Dialogue.setDialogueNode 0
