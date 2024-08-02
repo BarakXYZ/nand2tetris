@@ -1,5 +1,5 @@
 class ContentNode {
-    field String name, address, val, lvl, status1, status2, r1, r2, r3, a1;
+    field String symName, address, val, lvl, status1, status2, r1, r2, r3, a1;
     field int items, ramNum;
     // field String effect0, effect1;
     field Array arrContent;
@@ -47,7 +47,7 @@ class ContentNode {
             let i = i + 1;
         }
 
-        do UserInterface.printAlignedTitle(arrContent[0]);  // Name
+        do UserInterface.printAlignedTitle(arrContent[0]);  // symName
         let baseRow = 4;  // Reset
 
         return;
@@ -57,7 +57,7 @@ class ContentNode {
 
         let arrContent = Array.new(8);
 
-        let arrContent[0] = name;
+        let arrContent[0] = symName;
         let arrContent[1] = address;
         let arrContent[2] = val;
         let arrContent[3] = lvl;
@@ -74,20 +74,22 @@ class ContentNode {
     method void reveal() {
         let arrContent[2] = a1;
         do Output.moveCursor(baseRow + 2, baseCol);
-        do Output.printString(arrFixedTitleContent[2]);
-        do Output.printString(arrContent[2]);
+        // do Output.printString(arrFixedTitleContent[2]);
+        // do Output.printString(arrContent[2]);
         
         let arrContent[4] = status2;
-        do Output.moveCursor(baseRow + 5, baseCol);
-        do Output.printString(arrFixedTitleContent[4]);
-        do Output.printString(arrContent[4]);
+        // do Output.moveCursor(baseRow + 5, baseCol);
+        // do Output.printString(arrFixedTitleContent[4]);
+        // do Output.printString(arrContent[4]);
+        do UserInterface.clearContentFrame();
+        do draw();
 
         return;
     }
 
     method void dispose() {
 
-        do name.dispose();
+        do symName.dispose();
         do address.dispose();
         do val.dispose();
         do lvl.dispose();
@@ -108,7 +110,7 @@ class ContentNode {
     }
 
     constructor ContentNode makeBlank() {
-        let name = "SHIMON";
+        let symName = "SHIMON";
         let address = "";
         let val = "";
         let lvl = "";
@@ -130,7 +132,7 @@ class ContentNode {
         return this;
     }
     constructor ContentNode makeSHIMON() {
-        let name = "SHIMON";
+        let symName = "SHIMON";
         let address = "555";
         let val = "42";
         let lvl = "32768";
@@ -153,7 +155,7 @@ class ContentNode {
     }
 
     constructor ContentNode makeGNIRUT() {
-        let name = "GNIRUT";
+        let symName = "GNIRUT";
         let address = "357";
         let val = "?";
         let lvl = "3";
@@ -177,7 +179,7 @@ class ContentNode {
 
 
     constructor ContentNode makeLOLO() {
-        let name = "LOLO";
+        let symName = "LOLO";
         let address = "1010";
         let val = "?";
         let lvl = "4";
@@ -198,6 +200,30 @@ class ContentNode {
 
         return this;
     }
+
+    constructor ContentNode makeNAND() {
+        let symName = "NAND";
+        let address = "289";
+        let val = "RAM[10]";
+        let lvl = "5";
+        
+        let status1 = "It's NOT gonna AND";
+        let status2 = "!NAY=YAY!";
+
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+
+        let a1 = "-1";
+
+        let ramNum = 0;
+        let items = 5;
+
+        do assignToArr();
+
+        return this;
+    }
+
 
 
 }

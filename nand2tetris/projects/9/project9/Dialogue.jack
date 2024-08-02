@@ -13,6 +13,7 @@ class Dialogue {
         let dialogueNodeArr[0] = DialogueNode.makeIntro();
         let dialogueNodeArr[1] = DialogueNode.makeEnemyGNIRUT();
         let dialogueNodeArr[2] = DialogueNode.makeEnemyLOLO();
+        let dialogueNodeArr[3] = DialogueNode.makeEnemyNAND();
         let currDialogueNode = dialogueNodeArr[0];
         return;
     }
@@ -31,12 +32,13 @@ class Dialogue {
 
     //** Update Enemy Node to Completed (Friend) *//
     function void updateToFriend(int quest) {
-        if (quest = 3) {
-            do currDialogueNode.dispose();
-            let dialogueNodeArr[1] = DialogueNode.makeFriendGNIRUT();
-            let currDialogueNode = dialogueNodeArr[1];
-            return;
-        }
+        var int selNPC;
+        let selNPC = NPC.getActive();
+        do currDialogueNode.dispose();
+        if (selNPC=1) { let dialogueNodeArr[1] = DialogueNode.makeFriendGNIRUT(); }
+        if (selNPC=2) { let dialogueNodeArr[1] = DialogueNode.makeFriendLOLO(); }
+        if (selNPC=3) { let dialogueNodeArr[1] = DialogueNode.makeFriendNAND(); }
+        let currDialogueNode = dialogueNodeArr[1];
         return;
     }
 

@@ -48,6 +48,12 @@ function void drawCurrentSelSprite(boolean cond) {
         else { do Sprites.drawHappyFlower(~cond);}
         return;
     }
+    if (activeNPC = 2) {
+        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond, activeNPC);}
+        else { do Sprites.drawHappyFlower(~cond);}
+        return;
+    }
+
 
     return;
 }

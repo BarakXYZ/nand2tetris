@@ -93,6 +93,32 @@ label IF_END4
 push constant 0
 return
 label IF_FALSE3
+push local 0
+push constant 2
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+call NPC.isEnemyDefeated 0
+not
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push argument 0
+not
+push local 0
+call Sprites.drawEnemy 2
+pop temp 0
+goto IF_END6
+label IF_FALSE6
+push argument 0
+not
+call Sprites.drawHappyFlower 1
+pop temp 0
+label IF_END6
+push constant 0
+return
+label IF_FALSE5
 push constant 0
 return
 function Sprites.drawSpriteShimon 0

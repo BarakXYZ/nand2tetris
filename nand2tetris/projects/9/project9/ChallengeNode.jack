@@ -426,34 +426,72 @@ class ChallengeNode {
 
     constructor ChallengeNode makeChallenge5() {
         
-        let numLines = 11;
+        let numLines = 8;
         let numHints = 0;
         let queries = 1;
 
-        let t0 = "@WOWOW";
-        let t1 = "D=M+1";
-        let t2 = "@GNIRUT";
-        let t3 = "D=D-M";
-        let t4 = "(SOMO)";
-        let t5 = "@XXXX";
-        let t6 = "D=M-D";
-        let t7 = "@XXX";
-        let t8 = "D+1;JGE";
-        let t9 = "@191";
-        let t10 = "M=D";
+        let t0 = "@NAND";
+        let t1 = "D=M";
+        let t2 = "@2";
+        let t3 = "D=D+A";
+        let t4 = "@TETRIS";
+        let t5 = "D=D+M";
+        let t6 = "@WEEK9";
+        let t7 = "M=D";
+        let t8 = "";
+        let t9 = "";
+        let t10 = "";
         let t11 = "";
         
-        let a0 = "12321";
+        let a0 = "603";
         let a1 = "";
         let a2 = "";
         let a3 = "";
 
-        let r0 = "RAM[201]=";
+        let r0 = "RAM[WEEK9]=";
         let r1 = "";
         let r2 = "";
         let r3 = "";
 
         let isEnemy = false;
+        let isCompleted = false;
+
+        do assignContentToArr();
+
+        return this;
+    }
+
+
+    constructor ChallengeNode makeChallengeNAND() {
+        
+        let numLines = 10;
+        let numHints = 0;
+        let queries = 1;
+
+        let t0 = "@5";
+        let t1 = "D=A";
+        let t2 = "(NAN!)";
+        let t3 = "@10";
+        let t4 = "D=D&A";
+        let t5 = "MD=!D";
+        let t6 = "@NAN!";
+        let t7 = "D+1;JGE";
+        let t8 = "@10";
+        let t9 = "M=D|A";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "-1";
+        let a1 = "";
+        let a2 = "";
+        let a3 = "";
+
+        let r0 = "RAM[10]=";
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+
+        let isEnemy = true;
         let isCompleted = false;
 
         do assignContentToArr();

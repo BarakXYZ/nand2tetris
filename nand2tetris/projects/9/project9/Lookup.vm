@@ -157,7 +157,7 @@ or
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-call QuestManager.getActive 0
+push local 0
 push constant 3
 gt
 if-goto IF_TRUE3
@@ -170,6 +170,31 @@ label IF_FALSE3
 push constant 0
 return
 label IF_FALSE2
+push static 3
+push constant 3
+call NPC.getName 1
+call Helpers.strComp 2
+push static 3
+push constant 3
+call NPC.getAddr 1
+call Helpers.strComp 2
+or
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 0
+push constant 4
+gt
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 3
+call Lookup.new 1
+pop temp 0
+label IF_FALSE5
+push constant 0
+return
+label IF_FALSE4
 push constant 0
 return
 function Lookup.new 0
