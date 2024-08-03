@@ -33,6 +33,9 @@ pop temp 0
 push constant 0
 call Challenge.manageBuffer 1
 pop temp 0
+push static 0
+call UserInterface.drawCurrentLevel 1
+pop temp 0
 push constant 0
 return
 function QuestManager.manageQuest 0

@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class ChallengeNode {
 
     field int currentRow, numLines, queries;
@@ -392,19 +395,19 @@ class ChallengeNode {
 
     constructor ChallengeNode makeChallengeLOLO() {
         
-        let numLines = 9;
+        let numLines = 10;
         let queries = 1;
 
-        let t0 = "D=A+1";
-        let t1 = "@LOLI";
-        let t2 = "M=D-1";
-        let t3 = "(LOLI)";
-        let t4 = "MD=M-D";
-        let t5 = "@LOLI";
-        let t6 = "D+1;JEQ";
-        let t7 = "@LOLO";
-        let t8 = "M=M+D";
-        let t9 = "";
+        let t0 = "@LOLO";
+        let t1 = "D=A+1";
+        let t2 = "@LOLI";
+        let t3 = "M=D-1";
+        let t4 = "(LOLI)";
+        let t5 = "MD=M-D";
+        let t6 = "@LOLI";
+        let t7 = "D+1;JEQ";
+        let t8 = "@LOLO";
+        let t9 = "M=D";
         let t10 = "";
         let t11 = "";
         
@@ -451,8 +454,8 @@ class ChallengeNode {
 
         let r0 = "RAM[NAND]=";
         let r1 = "RAM[2]=";
-        let r2 = "RAM[TETRIS]=";
-        let r3 = "RAM[WEEK9]=";
+        let r2 = "R[TETRIS]=";
+        let r3 = "R[WEEK9]=";
 
         let isEnemy = false;
         let isCompleted = false;
@@ -535,4 +538,40 @@ class ChallengeNode {
         return this;
     }
 
+    
+    constructor ChallengeNode makeChallengeEnd() {
+        
+        let numLines = 9;
+        let queries = 1;
+
+        let t0 = "@MAZAL";
+        let t1 = "@TOV";
+        let t2 = "@YOU";
+        let t3 = "@DID";
+        let t4 = "@IT!";
+        let t5 = "@100";
+        let t6 = "D=A";
+        let t7 = "@YOU";
+        let t8 = "M=D";
+        let t9 = "";
+        let t10 = "";
+        let t11 = "";
+        
+        let a0 = "12345";
+        let a1 = "";
+        let a2 = "";
+        let a3 = "";
+
+        let r0 = "";
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+
+        let isEnemy = false;
+        let isCompleted = false;
+
+        do assignContentToArr();
+
+        return this;
+    }
 }

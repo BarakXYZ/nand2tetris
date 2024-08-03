@@ -1,7 +1,7 @@
-// *** GINI BIG FLIPPED ****
-// *** GINI BIG FLIPPED ****
-// *** GINI BIG FLIPPED ****
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
 
+//** Deprecated *//
 
 function void drawGiniBigFlip(int location) {
 	var int memAddress; 

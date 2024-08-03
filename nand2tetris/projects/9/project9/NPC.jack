@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class NPC {
     
     static int activeNPC, numOfNPC;
@@ -76,7 +79,7 @@ class NPC {
     }
 
     function void interact() {
-        do Debug.interactions();
+        // do Debug.interactions();
         do currChallengeNode.draw();
         do currContentNode.draw();
         do Dialogue.draw();  // Listen for enter
@@ -105,7 +108,7 @@ class NPC {
         if (quest = 3) { let challengeNodes[0] = ChallengeNode.makeChallenge3(); }
         if (quest = 4) { let challengeNodes[0] = ChallengeNode.makeChallenge4(); }
         if (quest = 5) { let challengeNodes[0] = ChallengeNode.makeChallenge5(); }
-        if (quest = 6) { let challengeNodes[0] = ChallengeNode.makeBlank(); }
+        if (quest = 6) { let challengeNodes[0] = ChallengeNode.makeChallengeEnd(); }
         let currChallengeNode = challengeNodes[0];
         do Challenge.setSelActiveBuffIndex(12);  // Reset Cursor (buffer) location
         return;

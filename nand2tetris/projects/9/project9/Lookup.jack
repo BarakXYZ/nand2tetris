@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class Lookup {
         
         static int maxLen, row, col;
@@ -35,8 +38,8 @@ class Lookup {
 
                 // Append or Erase char if non-zero & no Escape (140)
                 if ((~(c = 0)) & (~(c = 140))) {
-                    do Debug.key(c);
-                    do Debug.event();
+                    // do Debug.key(c);
+                    // do Debug.event();
                     
                     // is erase? (129 == backspace)
                     if ((lookupInput.length() > 0) & (c = 129)) { 

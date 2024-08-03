@@ -1,10 +1,13 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class UserInterface {
     static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
     static String challengeInstruction, escapeInstruction, clearInstruction;
     static String enterInstruction, arrowInstruction, arrowInstClear;
-    static char selRightArrow, selLeftArrow, blankSpace, asterisk, atSign;
+    static char selRightArrow, selLeftArrow, blankSpace, asterisk, atSign, slash;
     static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
-    static String challengeTitle, commentTitle, contentTitle, lookupTitle;
+    static String challengeTitle, commentTitle, contentTitle, lookupTitle, currLvl;
     static Array selCoordAnswer, selCoordLookUp;
     static String blankPromptLine, incorrectSignal;
     static int vpX1, vpX2, vpY1, vpY2, vpOffY1, vpOffY2;
@@ -36,6 +39,7 @@ class UserInterface {
         let blankSpace = 32;
         let asterisk = 42;
         let atSign = 64;
+        let slash = 47;
         return;
     }
 
@@ -56,6 +60,7 @@ class UserInterface {
         let escapeInstruction = " ** Press 'Escape' to Exit Current Mode **";
         let enterInstruction = " ** Press 'Enter' to continue **";
         let clearInstruction = "                                                 ";
+        let currLvl = "Level: ";
         return;
     }
 
@@ -380,6 +385,21 @@ class UserInterface {
         do Output.printString(clearInstruction);
         do Output.moveCursor(0,0);
         do Output.printString(escapeInstruction);
+        return;
+    }
+
+    function void drawCurrentLevel(int level) {
+        if (level < 6) {
+            do Output.moveCursor(0, 53);
+            do Output.printString(currLvl);
+            do Output.printInt(level);
+            do Output.printChar(slash);
+            do Output.printInt(5);
+        }
+        else {
+            do Output.moveCursor(0, 30);
+            do Output.printString(blankPromptLine);
+        }
         return;
     }
 

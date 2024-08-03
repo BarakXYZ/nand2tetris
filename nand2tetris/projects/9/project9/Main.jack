@@ -1,8 +1,7 @@
-class Main {
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
 
-    static String test1, test2;
-    static Array arrTest;
-    static int i;
+class Main {
 
     function void main() {
 
@@ -25,26 +24,6 @@ class Main {
         do NPC.init();
 
         do Game.run();
-
         return;
     }
 }
-
-// TODOS:
-// - Create an upgraded sprite for @LOLO
-//      - Teeth - 
-//      - Horns - V
-//
-// Later versions of LOLO and GNIRUT can have:
-// - More horns?
-// - More teeth?
-// - More eyes?
-// - Eyebrow?
-// More instances in general? maybe in the end there are all versions?
-
-// Final Tasks:
-// Draw level
-// Hide Debugging
-
-
-// Additional:

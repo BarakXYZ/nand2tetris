@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class DialogueNode {
 
     field boolean hasEnded;
@@ -279,14 +282,13 @@ class DialogueNode {
         let t3 = "Here's the 'Content' pane.";
 
         let t4 = "In it, you'll see the attributes";
-        let t5 = "of the currently selected memory cell";
+        let t5 = "of the currently selected memory cell.";
         let t6 = "For example: my SymName=SHIMON";
         let t7 = "Address=555, and Value=42 (set by you).";
 
         let t8 = "It will also contain additional info";
         let t9 = "which will help you solve the next";
-        let t10 = "challenges. So please look carefully.";
-        // let t11 = "and keep all the details in mind!";
+        let t10 = "challenges, so please look carefully!";
         let t11 = "";
 
         let t12 = "Ok, let's move on...";
@@ -309,10 +311,10 @@ class DialogueNode {
         let t2 = "Let me introduce the '[L]ookup' utility.";
         let t3 = "You can use it to... lookup addresses! Da.";
 
-        let t4 = "By pressing 'L', you'll enter the";
-        let t5 = "'[L]ookup Mode', where you can type";
+        let t4 = "By pressing 'L' or '@', you'll enter";
+        let t5 = "the '[L]ookup Mode', where you can type";
         let t6 = "an address, look it up by hitting 'Enter'";
-        let t7 = "and face with what it holds! **HEHEHE**";
+        let t7 = "and face with what it holds!";
 
         let t8 = "In this challenge, you will actually";
         let t9 = "need to go lookup and solve another ";
@@ -321,7 +323,7 @@ class DialogueNode {
 
         let t12 = "looking up 'SHIMON' or '555' (both";
         let t13 = "the SymName or Address will work)";
-        let t14 = "in order to complete the main challenge!";
+        let t14 = "in order to complete this main challenge.";
         let t15 = "";
 
         let t16 = "I'll be here waiting, good luck!";
@@ -433,7 +435,7 @@ class DialogueNode {
     }
 
     constructor DialogueNode makeSHIMON5() {
-        do initNodeParams(8, 4);
+        do initNodeParams(16, 4);
         let hasEnded = false;
 
         let t0 = "Well well well... you've made it";
@@ -443,8 +445,20 @@ class DialogueNode {
 
         let t4 = "We'll combine all the different";
         let t5 = "components for a master challenge.";
-        let t6 = "You'll face multiple enemeis and surprises.";
-        let t7 = "Good luck! (you'll need it)";
+        let t6 = "We'll also combine some OR & AND";
+        let t7 = "operations. Good luck! (you'll need it)";
+
+        let t8 = "This challenge will use bigger";
+        let t9 = "binary numbers. So feel free to use";
+        let t10 = "a notepad and a decimal to binary";
+        let t11 = "converter, as there's not enough space";
+
+        let t12 = "in the comment buffers for this one.";
+        let t13 = "But try to calculate the OR & AND comps";
+        let t14 = "by yourself. You can do it!";
+        let t15 = "Good luck!!";
+
+
 
         let td0 = "IT'S THE FINAL COUNT DOWN";
         let td1 = "TUTUTU TUUUU... TUTUTU TU TUUU...";
@@ -497,7 +511,7 @@ class DialogueNode {
 
         let td0 = "That's it.";
         let td1 = "You think you have what it takes?";
-        let td2 = "Let's push you to the limit.";
+        let td2 = "Let's push you to your limits!";
         let td3 = "";
         let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
@@ -529,18 +543,18 @@ class DialogueNode {
 
         let t0 = "I knew you can do it!";
         let t1 = "Congratulation young programmer!";
-        let t2 = "I'm sure you'll do great with building the";
-        let t3 = "compiler too!";
+        let t2 = "I'm sure you'll do great things in the";
+        let t3 = "future. Good luck with the compiler too!";
 
-        let t4 = "Thank you so much for sticking around till";
-        let t5 = "the very end! You're amazing!";
-        let t6 = "So... Let's move on...";
+        let t4 = "Thank you so much for sticking around";
+        let t5 = "till the very end! You're amazing!";
+        let t6 = "So... I guess.. Let's move on...?";
         let t7 = "See you soon in week 10!";
 
         let td0 = "Oh you're still here?!";
         let td1 = "Sure, feel free to play around :)";
-        let td2 = "Excpect things might break from here";
-        let td3 = "onwards though... (no guarantees)";
+        let td2 = "Just know that the code might break";
+        let td3 = "from here... (no guarantees :P)";
         let td4 = "";  // Without this, there's a bug. It's not being used though.
 
         do fillStrBlank();
