@@ -43,9 +43,7 @@ class Main {
 // More instances in general? maybe in the end there are all versions?
 
 // Final Tasks:
-// Create a Sprite for NAND
-// Create a Sprite for TETRIS
-// Final Dialogue for SHIMON
+// Draw level
 // Hide Debugging
 
 
