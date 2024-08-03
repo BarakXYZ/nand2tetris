@@ -4,19 +4,16 @@ class Sprites {
 // 0 == Shimon | 1 == Gini | 2 == ? | 3 == ? | *//
 static int currentSelSprite;
 
-static int shimonBigCoord, giniBigCoord;
+static int shimonBigCoord, enemyCoordX, enemyCoordY, enemyInstances;
 static int questionMarkCoord1, questionMarkCoord2, questionMarkCoord3;
-static int shimonSmallCoord, giniSmallCoord;
 
 function void init() {
 	
     let currentSelSprite = 0;
-	
-    let shimonSmallCoord = 7165;
-    let giniSmallCoord = 5148;
-
     let shimonBigCoord = 1739;
-    let giniBigCoord = 1482;
+    let enemyCoordX = 240;
+    let enemyCoordY = 110;
+    let enemyInstances = 1;
 
     let questionMarkCoord1 = 5341;
     let questionMarkCoord2 = 3485;
@@ -38,26 +35,14 @@ function void drawCurrentSelSprite(boolean cond) {
     let activeNPC = NPC.getActive();
 
     if (activeNPC = 0) { do Sprites.drawSpriteShimon(~cond); return; }
-    if (activeNPC = 1) {
-        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond, activeNPC);}
-        else { do Sprites.drawHappyFlower(~cond);}
+    else {
+        if (~(NPC.isEnemyDefeated())) {
+            do Sprites.drawEnemy(~cond, activeNPC, enemyCoordX, enemyCoordY);
+        }
+        else { do Sprites.drawHappyFlower(~cond, enemyCoordX, enemyCoordY);}
         return;
     }
-    if (activeNPC = 2) {
-        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond, activeNPC);}
-        else { do Sprites.drawHappyFlower(~cond);}
-        return;
-    }
-    if (activeNPC = 2) {
-        if (~(NPC.isEnemyDefeated())) { do Sprites.drawEnemy(~cond, activeNPC);}
-        else { do Sprites.drawHappyFlower(~cond);}
-        return;
-    }
-
-
-    return;
 }
-
 
 // Draw Shimon Big & Small
 function void drawSpriteShimon(boolean isFlipped) {
@@ -66,48 +51,12 @@ function void drawSpriteShimon(boolean isFlipped) {
     return;
 }
 
-function void drawSpriteShimonSmall() {
-    do SpriteShimon.drawShimonSmall(shimonSmallCoord);
-    return;
-}
-
-
-// Draw Gini Big & Small
-function void drawSpriteGini(boolean isFlipped) {
-    if (isFlipped) { do SpriteGini.drawGiniBig(giniBigCoord); }
-    else { do SpriteGini.drawGiniBigFlipped(giniBigCoord); }
-    return;
-}
-
-function void drawSpriteGiniSmall() {
-    do SpriteGini.drawGiniSmall(giniSmallCoord);
-    return;
-}
-
-// Draw Question Mark
-function void drawQuestionMark1() {
-    do SpriteQuestionMark.drawQuestionMark(questionMarkCoord1);
-    return;
-}
-
-// Draw Question Mark
-function void drawQuestionMark2() {
-    do SpriteQuestionMark.drawQuestionMark(questionMarkCoord2);
-    return;
-}
-
-// Draw Question Mark
-function void drawQuestionMark3() {
-    do SpriteQuestionMark.drawQuestionMark(questionMarkCoord3);
-    return;
-}
-
-// Draw enemy (challenge 3 reg357)
-function void drawEnemy(boolean isEyeOpened, int level) {
+function void drawEnemy(boolean isEyeOpened, int level, int aX, int aY) {
     var int x, y, offY, offMouthX, offMouthY, spikiness, direction, length;
-    var int hornWidth, hornsOffY;
-    let x = 240;
-    let y = 110;
+    var int hornWidth, hornsOffY, instOffX, instOffY;
+    var boolean cond;
+    let x = aX;
+    let y = aY;
     let offY = 12;
     let offMouthX = 20;
     let offMouthY = 14;
@@ -116,35 +65,54 @@ function void drawEnemy(boolean isEyeOpened, int level) {
     let length = 50;   // Length of the horns
     let hornWidth = 40; // Distance between the horns
     let hornsOffY = -55;  // Vertical offset of the horns
+    let cond = true;
+    let instOffX = 30;
+    let instOffY = 10;
 
-    do Sprites.drawTriangle(30, x, y - 60, spikiness, direction, true);  // Middle Horn
+    if (level > 1) { do Sprites.drawTriangle(30, x, y - 60, spikiness, direction, cond); }  // Mid Horn
 
-    if (level > 1) {
+    //** LOLO *//
+    if (level = 2) {
         do Sprites.drawHorn(x - hornWidth, y + hornsOffY, direction, length);  // L
         do Sprites.drawHorn(x + hornWidth, y + hornsOffY, -direction, length);  // R
     }
 
+    //** NAND & TETRIS's Clones *//
+    if (level > 3) {
+        let cond = false;
+    }
+
+    //** TETRIS *//
+    if (level = 4) {
+        let cond = true;
+        do Sprites.drawEnemy(~isEyeOpened, 5, aX+instOffX, aY-instOffY);
+        do Sprites.drawEnemy(~isEyeOpened, 5, aX-instOffX, aY-instOffY);
+    }
+
+
     // body
-    do Screen.setColor(true);
+    if (level = 3) { do Screen.setColor(~cond); }
+    else { do Screen.setColor(cond); }
     do Screen.drawCircle(x, y, 40);
-    do Screen.setColor(false);
+    if ((level = 3) & isEyeOpened) { do Screen.setColor(cond); }
+    else { do Screen.setColor(~cond); }
     do Screen.drawCircle(x, y, 37);
 
-    do Sprites.drawEnemyEye1(isEyeOpened, x, y, offY, 1);
+    do Sprites.drawEnemyEye(isEyeOpened, x, y, offY, 1);
+    if (level > 3) {
+        do Sprites.drawEnemyEye(~isEyeOpened, x, y-15, offY, 2);
+    }
 
-    // Mouth
-    do Screen.setColor(true);
+    // Mouth Line
+    do Screen.setColor(cond);
     do Screen.drawRectangle(x-offMouthX, y+offMouthY, x-offMouthX+45, y+offMouthY+2);
-    // Teeth
-    do Screen.drawRectangle(x-10, y+offMouthY, x-4, y+offMouthY+10);
-    do Screen.setColor(false);
-    do Screen.drawRectangle(x-8, y+offMouthY+2, x-6, y+offMouthY+10-2);
-
+    do Sprites.drawTeeth(x, y, offMouthY, cond, isEyeOpened, level);
+    
     return;
 }
 
 //** Radius -> bigger value for smaller eye, 1 for regular size *//
-function void drawEnemyEye1(boolean isOpened, int x, int y, int offY, int radius) {
+function void drawEnemyEye(boolean isOpened, int x, int y, int offY, int radius) {
     // Eye
     do Screen.setColor(true);
     do Screen.drawCircle(x, y - offY, 14 / radius);
@@ -157,6 +125,14 @@ function void drawEnemyEye1(boolean isOpened, int x, int y, int offY, int radius
     if (isOpened) { do Screen.drawCircle(x, y - offY, 5 / radius); }  // inner
     else { do Screen.drawRectangle(x-12, y-14, x+12, y-13); } // closed
 
+    return;
+}
+
+function void drawTeeth(int x, int y, int offMouthY, boolean cond, boolean isEyeOpened, int level) {
+    do Screen.drawRectangle(x-10, y+offMouthY, x-4, y+offMouthY+10);
+    if ((level = 3) & isEyeOpened) { do Screen.setColor(cond); }
+    else { do Screen.setColor(~cond); }
+    do Screen.drawRectangle(x-8, y+offMouthY+2, x-6, y+offMouthY+10-2);
     return;
 }
 
@@ -212,11 +188,11 @@ function void drawHorn(int x, int y, int direction, int length) {
     return;
 }
 
-function void drawHappyFlower(boolean switch) {
+function void drawHappyFlower(boolean switch, int aX, int aY) {
 
     var int x, y, offX1, offY1, offX2, offY2, r1, r2;
-    let x = 240;
-    let y = 110;
+    let x = aX;
+    let y = aY;
 
     // let offX1 = 12;
     let offY1 = 40;
