@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class Challenge {
 
         static int maxLen, buffStartRow, col;
@@ -56,7 +59,7 @@ class Challenge {
 
             // Exits if 'Escape' (140) is pressed
             while (~(c = 140)) {
-                do Debug.activeBuff();
+                // do Debug.activeBuff();
                 do Draw.sprite();
                 do Challenge.resetParams();
 
@@ -77,8 +80,8 @@ class Challenge {
 
                 // Append / Erase char if non-zero & no Enter & no Escape & no Arrow
                 if ((~(c = 0)) & (~(isEnter)) & (~(isArrow)) & (~(c = 140))) {
-                    do Debug.key(c);
-                    do Debug.event();
+                    // do Debug.key(c);
+                    // do Debug.event();
                     
                     // is erase? (129 == backspace)
                     if ((currActiveSubBuff.length() > 0) & (c = 129)) { do Challenge.eraseChar(); }

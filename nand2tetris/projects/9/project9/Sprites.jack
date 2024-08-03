@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class Sprites {
 
 //** Sprite Selection Map:
@@ -11,7 +14,7 @@ function void init() {
 	
     let currentSelSprite = 0;
     let shimonBigCoord = 1739;
-    let enemyCoordX = 240;
+    let enemyCoordX = 245;
     let enemyCoordY = 110;
     let enemyInstances = 1;
 

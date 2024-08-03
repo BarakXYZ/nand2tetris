@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class ContentNode {
     field String symName, address, val, lvl, status1, status2;
     field String r1, r2, r3, r4, r5, a1;
@@ -187,7 +190,7 @@ class ContentNode {
         let val = "?";
         let lvl = "4";
         
-        let status1 = "You Search I Laugh";
+        let status1 = "You Search - I Laugh";
         let status2 = "When I say jump u?";
         let a1 = "0";
         let items = 5;
@@ -224,7 +227,7 @@ class ContentNode {
         let status2 = "And so you did!";
 
         let r1 = "[101]=292";
-        let r2 = "[324]=198";
+        let r2 = "[375]=198";
         let r3 = "[0]=130";
         let r4 = "[487]=12";
         let r5 = "[367]=10";

@@ -1,3 +1,6 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+
 class ChallengeBuffer {
     field String buff0, buff1, buff2, buff3, buff4, buff5, buff6, buff7, buff8;
     field String buff9, buff10, buff11, buff12, buff13, buff14, buff15;

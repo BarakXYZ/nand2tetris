@@ -11,8 +11,6 @@ push local 0
 not
 not
 if-goto WHILE_END0
-call Debug.activeQuest 0
-pop temp 0
 push static 0
 push static 1
 or

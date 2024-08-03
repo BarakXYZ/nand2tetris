@@ -115,8 +115,6 @@ eq
 not
 not
 if-goto WHILE_END0
-call Debug.activeBuff 0
-pop temp 0
 call Draw.sprite 0
 pop temp 0
 call Challenge.resetParams 0
@@ -198,11 +196,6 @@ and
 if-goto IF_TRUE4
 goto IF_FALSE4
 label IF_TRUE4
-push argument 0
-call Debug.key 1
-pop temp 0
-call Debug.event 0
-pop temp 0
 push static 3
 call String.length 1
 push constant 0

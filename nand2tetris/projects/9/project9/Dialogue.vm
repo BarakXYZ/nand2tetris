@@ -285,6 +285,15 @@ goto WHILE_EXP0
 label WHILE_END0
 call UserInterface.clearInstruction 0
 pop temp 0
+call QuestManager.getActive 0
+push constant 6
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+call Sys.halt 0
+pop temp 0
+label IF_FALSE1
 goto IF_END0
 label IF_FALSE0
 push static 0
