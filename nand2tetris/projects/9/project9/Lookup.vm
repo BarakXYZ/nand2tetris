@@ -195,6 +195,31 @@ label IF_FALSE5
 push constant 0
 return
 label IF_FALSE4
+push static 3
+push constant 4
+call NPC.getName 1
+call Helpers.strComp 2
+push static 3
+push constant 4
+call NPC.getAddr 1
+call Helpers.strComp 2
+or
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push local 0
+push constant 4
+gt
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 4
+call Lookup.new 1
+pop temp 0
+label IF_FALSE7
+push constant 0
+return
+label IF_FALSE6
 push constant 0
 return
 function Lookup.new 0

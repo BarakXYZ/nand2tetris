@@ -39,6 +39,14 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
+push constant 4
+push static 1
+add
+call DialogueNode.makeEnemyTETRIS 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 push constant 0
 push static 1
 add
@@ -141,6 +149,21 @@ pop pointer 1
 push temp 0
 pop that 0
 label IF_FALSE5
+push argument 0
+push constant 6
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push constant 0
+push static 1
+add
+call DialogueNode.makeSHIMON6 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE6
 push constant 0
 push static 1
 add
@@ -176,7 +199,7 @@ eq
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push constant 1
+push constant 2
 push static 1
 add
 call DialogueNode.makeFriendLOLO 0
@@ -191,7 +214,7 @@ eq
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push constant 1
+push constant 3
 push static 1
 add
 call DialogueNode.makeFriendNAND 0
@@ -200,7 +223,22 @@ pop pointer 1
 push temp 0
 pop that 0
 label IF_FALSE2
-push constant 1
+push local 0
+push constant 4
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 4
+push static 1
+add
+call DialogueNode.makeFriendTETRIS 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE3
+push local 0
 push static 1
 add
 pop pointer 1

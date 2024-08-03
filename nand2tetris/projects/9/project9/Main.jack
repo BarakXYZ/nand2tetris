@@ -31,9 +31,6 @@ class Main {
 }
 
 // TODOS:
-// 1. Create the final challenge and wrap up!
-//     - Some kind of plot twist can be cool
-//     - Combine all techniques into a master challenge
 // - Create an upgraded sprite for @LOLO
 //      - Teeth - 
 //      - Horns - V
@@ -44,6 +41,12 @@ class Main {
 // - More eyes?
 // - Eyebrow?
 // More instances in general? maybe in the end there are all versions?
+
+// Final Tasks:
+// Create a Sprite for NAND
+// Create a Sprite for TETRIS
+// Final Dialogue for SHIMON
+// Hide Debugging
 
 
 // Additional:

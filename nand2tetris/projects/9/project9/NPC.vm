@@ -1,4 +1,6 @@
 function NPC.init 0
+push constant 5
+pop static 1
 call NPC.initNames 0
 pop temp 0
 call NPC.initAddresses 0
@@ -12,11 +14,11 @@ pop static 0
 push constant 0
 return
 function NPC.initNames 0
-push constant 5
+push static 1
 call Array.new 1
-pop static 5
+pop static 6
 push constant 0
-push static 5
+push static 6
 add
 push constant 6
 call String.new 1
@@ -37,7 +39,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 5
+push static 6
 add
 push constant 6
 call String.new 1
@@ -58,7 +60,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 5
+push static 6
 add
 push constant 4
 call String.new 1
@@ -75,7 +77,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 5
+push static 6
 add
 push constant 4
 call String.new 1
@@ -92,10 +94,22 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 5
+push static 6
 add
-push constant 0
+push constant 6
 call String.new 1
+push constant 84
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 73
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
 pop temp 0
 pop pointer 1
 push temp 0
@@ -103,11 +117,11 @@ pop that 0
 push constant 0
 return
 function NPC.initAddresses 0
-push constant 5
+push static 1
 call Array.new 1
-pop static 6
+pop static 7
 push constant 0
-push static 6
+push static 7
 add
 push constant 3
 call String.new 1
@@ -122,7 +136,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 6
+push static 7
 add
 push constant 3
 call String.new 1
@@ -137,7 +151,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 6
+push static 7
 add
 push constant 4
 call String.new 1
@@ -154,7 +168,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 6
+push static 7
 add
 push constant 3
 call String.new 1
@@ -169,10 +183,16 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 6
+push static 7
 add
-push constant 0
+push constant 3
 call String.new 1
+push constant 52
+call String.appendChar 2
+push constant 55
+call String.appendChar 2
+push constant 53
+call String.appendChar 2
 pop temp 0
 pop pointer 1
 push temp 0
@@ -180,11 +200,11 @@ pop that 0
 push constant 0
 return
 function NPC.initContents 0
-push constant 5
+push static 1
 call Array.new 1
-pop static 4
+pop static 5
 push constant 0
-push static 4
+push static 5
 add
 call ContentNode.makeBlank 0
 pop temp 0
@@ -192,7 +212,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 4
+push static 5
 add
 call ContentNode.makeGNIRUT 0
 pop temp 0
@@ -200,7 +220,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 4
+push static 5
 add
 call ContentNode.makeLOLO 0
 pop temp 0
@@ -208,7 +228,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 4
+push static 5
 add
 call ContentNode.makeNAND 0
 pop temp 0
@@ -216,35 +236,35 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 4
+push static 5
 add
-call ContentNode.makeBlank 0
+call ContentNode.makeTETRIS 0
 pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
 push constant 0
-push static 4
+push static 5
 add
 pop pointer 1
 push that 0
-pop static 2
+pop static 3
 push constant 0
 return
 function NPC.initChallenges 0
-push constant 5
+push static 1
 call Array.new 1
-pop static 3
+pop static 4
 push constant 0
-push static 3
+push static 4
 add
-call ChallengeNode.makeChallengeBlank 0
+call ChallengeNode.makeBlank 0
 pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
 push constant 1
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallengeGNIRUT 0
 pop temp 0
@@ -252,7 +272,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 2
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallengeLOLO 0
 pop temp 0
@@ -260,7 +280,7 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 3
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallengeNAND 0
 pop temp 0
@@ -268,29 +288,29 @@ pop pointer 1
 push temp 0
 pop that 0
 push constant 4
-push static 3
+push static 4
 add
-call ChallengeNode.makeChallengeBlank 0
+call ChallengeNode.makeChallengeTETRIS 0
 pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
 push constant 0
-push static 3
-add
-pop pointer 1
-push that 0
-pop static 1
-push constant 0
-return
-function NPC.updateContentNode 0
-push argument 0
 push static 4
 add
 pop pointer 1
 push that 0
 pop static 2
-push static 2
+push constant 0
+return
+function NPC.updateContentNode 0
+push argument 0
+push static 5
+add
+pop pointer 1
+push that 0
+pop static 3
+push static 3
 call ContentNode.dispose 1
 pop temp 0
 push argument 0
@@ -300,7 +320,7 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-push static 4
+push static 5
 add
 call ContentNode.makeSHIMON 0
 pop temp 0
@@ -309,23 +329,23 @@ push temp 0
 pop that 0
 label IF_FALSE0
 push constant 0
-push static 4
+push static 5
 add
 pop pointer 1
 push that 0
-pop static 2
+pop static 3
 push constant 0
 return
 function NPC.getName 0
 push argument 0
-push static 5
+push static 6
 add
 pop pointer 1
 push that 0
 return
 function NPC.getAddr 0
 push argument 0
-push static 6
+push static 7
 add
 pop pointer 1
 push that 0
@@ -333,10 +353,10 @@ return
 function NPC.interact 0
 call Debug.interactions 0
 pop temp 0
-push static 1
+push static 2
 call ChallengeNode.draw 1
 pop temp 0
-push static 2
+push static 3
 call ContentNode.draw 1
 pop temp 0
 call Dialogue.draw 0
@@ -354,7 +374,7 @@ pop static 0
 push constant 0
 return
 function NPC.updateChallengeNode 0
-push static 1
+push static 2
 call ChallengeNode.dispose 1
 pop temp 0
 push argument 0
@@ -364,7 +384,7 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallenge1 0
 pop temp 0
@@ -379,7 +399,7 @@ if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push constant 0
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallenge2 0
 pop temp 0
@@ -394,7 +414,7 @@ if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
 push constant 0
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallenge3 0
 pop temp 0
@@ -409,7 +429,7 @@ if-goto IF_TRUE3
 goto IF_FALSE3
 label IF_TRUE3
 push constant 0
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallenge4 0
 pop temp 0
@@ -424,7 +444,7 @@ if-goto IF_TRUE4
 goto IF_FALSE4
 label IF_TRUE4
 push constant 0
-push static 3
+push static 4
 add
 call ChallengeNode.makeChallenge5 0
 pop temp 0
@@ -432,27 +452,33 @@ pop pointer 1
 push temp 0
 pop that 0
 label IF_FALSE4
+push argument 0
+push constant 6
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
 push constant 0
-push static 3
+push static 4
+add
+call ChallengeNode.makeBlank 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE5
+push constant 0
+push static 4
 add
 pop pointer 1
 push that 0
-pop static 1
+pop static 2
 push constant 12
 call Challenge.setSelActiveBuffIndex 1
 pop temp 0
 push constant 0
 return
 function NPC.setChallengeNode 0
-push argument 0
-push static 3
-add
-pop pointer 1
-push that 0
-pop static 1
-push constant 0
-return
-function NPC.setContentNode 0
 push argument 0
 push static 4
 add
@@ -461,18 +487,28 @@ push that 0
 pop static 2
 push constant 0
 return
+function NPC.setContentNode 0
+push argument 0
+push static 5
+add
+pop pointer 1
+push that 0
+pop static 3
+push constant 0
+return
 function NPC.checkChallengeAnswer 1
-push static 1
+push static 2
 call ChallengeNode.isCompleted 1
 not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push static 1
+push static 2
 push argument 0
 push argument 1
 push argument 2
-call ChallengeNode.checkAnswer 4
+push argument 3
+call ChallengeNode.checkAnswer 5
 pop local 0
 push constant 0
 push constant 0
@@ -482,7 +518,7 @@ push local 0
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push static 1
+push static 2
 call ChallengeNode.isEnemy 1
 if-goto IF_TRUE2
 goto IF_FALSE2
@@ -507,10 +543,10 @@ push constant 0
 return
 label IF_END0
 function NPC.defeatEnemy 0
-push static 2
+push static 3
 call ContentNode.reveal 1
 pop temp 0
-push static 1
+push static 2
 call ChallengeNode.complete 1
 pop temp 0
 call QuestManager.getActive 0
@@ -521,6 +557,6 @@ pop temp 0
 push constant 0
 return
 function NPC.isEnemyDefeated 0
-push static 1
+push static 2
 call ChallengeNode.isCompleted 1
 return

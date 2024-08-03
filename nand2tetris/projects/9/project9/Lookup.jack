@@ -76,6 +76,10 @@ class Lookup {
                 if (activeQuest > 4) { do Lookup.new(3); }
                 return;
             }
+            if (Helpers.strComp(lookupInput, NPC.getName(4)) | Helpers.strComp(lookupInput, NPC.getAddr(4))) {
+                if (activeQuest > 4) { do Lookup.new(4); }
+                return;
+            }
             return;
         }
 

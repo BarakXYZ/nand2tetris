@@ -1,11 +1,12 @@
 class NPC {
     
-    static int activeNPC;
+    static int activeNPC, numOfNPC;
     static ChallengeNode currChallengeNode;
     static ContentNode currContentNode;
     static Array challengeNodes, contentNodes, npcNames, npcAddresses;
     
     function void init() {
+        let numOfNPC = 5;
         do NPC.initNames();
         do NPC.initAddresses();
         do NPC.initContents();
@@ -15,45 +16,43 @@ class NPC {
     }
 
     function void initNames() {
-        let npcNames = Array.new(5);
+        let npcNames = Array.new(numOfNPC);
         let npcNames[0] = "SHIMON";
         let npcNames[1] = "GNIRUT";
         let npcNames[2] = "LOLO";
         let npcNames[3] = "NAND";
-        let npcNames[4] = "";
+        let npcNames[4] = "TETRIS";
         return;
     }
 
     function void initAddresses() {
-        let npcAddresses = Array.new(5);
+        let npcAddresses = Array.new(numOfNPC);
         let npcAddresses[0] = "555";
         let npcAddresses[1] = "357";
         let npcAddresses[2] = "1010";
         let npcAddresses[3] = "289";
-        let npcAddresses[4] = "";
+        let npcAddresses[4] = "475";
         return;
     }
 
     function void initContents() {
-        let contentNodes = Array.new(5);
+        let contentNodes = Array.new(numOfNPC);
         let contentNodes[0] = ContentNode.makeBlank();
         let contentNodes[1] = ContentNode.makeGNIRUT();
         let contentNodes[2] = ContentNode.makeLOLO();
         let contentNodes[3] = ContentNode.makeNAND();
-        let contentNodes[4] = ContentNode.makeBlank();
-        
+        let contentNodes[4] = ContentNode.makeTETRIS();
         let currContentNode = contentNodes[0];
         return;
     }
 
     function void initChallenges() {
-        let challengeNodes = Array.new(5);
-        let challengeNodes[0] = ChallengeNode.makeChallengeBlank();
+        let challengeNodes = Array.new(numOfNPC);
+        let challengeNodes[0] = ChallengeNode.makeBlank();
         let challengeNodes[1] = ChallengeNode.makeChallengeGNIRUT();
         let challengeNodes[2] = ChallengeNode.makeChallengeLOLO();
         let challengeNodes[3] = ChallengeNode.makeChallengeNAND();
-        let challengeNodes[4] = ChallengeNode.makeChallengeBlank();
-
+        let challengeNodes[4] = ChallengeNode.makeChallengeTETRIS();
         let currChallengeNode = challengeNodes[0];
         return;
     }
@@ -67,7 +66,6 @@ class NPC {
         let currContentNode = contentNodes[0];
         return;
     }
-
 
     function String getName(int aIndex) {
         return npcNames[aIndex];
@@ -95,7 +93,8 @@ class NPC {
         // 0 == @SHIMON  // @555
         // 1 == @GNIRUT  // @357
         // 2 == @LOLO    // @1010
-        // 3 == @NAND    // @
+        // 3 == @NAND    // @289
+        // 4 == @TETRIS  // @475
         return;
     }
 
@@ -106,6 +105,7 @@ class NPC {
         if (quest = 3) { let challengeNodes[0] = ChallengeNode.makeChallenge3(); }
         if (quest = 4) { let challengeNodes[0] = ChallengeNode.makeChallenge4(); }
         if (quest = 5) { let challengeNodes[0] = ChallengeNode.makeChallenge5(); }
+        if (quest = 6) { let challengeNodes[0] = ChallengeNode.makeBlank(); }
         let currChallengeNode = challengeNodes[0];
         do Challenge.setSelActiveBuffIndex(12);  // Reset Cursor (buffer) location
         return;
@@ -121,10 +121,10 @@ class NPC {
         return;
     }
 
-    function boolean checkChallengeAnswer(String a1, String a2, String a3) {
+    function boolean checkChallengeAnswer(String a1, String a2, String a3, String a4) {
         var boolean ret;
         if (~(currChallengeNode.isCompleted())) {
-            let ret = currChallengeNode.checkAnswer(a1, a2, a3);
+            let ret = currChallengeNode.checkAnswer(a1, a2, a3, a4);
             do Output.moveCursor(0,0);
             if (ret) {
                 if (currChallengeNode.isEnemy()) { do NPC.defeatEnemy(); }

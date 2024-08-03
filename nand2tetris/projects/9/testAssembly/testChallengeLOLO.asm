@@ -1,4 +1,4 @@
-    // Challenge LOLO (4.2)
+    // Challenge LOLO (Part of Challenge 4)
 
     @1010  // init
     D=A+1  // 1010+1 -> D=1011
