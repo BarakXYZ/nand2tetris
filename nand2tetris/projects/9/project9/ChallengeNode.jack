@@ -1,13 +1,13 @@
 class ChallengeNode {
 
-    field int currentRow, numLines, numHints, queries;
+    field int currentRow, numLines, queries;
     field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11;
     field String a0, a1, a2, a3;
     field String r0, r1, r2, r3;
     field Array content, answers, registers;
     field boolean isCompleted, isEnemy;
 
-    static int startRowCode, startCol, startRowReg; 
+    static int startRowCode, startCol, startRowReg, numOfRegs; 
     static String lineIndex;
 
     function void init() {
@@ -15,6 +15,7 @@ class ChallengeNode {
         let startCol = 3;
         let startRowReg = 16;
         let lineIndex = String.new(3);
+        let numOfRegs = 4;
         return;
     }
 
@@ -40,12 +41,14 @@ class ChallengeNode {
     }
 
     method void drawRegisters() {
-        do Output.moveCursor(startRowReg, 1);
-        do Output.printString(registers[0]);
-        do Output.moveCursor(startRowReg + 1, 1);
-        do Output.printString(registers[1]);
-        do Output.moveCursor(startRowReg + 2, 1);
-        do Output.printString(registers[2]);
+        var int i;
+        let i = 0;
+
+        while (i < numOfRegs) {
+            do Output.moveCursor(startRowReg + i, 1);
+            do Output.printString(registers[i]);
+            let i = i + 1;
+        }
         return;
     }
 
@@ -87,13 +90,13 @@ class ChallengeNode {
         let content[10] = t10;
         let content[11] = t11;
 
-        let answers = Array.new(4);
+        let answers = Array.new(numOfRegs);
         let answers[0] = a0;
         let answers[1] = a1;
         let answers[2] = a2;
         let answers[3] = a3;
 
-        let registers = Array.new(4);
+        let registers = Array.new(numOfRegs);
         let registers[0] = r0;
         let registers[1] = r1;
         let registers[2] = r2;
@@ -102,13 +105,16 @@ class ChallengeNode {
         return;
     }
 
-    method boolean checkAnswer(String buff12, String buff13, String buff14) {
-        if (queries = 1) { return Helpers.strComp(buff12, a0); }
+    method boolean checkAnswer(String b12, String b13, String b14, String b15) {
+        if (queries = 1) { return Helpers.strComp(b12, a0); }
         if (queries = 2) {
-            return Helpers.strComp(buff12, a0) & Helpers.strComp(buff13, a1);
+            return Helpers.strComp(b12, a0) & Helpers.strComp(b13, a1);
         }
         if (queries = 3) {
-            return Helpers.strComp(buff12, a0) & Helpers.strComp(buff13, a1) & Helpers.strComp(buff14, a2);
+            return Helpers.strComp(b12, a0) & Helpers.strComp(b13, a1) & Helpers.strComp(b14, a2);
+        }
+        if (queries = 4) {
+            return Helpers.strComp(b12, a0) & Helpers.strComp(b13, a1) & Helpers.strComp(b14, a2) & Helpers.strComp(b15, a3);
         }
         return false;
     }
@@ -166,9 +172,8 @@ class ChallengeNode {
 
     //** NODES *//
 
-    constructor ChallengeNode makeChallengeBlank() {
+    constructor ChallengeNode makeBlank() {
 
-        let currentRow = 0;
         let numLines = 0;
         let queries = 0;
 
@@ -314,7 +319,6 @@ class ChallengeNode {
     constructor ChallengeNode makeChallengeGNIRUT() {
         
         let numLines = 11;
-        let numHints = 3;
         let queries = 1;
 
         let t0 = "@5";
@@ -352,7 +356,6 @@ class ChallengeNode {
     constructor ChallengeNode makeChallenge4() {
         
         let numLines = 11;
-        let numHints = 0;
         let queries = 1;
 
         let t0 = "@LOLO";
@@ -390,7 +393,6 @@ class ChallengeNode {
     constructor ChallengeNode makeChallengeLOLO() {
         
         let numLines = 9;
-        let numHints = 0;
         let queries = 1;
 
         let t0 = "D=A+1";
@@ -426,32 +428,31 @@ class ChallengeNode {
 
     constructor ChallengeNode makeChallenge5() {
         
-        let numLines = 8;
-        let numHints = 0;
-        let queries = 1;
+        let numLines = 11;
+        let queries = 4;
 
         let t0 = "@NAND";
         let t1 = "D=M";
         let t2 = "@2";
-        let t3 = "D=D+A";
+        let t3 = "MD=D+A";
         let t4 = "@TETRIS";
-        let t5 = "D=D+M";
+        let t5 = "D=D-M";
         let t6 = "@WEEK9";
-        let t7 = "M=D";
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
+        let t7 = "M=!D";
+        let t8 = "@You";
+        let t9 = "@Got";
+        let t10 = "@This!";
         let t11 = "";
         
-        let a0 = "603";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a0 = "-1";
+        let a1 = "1";
+        let a2 = "-476";
+        let a3 = "-478";
 
-        let r0 = "RAM[WEEK9]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r0 = "RAM[NAND]=";
+        let r1 = "RAM[2]=";
+        let r2 = "RAM[TETRIS]=";
+        let r3 = "RAM[WEEK9]=";
 
         let isEnemy = false;
         let isCompleted = false;
@@ -465,7 +466,6 @@ class ChallengeNode {
     constructor ChallengeNode makeChallengeNAND() {
         
         let numLines = 10;
-        let numHints = 0;
         let queries = 1;
 
         let t0 = "@5";
@@ -498,4 +498,41 @@ class ChallengeNode {
 
         return this;
     }
+
+    constructor ChallengeNode makeChallengeTETRIS() {
+        
+        let numLines = 11;
+        let queries = 4;
+
+        let t0 = "@101";
+        let t1 = "D=A";
+        let t2 = "AD=D|M";
+        let t3 = "A=M|D";
+        let t4 = "AM=M+D";
+        let t5 = "AD=M|D";
+        let t6 = "AMD=D-M";
+        let t7 = "A=D&M";
+        let t8 = "AMD=D|M";
+        let t9 = "A=D-M";
+        let t10 = "M=!A";
+        let t11 = "";
+        
+        let a0 = "555";
+        let a1 = "357";
+        let a2 = "487";
+        let a3 = "-476";
+
+        let r0 = "RAM[375]=";
+        let r1 = "RAM[367]=";
+        let r2 = "RAM[0]=";
+        let r3 = "RAM[475]=";
+
+        let isEnemy = true;
+        let isCompleted = false;
+
+        do assignContentToArr();
+
+        return this;
+    }
+
 }

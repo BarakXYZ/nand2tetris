@@ -23,19 +23,6 @@ class Challenge {
 
             let isArrow = false;
             let isEnter = false;
-
-            do Challenge.initAnswers();
-            return;
-        }
-
-        function void initAnswers() {
-            let buffArrSize = 5;
-            let answers = Array.new(buffArrSize);
-            
-            let answers[0] = "6";
-            let answers[1] = "555";
-            let answers[2] = "99999";
-
             return;
         }
 
@@ -78,7 +65,7 @@ class Challenge {
 
                 // if 'Enter': insert answer and exit 'Answer Mode'
                 if (Input.isEnter(c)) {
-                    if (NPC.checkChallengeAnswer(currGroupBuffer[12], currGroupBuffer[13], currGroupBuffer[14])) {
+                    if (NPC.checkChallengeAnswer(currGroupBuffer[12], currGroupBuffer[13], currGroupBuffer[14], currGroupBuffer[15])) {
                         let c = 140;
                     }
 

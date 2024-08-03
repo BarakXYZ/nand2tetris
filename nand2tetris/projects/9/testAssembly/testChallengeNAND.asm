@@ -1,7 +1,8 @@
+    // Challenge NAND (Part of Challenge 5)
     // Content:
     // SymName: NAND
     // Address: Can be determined later to help wherever needed
-    // Value: ?
+    // Value: RAM[10]
 
     @5  // 0101 -> 5
     D=A
@@ -17,7 +18,7 @@
     D+1;JGE  // (1.) D=0
              // (2.) D=-10
     @10
-    D=D|A  // D = 0000 1010 (10) | 1111 0101 (-11) = 1111 1111 (-1)
+    M=D|A  // D = 0000 1010 (10) | 1111 0101 (-11) = 1111 1111 (-1)
 
 
     // RAM[10] = -1

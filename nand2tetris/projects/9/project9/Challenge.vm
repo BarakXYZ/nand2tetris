@@ -24,61 +24,6 @@ push constant 0
 pop static 10
 push constant 0
 pop static 11
-call Challenge.initAnswers 0
-pop temp 0
-push constant 0
-return
-function Challenge.initAnswers 0
-push constant 5
-pop static 20
-push static 20
-call Array.new 1
-pop static 9
-push constant 0
-push static 9
-add
-push constant 1
-call String.new 1
-push constant 54
-call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 1
-push static 9
-add
-push constant 3
-call String.new 1
-push constant 53
-call String.appendChar 2
-push constant 53
-call String.appendChar 2
-push constant 53
-call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 2
-push static 9
-add
-push constant 5
-call String.new 1
-push constant 57
-call String.appendChar 2
-push constant 57
-call String.appendChar 2
-push constant 57
-call String.appendChar 2
-push constant 57
-call String.appendChar 2
-push constant 57
-call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
 push constant 0
 return
 function Challenge.initBuffers 0
@@ -201,7 +146,12 @@ push static 18
 add
 pop pointer 1
 push that 0
-call NPC.checkChallengeAnswer 3
+push constant 15
+push static 18
+add
+pop pointer 1
+push that 0
+call NPC.checkChallengeAnswer 4
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1

@@ -1,4 +1,4 @@
-    // Challenge GNIRUT (3.2)
+    // Challenge GNIRUT (Part of Challenge 3)
 
     // init
     @5

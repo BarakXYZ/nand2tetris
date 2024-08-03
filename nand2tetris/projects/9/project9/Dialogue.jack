@@ -14,6 +14,7 @@ class Dialogue {
         let dialogueNodeArr[1] = DialogueNode.makeEnemyGNIRUT();
         let dialogueNodeArr[2] = DialogueNode.makeEnemyLOLO();
         let dialogueNodeArr[3] = DialogueNode.makeEnemyNAND();
+        let dialogueNodeArr[4] = DialogueNode.makeEnemyTETRIS();
         let currDialogueNode = dialogueNodeArr[0];
         return;
     }
@@ -26,6 +27,7 @@ class Dialogue {
         if (quest = 3) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON3(); }
         if (quest = 4) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON4(); }
         if (quest = 5) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON5(); }
+        if (quest = 6) { let dialogueNodeArr[0] = DialogueNode.makeSHIMON6(); }
         let currDialogueNode = dialogueNodeArr[0];
         return;
     }
@@ -36,9 +38,10 @@ class Dialogue {
         let selNPC = NPC.getActive();
         do currDialogueNode.dispose();
         if (selNPC=1) { let dialogueNodeArr[1] = DialogueNode.makeFriendGNIRUT(); }
-        if (selNPC=2) { let dialogueNodeArr[1] = DialogueNode.makeFriendLOLO(); }
-        if (selNPC=3) { let dialogueNodeArr[1] = DialogueNode.makeFriendNAND(); }
-        let currDialogueNode = dialogueNodeArr[1];
+        if (selNPC=2) { let dialogueNodeArr[2] = DialogueNode.makeFriendLOLO(); }
+        if (selNPC=3) { let dialogueNodeArr[3] = DialogueNode.makeFriendNAND(); }
+        if (selNPC=4) { let dialogueNodeArr[4] = DialogueNode.makeFriendTETRIS(); }
+        let currDialogueNode = dialogueNodeArr[selNPC];
         return;
     }
 
