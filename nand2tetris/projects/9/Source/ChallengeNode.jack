@@ -182,28 +182,28 @@ class ChallengeNode {
         let numLines = 0;
         let queries = 0;
 
-        let t0 = "";
-        let t1 = "";
-        let t2 = "";
-        let t3 = "";
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
+        let t0 = " ";
+        let t1 = " ";
+        let t2 = " ";
+        let t3 = " ";
+        let t4 = " ";
+        let t5 = " ";
+        let t6 = " ";
+        let t7 = " ";
+        let t8 = " ";
+        let t9 = " ";
+        let t10 = " ";
+        let t11 = " ";
 
-        let a0 = "";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a0 = " ";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
-        let r0 = "";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r0 = " ";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = false;
         let isCompleted = false;
@@ -222,24 +222,24 @@ class ChallengeNode {
         let t1 = "D=A";
         let t2 = "@555";
         let t3 = "M=D";
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
+        let t4 = " ";
+        let t5 = " ";
+        let t6 = " ";
+        let t7 = " ";
+        let t8 = " ";
+        let t9 = " ";
+        let t10 = " ";
+        let t11 = " ";
 
         let a0 = "42";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[555]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = false;
         let isCompleted = false;
@@ -260,22 +260,22 @@ class ChallengeNode {
         let t3 = "@40";
         let t4 = "A=D-A";
         let t5 = "M=D-1";
-        let t6 = "";
-        let t7 = "";
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
+        let t6 = " ";
+        let t7 = " ";
+        let t8 = " ";
+        let t9 = " ";
+        let t10 = " ";
+        let t11 = " ";
         
         let a0 = "42";
         let a1 = "596";
-        let a2 = "";
-        let a3 = "";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[555]=";
         let r1 = "RAM[557]=";
-        let r2 = "";
-        let r3 = "";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = false;
         let isCompleted = false;
@@ -294,24 +294,24 @@ class ChallengeNode {
         let t1 = "D=M";
         let t2 = "@666";
         let t3 = "M=A+D";
-        let t4 = "";
-        let t5 = "";
-        let t6 = "";
-        let t7 = "";
-        let t8 = "";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
+        let t4 = " ";
+        let t5 = " ";
+        let t6 = " ";
+        let t7 = " ";
+        let t8 = " ";
+        let t9 = " ";
+        let t10 = " ";
+        let t11 = " ";
         
         let a0 = "684";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[666]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = false;
         let isCompleted = false;  // not really being used
@@ -337,17 +337,17 @@ class ChallengeNode {
         let t8 = "D=A+D";
         let t9 = "@357";
         let t10 = "M=D";
-        let t11 = "";
+        let t11 = " ";
         
         let a0 = "18";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[357]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = true;
         let isCompleted = false;
@@ -374,17 +374,17 @@ class ChallengeNode {
         let t8 = "D+1;JGE";
         let t9 = "@201";
         let t10 = "M=A-D";
-        let t11 = "";
+        let t11 = " ";
         
         let a0 = "219";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[201]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = false;
         let isCompleted = false;
@@ -410,18 +410,18 @@ class ChallengeNode {
         let t7 = "D+1;JEQ";
         let t8 = "@LOLO";
         let t9 = "M=D";
-        let t10 = "";
-        let t11 = "";
+        let t10 = " ";
+        let t11 = " ";
         
         let a0 = "0";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[1010]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = true;
         let isCompleted = false;
@@ -447,7 +447,7 @@ class ChallengeNode {
         let t8 = "@You";
         let t9 = "@Got";
         let t10 = "@This!";
-        let t11 = "";
+        let t11 = " ";
         
         let a0 = "-1";
         let a1 = "1";
@@ -483,18 +483,18 @@ class ChallengeNode {
         let t7 = "D+1;JGE";
         let t8 = "@10";
         let t9 = "M=D|A";
-        let t10 = "";
-        let t11 = "";
+        let t10 = " ";
+        let t11 = " ";
         
         let a0 = "-1";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
         let r0 = "RAM[10]=";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = true;
         let isCompleted = false;
@@ -520,7 +520,7 @@ class ChallengeNode {
         let t8 = "AMD=D|M";
         let t9 = "A=D-M";
         let t10 = "M=!A";
-        let t11 = "";
+        let t11 = " ";
         
         let a0 = "555";
         let a1 = "357";
@@ -555,19 +555,19 @@ class ChallengeNode {
         let t6 = "D=A";
         let t7 = "@YOU";
         let t8 = "M=D";
-        let t9 = "";
-        let t10 = "";
-        let t11 = "";
+        let t9 = " ";
+        let t10 = " ";
+        let t11 = " ";
         
         let a0 = "12345";
-        let a1 = "";
-        let a2 = "";
-        let a3 = "";
+        let a1 = " ";
+        let a2 = " ";
+        let a3 = " ";
 
-        let r0 = "";
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
+        let r0 = " ";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
 
         let isEnemy = false;
         let isCompleted = false;

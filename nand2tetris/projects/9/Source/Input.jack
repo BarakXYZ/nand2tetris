@@ -48,7 +48,7 @@ class Input {
         return;
     }
 
-    function bool quit(char c) {
+    function boolean quit(char c) {
 
         do Output.moveCursor(0,0);
         do Output.printString("Are you sure you want to quit?");
