@@ -1,0 +1,240 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+
+//** Construction and implementations of all the different Content Nodes NPC's carry. Is also Responsible for drawing the nodes in the correct location (i.e. Rows and Columns). Content Nodes will be initialized, disposed and updated during gameplay, upon quest completion, etc. *//
+class ContentNode {
+    field String symName, address, val, lvl, status1, status2;
+    field String r1, r2, r3, r4, r5, a1;
+    field int items, ramNum;
+    // field String effect0, effect1;
+    field Array arrContent;
+    static String tName, tAddr, tVal, tLVL, tStatus, tRAM;
+    static int baseRow, baseCol;
+    static Array arrFixedTitleContent;
+    
+    function void init() {
+        let baseRow = 4;
+        let baseCol = 41;
+        
+        let tName = "SymName: ";
+        let tAddr = "Address: ";
+        let tVal  = "Value:   ";
+        let tLVL  = "Level:   ";
+        let tRAM = "RAM";
+        let tStatus = "";
+
+        let arrFixedTitleContent = Array.new(10);
+        let arrFixedTitleContent[0] = tName;
+        let arrFixedTitleContent[1] = tAddr;
+        let arrFixedTitleContent[2] = tVal;
+        let arrFixedTitleContent[3] = tLVL;
+        let arrFixedTitleContent[4] = tStatus;
+
+        let arrFixedTitleContent[5] = tRAM;
+        let arrFixedTitleContent[6] = tRAM;
+        let arrFixedTitleContent[7] = tRAM;
+        let arrFixedTitleContent[8] = tRAM;
+        let arrFixedTitleContent[9] = tRAM;
+
+        return;
+    }
+
+    method void draw() {
+        var int i;
+        let i = 0;
+        while ((i < items) & (items > 1)) {
+
+            if ((i = (items - ramNum - 1)) | (i = (items - ramNum))) {
+                let baseRow = baseRow + 1;
+            }
+            do Output.moveCursor(baseRow + i, baseCol);
+
+            do Output.printString(arrFixedTitleContent[i]);
+            do Output.printString(arrContent[i]);
+            let i = i + 1;
+        }
+
+        do UserInterface.printAlignedTitle(arrContent[0]);  // symName
+        let baseRow = 4;  // Reset
+
+        return;
+    }
+
+    method void fillEmptyRAM() {
+        let ramNum = 0;
+        let r1 = "";
+        let r2 = "";
+        let r3 = "";
+        let r4 = "";
+        let r5 = "";
+        return;
+    }
+
+    method void assignToArr() {
+
+        let arrContent = Array.new(10);
+
+        let arrContent[0] = symName;
+        let arrContent[1] = address;
+        let arrContent[2] = val;
+        let arrContent[3] = lvl;
+
+        let arrContent[4] = status1;
+
+        let arrContent[5] = r1;
+        let arrContent[6] = r2;
+        let arrContent[7] = r3;
+        let arrContent[8] = r4;
+        let arrContent[9] = r5;
+
+        return;
+    }
+    
+    //** Upon enemy defeat, their Value will be revelead in the Content Pane. This function will assign the answer to the correspondng array content element and draw it in the Content Pane *//
+    method void reveal() {
+        let arrContent[2] = a1;  // Update Value
+        do Output.moveCursor(baseRow + 2, baseCol);
+        
+        let arrContent[4] = status2;  // Update Status
+        do UserInterface.clearContentFrame();
+        do draw();
+        return;
+    }
+
+    method void dispose() {
+
+        do symName.dispose();
+        do address.dispose();
+        do val.dispose();
+        do lvl.dispose();
+
+        do status1.dispose();
+        do status2.dispose();
+
+        do r1.dispose();
+        do r2.dispose();
+        do r3.dispose();
+        do r4.dispose();
+        do r5.dispose();
+
+        do a1.dispose();
+
+        do arrContent.dispose();
+
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    constructor ContentNode makeBlank() {
+        let symName = "SHIMON";
+        let address = "";
+        let val = "";
+        let lvl = "";
+        let status1 = "";
+        let status2 = "";
+        let a1 = "";
+        let items = 0;
+
+        do fillEmptyRAM();
+        do assignToArr();
+        return this;
+    }
+    constructor ContentNode makeSHIMON() {
+        let symName = "SHIMON";
+        let address = "555";
+        let val = "42";
+        let lvl = "32768";
+
+        let status1 = "Master of Memory";
+        let status2 = "";
+
+        let a1 = "";
+        let items = 5;
+        
+        do fillEmptyRAM();
+        do assignToArr();
+        return this;
+    }
+
+    constructor ContentNode makeGNIRUT() {
+        let symName = "GNIRUT";
+        let address = "357";
+        let val = "?";
+        let lvl = "3";
+        
+        let status1 = "OPS I SEG FAULT AGAIN";
+        let status2 = "OPS YOU DID IT AGAIN!";
+
+        let r1 = "[3] = 5";
+        let r2 = "[5] = 7";
+        let r3 = "[7] = 3";
+        let r4 = "";
+        let r5 = "";
+
+        let a1 = "18";
+        let ramNum = 3;
+        let items = 8;
+
+        do assignToArr();
+        return this;
+    }
+
+
+    constructor ContentNode makeLOLO() {
+        let symName = "LOLO";
+        let address = "1010";
+        let val = "?";
+        let lvl = "4";
+        
+        let status1 = "You Search - I Laugh";
+        let status2 = "When I say jump u?";
+        let a1 = "0";
+        let items = 5;
+
+        do fillEmptyRAM();
+        do assignToArr();
+        return this;
+    }
+
+    constructor ContentNode makeNAND() {
+        let symName = "NAND";
+        let address = "289";
+        let val = "RAM[10]";
+        let lvl = "6";
+        
+        let status1 = "It's NOT gonna AND";
+        let status2 = "!NAY=YAY!";
+
+        let a1 = "-1";
+        let items = 5;
+
+        do fillEmptyRAM();
+        do assignToArr();
+        return this;
+    }
+
+    constructor ContentNode makeTETRIS() {
+        let symName = "TETRIS";
+        let address = "475";
+        let val = "?";
+        let lvl = "9";
+        
+        let status1 = "Come and get it.";
+        let status2 = "And so you did!";
+
+        let r1 = "[101]=292";
+        let r2 = "[375]=198";
+        let r3 = "[0]=130";
+        let r4 = "[487]=12";
+        let r5 = "[367]=10";
+        let ramNum = 5;
+
+        let a1 = "-476";
+        let items = 10;
+
+        do assignToArr();
+        return this;
+    }
+
+}

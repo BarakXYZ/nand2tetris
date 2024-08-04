@@ -1,0 +1,407 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Responsible for drawing all UI elements, clearing their content, etc. *//
+class UserInterface {
+    static int maxTitleLen, titleStartColumnIndex, titleStartRowIndex;
+    static String challengeInstruction, escapeInstruction, clearInstruction;
+    static String enterInstruction, arrowInstruction, arrowInstClear;
+    static char selRightArrow, selLeftArrow, blankSpace, asterisk, atSign, slash;
+    static String currentSelFriend, callingFriend, unknownFriend, clearBarFriend; 
+    static String challengeTitle, commentTitle, contentTitle, lookupTitle, currLvl;
+    static Array selCoordAnswer, selCoordLookUp;
+    static String blankPromptLine, incorrectSignal;
+    static int vpX1, vpX2, vpY1, vpY2, vpOffY1, vpOffY2;
+    static int coX2, chX1, chX2;
+
+    function void init() {
+        do UserInterface.initStrCoords();
+        do UserInterface.initStrInstructions();
+        do UserInterface.initSymbols();
+        do UserInterface.initUICoords();
+
+        do UserInterface.initAnswerSelCoords();
+        do UserInterface.initLookUpSelCoords();
+        do UserInterface.draw();
+
+        return;
+    }
+
+    function void initStrCoords() {
+        let maxTitleLen = 30;
+        let titleStartRowIndex = 2;
+        let titleStartColumnIndex = 16;
+        return;
+    }
+
+    function void initSymbols() {
+        let selRightArrow = 62;
+        let selLeftArrow = 60;
+        let blankSpace = 32;
+        let asterisk = 42;
+        let atSign = 64;
+        let slash = 47;
+        return;
+    }
+
+    function void initStrInstructions() {
+        let challengeInstruction = "[C]hallenge Mode";
+        let lookupTitle = "[L]ookup Address";
+        let challengeTitle = "Challenge";
+        let commentTitle = "Comment";
+        let contentTitle = "Content";
+        let arrowInstruction = "Up-Down to Nav Buffers";
+        let arrowInstClear = "                      ";
+        let currentSelFriend = ">> @ <<";
+        let unknownFriend = "** ? **";
+        let callingFriend = "** ! **";
+        let clearBarFriend = "       ";
+        let blankPromptLine = "                                                  ";
+        let incorrectSignal = "XXX Incorrect, try again XXX";
+        let escapeInstruction = " ** Press 'Escape' to Exit Current Mode **";
+        let enterInstruction = " ** Press 'Enter' to continue **";
+        let clearInstruction = "                                                 ";
+        let currLvl = "Level: ";
+        return;
+    }
+
+    function void initUICoords() {
+
+        // let vpX1 = 136;
+        let vpX1 = 168;
+        let vpY1 = 20;
+        // let vpX2 = 354;
+        let vpX2 = 322;
+        let vpY2 = 174;
+        
+        let coX2 = 511;
+        let chX1 = 0;
+        let chX2 = 84;
+
+        let vpOffY1 = 14;
+        let vpOffY2 = 55;
+
+        return;
+    }
+    function void draw() {
+
+        // do UserInterface.drawEntireScreenBorders();
+
+        // do UserInterface.drawMainFrame();
+
+        do UserInterface.drawViewport();
+
+        do UserInterface.drawDialogueBox();
+
+        // do UserInterface.drawChallengeFrame();
+
+        // do UserInterface.drawContentFrame();
+
+        // do UserInterface.drawLookup();
+
+        // do UserInterface.drawFriendsFrames();
+        
+        return;
+    }
+
+    function void drawEntireScreenBorders() {
+        do Screen.setColor(true);
+        do UserInterface.drawUnfilledRec(0, 0, 511, 255);
+        return;
+    }
+
+    function void drawMainFrame() {
+        do Screen.setColor(true);
+        do UserInterface.drawUnfilledRec(0, vpY1, coX2, vpY2 + vpOffY2);
+        return;
+    }
+
+    function void drawViewport() {
+        do Screen.setColor(true);
+        do UserInterface.drawUnfilledRec(vpX1, vpY1, vpX2, vpY1 + vpOffY1);  // title
+        do UserInterface.drawUnfilledRec(vpX1, vpY1 + vpOffY1, vpX2, vpY2);  // viewport
+        return;
+    }
+
+    function void drawDialogueBox() {
+        do Screen.setColor(true);
+        do UserInterface.drawUnfilledRec(vpX1, vpY2, coX2, vpY2 + vpOffY2);  // main
+        do UserInterface.drawUnfilledRec(coX2-38, vpY2, coX2, vpY2+14);  // index
+        return;
+    }
+
+    function void drawChallengeFrame() {
+        do Screen.setColor(true);
+        do UserInterface.drawUnfilledRec(chX1, vpY1, vpX1, vpY1 + vpOffY1);  // title
+        do Output.moveCursor(titleStartRowIndex, 1);
+        do Output.printString(challengeTitle);
+        do Output.moveCursor(titleStartRowIndex, 12);
+        do Output.printString(commentTitle);
+        do Output.moveCursor(21, 0);
+        do Output.printString(challengeInstruction);  // [A]nswer
+
+        do UserInterface.drawUnfilledRec(chX1, vpY1, chX2, vpY2);  // Code Frame
+        do UserInterface.drawUnfilledRec(chX2, vpY1, vpX1, vpY2);  // Comment Frame
+        do UserInterface.drawUnfilledRec(chX1, vpY2, vpX1, vpY2+vpOffY2);  // Answer Frame
+        return;
+    }
+
+    function void drawContentFrame() {
+        do Screen.setColor(true);
+        do UserInterface.drawUnfilledRec(vpX2, vpY1, coX2, vpY1 + vpOffY1);  // title
+        do Output.moveCursor(titleStartRowIndex, 48);
+        do Output.printString(contentTitle);
+
+        do UserInterface.drawUnfilledRec(vpX2, vpY1 + vpOffY1, coX2, vpY2);  // frame
+        return;
+    }
+
+    function void drawLookupFrame() {
+        do Screen.setColor(true);
+        
+        // Frame
+        do Screen.drawLine(226, vpY2 + vpOffY2, 290, vpY2 + vpOffY2);  // Upper line
+        do Screen.drawLine(226, vpY2 + vpOffY2, 226, 243);  // Left line
+        do Screen.drawLine(290, vpY2 + vpOffY2, 290, 243);  // Right line
+        do Screen.drawLine(226, 243, 258, 255);  // Left Diagonal
+        do Screen.drawLine(290, 243, 258, 255);  // Right Diagonal
+        
+        do Output.moveCursor(21, 39);
+        do Output.printString(lookupTitle);
+        do Output.moveCursor(21, 29);
+        do Output.printChar(atSign);
+        return;
+    }
+
+    function void drawUnfilledRec(int x1, int y1, int x2, int y2) {
+        do Screen.setColor(true);
+
+        do Screen.drawLine(x1, y1, x2, y1);  // Upper line
+        do Screen.drawLine(x1, y2, x2, y2);  // Bottom line
+        do Screen.drawLine(x1, y1, x1, y2);  // Left line
+        do Screen.drawLine(x2, y1, x2, y2);  // Right line
+        return;
+    }
+
+    function void drawInstruction(int type) {
+        var String instruction;
+        if (type = 0) { let instruction = escapeInstruction; }
+        if (type = 1) { let instruction = enterInstruction; }
+        
+        do Output.moveCursor(0,0);
+        do Output.printString(instruction);
+        return;
+    }
+
+    function void clearInstruction() {
+        do Output.moveCursor(0,0);
+        do Output.printString(clearInstruction);
+        return;
+    }
+
+    function void printAlignedTitle(String aTitle) {
+        var int delta;
+        do UserInterface.clearViewportTitle();
+
+        let delta = maxTitleLen - aTitle.length();
+        do Output.moveCursor(titleStartRowIndex, titleStartColumnIndex + (delta / 2) - 1);
+        do Output.printChar(atSign);
+        do Output.printString(aTitle);
+        return;
+    }
+
+
+    function void drawSelArrows(Array selCoordDraw) {
+
+        // do Output.moveCursor(selCoordDraw[0], selCoordDraw[1]);
+        // do Output.printChar(selRightArrow);
+
+        do Output.moveCursor(selCoordDraw[2], selCoordDraw[3]);
+        do Output.printChar(selLeftArrow);
+
+        do Output.moveCursor(selCoordDraw[4], selCoordDraw[5]);
+        do Output.printChar(asterisk);
+
+        do UserInterface.drawDialogueBox();
+
+        return;
+    }
+
+    function void drawChallengeSel(int selBuffer, boolean draw) {
+        let selBuffer = selBuffer + 4;  // 5 being the base index row (0)
+        do Output.moveCursor(selBuffer, 21);
+
+        if (draw) { do Output.printChar(selLeftArrow); }
+        else { do Output.printChar(32); }
+
+        do UserInterface.drawChallengeFrame();
+        do UserInterface.drawDialogueBox();
+
+        do Output.moveCursor(21, 17);
+        if (draw) {
+            do Output.printChar(asterisk);
+            do Output.moveCursor(22, 0);
+            do Output.printString(arrowInstruction);
+        }
+        else {
+            do Output.printChar(32);
+            do Output.moveCursor(22, 0);
+            do Output.printString(arrowInstClear);
+        }
+        return;
+    }
+
+    function void eraseSelArrows(Array selCoordErase) {
+
+        do Output.moveCursor(selCoordErase[0], selCoordErase[1]);
+        do Output.printChar(blankSpace);
+
+        do Output.moveCursor(selCoordErase[2], selCoordErase[3]);
+        do Output.printChar(blankSpace);
+
+        do Output.moveCursor(selCoordErase[4], selCoordErase[5]);
+        do Output.printChar(blankSpace);
+
+        do UserInterface.drawDialogueBox();
+
+        return;
+    }
+
+    function void initLookUpSelCoords() {
+        let selCoordLookUp = Array.new(6);
+        let selCoordLookUp[0] = 21;
+        let selCoordLookUp[1] = 27;
+        let selCoordLookUp[2] = 21;
+        let selCoordLookUp[3] = 37;
+        let selCoordLookUp[4] = 22;
+        let selCoordLookUp[5] = 32;
+
+        return;
+    }
+
+    function void initAnswerSelCoords() {
+        let selCoordAnswer = Array.new(6);
+        let selCoordAnswer[0] = 18;
+        let selCoordAnswer[1] = 5;
+        let selCoordAnswer[2] = 18;
+        let selCoordAnswer[3] = 17;
+        let selCoordAnswer[4] = 22;
+        let selCoordAnswer[5] = 11;
+
+        return;
+    }
+
+    function Array getSelCoordAnswer() {
+        return selCoordAnswer;
+    }
+
+    function Array getSelCoordLookUp() {
+        return selCoordLookUp;
+    }
+
+    function void clearPromptLines() {
+        do Output.moveCursor(0,0);
+        do Output.printString(blankPromptLine);
+        do Output.moveCursor(1,0);
+        do Output.printString(blankPromptLine);
+        do UserInterface.drawUI();
+        return;
+    }
+
+    function void drawUI() {
+        do UserInterface.drawChallengeFrame();
+        do UserInterface.drawViewport();
+        do UserInterface.drawContentFrame();
+        return;
+    }
+
+    function void clearDialogueBox() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(vpX1 + 1, vpY2 + 1, 511, vpY2+vpOffY2-1);
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeAll() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(1, vpY1 + 1, 79, vpY2 - 1);  // Code Frame
+        do Screen.drawRectangle(81, vpY1 + 1, vpX1 - 1, vpY2 - 1);  // Comment Frame
+        do Screen.drawRectangle(1, vpY2 + 1, vpX1 - 1, vpY2+vpOffY2-1);  // Answer Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeCode() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(chX1 + 1, vpY1 + 1, 79, vpY2 - 1);  // Code Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeComment() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(81, vpY1 + 1, vpX1 - 1, vpY2 - 1);  // Comment Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearChallengeAnswer() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(chX1 + 1, vpY2 + 1, vpX1 - 1, vpY2+vpOffY2-1);  // Answer Frame
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void clearContentFrame() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(vpX2 + 1, vpY1 + vpOffY1 + 1, coX2 - 1, vpY2 - 1);
+        do Screen.setColor(true);
+        return;
+    }
+
+    //   We're essentially offesting by 1 pixel to not override the frame itself. 
+    //	 and on top of that, offseting by a few pixels to not override the sel arrow
+    function void clearViewport() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(vpX1 + 8, vpY1 + vpOffY1 + 1, vpX2 - 1, vpY2 - 1);
+        do Screen.setColor(true);
+        return;
+    }
+
+
+    function void clearViewportTitle() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(vpX1 + 1, vpY1 + 1, vpX2 - 1, vpY1 + vpOffY1 - 1);
+        do Screen.setColor(true);
+        return;
+    }
+
+    function void signalIncorrectAnswer() {
+        do Output.moveCursor(0,0);
+        do Output.printString(clearInstruction);
+        do Output.moveCursor(0,0);
+        do Output.printString(incorrectSignal);
+        do Sys.wait(2500);
+        do Output.moveCursor(0,0);
+        do Output.printString(clearInstruction);
+        do Output.moveCursor(0,0);
+        do Output.printString(escapeInstruction);
+        return;
+    }
+
+    function void drawCurrentLevel(int level) {
+        if (level < 6) {
+            do Output.moveCursor(0, 53);
+            do Output.printString(currLvl);
+            do Output.printInt(level);
+            do Output.printChar(slash);
+            do Output.printInt(5);
+        }
+        else {
+            do Output.moveCursor(0, 30);
+            do Output.printString(blankPromptLine);
+        }
+        return;
+    }
+
+}

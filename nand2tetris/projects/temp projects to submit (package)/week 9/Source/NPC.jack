@@ -1,0 +1,157 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** NPC will be interacted with upon new lookup and quests. Each NPC has a dialogue, content and challenge which will be previewed in the corresponding pane. This class is pre-initializing all the different NPC's, their nodes, and is responsible for updating them once a quest is complete or once an enemy is defeated. At some point all the different NPC's will be reachable for visitation, thus needs to be initialized and not disposed. Shimon's nodes though will be disposed and updated depending on the quest. Also, enemies, once defeated, will be updated to "friends" with corresponding updated nodes. *//
+class NPC {
+    
+    static int activeNPC, numOfNPC;
+    static ChallengeNode currChallengeNode;
+    static ContentNode currContentNode;
+    static Array challengeNodes, contentNodes, npcNames, npcAddresses;
+    
+    function void init() {
+        let numOfNPC = 5;
+        do NPC.initNames();
+        do NPC.initAddresses();
+        do NPC.initContents();
+        do NPC.initChallenges();
+        let activeNPC = 0;
+        return;
+    }
+
+    function void initNames() {
+        let npcNames = Array.new(numOfNPC);
+        let npcNames[0] = "SHIMON";
+        let npcNames[1] = "GNIRUT";
+        let npcNames[2] = "LOLO";
+        let npcNames[3] = "NAND";
+        let npcNames[4] = "TETRIS";
+        return;
+    }
+
+    function void initAddresses() {
+        let npcAddresses = Array.new(numOfNPC);
+        let npcAddresses[0] = "555";
+        let npcAddresses[1] = "357";
+        let npcAddresses[2] = "1010";
+        let npcAddresses[3] = "289";
+        let npcAddresses[4] = "475";
+        return;
+    }
+
+    function void initContents() {
+        let contentNodes = Array.new(numOfNPC);
+        let contentNodes[0] = ContentNode.makeBlank();
+        let contentNodes[1] = ContentNode.makeGNIRUT();
+        let contentNodes[2] = ContentNode.makeLOLO();
+        let contentNodes[3] = ContentNode.makeNAND();
+        let contentNodes[4] = ContentNode.makeTETRIS();
+        let currContentNode = contentNodes[0];
+        return;
+    }
+
+    function void initChallenges() {
+        let challengeNodes = Array.new(numOfNPC);
+        let challengeNodes[0] = ChallengeNode.makeBlank();
+        let challengeNodes[1] = ChallengeNode.makeChallengeGNIRUT();
+        let challengeNodes[2] = ChallengeNode.makeChallengeLOLO();
+        let challengeNodes[3] = ChallengeNode.makeChallengeNAND();
+        let challengeNodes[4] = ChallengeNode.makeChallengeTETRIS();
+        let currChallengeNode = challengeNodes[0];
+        return;
+    }
+
+    //** Main interaction loop; draws the corresponding Challenge Node, and calls Dialogue which will listen for user input for advancing *//
+    function void interact() {
+        // do Debug.interactions();
+        do currChallengeNode.draw();
+        do currContentNode.draw();
+        do Dialogue.draw();  // Listen for enter
+        do QuestManager.manageQuest();
+        return;
+    }
+
+    function void updateContentNode(int aIndex) {
+        let currContentNode = contentNodes[aIndex];
+        do currContentNode.dispose();
+        if(aIndex = 0) {
+            let contentNodes[0] = ContentNode.makeSHIMON();
+        }
+        let currContentNode = contentNodes[0];
+        return;
+    }
+
+    function String getName(int aIndex) {
+        return npcNames[aIndex];
+    }
+
+    function String getAddr(int aIndex) {
+        return npcAddresses[aIndex];
+    }
+
+    
+    function int getActive() {
+        return activeNPC;
+    }
+
+    function void setActive(int aIndex) {
+        let activeNPC = aIndex;
+        // 0 == @SHIMON  // @555
+        // 1 == @GNIRUT  // @357
+        // 2 == @LOLO    // @1010
+        // 3 == @NAND    // @289
+        // 4 == @TETRIS  // @475
+        return;
+    }
+
+    function void updateChallengeNode(int quest) {
+        do currChallengeNode.dispose();  // Dispose old node
+        if (quest = 1) { let challengeNodes[0] = ChallengeNode.makeChallenge1(); }
+        if (quest = 2) { let challengeNodes[0] = ChallengeNode.makeChallenge2(); }
+        if (quest = 3) { let challengeNodes[0] = ChallengeNode.makeChallenge3(); }
+        if (quest = 4) { let challengeNodes[0] = ChallengeNode.makeChallenge4(); }
+        if (quest = 5) { let challengeNodes[0] = ChallengeNode.makeChallenge5(); }
+        if (quest = 6) { let challengeNodes[0] = ChallengeNode.makeChallengeEnd(); }
+        let currChallengeNode = challengeNodes[0];
+        do Challenge.setSelActiveBuffIndex(12);  // Reset Cursor (buffer) location
+        return;
+    }
+
+    function void setChallengeNode(int aIndex) {
+        let currChallengeNode = challengeNodes[aIndex];
+        return;
+    }
+
+    function void setContentNode(int aIndex) {
+        let currContentNode = contentNodes[aIndex];
+        return;
+    }
+
+    function boolean checkChallengeAnswer(String a1, String a2, String a3, String a4) {
+        var boolean ret;
+        if (~(currChallengeNode.isCompleted())) {
+            let ret = currChallengeNode.checkAnswer(a1, a2, a3, a4);
+            do Output.moveCursor(0,0);
+            if (ret) {
+                if (currChallengeNode.isEnemy()) { do NPC.defeatEnemy(); }
+                else { do QuestManager.complete(); }  // main quest
+            }
+            else { do UserInterface.signalIncorrectAnswer(); }
+            return ret;
+        }
+        else { return false; }  // keeps cursor in buffer
+    }
+    
+    function void defeatEnemy() {
+        do currContentNode.reveal();
+        do currChallengeNode.complete();
+        do Dialogue.updateToFriend(QuestManager.getActive());
+        do Dialogue.draw();
+        return;
+    }
+
+    function boolean isEnemyDefeated() {
+        return currChallengeNode.isCompleted();
+    }
+
+}

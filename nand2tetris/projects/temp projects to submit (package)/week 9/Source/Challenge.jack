@@ -1,0 +1,192 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** The Challenge class is responsible for storing the comment and answer buffers for each NPC; for example Shimon will have its own group buffer which will be retained when jumping to other NPC's. The Answer Buffers will also be checked and fetched by the NPC to check if the users answer is correct *//
+class Challenge {
+
+        static int maxLen, buffStartRow, col;
+        static String currActiveSubBuff, tempBuff;
+        static Array buffArr, trackBuffArr;
+        static int selBuffIndex, groupBuffIndex;
+        static Array answers;
+        static boolean isArrow, isEnter;
+        static ChallengeBuffer b0, b1, b2, b3, b4, b5;
+        static ChallengeBuffer currGroupBuffer;
+        static Array bufferArr;
+        static int buffArrSize;
+
+        function void init() {
+            do Challenge.initBuffers();
+            let buffStartRow = 4;
+            let col = 11;
+            let currActiveSubBuff = currGroupBuffer.getBufferAt(12);  // default buffer
+            let tempBuff = currGroupBuffer.getBufferAt(12);  // default buffer
+            let maxLen = currGroupBuffer.getMaxStrLen() - 1;
+
+            let selBuffIndex = 12;
+
+            let isArrow = false;
+            let isEnter = false;
+            return;
+        }
+
+        function void initBuffers() {
+            let b0 = ChallengeBuffer.new();
+            let b1 = ChallengeBuffer.new();
+            let b2 = ChallengeBuffer.new();
+            let b3 = ChallengeBuffer.new();
+            let b4 = ChallengeBuffer.new();
+            let b5 = ChallengeBuffer.new();
+
+            let bufferArr = Array.new(10);
+            let bufferArr[0] = b0;
+            let bufferArr[1] = b1;
+            let bufferArr[2] = b2;
+            let bufferArr[3] = b3;
+            let bufferArr[4] = b4;
+            let bufferArr[5] = b5;
+
+            let currGroupBuffer = b0;
+            let groupBuffIndex = 0;  // default Shimon group
+            return;
+        }
+
+        
+        //** Main Challenge Loop; if 'A' is pressed, enter '[A]nswer mode' */
+        function void run(char c) {
+            do UserInterface.drawInstruction(0);
+            do UserInterface.drawChallengeSel(selBuffIndex , true);
+            do Sys.wait(200);
+
+            // Exits if 'Escape' (140) is pressed
+            while (~(c = 140)) {
+                // do Debug.activeBuff();
+                do Draw.sprite();
+                do Challenge.resetParams();
+
+                do Input.manageCharAndTimeBuffer(c);
+                let c = Keyboard.keyPressed();
+
+                // if 'Enter': insert answer and exit 'Answer Mode'
+                if (Input.isEnter(c)) {
+                    if (NPC.checkChallengeAnswer(currGroupBuffer[12], currGroupBuffer[13], currGroupBuffer[14], currGroupBuffer[15])) {
+                        let c = 140;
+                    }
+
+                    let isEnter = true;
+                }
+
+                if (c = 131) { do Challenge.upArrow(); }
+                if (c = 133) { do Challenge.downArrow(); }
+
+                // Append / Erase char if non-zero & no Enter & no Escape & no Arrow
+                if ((~(c = 0)) & (~(isEnter)) & (~(isArrow)) & (~(c = 140))) {
+                    // do Debug.key(c);
+                    // do Debug.event();
+                    
+                    // is erase? (129 == backspace)
+                    if ((currActiveSubBuff.length() > 0) & (c = 129)) { do Challenge.eraseChar(); }
+                    else {  // is append
+                        if ((currActiveSubBuff.length() < maxLen) & (~(c = 129))) {
+                            do Challenge.appendChar(c); 
+                        }
+                    }
+                }
+
+            }
+            do UserInterface.drawChallengeSel(selBuffIndex , false);
+            do UserInterface.clearInstruction();
+            return;
+        }
+
+        function void resetParams() {
+            let isArrow = false;
+            let isEnter = false;
+            return;
+        }
+
+        //** Append Characater:
+        // Prints the updated string to the given buffStartRow & col coords */
+        function void appendChar(char c) {
+            do currActiveSubBuff.appendChar(c);  // built-in String method
+            do Output.moveCursor(buffStartRow + selBuffIndex, col);
+            do Output.printString(currActiveSubBuff);
+            return;
+        }
+
+        //** Erase Character:
+        // Prints the updated string to the given buffStartRow & col coords */
+        function void eraseChar() {
+            // Clean old screen buffer (last char)
+            do currActiveSubBuff.appendChar(String.backSpace());
+            do Output.moveCursor(buffStartRow + selBuffIndex, col);
+            do Output.printString(currActiveSubBuff);
+
+            do currActiveSubBuff.eraseLastChar();  // erase backspace
+            do currActiveSubBuff.eraseLastChar();  // erase actual char
+            return;
+        }
+
+        function void upArrow() {
+            let isArrow = true;
+            do UserInterface.drawChallengeSel(selBuffIndex, false);
+            if (selBuffIndex = 0) { let selBuffIndex = 15; }
+            else { 
+                if (selBuffIndex = 12) { let selBuffIndex = 10; }
+                else { let selBuffIndex = selBuffIndex - 1; } 
+            }
+            do Challenge.manageBuffer(true);
+            return;
+        }
+
+        function void downArrow() {
+            let isArrow = true;
+            do UserInterface.drawChallengeSel(selBuffIndex, false);
+            if (selBuffIndex = 15) { let selBuffIndex = 0; }
+            else { 
+                if (selBuffIndex = 10) { let selBuffIndex = 12; }
+                else { let selBuffIndex = selBuffIndex + 1; } 
+            }
+            do Challenge.manageBuffer(true);
+            return;
+        }
+
+        function void manageBuffer(boolean isBufferSelected) {
+            let currActiveSubBuff = currGroupBuffer.getBufferAt(selBuffIndex);
+            do UserInterface.drawChallengeSel(selBuffIndex, isBufferSelected);
+            return;
+        }
+        
+        function void resetBuffer() {
+            do currGroupBuffer.dispose();
+            let currGroupBuffer = ChallengeBuffer.new();
+            let buffArr[groupBuffIndex] = currGroupBuffer;
+            do Challenge.manageBuffer(false);
+            do UserInterface.drawChallengeSel(selBuffIndex, false);
+            return;
+        } 
+
+        function int getSelActiveBuffIndex() {
+            return selBuffIndex;
+        }
+
+        function void setSelActiveBuffIndex(int aIndex) {
+            let selBuffIndex = aIndex;
+            return;
+        }
+
+        function void setCurrentBuffer(int aIndex) {
+            var boolean isBufferSelected;
+            let isBufferSelected = false;
+            let groupBuffIndex = aIndex;
+            let currGroupBuffer = bufferArr[groupBuffIndex];
+            do Challenge.manageBuffer(isBufferSelected);
+            return;
+        }
+
+        function void drawBuffer() {
+            do currGroupBuffer.draw();
+            do UserInterface.drawChallengeFrame();
+            return;
+        }
+}

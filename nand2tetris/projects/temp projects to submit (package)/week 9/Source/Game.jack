@@ -1,0 +1,67 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Main game loop; integrates the main components (Challenge & Lookup), calls their input listeners and runs the sprite drawing */
+//** Walkthrough of the game can be found at the 'Game Walkthrough' folder *// 
+class Game {
+
+    static boolean isNewLookup, isNewQuest, isLookupEnabled;
+
+    function void run() {
+        var boolean quit;
+        var char c;
+        var int activeNPC;
+
+        let quit = false;
+        let isNewLookup = true;
+        let isLookupEnabled = false;
+
+        while (~(quit)) {
+
+            // do Debug.activeQuest();
+
+            if (isNewLookup | isNewQuest) { 
+                let isNewLookup = false;
+                let isNewQuest = false;
+                do NPC.interact();
+            }
+
+            do Sys.wait(50);
+            do Draw.sprite();
+            let c = Keyboard.keyPressed();
+
+            // '@' or 'L' pressed ([@][L]ookup Mode)
+            if (Input.isLookup(c) & isLookupEnabled) { do Lookup.run(c); }
+
+            // 'C' pressed ([C]hallenge Mode)
+            if (Input.isChallenge(c)) { do Challenge.run(c); }
+
+            // 'Q' then 'Y' to quit
+            if (Input.isQuit(c)) { let quit = true; } 
+
+            // Skip Level (Uncomment for fast level skipping & Debugging)
+            if (c = 34) { do QuestManager.complete(); }  // '"' to skip level
+
+        }
+
+        return;
+    }
+
+    //** Used to trigger interactions with an NPC upon a new lookup *//
+    function void setNewLookup(boolean cond) {
+        let isNewLookup = cond;
+        return;
+    }
+
+    //** Used to trigger a new interaction with Shimon upon quest completion *//
+    function void setNewQuest(boolean cond) {
+        let isNewQuest = cond;
+        return;
+    }
+
+    //** Enabled from Level 3 onwards. *//
+    function void setIsLookupEnabled(boolean cond) {
+        let isLookupEnabled = cond;
+        return;
+    }
+}
