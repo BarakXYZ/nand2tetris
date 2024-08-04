@@ -295,7 +295,7 @@ class DialogueNode {
         let t12 = "Ok, let's move on...";
         let t13 = "Here's your next challenge...";
         let t14 = "Good luck and break a line!";
-        let t15 = "                            ";
+        let t15 = "";
 
         do fillStrBlank();
         do assignDialogueToArr();
