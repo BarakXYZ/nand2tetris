@@ -1,0 +1,20 @@
+class StringTools {
+    function bool isEq(String s1, String s2) {
+        var int i, l;
+        if (s1 = s2) {
+            return true;
+        }
+        let l = s1.length();
+        if (l = s2.length()) {
+            let i = 0;
+            while (i < l) {
+                if (~(s1.charAt(i) = s2.charAt(i))) {
+                    return false;
+                }
+                let i = i + 1;
+            }
+            return true;
+        }
+        return false;
+    }
+}

@@ -1,0 +1,235 @@
+class Command {
+   field int type, keyPointer;
+   field String key;
+  
+   constructor Command new(String input, String value) {
+      var int cursor;
+      let cursor = parseCommandType(input, cursor);
+
+      if (type = 0) {
+         return this; 
+      }
+
+      let cursor = fillKey(input, cursor);
+
+      if (type = 2) {
+         let cursor =  fillValue(input, cursor, value);
+      }
+
+      if (type = 0) {
+         return this; 
+      }
+
+      do checkTerminator(input, cursor);
+      
+      return this; 
+   }
+
+   method void checkTerminator(String input, int cursor) {
+      if (~(input.length() = (cursor + 1))) {
+         let type = 0;
+         return;
+      }
+
+      if (input.charAt(cursor) = 59) {
+         return;
+      }
+
+      let type = 0;
+      return;
+   }
+
+   method bool execute(Map map, int val) {
+      var int result;
+
+      if (type=0) {
+         do Output.printString("0: ERR PARSING");
+         return false;
+      }
+
+      if (type=1) {
+         let result = map.get(key);
+
+         if (result = 0) {
+            do Output.printString("1: ERR KEY NOT FOUND ");
+            do Output.printString(key);
+            return false;
+         }
+
+         do Output.printString(result);
+         return true;
+      }
+
+      if (type=3) {
+         let result = map.delete(key);
+         if (result) {
+            do Output.printString("DELETED KEY ");
+            do Output.printString(key);
+            return true;
+         }
+
+         do Output.printString("2: ERR KEY NOT FOUND ");
+         do Output.printString(key);
+         return false;
+      }
+
+      if (type=2) {
+         let result = map.set(key, val);
+         if (result) {
+            do Output.printString("SAVED KEY/VAL ");
+            do Output.printString(key);
+            do Output.printString("/");
+            do Output.printString(val);
+            return true;
+         }
+
+         do Output.printString("2: TO MANY KEYS IN THE MAP");
+         return false;
+      }
+      return false;
+   }
+
+   method bool isCommandSet() {
+      return type = 2;
+   }
+
+   method int fillValue(String input, int cursor, String value) {
+      var int c;
+      var bool t;
+
+      let t = true;
+
+      while ((cursor < input.length()) & t) {
+         if (input.charAt(cursor) = 32) {
+            let cursor = cursor + 1;
+         } else {
+            let t = false;
+         }
+      }
+
+      let t = true;
+
+      while ((cursor < input.length()) & t) {
+         let c = input.charAt(cursor);
+         if ((c = 32) | (c = 59)) {
+            let t = false;
+         } else {
+            do value.appendChar(c);
+            let cursor = cursor + 1;
+         }
+      }
+
+      if (value.length() = 0) {
+         let type = 0;
+      }
+
+      return cursor;
+   }
+
+   method int fillKey(String input, int cursor) {
+      var int i, c, l, minOther;
+      var bool t;
+
+      let t = true;
+      let l = input.length();
+
+      if (type = 3) {
+         let minOther = 8;
+      }
+
+      if (type = 1) {
+         let minOther = 5;
+      }
+
+      if (type = 2) {
+         let minOther = 7;
+      }
+
+      let key = String.new(l - minOther);
+
+      while ((cursor < l) & t) {
+         if (input.charAt(cursor) = 32) {
+            let cursor = cursor + 1;
+         } else {
+            let t = false;
+         }
+      }
+
+      let t = true;
+      let i = 0;
+
+
+      while ((i < (l - minOther)) & t) {
+         let c = input.charAt(cursor);
+         if ((c = 32) | (c = 59)) {
+            let t = false;
+         } else {
+            do key.appendChar(c);
+            let i = i + 1;
+            let cursor = cursor + 1;
+         }
+      }
+
+      if (key.length() = 0) {
+         let type = 0;
+      }
+
+      return cursor;
+   }
+
+   method int parseCommandType(String input, int cursor) {
+      var int l, c, inputIdentLen;
+      var String matchCommand;
+
+      let l = input.length();
+
+      if (l < 6) {
+        let type = 0;
+        return 0;
+      }
+
+      let matchCommand = String.new(5);
+      let c = input.charAt(0);
+
+      if (c = 68) {
+        let type = 3;
+        let matchCommand = "ELETE";
+      }
+
+      if (c = 71) {
+        let type = 1;
+        let matchCommand = "ET";
+      }
+
+      if (c = 83) {
+        let type = 2;
+        let matchCommand = "ET";
+      }
+
+      let inputIdentLen = matchCommand.length() + 1;
+      if (inputIdentLen = 0) {
+        do matchCommand.dispose();
+        let type = 0;
+        return 0;
+      }
+
+      let cursor = 1;
+
+      while (cursor < inputIdentLen) {
+        if (matchCommand.charAt(cursor - 1) = input.charAt(cursor)) {
+          let cursor = cursor + 1;
+        } else {
+          let type = 0;
+          return 0;
+        }
+      }
+
+      if (input.charAt(cursor) = 32) {
+        let cursor = cursor + 1;
+        return cursor;
+      }
+
+      let type = 0;
+      return 0;
+    }
+}

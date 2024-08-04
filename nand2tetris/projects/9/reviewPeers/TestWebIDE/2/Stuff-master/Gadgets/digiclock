@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# for entertainment purposes only.
+
+# this needs fixing.
+
+source $(dirname $0)/char_mod
+
+function cleanup {
+    printf '\033[u\f\f\f\f\f\f\f\f\n'
+    tput cnorm
+    exit
+}
+
+function carriagereturn {
+    printf '\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b'
+    printf '\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b'
+    printf '\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b'
+    printf '\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b'
+}
+
+function printnumber {
+    putchar "${charset[$(( ${1:0:1} + 0x30 ))]}"
+    putchar "${charset[$(( ${1:1:1} + 0x30 ))]}"
+}
+
+function printsep {
+  putchar "${charset[$1]}"
+}
+
+(
+    tput civis
+    putchar "${charset[0x20]}"
+    printf '\b\b\b\b\b\b\b\b\033[s'
+    trap cleanup SIGTERM SIGINT
+    while (( $(date +'%N' | sed 's/^0*//') / 10000000 )) ; do : ; done
+    tick=0
+    while : ; do
+        t=( $(date +'%H %M %S') )
+        h=${t[0]}
+        m=${t[1]}
+        s=${t[2]}
+        carriagereturn
+        printnumber $h
+        printsep 0x3a
+        printnumber $m
+        printsep $(( (tick=~tick) ? 0x3a : 0x20 ))
+        printnumber $s
+        sleep .5
+    done
+) 2>/dev/null

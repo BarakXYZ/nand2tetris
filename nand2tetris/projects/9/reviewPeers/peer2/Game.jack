@@ -1,0 +1,214 @@
+class Game {
+    static int difficulty;
+    static int round;
+    static String characters;
+    static Array motivations;
+
+    // Sets up the initial equirements for the game
+    function void setUpGame(int x) {
+        let difficulty = x;
+        let characters = "abcdefghijklmnopqrstuvwxyz0123456789!#$%()*+,./:;<=>?@";
+        return;
+    }
+
+    // Sets Up the difficuly of the game
+    function void setDifficulty(int x) {
+        let difficulty = x;
+        return;
+    }
+
+    // Get the string according to diificulty
+    function String getDifficulty() {
+        if (difficulty = 26) { return "EASY"; }
+        if (difficulty = 36) { return "MEDIUM"; }
+        if (difficulty = 54) { return "HARD"; }
+
+        return "null";
+    }
+
+    // Starts the main game
+    function void startGame() {
+        var int i;
+        var int j;
+        var int k;
+        var String input;
+        var String s;
+        var Array charArray;
+
+        let charArray = Array.new(50);
+        let input = String.new(50);
+        
+        let round = 1;
+        while (true) {
+            do Screen.clearScreen();
+            do Output.moveCursor(11, 26);
+            do Main.printStringConst("Round: ");
+            do Output.printInt(round);
+
+            let j = 0;
+            while (j < 25) {
+                do Sys.wait(30000);
+                let j = j + 1;
+            }
+            
+            do Game.fillArray(charArray, round);
+            do Game.display(charArray, round); 
+
+            if (~Game.getAndCheck(charArray, input)) {
+                do Game.gameOver(charArray);
+
+                do input.dispose();
+                do s.dispose();
+                do charArray.dispose();
+
+                return;
+            }
+
+            let round = round + 1;
+        }
+
+        return;
+    }
+
+    // Displays the characters in the array character by character 
+    function void display(Array arr, int size) {
+        var int i;
+        var int j;
+        let i = 0;
+
+        do Screen.clearScreen();
+        do Output.moveCursor(1, 2);
+        do Main.printStringConst("Round: ");
+        do Output.printInt(round);
+        do Output.moveCursor(1, 28);
+        do Main.printStringConst("Watch!");
+        do Output.moveCursor(1, 45);
+        do Main.printStringConst("Difficulty: ");
+        do Main.printStringConst(Game.getDifficulty());
+
+        do Screen.drawLine(0, 25, 510, 25);
+
+        while (i < size) {
+            let j = 0;
+            while (j < 15) {
+                do Sys.wait(30000);
+                let j = j + 1;
+            }
+
+            do Output.moveCursor(11,30);
+            do Output.printChar(arr[i]);
+            
+            let j = 0;
+            while (j < 20) {
+                do Sys.wait(30000);
+                let j = j + 1;
+            }
+
+            do Game.clearChar();
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    // Clears only that part of the screen where the character appears
+    function void clearChar() {
+        var int i;
+        var int start;
+        var int end;
+
+        let start = 16384 + (32*115) + 14;
+        let end = 16384 + (32*136) + 14;
+
+        while (start < end) {
+            let i = 0;
+            
+            while (i < 3) {
+                do Memory.poke(start + i, 0);
+                let i = i + 1;
+            }
+
+            let start = start + 32;
+        }
+
+        return;
+    }
+
+    // Fills the array with random characters according to difficulty
+    function void fillArray(Array arr, int n) {
+        var int i;
+        var char c;
+
+        let i = 0;
+        while (i < n) {
+            let arr[i] = characters.charAt(Random.between(0, difficulty));
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    // Clears that part of screen where Watch! and Type! appears
+    function void clearTop() {
+        var int i;
+        var int start;
+        var int end;
+
+        let start = 16384 + (32*5) + 13;
+        let end = 16384 + (32*25) + 13;
+
+        while (start < end) {
+            let i = 0;
+            
+            while (i < 4) {
+                do Memory.poke(start + i, 0);
+                let i = i + 1;
+            }
+
+            let start = start + 32;
+        }
+
+        return;
+    }
+
+    // Takes the input from the user and checks if it is correct
+    function boolean getAndCheck(Array arr, String input) {
+        var int i;
+        do Game.clearTop();
+        do Output.moveCursor(1, 28);
+        do Main.printStringConst("Type!");
+
+        do Output.moveCursor(11, 29-(round/4));
+        let input = Keyboard.readLine(input);
+
+        if (~(input.length() = round)) {
+            return false;
+        }
+        
+        let i = 0;
+        while (i < round) {
+            if (~(arr[i] = input.charAt(i))) {
+                return false;
+            }
+            let i = i + 1;
+        }
+
+        return true;
+    }
+
+    // Displays the correct answer on screen
+    function void gameOver(Array arr) {
+        var int j;
+        do Screen.clearScreen();
+        do Output.moveCursor(10, 17);
+        do Main.printStringConst("Sorry! Correct answer was ");
+
+        let j = 0;
+        while (j < round) {
+            do Output.printChar(arr[j]);
+            let j = j + 1;
+        }
+
+        return;
+    }
+}
