@@ -1,0 +1,18 @@
+class Main {
+    function void main() {
+    var String s;
+        do Animations.start();
+
+        return;
+    }
+
+    /* There is a memory leak issue with normal printString function
+       To be used only with string liternals
+       Link to issue: https://www.coursera.org/learn/nand2tetris2/discussions/forums/I54q4ij3Eea8jw6UvTi2Tw/threads/cw5bvParEeaIjwovgVtlYg
+    */
+    function void printStringConst(String str) {
+        do Output.printString(str);
+        do str.dispose();
+        return;
+    }
+}

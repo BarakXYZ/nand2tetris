@@ -19,6 +19,8 @@ The Legend of the Hack Assembly is a collection of increasingly demanding Assemb
    - Resolve other addresses to complete the main challenges.
 
 ## Misc
+- All Assembly Solution can be found inside the "AssemblySolutions" folder.
+- Walkthrough for the game can be found inside the "GameWalkthrough" folder.
 - Huge thanks to Shimon Shocken & Noam Nisan for the amazing Computer Science course: Nand2Tetris!
 - Special thanks to Erik Umble for the JackBitmapEditor: [JackBitmapEditor on GitHub](https://github.com/ErikUmble/JackBitmapEditor)
 

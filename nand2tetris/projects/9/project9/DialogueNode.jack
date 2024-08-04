@@ -152,81 +152,86 @@ class DialogueNode {
         let offset = 4;
         
         if (defaultDialogueLines = 0) {
-            let td4 = "";
-            let td3 = "";
-            let td2 = "";
-            let td1 = "";
-            let td0 = "";
+            let td4 = " ";
+            let td3 = " ";
+            let td2 = " ";
+            let td1 = " ";
+            let td0 = " ";
         }
 
         if (dialogueLines < maxMainDialogue) {
-            let t23 = "";
-            let t22 = "";
-            let t21 = "";
-            let t20 = "";
+            let t23 = " ";
+            let t22 = " ";
+            let t21 = " ";
+            let t20 = " ";
             let i = i + offset;
         } else { return; }
 
         if (dialogueLines < (maxMainDialogue - i)) {
-            let t19 = "";
-            let t18 = "";
-            let t17 = "";
-            let t16 = "";
+            let t19 = " ";
+            let t18 = " ";
+            let t17 = " ";
+            let t16 = " ";
             let i = i + offset;
         } else { return; }
 
         if (dialogueLines < (maxMainDialogue - i)) {
-            let t15 = "";
-            let t14 = "";
-            let t13 = "";
-            let t12 = "";
+            let t15 = " ";
+            let t14 = " ";
+            let t13 = " ";
+            let t12 = " ";
             let i = i + offset;
         } else { return; }
 
         if (dialogueLines < (maxMainDialogue - i)) {
-            let t11 = "";
-            let t10 = "";
-            let t9 = "";
-            let t8 = "";
+            let t11 = " ";
+            let t10 = " ";
+            let t9 = " ";
+            let t8 = " ";
             let i = i + offset;
         } else { return; }
 
         if (dialogueLines < (maxMainDialogue - i)) {
-            let t7 = "";
-            let t6 = "";
-            let t5 = "";
-            let t4 = "";
+            let t7 = " ";
+            let t6 = " ";
+            let t5 = " ";
+            let t4 = " ";
             let i = i + offset;
         } else { return; }
 
         if (dialogueLines < (maxMainDialogue - i)) {
-            let t3 = "";
-            let t2 = "";
-            let t1 = "";
-            let t0 = "";
+            let t3 = " ";
+            let t2 = " ";
+            let t1 = " ";
+            let t0 = " ";
         } return;
     }
 
     //** NODES *//
 
     constructor DialogueNode makeIntro() {
-        do initNodeParams(12, 0);
+        do initNodeParams(16, 0);
         let hasEnded = false;
 
-        let t0 = "Hello there young programmer!";
-        let t1 = "I'm glad you showed up.";
-        let t2 = "Before we move on to build a compiler,";
-        let t3 = "I have a few cool challenges for you!";
+        let t0 = "First things first: Please make sure";
+        let t1 = "to run this game on the non-web-IDE";
+        let t2 = "version of the VM Emulator. If you are";
+        let t3 = "already doing so, then let's start!";
 
-        let t4 = "I want to make sure you have all the";
-        let t5 = "basics nailed down. So I've prepared";
-        let t6 = "a few interesting Assembly challenges";
-        let t7 = "for you to solve!";
+        let t4 = "Hello there young programmer!";
+        let t5 = "I'm glad you showed up.";
+        let t6 = "Before we move on to build a compiler,";
+        let t7 = "I have a few cool challenges for you!";
 
-        let t8 = "They are... a bit involved...";
-        let t9 = "But no worries, we'll start with the";
-        let t10 = "big picture; go through everything";
-        let t11 = "step-by-step and get you up and running!";
+        let t8 = "I want to make sure you have all the";
+        let t9 = "basics nailed down. So I've prepared";
+        let t10 = "a few interesting Assembly challenges";
+        let t11 = "for you to solve!";
+
+        let t12 = "They are... a bit involved...";
+        let t13 = "But no worries, we'll start with the";
+        let t14 = "big picture; go through everything";
+        let t15 = "step-by-step and get you up and running!";
 
         do fillStrBlank();
         do assignDialogueToArr();
@@ -290,7 +295,7 @@ class DialogueNode {
         let t8 = "It will also contain additional info";
         let t9 = "which will help you solve the next";
         let t10 = "challenges, so please look carefully!";
-        let t11 = "";
+        let t11 = " ";
 
         let t12 = "Ok, let's move on...";
         let t13 = "Here's your next challenge...";
@@ -325,18 +330,18 @@ class DialogueNode {
         let t12 = "looking up 'SHIMON' or '555' (both";
         let t13 = "the SymName or Address will work)";
         let t14 = "in order to complete this main challenge.";
-        let t15 = "";
+        let t15 = " ";
 
         let t16 = "I'll be here waiting, good luck!";
         let t17 = "Send my regards to... well, you'll see.";
-        let t18 = "";
-        let t19 = "";
+        let t18 = " ";
+        let t19 = " ";
 
         let td0 = "Hey again!";
         let td1 = "So... have you met GNIRUT?!";
         let td2 = "Once you beat his challenge, you'll";
         let td3 = "discover his value. Go get him, tiger!";
-        let td4 = "";
+        let td4 = " ";
         
         do fillStrBlank();
         do assignDialogueToArr();
@@ -352,7 +357,7 @@ class DialogueNode {
         let td1 = "     ...Wh00p$...";
         let td2 = "*#&(&@(*$&(&%)!*@#&(!*))";
         let td3 = "^&#!@^!^@)#!)!)!)!)@*@";
-        let td4 = "";
+        let td4 = " ";
 
         do fillStrBlank();
         do assignDialogueToArr();
@@ -367,7 +372,7 @@ class DialogueNode {
         let td0 = "Thank you! You've saved me from a";
         let td1 = "deadly segmentation fault!";
         let td2 = "I owe you one (or zero) <3";
-        let td3 = "";
+        let td3 = " ";
         let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
@@ -389,13 +394,13 @@ class DialogueNode {
         let t4 = "In this one you'll also need to face";
         let t5 = "some jumping (goto) logic.";
         let t6 = "Good luck!";
-        let t7 = "";
+        let t7 = " ";
 
         let td0 = "Jump like a frog, yet think like a...";
         let td1 = "borg?";
         let td2 = "LOLO likes to jump, catch him!";
         let td3 = "I count on you, jump kiddo jump!";
-        let td4 = "";  // Without this, there's a bug. It's not being used though.
+        let td4 = " ";  // Without this, there's a bug. It's not being used though.
 
         do fillStrBlank();
         do assignDialogueToArr();
@@ -464,8 +469,8 @@ class DialogueNode {
         let td0 = "IT'S THE FINAL COUNT DOWN";
         let td1 = "TUTUTU TUUUU... TUTUTU TU TUUU...";
         let td2 = "You got this!";
-        let td3 = "";
-        let td4 = "";  // Without this, there's a bug. It's not being used though.
+        let td3 = " ";
+        let td4 = " ";  // Without this, there's a bug. It's not being used though.
 
         do fillStrBlank();
         do assignDialogueToArr();
@@ -495,8 +500,8 @@ class DialogueNode {
 
         let td0 = "ANOTHER ONE!";
         let td1 = "Keep going!!!";
-        let td2 = "";
-        let td3 = "";
+        let td2 = " ";
+        let td3 = " ";
         let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
@@ -513,7 +518,7 @@ class DialogueNode {
         let td0 = "That's it.";
         let td1 = "You think you have what it takes?";
         let td2 = "Let's push you to your limits!";
-        let td3 = "";
+        let td3 = " ";
         let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
@@ -529,7 +534,7 @@ class DialogueNode {
         let td0 = "You did it!";
         let td1 = "Now just go to Shimon and connect";
         let td2 = "the final dots!";
-        let td3 = "";
+        let td3 = " ";
         let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
 
         do fillStrBlank();
@@ -556,7 +561,7 @@ class DialogueNode {
         let td1 = "Sure, feel free to play around :)";
         let td2 = "Just know that the code might break";
         let td3 = "from here... (no guarantees :P)";
-        let td4 = "";  // Without this, there's a bug. It's not being used though.
+        let td4 = " ";  // Without this, there's a bug. It's not being used though.
 
         do fillStrBlank();
         do assignDialogueToArr();
