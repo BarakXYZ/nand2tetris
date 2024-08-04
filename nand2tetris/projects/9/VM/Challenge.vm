@@ -1,0 +1,432 @@
+function Challenge.init 0
+call Challenge.initBuffers 0
+pop temp 0
+push constant 4
+pop static 1
+push constant 11
+pop static 2
+push static 18
+push constant 12
+call ChallengeBuffer.getBufferAt 2
+pop static 3
+push static 18
+push constant 12
+call ChallengeBuffer.getBufferAt 2
+pop static 4
+push static 18
+call ChallengeBuffer.getMaxStrLen 1
+push constant 1
+sub
+pop static 0
+push constant 12
+pop static 7
+push constant 0
+pop static 10
+push constant 0
+pop static 11
+push constant 0
+return
+function Challenge.initBuffers 0
+call ChallengeBuffer.new 0
+pop static 12
+call ChallengeBuffer.new 0
+pop static 13
+call ChallengeBuffer.new 0
+pop static 14
+call ChallengeBuffer.new 0
+pop static 15
+call ChallengeBuffer.new 0
+pop static 16
+call ChallengeBuffer.new 0
+pop static 17
+push constant 10
+call Array.new 1
+pop static 19
+push constant 0
+push static 19
+add
+push static 12
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push static 19
+add
+push static 13
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push static 19
+add
+push static 14
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push static 19
+add
+push static 15
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push static 19
+add
+push static 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push static 19
+add
+push static 17
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push static 12
+pop static 18
+push constant 0
+pop static 8
+push constant 0
+return
+function Challenge.run 0
+push constant 0
+call UserInterface.drawInstruction 1
+pop temp 0
+push static 7
+push constant 0
+not
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push constant 200
+call Sys.wait 1
+pop temp 0
+label WHILE_EXP0
+push argument 0
+push constant 140
+eq
+not
+not
+if-goto WHILE_END0
+call Draw.sprite 0
+pop temp 0
+call Challenge.resetParams 0
+pop temp 0
+push argument 0
+call Input.manageCharAndTimeBuffer 1
+pop temp 0
+call Keyboard.keyPressed 0
+pop argument 0
+push argument 0
+call Input.isEnter 1
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 12
+push static 18
+add
+pop pointer 1
+push that 0
+push constant 13
+push static 18
+add
+pop pointer 1
+push that 0
+push constant 14
+push static 18
+add
+pop pointer 1
+push that 0
+push constant 15
+push static 18
+add
+pop pointer 1
+push that 0
+call NPC.checkChallengeAnswer 4
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 140
+pop argument 0
+label IF_FALSE1
+push constant 0
+not
+pop static 11
+label IF_FALSE0
+push argument 0
+push constant 131
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+call Challenge.upArrow 0
+pop temp 0
+label IF_FALSE2
+push argument 0
+push constant 133
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+call Challenge.downArrow 0
+pop temp 0
+label IF_FALSE3
+push argument 0
+push constant 0
+eq
+not
+push static 11
+not
+and
+push static 10
+not
+and
+push argument 0
+push constant 140
+eq
+not
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push static 3
+call String.length 1
+push constant 0
+gt
+push argument 0
+push constant 129
+eq
+and
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+call Challenge.eraseChar 0
+pop temp 0
+goto IF_END5
+label IF_FALSE5
+push static 3
+call String.length 1
+push static 0
+lt
+push argument 0
+push constant 129
+eq
+not
+and
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push argument 0
+call Challenge.appendChar 1
+pop temp 0
+label IF_FALSE6
+label IF_END5
+label IF_FALSE4
+goto WHILE_EXP0
+label WHILE_END0
+push static 7
+push constant 0
+call UserInterface.drawChallengeSel 2
+pop temp 0
+call UserInterface.clearInstruction 0
+pop temp 0
+push constant 0
+return
+function Challenge.resetParams 0
+push constant 0
+pop static 10
+push constant 0
+pop static 11
+push constant 0
+return
+function Challenge.appendChar 0
+push static 3
+push argument 0
+call String.appendChar 2
+pop temp 0
+push static 1
+push static 7
+add
+push static 2
+call Output.moveCursor 2
+pop temp 0
+push static 3
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+function Challenge.eraseChar 0
+push static 3
+call String.backSpace 0
+call String.appendChar 2
+pop temp 0
+push static 1
+push static 7
+add
+push static 2
+call Output.moveCursor 2
+pop temp 0
+push static 3
+call Output.printString 1
+pop temp 0
+push static 3
+call String.eraseLastChar 1
+pop temp 0
+push static 3
+call String.eraseLastChar 1
+pop temp 0
+push constant 0
+return
+function Challenge.upArrow 0
+push constant 0
+not
+pop static 10
+push static 7
+push constant 0
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push static 7
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 15
+pop static 7
+goto IF_END0
+label IF_FALSE0
+push static 7
+push constant 12
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 10
+pop static 7
+goto IF_END1
+label IF_FALSE1
+push static 7
+push constant 1
+sub
+pop static 7
+label IF_END1
+label IF_END0
+push constant 0
+not
+call Challenge.manageBuffer 1
+pop temp 0
+push constant 0
+return
+function Challenge.downArrow 0
+push constant 0
+not
+pop static 10
+push static 7
+push constant 0
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push static 7
+push constant 15
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop static 7
+goto IF_END0
+label IF_FALSE0
+push static 7
+push constant 10
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 12
+pop static 7
+goto IF_END1
+label IF_FALSE1
+push static 7
+push constant 1
+add
+pop static 7
+label IF_END1
+label IF_END0
+push constant 0
+not
+call Challenge.manageBuffer 1
+pop temp 0
+push constant 0
+return
+function Challenge.manageBuffer 0
+push static 18
+push static 7
+call ChallengeBuffer.getBufferAt 2
+pop static 3
+push static 7
+push argument 0
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push constant 0
+return
+function Challenge.resetBuffer 0
+push static 18
+call ChallengeBuffer.dispose 1
+pop temp 0
+call ChallengeBuffer.new 0
+pop static 18
+push static 8
+push static 5
+add
+push static 18
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+call Challenge.manageBuffer 1
+pop temp 0
+push static 7
+push constant 0
+call UserInterface.drawChallengeSel 2
+pop temp 0
+push constant 0
+return
+function Challenge.getSelActiveBuffIndex 0
+push static 7
+return
+function Challenge.setSelActiveBuffIndex 0
+push argument 0
+pop static 7
+push constant 0
+return
+function Challenge.setCurrentBuffer 1
+push constant 0
+pop local 0
+push argument 0
+pop static 8
+push static 8
+push static 19
+add
+pop pointer 1
+push that 0
+pop static 18
+push local 0
+call Challenge.manageBuffer 1
+pop temp 0
+push constant 0
+return
+function Challenge.drawBuffer 0
+push static 18
+call ChallengeBuffer.draw 1
+pop temp 0
+call UserInterface.drawChallengeFrame 0
+pop temp 0
+push constant 0
+return

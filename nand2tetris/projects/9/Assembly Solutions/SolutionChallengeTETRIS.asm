@@ -1,10 +1,13 @@
+    //** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+    // As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
     // Challenge TETRIS (Part of Challenge 5)
 
     // SymName = TETRIS
     // Address = 475 (ASCII value of TETRIS haha idk:()
     // Value = ?
     // RAM[101]=292
-    // RAM[324]=198
+    // RAM[375]=198
     // RAM[0]=130
     // RAM[487]=12
     // RAM[367]=10
@@ -13,8 +16,8 @@
     // RAM[GNIRUT]=18, Address: 357
     // RAM[LOLO]=0,    Address: 1010
     // RAM[NAND]=-1,   Address: 289
-    // INIT
 
+    // INIT Predefined Value
     // RAM[SHIMON]
     @42
     D=A
@@ -68,6 +71,7 @@
     D=0
     
 
+    // Actual Challenge:
     @101       // 0. Note: RAM[101]=292
     D=A        // 1. D=101
     AD=D|M     // 2. 101|292 = @357 (@GNIRUT), D=357
@@ -89,7 +93,7 @@
 
     // Hints:
     // RAM[101]=292
-    // RAM[324]=198
+    // RAM[375]=198
     // RAM[0]=130
     // RAM[487]=12
     // RAM[367]=10

@@ -1,6 +1,9 @@
+    //** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+    // As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
     // Challenge 4 (SHIMON)
     
-    // init
+    // INIT Predefined Value
     @42
     D=A
     @SHIMON
@@ -15,9 +18,10 @@
     // RAM[LOLO] = 0
     // RAM[GNIRUT] = 18
 
+    // Actual Challenge:
     @LOLO
     D=M  // D=0
-    @GNIRUT
+    @GNIRUT  // @357
     D=D-M  // -18
 
     (FROGGY)

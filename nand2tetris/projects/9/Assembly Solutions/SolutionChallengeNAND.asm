@@ -1,3 +1,6 @@
+    //** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+    // As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
     // Challenge NAND (Part of Challenge 5)
     // Content:
     // SymName: NAND

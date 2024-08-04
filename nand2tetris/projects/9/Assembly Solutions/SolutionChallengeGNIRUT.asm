@@ -1,6 +1,9 @@
+    //** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+    // As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
     // Challenge GNIRUT (Part of Challenge 3)
 
-    // init
+    // INIT Predefined Value
     @5
     D=A
     @3
@@ -16,7 +19,7 @@
     // RAM[7] = 3
 
 
-    // Body
+    // Actual Challenge:
     @5
     D=A    // D=5
     D=D+M  // 5+7 -> D=12

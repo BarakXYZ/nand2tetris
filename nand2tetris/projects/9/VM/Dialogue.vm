@@ -286,8 +286,8 @@ label WHILE_END0
 call UserInterface.clearInstruction 0
 pop temp 0
 call QuestManager.getActive 0
-push constant 5
-gt
+push constant 6
+eq
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1

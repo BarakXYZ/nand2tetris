@@ -1,0 +1,60 @@
+function Draw.init 0
+push constant 0
+not
+pop static 1
+push constant 0
+pop static 0
+push constant 0
+return
+function Draw.sprite 0
+push static 0
+push constant 25
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop static 0
+call UserInterface.clearViewport 0
+pop temp 0
+push static 1
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 1
+not
+call Sprites.drawCurrentSelSprite 1
+pop temp 0
+push static 1
+not
+pop static 1
+goto IF_END1
+label IF_FALSE1
+push static 1
+not
+call Sprites.drawCurrentSelSprite 1
+pop temp 0
+push static 1
+not
+pop static 1
+label IF_END1
+goto IF_END0
+label IF_FALSE0
+push static 0
+push constant 1
+add
+pop static 0
+label IF_END0
+push constant 0
+return
+function Draw.spriteDirect 0
+push static 1
+not
+call Sprites.drawCurrentSelSprite 1
+pop temp 0
+push static 1
+not
+pop static 1
+push constant 0
+return
