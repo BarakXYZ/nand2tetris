@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Draws the current NPC sprite on screen + tracks and flips between its 2 different states (in the case of Shimon - Horizontal Flip like switch, in the case of the enemies: eye closed and opened, etc.)*// 
 class Draw {
     static int counter;
     static bool isFlipped;

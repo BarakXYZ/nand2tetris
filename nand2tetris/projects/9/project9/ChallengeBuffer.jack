@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Stores and initializes the Challenge Bufferfs (i.e. Comments & Answers), answes will be checked internally to verify correctness. Each NPC will have its own group buffer which will retain its values when visitng and jumping to different addresses. This class will also be responsible for drawing the buffers in the correct rows and columns on the screen *//
 class ChallengeBuffer {
     field String buff0, buff1, buff2, buff3, buff4, buff5, buff6, buff7, buff8;
     field String buff9, buff10, buff11, buff12, buff13, buff14, buff15;

@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** The lookup utility is a feature the allows the user to "lookup" a new memory address (i.e. NPC) which will have a challenge the user needs to solve in order to complete the different quests. The lookup will enter its main loop listener upon hitting 'L' or '@', to then listen to keyboard input (i.e. the name or address the user wants to jump to). *//
 class Lookup {
         
         static int maxLen, row, col;
@@ -15,9 +16,8 @@ class Lookup {
             return;
         }
 
+        //** Main loop-listener; waits for characters, 'enter' for search or escape mode *//
         function void run(char c) {
-            // max address == 24,576
-
             do UserInterface.drawInstruction(0);
             do UserInterface.drawSelArrows(UserInterface.getSelCoordLookUp());
             do Sys.wait(200);
@@ -35,7 +35,6 @@ class Lookup {
                     let c = 140;
                 }
 
-
                 // Append or Erase char if non-zero & no Escape (140)
                 if ((~(c = 0)) & (~(c = 140))) {
                     // do Debug.key(c);
@@ -51,14 +50,13 @@ class Lookup {
                         }
                     }
                 }
-
-
             }
             do UserInterface.eraseSelArrows(UserInterface.getSelCoordLookUp());
             do UserInterface.clearInstruction();
             return;
         }
 
+        //** Check if the user has access to the searched address (some NPC's will be unlocked only from a certain level onwards), and checks if the user input is a valid address *//
         function void checkAddress() {
             var int activeQuest;
             let activeQuest = QuestManager.getActive();
@@ -86,6 +84,7 @@ class Lookup {
             return;
         }
 
+        //** Initializes the new lookup in the main components; sets the NPC, challenge, dialogue, etc. *//
         function void new(int aIndex) {
             do UserInterface.clearChallengeAll();
             do UserInterface.clearContentFrame();
@@ -95,9 +94,7 @@ class Lookup {
             do Challenge.setCurrentBuffer(aIndex);
             do Challenge.drawBuffer();
             do Dialogue.setDialogueNode(aIndex);
-            
-            do Game.setNewLookup(true);
-
+            do Game.setNewLookup(true);  // Triggers interaction in the main g-loop
             return;
         }
 

@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** The Dialogue class is responsible for initializing and updating the different Dialogue Nodes, setting and switching between them depending on the currently active NPC and looping through the dialogue pages upon interaction (called from the NPC class) *//
 class Dialogue {
 
     static DialogueNode currDialogueNode;
@@ -53,6 +54,7 @@ class Dialogue {
         return;
     }
 
+    //** Main Dialogue loop, listens to 'Enter' and draws the different dialogue pages *//
     function void draw() {
         do UserInterface.clearDialogueBox();
 

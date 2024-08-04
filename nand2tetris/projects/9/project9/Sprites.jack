@@ -1,26 +1,18 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Implements the visual aspect of the sprites, called from Draw to draw to currently selected NPC sprite, and holds coordinates for sprite locations. Note that Shimon's sprite is implemented in SpriteShimon, since it was made with the graphical interface for creating sprites and contains lots of unimportant code. Other than that, this class is responsible for implementing the enemies and friends sprites *//
 class Sprites {
 
-//** Sprite Selection Map:
-// 0 == Shimon | 1 == Gini | 2 == ? | 3 == ? | *//
 static int currentSelSprite;
-
 static int shimonBigCoord, enemyCoordX, enemyCoordY, enemyInstances;
-static int questionMarkCoord1, questionMarkCoord2, questionMarkCoord3;
 
 function void init() {
-	
     let currentSelSprite = 0;
     let shimonBigCoord = 1739;
     let enemyCoordX = 245;
     let enemyCoordY = 110;
     let enemyInstances = 1;
-
-    let questionMarkCoord1 = 5341;
-    let questionMarkCoord2 = 3485;
-    let questionMarkCoord3 = 1501;
     return;
 }
 

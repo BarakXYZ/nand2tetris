@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Responsible for updating quests, updating the different components accordingly and tracking the current level we're at *//
 class QuestManager {
     static int activeQuest;
     
@@ -10,10 +11,7 @@ class QuestManager {
         return;
     }
     
-    function int getActive() {
-        return activeQuest;
-    }
-    
+    //** Updates main components to the new quest (state) *//
     function void complete() {
         let activeQuest = activeQuest + 1;
         do UserInterface.clearChallengeAll();
@@ -27,6 +25,7 @@ class QuestManager {
         return;
     }
 
+    //** Some quests will require custom actions, such as enabling the Lookup utility, drawing UI elements upon completion, etc. *//
     function void manageQuest() {
         if (activeQuest = 0) {
             do QuestManager.complete();
@@ -49,5 +48,9 @@ class QuestManager {
     function void setQuest(int level) {
         let activeQuest = level;
         return;
+    }
+
+    function int getActive() {
+        return activeQuest;
     }
 }

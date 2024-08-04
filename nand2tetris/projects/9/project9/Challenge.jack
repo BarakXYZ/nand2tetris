@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** The Challenge class is responsible for storing the comment and answer buffers for each NPC; for example Shimon will have its own group buffer which will be retained when jumping to other NPC's. The Answer Buffers will also be checked and fetched by the NPC to check if the users answer is correct *//
 class Challenge {
 
         static int maxLen, buffStartRow, col;
@@ -51,7 +52,7 @@ class Challenge {
         }
 
         
-        //** if 'A' is pressed, enter '[A]nswer mode' */
+        //** Main Challenge Loop; if 'A' is pressed, enter '[A]nswer mode' */
         function void run(char c) {
             do UserInterface.drawInstruction(0);
             do UserInterface.drawChallengeSel(selBuffIndex , true);

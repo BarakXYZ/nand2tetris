@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Construction and implementations of all the different Dialogue Nodes NPC's carry. Is also Responsible for drawing the nodes in the correct location (i.e. Rows and Columns). Dialogue Nodes will be initialized, disposed and updated during gameplay, upon quest completion, etc. *//
 class DialogueNode {
 
     field boolean hasEnded;

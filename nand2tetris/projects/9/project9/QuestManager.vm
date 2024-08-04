@@ -6,9 +6,6 @@ call Dialogue.makeNode 1
 pop temp 0
 push constant 0
 return
-function QuestManager.getActive 0
-push static 0
-return
 function QuestManager.complete 0
 push static 0
 push constant 1
@@ -85,4 +82,7 @@ function QuestManager.setQuest 0
 push argument 0
 pop static 0
 push constant 0
+return
+function QuestManager.getActive 0
+push static 0
 return
