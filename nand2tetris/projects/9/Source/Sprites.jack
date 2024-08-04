@@ -131,7 +131,7 @@ function void drawTeeth(int x, int y, int offMouthY, boolean cond, boolean isEye
     return;
 }
 
-function void drawTriangle(int size, int x, int y, int spikiness, int dir, bool draw) {
+function void drawTriangle(int size, int x, int y, int spikiness, int dir, boolean draw) {
     var int i;
     do Screen.setColor(draw);
     let i = 0;
@@ -142,7 +142,7 @@ function void drawTriangle(int size, int x, int y, int spikiness, int dir, bool 
     return;
 }
 
-function void drawUpsideTriangle(int size, int x, int y, int spikiness, int dir, bool draw) {
+function void drawUpsideTriangle(int size, int x, int y, int spikiness, int dir, boolean draw) {
     var int i;
     var int offset;
     var int startX;
