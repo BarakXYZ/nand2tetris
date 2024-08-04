@@ -1,0 +1,56 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Responsible for updating quests, updating the different components accordingly and tracking the current level we're at *//
+class QuestManager {
+    static int activeQuest;
+    
+    function void init() {
+        let activeQuest = 0;
+        do Dialogue.makeNode(activeQuest);
+        return;
+    }
+    
+    //** Updates main components to the new quest (state) *//
+    function void complete() {
+        let activeQuest = activeQuest + 1;
+        do UserInterface.clearChallengeAll();
+        do Challenge.resetBuffer();
+        do Dialogue.makeNode(activeQuest);
+        do NPC.updateChallengeNode(activeQuest);
+        do Game.setNewQuest(true);
+        do QuestManager.manageQuest();
+        do Challenge.manageBuffer(false);  // cause we're manipulating the index
+        do UserInterface.drawCurrentLevel(activeQuest);
+        return;
+    }
+
+    //** Some quests will require custom actions, such as enabling the Lookup utility, drawing UI elements upon completion, etc. *//
+    function void manageQuest() {
+        if (activeQuest = 0) {
+            do QuestManager.complete();
+            // do UserInterface.drawChallengeFrame();
+            return;
+        } 
+        if (activeQuest = 2) {
+            do UserInterface.drawContentFrame();
+            do NPC.updateContentNode(0);
+            return;
+        }
+        if (activeQuest = 3) {
+            do UserInterface.drawLookupFrame();
+            do Game.setIsLookupEnabled(true);
+            return;
+        }
+        return;
+    }
+
+    function void setQuest(int level) {
+        let activeQuest = level;
+        return;
+    }
+
+    function int getActive() {
+        return activeQuest;
+    }
+}

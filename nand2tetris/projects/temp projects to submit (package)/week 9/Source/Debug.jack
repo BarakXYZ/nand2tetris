@@ -1,0 +1,135 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Useful debug functions (which are disabled by default); allow for debugging user input, NPC interactions, grid X & Y on the screen (for UI creation) etc. *//
+class Debug {
+
+    static int countEnter, eventCounter1, eventCounter2, numOfInteractions;
+    static int startDebugRowIndex, startDebugColIndex;
+    static String currQuest, bufferDebugTitle;
+
+    function void init() {
+        let startDebugRowIndex = 0;
+        let startDebugColIndex = 56;
+        let countEnter = 0;
+        let eventCounter1 = 0;
+        let eventCounter2 = 0;
+        let currQuest = "Active Quest: ";
+        let numOfInteractions = 0;
+        let bufferDebugTitle = "buf:";
+        return;
+    }
+    
+    function void run() {
+        // Debug Screen Rows & Columns
+        do Debug.gridX(23);
+        do Debug.gridY(64);
+        return;
+    }
+
+    function void key(char c) {
+        do Output.moveCursor(startDebugRowIndex, startDebugColIndex);
+        do Output.printInt(c);
+        return;
+    }
+
+    function void event() {
+        let eventCounter1 = eventCounter1 + 1;
+        do Output.moveCursor(startDebugRowIndex + 1, startDebugColIndex);
+        do Output.printInt(eventCounter1);
+    return;
+    }
+
+    function void event2() {
+        let eventCounter2 = eventCounter2 + 1;
+        do Output.moveCursor(startDebugRowIndex + 2, startDebugColIndex);
+        do Output.printInt(eventCounter2);
+        return;
+    }
+
+    function void activeQuest() {
+        do Output.moveCursor(startDebugRowIndex + 3, startDebugColIndex);
+        // do Output.printString(currQuest);
+        do Output.printInt(QuestManager.getActive());
+        return;
+    }
+
+    function void interactions() {
+        var String str;
+        let str = "act:";
+        let numOfInteractions = numOfInteractions + 1;
+        do Output.moveCursor(startDebugRowIndex + 4, startDebugColIndex);
+        do Output.printString(str);
+        do Output.printInt(numOfInteractions);
+        do str.dispose();
+        return;
+    }
+
+    function void activeBuff() {
+        do Output.moveCursor(startDebugRowIndex + 5, startDebugColIndex);
+        do Output.printString(bufferDebugTitle);
+        do Output.printInt(Challenge.getSelActiveBuffIndex());
+        return;
+    }
+
+    function void gridX(int j) {
+        var int i;
+        let i = 0;
+
+        do Output.moveCursor(0,0);  // Reset
+        while(i < j) {
+            do Output.moveCursor(i, 0);
+            do Output.printInt(i);
+            let i = i + 1;
+        }
+        return;
+    }
+    
+    function void tensIndex(int index) {
+            do Output.moveCursor(1, index - 1);
+            do Output.printInt(index);
+            do Output.moveCursor(0, index);
+        return;
+    }
+
+    function void gridY(int j) {
+        var int i, n;
+        let i = 0;
+        let n = 0;
+
+        do Output.moveCursor(0,0);  // Reset
+        while (i < j) {
+            if (i = 10) {
+                let n = 0;
+                do Debug.tensIndex(i);
+            }
+            if (i = 20) {
+                let n = 0;
+                do Debug.tensIndex(i);
+            }
+            if (i = 30) {
+                let n = 0;
+                do Debug.tensIndex(i);
+            }
+            if (i = 40) {
+                let n = 0;
+                do Debug.tensIndex(i);
+            }
+            if (i = 50) {
+                let n = 0;
+                do Debug.tensIndex(i);
+            }
+            if (i = 60) {
+                let n = 0;
+                do Debug.tensIndex(i);
+            }
+
+
+            do Output.printInt(n);
+            let i = i + 1;
+            let n = n + 1;
+        }
+        return;
+    }
+
+}
