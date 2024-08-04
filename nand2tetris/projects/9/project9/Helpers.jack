@@ -1,8 +1,10 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Some helper function to compare strings (to check user answers) and copy strings in a non-commiting way (i.e. not to point to the copied string, but to copy it independetly to the new string). *//
 class Helpers {
 
+    //** Used to check user answers *//
     function boolean strComp(String str1, String str2) {
         var int strLen1, strLen2, index;
         
@@ -20,7 +22,8 @@ class Helpers {
 
         return true;
     }
-
+    
+    //** Used to copy strings letter by letter instead of by pointer *//
     function void strCopy(String str1, String str2) {
         var int i, lenStr2;
         let i = 0;

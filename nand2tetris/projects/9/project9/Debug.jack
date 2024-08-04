@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Useful debug functions (which are disabled by default); allow for debugging user input, NPC interactions, grid X & Y on the screen (for UI creation) etc. *//
 class Debug {
 
     static int countEnter, eventCounter1, eventCounter2, numOfInteractions;

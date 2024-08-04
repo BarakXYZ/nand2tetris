@@ -1,6 +1,8 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+
+//** Construction and implementations of all the different Content Nodes NPC's carry. Is also Responsible for drawing the nodes in the correct location (i.e. Rows and Columns). Content Nodes will be initialized, disposed and updated during gameplay, upon quest completion, etc. *//
 class ContentNode {
     field String symName, address, val, lvl, status1, status2;
     field String r1, r2, r3, r4, r5, a1;
@@ -89,19 +91,14 @@ class ContentNode {
         return;
     }
     
+    //** Upon enemy defeat, their Value will be revelead in the Content Pane. This function will assign the answer to the correspondng array content element and draw it in the Content Pane *//
     method void reveal() {
-        let arrContent[2] = a1;
+        let arrContent[2] = a1;  // Update Value
         do Output.moveCursor(baseRow + 2, baseCol);
-        // do Output.printString(arrFixedTitleContent[2]);
-        // do Output.printString(arrContent[2]);
         
-        let arrContent[4] = status2;
-        // do Output.moveCursor(baseRow + 5, baseCol);
-        // do Output.printString(arrFixedTitleContent[4]);
-        // do Output.printString(arrContent[4]);
+        let arrContent[4] = status2;  // Update Status
         do UserInterface.clearContentFrame();
         do draw();
-
         return;
     }
 

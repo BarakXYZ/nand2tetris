@@ -9,12 +9,6 @@ push constant 110
 pop static 3
 push constant 1
 pop static 4
-push constant 5341
-pop static 5
-push constant 3485
-pop static 6
-push constant 1501
-pop static 7
 push constant 0
 return
 function Sprites.setCurrentSprite 0

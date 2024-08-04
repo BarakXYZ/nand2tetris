@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Organized class for storing functions to listen and check for user inputs *//
 class Input {
 
     function boolean isLookup(char c) {

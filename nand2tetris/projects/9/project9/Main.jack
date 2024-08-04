@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** Initializes all classes and parameters before running the main game loop */
 class Main {
 
     function void main() {

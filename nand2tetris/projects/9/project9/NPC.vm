@@ -303,6 +303,19 @@ push that 0
 pop static 2
 push constant 0
 return
+function NPC.interact 0
+push static 2
+call ChallengeNode.draw 1
+pop temp 0
+push static 3
+call ContentNode.draw 1
+pop temp 0
+call Dialogue.draw 0
+pop temp 0
+call QuestManager.manageQuest 0
+pop temp 0
+push constant 0
+return
 function NPC.updateContentNode 0
 push argument 0
 push static 5
@@ -349,19 +362,6 @@ push static 7
 add
 pop pointer 1
 push that 0
-return
-function NPC.interact 0
-push static 2
-call ChallengeNode.draw 1
-pop temp 0
-push static 3
-call ContentNode.draw 1
-pop temp 0
-call Dialogue.draw 0
-pop temp 0
-call QuestManager.manageQuest 0
-pop temp 0
-push constant 0
 return
 function NPC.getActive 0
 push static 0

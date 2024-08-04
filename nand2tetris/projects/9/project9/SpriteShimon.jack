@@ -1,6 +1,10 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Shimon's sprite for the Main Viewport drawing. Shimon's sprite has 2 states, 1 regular and a second one which is horizontally flipped. This sprite was created with the Graphical Interface for creating sprites, which can be found in here: https://github.com/ErikUmble/JackBitmapEditor     Thanks Erik! *//
 class SpriteShimon {
 
-
+//** Deprecated smaller sprite for Shimon *//
 function void drawShimonSmall(int location) {
 	var int memAddress; 
 	let memAddress = 16384+location;
@@ -93,7 +97,7 @@ function void drawShimonSmall(int location) {
 
 
 
-
+//** Shimon's main sprite -> State Number 1# *//
 function void drawShimonBig(int location) {
 	var int memAddress; 
 	let memAddress = 16384+location;
@@ -623,31 +627,7 @@ function void drawShimonBig(int location) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//** State Number 2# - Horizontally Flipped *//
 function void drawShimonBigFlipped(int location) {
 	var int memAddress; 
 	let memAddress = 16384+location;

@@ -1,6 +1,7 @@
-//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024 
-// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nissan *//
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
 
+//** NPC will be interacted with upon new lookup and quests. Each NPC has a dialogue, content and challenge which will be previewed in the corresponding pane. This class is pre-initializing all the different NPC's, their nodes, and is responsible for updating them once a quest is complete or once an enemy is defeated. At some point all the different NPC's will be reachable for visitation, thus needs to be initialized and not disposed. Shimon's nodes though will be disposed and updated depending on the quest. Also, enemies, once defeated, will be updated to "friends" with corresponding updated nodes. *//
 class NPC {
     
     static int activeNPC, numOfNPC;
@@ -60,6 +61,16 @@ class NPC {
         return;
     }
 
+    //** Main interaction loop; draws the corresponding Challenge Node, and calls Dialogue which will listen for user input for advancing *//
+    function void interact() {
+        // do Debug.interactions();
+        do currChallengeNode.draw();
+        do currContentNode.draw();
+        do Dialogue.draw();  // Listen for enter
+        do QuestManager.manageQuest();
+        return;
+    }
+
     function void updateContentNode(int aIndex) {
         let currContentNode = contentNodes[aIndex];
         do currContentNode.dispose();
@@ -78,14 +89,6 @@ class NPC {
         return npcAddresses[aIndex];
     }
 
-    function void interact() {
-        // do Debug.interactions();
-        do currChallengeNode.draw();
-        do currContentNode.draw();
-        do Dialogue.draw();  // Listen for enter
-        do QuestManager.manageQuest();
-        return;
-    }
     
     function int getActive() {
         return activeNPC;
