@@ -1,1 +1,0 @@
-/home/barakxyz/nand2tetris/nand2tetris/tools/JackCompiler.sh

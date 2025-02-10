@@ -1,0 +1,3 @@
+G:/Barak/Projects/nand2tetris/nand2tetris/projects/10/JackAnalyzer/build/CMakeFiles/JackAnalyzer.dir
+G:/Barak/Projects/nand2tetris/nand2tetris/projects/10/JackAnalyzer/build/CMakeFiles/edit_cache.dir
+G:/Barak/Projects/nand2tetris/nand2tetris/projects/10/JackAnalyzer/build/CMakeFiles/rebuild_cache.dir
