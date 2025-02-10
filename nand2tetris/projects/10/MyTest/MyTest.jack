@@ -1,0 +1,10 @@
+// Some comment
+
+class Foo
+{
+    static int MyNum, MyNum2, MyNum3;
+    field bool MyBool;
+    field SomeClass InstOfSomeClass1, InstOfSomeClass2;
+}
+
+// Some other comment

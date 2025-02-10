@@ -22,7 +22,7 @@ class ContentNode {
         let tVal  = "Value:   ";
         let tLVL  = "Level:   ";
         let tRAM = "RAM";
-        let tStatus = "";
+        let tStatus = " ";
 
         let arrFixedTitleContent = Array.new(10);
         let arrFixedTitleContent[0] = tName;
@@ -63,11 +63,11 @@ class ContentNode {
 
     method void fillEmptyRAM() {
         let ramNum = 0;
-        let r1 = "";
-        let r2 = "";
-        let r3 = "";
-        let r4 = "";
-        let r5 = "";
+        let r1 = " ";
+        let r2 = " ";
+        let r3 = " ";
+        let r4 = " ";
+        let r5 = " ";
         return;
     }
 
@@ -128,12 +128,12 @@ class ContentNode {
 
     constructor ContentNode makeBlank() {
         let symName = "SHIMON";
-        let address = "";
-        let val = "";
-        let lvl = "";
-        let status1 = "";
-        let status2 = "";
-        let a1 = "";
+        let address = " ";
+        let val = " ";
+        let lvl = " ";
+        let status1 = " ";
+        let status2 = " ";
+        let a1 = " ";
         let items = 0;
 
         do fillEmptyRAM();
@@ -147,9 +147,9 @@ class ContentNode {
         let lvl = "32768";
 
         let status1 = "Master of Memory";
-        let status2 = "";
+        let status2 = " ";
 
-        let a1 = "";
+        let a1 = " ";
         let items = 5;
         
         do fillEmptyRAM();
@@ -169,8 +169,8 @@ class ContentNode {
         let r1 = "[3] = 5";
         let r2 = "[5] = 7";
         let r3 = "[7] = 3";
-        let r4 = "";
-        let r5 = "";
+        let r4 = " ";
+        let r5 = " ";
 
         let a1 = "18";
         let ramNum = 3;

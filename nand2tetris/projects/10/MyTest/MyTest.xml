@@ -1,0 +1,30 @@
+<class>
+    <keyword> class </keyword>
+    <identifier> Foo </identifier>
+    <symbol> { </symbol>
+    <subroutineDec>
+        <keyword> static </keyword>
+        <keyword> int </keyword>
+        <identifier> MyNum </identifier>
+        <symbol> , </symbol>
+        <identifier> MyNum2 </identifier>
+        <symbol> , </symbol>
+        <identifier> MyNum3 </identifier>
+        <symbol> ; </symbol>
+    </subroutineDec>
+    <subroutineDec>
+        <keyword> field </keyword>
+        <identifier> bool </identifier>
+        <identifier> MyBool </identifier>
+        <symbol> ; </symbol>
+    </subroutineDec>
+    <subroutineDec>
+        <keyword> field </keyword>
+        <identifier> SomeClass </identifier>
+        <identifier> InstOfSomeClass1 </identifier>
+        <symbol> , </symbol>
+        <identifier> InstOfSomeClass2 </identifier>
+        <symbol> ; </symbol>
+    </subroutineDec>
+    <symbol> } </symbol>
+</class>

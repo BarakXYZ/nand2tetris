@@ -1,0 +1,77 @@
+class Game {
+    field Board board;
+    field int winner_index;
+
+    constructor Game new() {
+        let board = Board.new();
+        let winner_index = 0;
+        return this;
+    }
+
+    method void dispose() {
+        do board.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void play() {
+        var Array players;
+        var int curr_player_index;
+        var int row_index, col_index;
+        var Player curr_player;
+        var String symbols;
+
+        let players = Array.new(2);
+        let symbols = "XO";
+        let players[0] = Player.new(1, symbols.charAt(0));
+        let players[1] = Player.new(2, symbols.charAt(1));
+        let curr_player_index = 0;
+
+        while(board.get_empty_cell_count() > 0) {
+            let curr_player = players[curr_player_index];
+            let row_index = -1;
+            let col_index = -1;
+            while(~(board.is_cell_empty(row_index, col_index))) {
+                do Screen.clearScreen();
+                do Output.moveCursor(0, 0);
+                do board.draw();
+                do Output.moveCursor(10, 0);
+                do Output.printString("Player ");
+                do Output.printInt(curr_player_index + 1);
+                do Output.println();
+                let row_index = Keyboard.readInt("row_index (1 to 3) : ") - 1;
+                let col_index = Keyboard.readInt("col_index (1 to 3) : ") - 1;
+            }
+            do board.set(row_index, col_index, curr_player);
+            do Output.moveCursor(0, 0);
+            do board.draw();
+            if(board.is_winner(curr_player)) {
+                let winner_index = curr_player.get_index();
+                return;
+            }
+            let curr_player_index = 1 - curr_player_index;
+        }
+
+        let curr_player = players[0];
+        do curr_player.dispose();
+        let curr_player = players[1];
+        do curr_player.dispose();
+        do Memory.deAlloc(players);
+        do Memory.deAlloc(symbols);
+        return;
+    }
+
+    method void print_result() {
+        if(winner_index = 0) {
+            do Output.printString("Draw!");
+            do Output.println();
+        } 
+        else {
+            do Output.printString("Player ");
+            do Output.printInt(winner_index);
+            do Output.printString(" Wins!");
+            do Output.println();
+        }
+        return;
+    } 
+}
