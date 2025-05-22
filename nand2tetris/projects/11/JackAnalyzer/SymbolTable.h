@@ -17,7 +17,7 @@
  */
 
 /**
- * @brief Enumeration for the different kinds of variables.
+ * Enumeration for the different kinds of variables.
  */
 enum EKind
 {

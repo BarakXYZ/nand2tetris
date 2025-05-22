@@ -10,6 +10,7 @@ set(SOURCE_FILES
 "JackTokenizer.cpp"
 "CompilationEngine.cpp"
 "SymbolTable.cpp"
+"VMWriter.cpp"
 )
 
 add_executable(${project_name} ${SOURCE_FILES})
