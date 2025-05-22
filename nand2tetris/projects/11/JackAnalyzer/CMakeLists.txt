@@ -9,6 +9,7 @@ set(SOURCE_FILES
 "AnalyzerUtils.cpp"
 "JackTokenizer.cpp"
 "CompilationEngine.cpp"
+"SymbolTable.cpp"
 )
 
 add_executable(${project_name} ${SOURCE_FILES})

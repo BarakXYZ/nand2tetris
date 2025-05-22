@@ -7,7 +7,7 @@
 
 namespace JackAnalyzer
 {
-	int	 Process(const std::string& InFileName, std::string& OutFileName);
+	int	 Run(const std::string& InFileName, std::string& OutFileName);
 	bool ProcessFile(const std::string& InFileName, std::string& OutFileName);
 	bool ProcessFileContent(
 		std::shared_ptr<FJackTokenizer>		Tokenizer,

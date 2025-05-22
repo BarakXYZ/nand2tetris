@@ -19,7 +19,7 @@ enum EExitCode
 	INVALID_FILE_TYPE = 5
 };
 
-int JackAnalyzer::Process(const std::string& InFileName, std::string& OutFileName)
+int JackAnalyzer::Run(const std::string& InFileName, std::string& OutFileName)
 {
 	if (!std::filesystem::exists(InFileName))
 	{
@@ -30,12 +30,12 @@ int JackAnalyzer::Process(const std::string& InFileName, std::string& OutFileNam
 	if (std::filesystem::is_directory(InFileName))
 	{
 		std::cout << "Processing directory: " << InFileName << '\n';
-		for (const auto& Entry : std::filesystem::directory_iterator(InFileName))
+		for (const auto& File : std::filesystem::directory_iterator(InFileName))
 		{
-			if (Entry.path().extension() != ".jack")
+			if (File.path().extension() != ".jack") // Skip non-jack files
 				continue;
 
-			std::string NewFile = Entry.path().string();
+			const std::string NewFile = File.path().string();
 			std::cout << "Processing file: " << NewFile << '\n';
 
 			if (!ProcessFile(NewFile, OutFileName))
@@ -47,6 +47,7 @@ int JackAnalyzer::Process(const std::string& InFileName, std::string& OutFileNam
 	}
 	else if (std::filesystem::is_regular_file(InFileName) && std::filesystem::path(InFileName).extension() == ".jack")
 	{
+		std::cout << "Processing single file: " << InFileName << '\n';
 		if (!ProcessFile(InFileName, OutFileName))
 		{
 			std::cerr << "Error: Failed to process file: " << InFileName << '\n';
@@ -64,7 +65,6 @@ int JackAnalyzer::Process(const std::string& InFileName, std::string& OutFileNam
 
 bool JackAnalyzer::ProcessFile(const std::string& InFileName, std::string& OutFileName)
 {
-	std::cout << "Processing single file: " << InFileName << '\n';
 	OutFileName = AnalyzerUtils::ReplaceExtension(InFileName, ".xml");
 	std::cout << "Output file: " << OutFileName << '\n';
 
@@ -76,7 +76,7 @@ bool JackAnalyzer::ProcessFile(const std::string& InFileName, std::string& OutFi
 			InFileName, OutFileName, JackTokenizer);
 
 	CompilationEngine->CompileClass();
-	return true;
+	return true; // There's not a way for this function to return false, so why?
 }
 
 auto main(int argc, char* argv[]) -> int
@@ -90,7 +90,7 @@ auto main(int argc, char* argv[]) -> int
 	std::string InFileName{ argv[1] };
 	std::string OutFileName = (argc == 3) ? argv[2] : argv[1];
 
-	int result = JackAnalyzer::Process(InFileName, OutFileName);
+	int result = JackAnalyzer::Run(InFileName, OutFileName);
 
 	if (result != SUCCESS)
 		std::cerr << "JackAnalyzer failed with exit code: " << result << '\n';
