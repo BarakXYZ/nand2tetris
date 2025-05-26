@@ -46,7 +46,7 @@ class FSymbolTable
 	void Define(std::string Name, std::string Type, EKind Kind);
 
 	/*
-	 * Returns he number of variables of the given kind already defined in the
+	 * Returns the number of variables of the given kind already defined in the
 	 * current scope.
 	 * @Note This is useful for tracking the running indices of variables.
 	 **/
