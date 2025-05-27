@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.29.0)
 set(project_name "JackAnalyzer")
 project(${project_name})
 
+# Tell CMake to generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(SOURCE_FILES
     "JackAnalyzer.cpp"
 "AnalyzerUtils.cpp"

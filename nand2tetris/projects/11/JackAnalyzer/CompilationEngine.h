@@ -194,7 +194,7 @@ public:
 	 *
 	 * Expects the current token to be an identifier and writes it with proper formatting.
 	 */
-	void CompileIdentifier();
+	void CompileIdentifier(const std::string_view IdentifierCategory = "None");
 
 	/**
 	 * @brief Outputs the provided identifier as a token.
@@ -204,7 +204,7 @@ public:
 	 *
 	 * @param Identifier The identifier string to output.
 	 */
-	void CompileIdentifier(const std::string_view Identifier);
+	void CompileIdentifier(const std::string_view Identifier, const std::string_view IdentifierCategory);
 
 	/**
 	 * @brief Outputs a keyword token to the output file.
@@ -307,4 +307,12 @@ private:
 
 	static constexpr std::string_view SymBegin = "<symbol> ";
 	static constexpr std::string_view SymEnd = " </symbol>\n";
+
+	// Identifier Categories
+	static constexpr std::string_view CatVar = "var";
+	static constexpr std::string_view CatArg = "argument";
+	static constexpr std::string_view CatStatic = "static";
+	static constexpr std::string_view CatField = "field";
+	static constexpr std::string_view CatClass = "class";
+	static constexpr std::string_view CatSub = "subroutine";
 };

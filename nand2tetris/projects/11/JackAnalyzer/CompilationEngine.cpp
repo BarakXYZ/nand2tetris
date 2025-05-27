@@ -54,6 +54,7 @@ void FCompilationEngine::CompileClass()
 		exit(1);
 	}
 
+	// TODO: Add class category
 	// Expect: 'className'
 	CompileIdentifier();
 
@@ -111,6 +112,7 @@ void FCompilationEngine::CompileClassVarDec()
 	// Expect: type (keyword) || className (identifier)
 	OutputType();
 
+	// TODO: Add static / field category
 	// Expect: varName (identifier)
 	CompileIdentifier();
 
@@ -148,6 +150,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	else
 		OutputType();
 
+	// TODO: Add subroutine category
 	// Expect: subroutineName (identifier)
 	CompileIdentifier();
 
@@ -180,6 +183,7 @@ void FCompilationEngine::CompileParameterList()
 
 	if (OutputType()) // Check if empty parameterList
 	{
+		// TODO: Add category "argument"
 		// Expect: varName
 		CompileIdentifier();
 
@@ -190,6 +194,7 @@ void FCompilationEngine::CompileParameterList()
 
 			OutputType();
 
+			// TODO: Add category "argument"
 			CompileIdentifier();
 		}
 	}
@@ -244,6 +249,8 @@ void FCompilationEngine::CompileVarDec()
 
 	// Expect: type
 	OutputType();
+
+	// TODO: Add category (var / local)
 
 	// Expect: varName (identifier)
 	CompileIdentifier();
@@ -626,8 +633,9 @@ void FCompilationEngine::CompileSubroutineCall(const std::string_view Identifier
 
 	if (Symbol == '(')
 	{
+		// Category: Argument
 		/** subroutineName '(' expressionList ')' */
-		CompileIdentifier(Identifier); // subroutineName (id)
+		CompileIdentifier(Identifier, "argument"); // subroutineName (id)
 		OutputSymbol('(');
 		CompileExpressionList();
 		OutputSymbol(')');
@@ -639,7 +647,7 @@ void FCompilationEngine::CompileSubroutineCall(const std::string_view Identifier
 		CompileIdentifier(Identifier); // (className | varName)
 
 		OutputSymbol('.');
-		CompileIdentifier();
+		CompileIdentifier("subroutine");
 
 		OutputSymbol('(');
 		CompileExpressionList();
@@ -688,7 +696,7 @@ void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 	TryAdvanceTokenizer();
 }
 
-void FCompilationEngine::CompileIdentifier()
+void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory)
 {
 	if (Tokenizer->TokenType() == IDENTIFIER)
 	{
@@ -698,7 +706,7 @@ void FCompilationEngine::CompileIdentifier()
 	}
 }
 
-void FCompilationEngine::CompileIdentifier(const std::string_view Identifier)
+void FCompilationEngine::CompileIdentifier(const std::string_view Identifier, const std::string_view IdentifierCategory)
 {
 	// Don't check in this override. Checking is done manually by the caller.
 	// Also, we won't advance in this override as we're 1 token ahead.
@@ -726,7 +734,7 @@ bool FCompilationEngine::OutputType()
 		OutputKeyword(Keyword);
 		return true;
 	}
-	else if (TT == IDENTIFIER)
+	else if (TT == IDENTIFIER) // This covers className?
 	{
 		CompileIdentifier();
 		return true;

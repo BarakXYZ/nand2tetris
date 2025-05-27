@@ -2,8 +2,12 @@
 
 #pragma once
 
+#include <algorithm>
+#include <map>
 #include <string>
-// TODO: Convert input strings to string_view if possible
+#include <optional>
+#include <unordered_map>
+#include <utility>
 
 /**
  * Implementation Notes:
@@ -30,8 +34,21 @@ enum EKind
 	VAR,
 };
 
+struct FIdentifierDetails
+{
+	std::string Name;
+	std::string Type;
+	EKind		Kind;
+	int			Index;
+};
+
 class FSymbolTable
 {
+	using SymbolMap = std::unordered_map<std::string, FIdentifierDetails>;
+	using SymbolMapConstIterator = SymbolMap::const_iterator;
+
+	void Reset();
+
 	/**
 	 * Starts a new subroutine scope (i.e., resets the subroutine's symbol table)
 	 */
@@ -43,7 +60,7 @@ class FSymbolTable
 	 * STATIC and FIELD identifiers have a *class* scope, while ARG and VAR
 	 * identifiers have a *subroutine* scope.
 	 */
-	void Define(std::string Name, std::string Type, EKind Kind);
+	void Define(std::string_view Name, std::string Type, EKind Kind);
 
 	/*
 	 * Returns the number of variables of the given kind already defined in the
@@ -53,18 +70,29 @@ class FSymbolTable
 	int VarCount(EKind Kind);
 
 	/**
-	 * Returns the kind of the named identifiers in the current scope.
+	 * Returns the kind of the named identifier in the current scope.
 	 * If the identifier is unknown in the current scope, returns NONE.
 	 */
-	EKind KindOf(std::string Name);
+	EKind KindOf(std::string_view Name);
 
 	/**
 	 * Returns the type of the named identifier in the current scope.
 	 */
-	std::string TypeOf(std::string Name);
+	std::string TypeOf(std::string_view Name);
 
 	/**
 	 * Returns the index assigned to the named identifier.
 	 */
-	int IndexOf(std::string Name);
+	int IndexOf(const std::string& Name);
+
+	/**
+	 * Finds an identifier by name.
+	 * @param Name The name to find.
+	 * @return An optional pair containing the iterator and a pointer to its owning map.
+	 * std::nullopt if not found.
+	 */
+	std::optional<SymbolMapConstIterator> FindEntry(const std::string& Name) const;
+
+	std::unordered_map<std::string, FIdentifierDetails> ClassSymTable;
+	std::unordered_map<std::string, FIdentifierDetails> SubSymTable;
 };
