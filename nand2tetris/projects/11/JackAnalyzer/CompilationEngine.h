@@ -9,6 +9,13 @@
 #include <unordered_map>
 #include <string_view>
 #include "JackTokenizer.h"
+#include "SymbolTable.h"
+
+enum EUsage
+{
+	Defined,
+	Used
+};
 
 class FCompilationEngine
 {
@@ -194,7 +201,7 @@ public:
 	 *
 	 * Expects the current token to be an identifier and writes it with proper formatting.
 	 */
-	void CompileIdentifier(const std::string_view IdentifierCategory = "None", bool bIsDeclared = false);
+	void CompileIdentifier(const std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used);
 
 	/**
 	 * @brief Outputs the provided identifier as a token.
@@ -272,7 +279,7 @@ public:
 	 *
 	 * Processes and outputs each variable name preceded by a comma.
 	 */
-	void OutputCommaSeparatedVarNames();
+	void OutputCommaSeparatedVarNames(const std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used);
 
 	/**
 	 * @brief Compiles a subroutine call.
@@ -315,4 +322,7 @@ private:
 	static constexpr std::string_view CatField = "field";
 	static constexpr std::string_view CatClass = "class";
 	static constexpr std::string_view CatSub = "subroutine";
+
+	FSymbolTable ClassSymTable;
+	FSymbolTable SubroutineSymTable;
 };

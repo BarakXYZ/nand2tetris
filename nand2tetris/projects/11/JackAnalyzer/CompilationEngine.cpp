@@ -38,6 +38,7 @@ void FCompilationEngine::CompileClass()
 {
 	static constexpr std::string_view ClassBegin{ "<class>\n" };
 	static constexpr std::string_view ClassEnd{ "</class>" };
+	ClassSymTable = FSymbolTable();
 
 	/** 'class' className '{' classVarDec* subroutineDec* '}' */
 	TryAdvanceTokenizer();
@@ -55,9 +56,8 @@ void FCompilationEngine::CompileClass()
 		exit(1);
 	}
 
-	// TODO: Add class category
 	// Expect: 'className'
-	CompileIdentifier("class", true);
+	CompileIdentifier("class", EUsage::Defined);
 
 	// Expect: '{'
 	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == '{')
@@ -108,17 +108,25 @@ void FCompilationEngine::CompileClassVarDec()
 	IncIndent();
 
 	// Expect:  ('static') | ('field') Keywords (checked by CompileClass())
-	OutputKeyword(Tokenizer->Keyword());
+	const std::string Keyword = std::string(Tokenizer->Keyword());
+	const EKind		  Kind = Keyword == "static"
+			  ? EKind::STATIC
+			  : EKind::FIELD;
+	OutputKeyword(Keyword);
 
 	// Expect: type (keyword) || className (identifier)
-	OutputType();
+	if (!OutputType()) // if this return false, we have an error in the in-file.
+	{
+		std::cerr << "Type error in CompileClassVarDec!\n";
+		return;
+	}
 
-	// TODO: Add static / field category
 	// Expect: varName (identifier)
-	CompileIdentifier();
+	ClassSymTable.Define(std::string(Tokenizer->Identifier()), Keyword, Kind);
+	CompileIdentifier(Keyword, EUsage::Defined);
 
 	// Expect: 0 or more comma separated varNames
-	OutputCommaSeparatedVarNames();
+	OutputCommaSeparatedVarNames(Keyword, EUsage::Defined);
 
 	// Expect: ';' (Symbol)
 	OutputSymbol(';');
@@ -136,6 +144,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	 */
 	static constexpr std::string_view SubDecBegin = "<subroutineDec>\n";
 	static constexpr std::string_view SubDecEnd = "</subroutineDec>\n";
+	FSymbolTable					  SubroutineSymTable;
 
 	OutputIndentation();
 	OutFile << SubDecBegin;
@@ -697,7 +706,7 @@ void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 	TryAdvanceTokenizer();
 }
 
-void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory, bool bIsDeclared)
+void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory, EUsage Usage)
 {
 	if (Tokenizer->TokenType() == IDENTIFIER)
 	{
@@ -714,16 +723,23 @@ void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCate
 		OutFile << "<category> " << IdentifierCategory << " </category>\n";
 
 		// If it's a variable type, look up and output index
-		if (IdentifierCategory == "var" || IdentifierCategory == "argument" || IdentifierCategory == "static" || IdentifierCategory == "field")
+		FSymbolTable* SymTable = nullptr;
+		if (IdentifierCategory == "static" || IdentifierCategory == "field")
+			SymTable = &ClassSymTable;
+
+		else if (IdentifierCategory == "var" || IdentifierCategory == "argument")
+			SymTable = &SubroutineSymTable;
+
+		if (SymTable)
 		{
-			const int index = FSymbolTable::IndexOf(Tokenizer->Identifier());
+			const int Index = SymTable->IndexOf(Tokenizer->Identifier());
 			OutputIndentation();
-			OutFile << "<index> " << index << " </index>\n";
+			OutFile << "<index> " << Index << "</index>\n";
 		}
 
 		// Always output usage
 		OutputIndentation();
-		OutFile << "<usage> " << (bIsDeclared ? "defined" : "used") << " </usage>\n";
+		OutFile << "<usage> " << (Usage == EUsage::Defined ? "defined" : "used") << " </usage>\n";
 
 		DecIndent();
 		OutputIndentation();
@@ -761,22 +777,22 @@ bool FCompilationEngine::OutputType()
 		OutputKeyword(Keyword);
 		return true;
 	}
-	else if (TT == IDENTIFIER) // This covers className?
+	else if (TT == IDENTIFIER) // This covers className? This is in fact used.
 	{
-		CompileIdentifier();
+		CompileIdentifier("class", EUsage::Used /*class is used (not declared)*/);
 		return true;
 	}
 	else
 		return false;
 }
 
-void FCompilationEngine::OutputCommaSeparatedVarNames()
+void FCompilationEngine::OutputCommaSeparatedVarNames(const std::string_view IdentifierCategory, EUsage Usage)
 {
 	while (Tokenizer->Symbol() == ',')
 	{
 		OutputSymbol(',');
 
 		// Expect: varName (identifier)
-		CompileIdentifier();
+		CompileIdentifier(IdentifierCategory, Usage);
 	}
 }

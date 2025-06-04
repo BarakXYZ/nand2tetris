@@ -34,6 +34,12 @@ enum EKind
 	VAR,
 };
 
+enum ESymbolTableType
+{
+	Class,
+	Subroutine
+};
+
 struct FIdentifierDetails
 {
 	std::string Name;
@@ -42,18 +48,30 @@ struct FIdentifierDetails
 	int			Index;
 };
 
+struct FVarCounters
+{
+	int StaticCount{ 0 };
+	int FieldCount{ 0 };
+	int ArgCount{ 0 };
+	int VarCount{ 0 };
+
+	void IncVarCount(EKind Kind);
+	int	 GetVarCount(EKind Kind);
+	void Reset();
+};
+
 class FSymbolTable
 {
 public:
 	using SymbolMap = std::unordered_map<std::string, FIdentifierDetails>;
 	using SymbolMapConstIterator = SymbolMap::const_iterator;
 
-	static void Reset();
+	void Reset(ESymbolTableType SymTableType);
 
 	/**
 	 * Starts a new subroutine scope (i.e., resets the subroutine's symbol table)
 	 */
-	static void StartSubroutine();
+	void StartSubroutine();
 
 	/**
 	 * Defines a new identifier of the given name, type, and kind, and assigns
@@ -61,30 +79,30 @@ public:
 	 * STATIC and FIELD identifiers have a *class* scope, while ARG and VAR
 	 * identifiers have a *subroutine* scope.
 	 */
-	static void Define(std::string_view Name, std::string Type, EKind Kind);
+	void Define(std::string Name, std::string Type, EKind Kind);
 
 	/*
 	 * Returns the number of variables of the given kind already defined in the
 	 * current scope.
 	 * @Note This is useful for tracking the running indices of variables.
 	 **/
-	static int VarCount(EKind Kind);
+	int VarCount(EKind Kind);
 
 	/**
 	 * Returns the kind of the named identifier in the current scope.
 	 * If the identifier is unknown in the current scope, returns NONE.
 	 */
-	static EKind KindOf(std::string_view Name);
+	EKind KindOf(std::string_view Name);
 
 	/**
 	 * Returns the type of the named identifier in the current scope.
 	 */
-	static std::string TypeOf(std::string_view Name);
+	std::string TypeOf(std::string_view Name);
 
 	/**
 	 * Returns the index assigned to the named identifier.
 	 */
-	static int IndexOf(std::string_view Name);
+	int IndexOf(std::string_view Name);
 
 	/**
 	 * Finds an identifier by name.
@@ -92,8 +110,8 @@ public:
 	 * @return An optional pair containing the iterator and a pointer to its owning map.
 	 * std::nullopt if not found.
 	 */
-	static std::optional<SymbolMapConstIterator> FindEntry(std::string_view Name);
+	std::optional<SymbolMapConstIterator> FindEntry(std::string_view Name);
 
-	static std::unordered_map<std::string, FIdentifierDetails> ClassSymTable;
-	static std::unordered_map<std::string, FIdentifierDetails> SubSymTable;
+	std::unordered_map<std::string, FIdentifierDetails> SymTableMap;
+	FVarCounters										VarTrackers;
 };
