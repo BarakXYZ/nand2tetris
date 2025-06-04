@@ -2,6 +2,7 @@
 
 #include "CompilationEngine.h"
 #include <iostream>
+#include "SymbolTable.h"
 
 const std::unordered_set<std::string_view> FCompilationEngine::ValidTypeKeywords = {
 	"int", "char", "boolean"
@@ -56,7 +57,7 @@ void FCompilationEngine::CompileClass()
 
 	// TODO: Add class category
 	// Expect: 'className'
-	CompileIdentifier();
+	CompileIdentifier("class", true);
 
 	// Expect: '{'
 	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == '{')
@@ -696,12 +697,38 @@ void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 	TryAdvanceTokenizer();
 }
 
-void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory)
+void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory, bool bIsDeclared)
 {
 	if (Tokenizer->TokenType() == IDENTIFIER)
 	{
 		OutputIndentation();
-		OutFile << IdBegin << Tokenizer->Identifier() << IdEnd;
+		OutFile << "<identifier>\n";
+		IncIndent();
+
+		// Always output name
+		OutputIndentation();
+		OutFile << "<name> " << Tokenizer->Identifier() << " </name>\n";
+
+		// Always output category
+		OutputIndentation();
+		OutFile << "<category> " << IdentifierCategory << " </category>\n";
+
+		// If it's a variable type, look up and output index
+		if (IdentifierCategory == "var" || IdentifierCategory == "argument" || IdentifierCategory == "static" || IdentifierCategory == "field")
+		{
+			const int index = FSymbolTable::IndexOf(Tokenizer->Identifier());
+			OutputIndentation();
+			OutFile << "<index> " << index << " </index>\n";
+		}
+
+		// Always output usage
+		OutputIndentation();
+		OutFile << "<usage> " << (bIsDeclared ? "defined" : "used") << " </usage>\n";
+
+		DecIndent();
+		OutputIndentation();
+		OutFile << "</identifier>\n";
+
 		TryAdvanceTokenizer();
 	}
 }

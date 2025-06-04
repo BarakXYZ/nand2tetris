@@ -76,7 +76,7 @@ bool JackAnalyzer::ProcessFile(const std::string& InFileName, std::string& OutFi
 			InFileName, OutFileName, JackTokenizer);
 
 	CompilationEngine->CompileClass();
-	return true; // There's not a way for this function to return false, so why?
+	return true; // There isn't a way for this function to return false, so -_-
 }
 
 auto main(int argc, char* argv[]) -> int
@@ -90,7 +90,7 @@ auto main(int argc, char* argv[]) -> int
 	std::string InFileName{ argv[1] };
 	std::string OutFileName = (argc == 3) ? argv[2] : argv[1];
 
-	int result = JackAnalyzer::Run(InFileName, OutFileName);
+	const int result = JackAnalyzer::Run(InFileName, OutFileName);
 
 	if (result != SUCCESS)
 		std::cerr << "JackAnalyzer failed with exit code: " << result << '\n';

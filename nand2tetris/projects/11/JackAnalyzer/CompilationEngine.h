@@ -194,7 +194,7 @@ public:
 	 *
 	 * Expects the current token to be an identifier and writes it with proper formatting.
 	 */
-	void CompileIdentifier(const std::string_view IdentifierCategory = "None");
+	void CompileIdentifier(const std::string_view IdentifierCategory = "None", bool bIsDeclared = false);
 
 	/**
 	 * @brief Outputs the provided identifier as a token.
