@@ -45,7 +45,7 @@ void FCompilationEngine::CompileClass()
 	TryAdvanceTokenizer();
 
 	// Expect: 'class'
-	if (Tokenizer->TokenType() == KEYWORD && Tokenizer->Keyword() == "class")
+	if (Tokenizer->TokenType() == ETokenType::KEYWORD && Tokenizer->Keyword() == "class")
 	{
 		OutFile << ClassBegin;
 		IncIndent();
@@ -62,7 +62,7 @@ void FCompilationEngine::CompileClass()
 	CompileIdentifier(ClassCategory, EUsage::Defined);
 
 	// Expect: '{'
-	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == '{')
+	if (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == '{')
 		OutputSymbol('{');
 	else
 		return;
@@ -72,7 +72,7 @@ void FCompilationEngine::CompileClass()
 		"static", "field"
 	};
 
-	while (Tokenizer->TokenType() == KEYWORD
+	while (Tokenizer->TokenType() == ETokenType::KEYWORD
 		&& ValidVarKeywordSet.contains(Tokenizer->Keyword()))
 	{
 		// Only Fields & Statics
@@ -84,14 +84,14 @@ void FCompilationEngine::CompileClass()
 		"constructor", "function", "method"
 	};
 
-	while (Tokenizer->TokenType() == KEYWORD
+	while (Tokenizer->TokenType() == ETokenType::KEYWORD
 		&& ValidRoutineKeywordSet.contains(Tokenizer->Keyword()))
 	{
 		CompileSubroutineDec();
 	}
 
 	// Expect: '}'
-	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == '}')
+	if (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == '}')
 		OutputSymbol('}', false /** Don't advance as we may be at the EOF */);
 
 	DecIndent();
@@ -209,7 +209,7 @@ void FCompilationEngine::CompileParameterList()
 		CompileIdentifier(ArgumentCategory, EUsage::Defined);
 
 		// Expect: (',' type varName)*
-		while (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == ',')
+		while (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ',')
 		{
 			OutputSymbol(',');
 
@@ -309,13 +309,13 @@ void FCompilationEngine::CompileStatements()
 	OutFile << StatementsBegin;
 	IncIndent();
 
-	auto it = (Tokenizer->TokenType() == KEYWORD)
+	auto it = (Tokenizer->TokenType() == ETokenType::KEYWORD)
 		? CompileStatementByKeyword.find(Tokenizer->Keyword())
 		: CompileStatementByKeyword.end();
 	while (it != CompileStatementByKeyword.end())
 	{
 		(this->*(it->second))();
-		it = (Tokenizer->TokenType() == KEYWORD)
+		it = (Tokenizer->TokenType() == ETokenType::KEYWORD)
 			? CompileStatementByKeyword.find(Tokenizer->Keyword())
 			: CompileStatementByKeyword.end();
 	}
@@ -339,10 +339,19 @@ void FCompilationEngine::CompileLet()
 	OutputKeyword("let"); // Checked by CompileStatements
 
 	// Expect: varName (identifier)
-	CompileIdentifier();
+	// auto Pair = SubroutineSymTable.FindEntry(Tokenizer->Identifier());
+	// if (!Pair)
+	// 	Pair = ClassSymTable.FindEntry(Tokenizer->Identifier());
+	// if (!Pair)
+	// {
+	// 	std::cerr << "CompileLet() -> Identifier couldn't be found in both Subroutine or Class Symbol Tables.\n";
+	// 	exit(10);
+	// }
+	// CompileIdentifier(KindToString(Pair.value()->second.Kind), EUsage::Used);
+	CompileIdentifier(UnknownCategory, EUsage::Used);
 
 	// Expect: ('['expression']')? -> (i.e. 0 or 1)
-	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == '[')
+	if (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == '[')
 	{
 		OutputSymbol('[');
 
@@ -388,7 +397,7 @@ void FCompilationEngine::CompileIf()
 	CompileStatements();
 	OutputSymbol('}');
 
-	if (Tokenizer->TokenType() == KEYWORD && Tokenizer->Keyword() == "else")
+	if (Tokenizer->TokenType() == ETokenType::KEYWORD && Tokenizer->Keyword() == "else")
 	{
 		OutputKeyword("else");
 
@@ -469,7 +478,7 @@ void FCompilationEngine::CompileReturn()
 
 	// if we're directly at ';' it means no prior expression.
 	// Else expression then ';'
-	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == ';')
+	if (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ';')
 		OutputSymbol(';');
 	else
 	{
@@ -506,7 +515,7 @@ void FCompilationEngine::CompileExpression()
 	};
 
 	// Expect: (op term)* (i.e. 0 or more)
-	while (Tokenizer->TokenType() == SYMBOL
+	while (Tokenizer->TokenType() == ETokenType::SYMBOL
 		&& ValidOpSet.contains(Tokenizer->Symbol()))
 	{
 		const char Symbol = Tokenizer->Symbol();
@@ -542,7 +551,7 @@ void FCompilationEngine::CompileTerm()
 	const ETokenType TT = Tokenizer->TokenType();
 	switch (TT)
 	{
-		case INT_CONST:
+		case ETokenType::INT_CONST:
 		{
 			static constexpr std::string_view IntBegin = "<integerConstant> ";
 			static constexpr std::string_view IntEnd = " </integerConstant>\n";
@@ -552,7 +561,7 @@ void FCompilationEngine::CompileTerm()
 			TryAdvanceTokenizer();
 			break;
 		}
-		case STRING_CONST:
+		case ETokenType::STRING_CONST:
 		{
 			static constexpr std::string_view StrBegin = "<stringConstant> ";
 			static constexpr std::string_view StrEnd = " </stringConstant>\n";
@@ -562,17 +571,17 @@ void FCompilationEngine::CompileTerm()
 			TryAdvanceTokenizer();
 			break;
 		}
-		case KEYWORD:
+		case ETokenType::KEYWORD:
 		{
 			OutputKeyword(Tokenizer->Keyword());
 			break;
 		}
-		case IDENTIFIER:
+		case ETokenType::IDENTIFIER:
 		{
 			CachedIdentifier = std::string(Tokenizer->Identifier());
 			// We need to look 1 more token ahead to determine the compilation
 			TryAdvanceTokenizer();
-			if (Tokenizer->TokenType() == SYMBOL)
+			if (Tokenizer->TokenType() == ETokenType::SYMBOL)
 			{
 				const char Symbol = Tokenizer->Symbol();
 				if (Symbol == '[') // Array Entry
@@ -593,7 +602,7 @@ void FCompilationEngine::CompileTerm()
 
 			break;
 		}
-		case SYMBOL:
+		case ETokenType::SYMBOL:
 		{
 			const char Symbol = Tokenizer->Symbol();
 			if (Symbol == '(')
@@ -630,11 +639,11 @@ void FCompilationEngine::CompileExpressionList()
 	IncIndent();
 
 	// Check it's not an empty Expression List
-	if (!(Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == ')'))
+	if (!(Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ')'))
 	{
 		CompileExpression();
 
-		while (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == ',')
+		while (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ',')
 		{
 			OutputSymbol(',');
 			CompileExpression();
@@ -704,7 +713,7 @@ void FCompilationEngine::TryAdvanceTokenizer()
 
 void FCompilationEngine::OutputSymbol(char Symbol, bool bShouldAdvanceFile)
 {
-	if (Tokenizer->TokenType() != SYMBOL)
+	if (Tokenizer->TokenType() != ETokenType::SYMBOL)
 		std::cerr << "OutputSymbol: Expected Type Symbol, got: "
 				  << Tokenizer->GetTokenTypeAsString() << '\n';
 	else if (Tokenizer->Symbol() != Symbol)
@@ -727,10 +736,22 @@ void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 	TryAdvanceTokenizer();
 }
 
-void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory, EUsage Usage, bool bUseCachedIdentifier)
+std::string FCompilationEngine::GetIdentifierCategory(const std::string Identifier)
+{
+	EKind Kind = SubroutineSymTable.KindOf(Identifier);
+	if (Kind == EKind::NONE
+		&& (Kind = ClassSymTable.KindOf(Identifier)) == EKind::NONE)
+	{
+		std::cerr << "GetIdentifierCategory -> Identifier couldn't be found in both Subroutine or Class Symbol Tables.\n";
+		exit(99);
+	}
+	return KindToString(Kind);
+}
+
+void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, EUsage Usage, bool bUseCachedIdentifier)
 {
 	const std::string_view Identifier = bUseCachedIdentifier ? CachedIdentifier : Tokenizer->Identifier();
-	if (bUseCachedIdentifier || Tokenizer->TokenType() == IDENTIFIER)
+	if (bUseCachedIdentifier || Tokenizer->TokenType() == ETokenType::IDENTIFIER)
 	{
 		OutputIndentation();
 		OutFile << "<identifier>\n";
@@ -739,6 +760,14 @@ void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCate
 		// Always output name
 		OutputIndentation();
 		OutFile << "<name> " << Identifier << " </name>\n";
+
+		// We're persisting the string through this var because we have a view.
+		std::string FoundCategory;
+		if (IdentifierCategory == UnknownCategory)
+		{
+			FoundCategory = GetIdentifierCategory(std::string(Identifier));
+			IdentifierCategory = FoundCategory;
+		}
 
 		// Always output category
 		OutputIndentation();

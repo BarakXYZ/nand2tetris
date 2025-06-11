@@ -201,7 +201,7 @@ public:
 	 *
 	 * Expects the current token to be an identifier and writes it with proper formatting.
 	 */
-	void CompileIdentifier(const std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used, bool bUseCachedIdentifier = false);
+	void CompileIdentifier(std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used, bool bUseCachedIdentifier = false);
 
 	/**
 	 * @brief Outputs the provided identifier as a token.
@@ -212,6 +212,8 @@ public:
 	 * @param Identifier The identifier string to output.
 	 */
 	void CompileIdentifier(const std::string_view Identifier, const std::string_view IdentifierCategory);
+
+	std::string GetIdentifierCategory(const std::string Identifier);
 
 	/**
 	 * @brief Outputs a keyword token to the output file.
@@ -324,6 +326,7 @@ private:
 	static constexpr std::string_view CatField = "field";
 	static constexpr std::string_view ClassCategory = "class";
 	static constexpr std::string_view SubroutineCategory = "subroutine";
+	static constexpr std::string_view UnknownCategory = "unknown";
 
 	std::string CachedIdentifier;
 

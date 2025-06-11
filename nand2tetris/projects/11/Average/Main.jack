@@ -14,6 +14,8 @@ class Main {
       var int length;
       var int i, sum;
 
+      let x = 50;
+      // let pointCount = pointCount + 1;
       let length = Keyboard.readInt("How many numbers? ");
       let a = Array.new(length); // constructs the array
      

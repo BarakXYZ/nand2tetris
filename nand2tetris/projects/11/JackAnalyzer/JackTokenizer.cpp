@@ -318,11 +318,11 @@ bool FJackTokenizer::IsValidIdentifier(const std::string_view Token)
 const std::string_view FJackTokenizer::GetTokenTypeAsString()
 {
 	static const std::unordered_map<ETokenType, std::string_view> TokenTypeAsStringMap = {
-		{ SYMBOL, "Symbol" },
-		{ KEYWORD, "Keyword" },
-		{ IDENTIFIER, "Identifier" },
-		{ INT_CONST, "Integer Constant" },
-		{ STRING_CONST, "String Constant" }
+		{ ETokenType::SYMBOL, "Symbol" },
+		{ ETokenType::KEYWORD, "Keyword" },
+		{ ETokenType::IDENTIFIER, "Identifier" },
+		{ ETokenType::INT_CONST, "Integer Constant" },
+		{ ETokenType::STRING_CONST, "String Constant" }
 	};
 
 	if (auto TokenType = TokenTypeAsStringMap.find(CurrentTokenType);

@@ -23,7 +23,7 @@
 /**
  * Enumeration for the different kinds of variables.
  */
-enum EKind
+enum class EKind
 {
 	// Class kinds
 	STATIC,
@@ -32,6 +32,8 @@ enum EKind
 	// Subroutine kinds
 	ARG,
 	VAR,
+
+	NONE, // If not found
 };
 
 enum ESymbolTableType
@@ -92,7 +94,7 @@ public:
 	 * Returns the kind of the named identifier in the current scope.
 	 * If the identifier is unknown in the current scope, returns NONE.
 	 */
-	EKind KindOf(std::string_view Name);
+	EKind KindOf(const std::string& Name);
 
 	/**
 	 * Returns the type of the named identifier in the current scope.

@@ -18,14 +18,15 @@ inline std::string KindToString(EKind Kind)
 {
 	switch (Kind)
 	{
-		case STATIC:
+		case EKind::STATIC:
 			return "static";
-		case FIELD:
+		case EKind::FIELD:
 			return "field";
-		case ARG:
+		case EKind::ARG:
 			return "argument";
-		case VAR:
+		case EKind::VAR:
 			return "var";
+		case EKind::NONE:
 		default:
 			return "unknown";
 	}
@@ -50,14 +51,15 @@ inline void PrintSymbolTable(const FSymbolTable& table, const std::string& title
 	auto getKindPriority = [](EKind kind) {
 		switch (kind)
 		{
-			case FIELD:
+			case EKind::FIELD:
 				return 0; // Fields first for class scope
-			case STATIC:
+			case EKind::STATIC:
 				return 1; // Then statics
-			case ARG:
+			case EKind::ARG:
 				return 2; // Arguments first for subroutine scope
-			case VAR:
+			case EKind::VAR:
 				return 3; // Then locals
+			case EKind::NONE:
 			default:
 				return 4; // Should not happen in valid tables
 		}

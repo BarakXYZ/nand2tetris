@@ -13,7 +13,7 @@
 /**
  * @brief Enumeration for the different types of tokens.
  */
-enum ETokenType
+enum class ETokenType
 {
 	NONE,		 ///< No token.
 	COMMENT,	 ///< A comment line.

@@ -24,9 +24,10 @@ int FSymbolTable::VarCount(EKind Kind)
 	return -1;
 }
 
-EKind FSymbolTable::KindOf(std::string_view Name)
+EKind FSymbolTable::KindOf(const std::string& Name)
 {
-	return EKind::ARG;
+	const auto Ret = SymTableMap.find(Name);
+	return Ret == SymTableMap.end() ? EKind::NONE : Ret->second.Kind;
 }
 
 std::string FSymbolTable::TypeOf(std::string_view Name)
@@ -71,6 +72,9 @@ void FVarCounters::IncVarCount(EKind Kind)
 			++VarCount;
 			break;
 		}
+		case EKind::NONE:
+		default:
+			break;
 	}
 }
 int FVarCounters::GetVarCount(EKind Kind)
@@ -88,6 +92,9 @@ int FVarCounters::GetVarCount(EKind Kind)
 
 		case EKind::VAR:
 			return VarCount;
+		case EKind::NONE:
+		default:
+			return -1;
 	}
 	return -1;
 }
