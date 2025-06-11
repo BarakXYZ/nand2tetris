@@ -73,6 +73,7 @@ void FCompilationEngine::CompileClass()
 	while (Tokenizer->TokenType() == KEYWORD
 		&& ValidVarKeywordSet.contains(Tokenizer->Keyword()))
 	{
+		// Only Fields & Statics
 		CompileClassVarDec();
 	}
 
@@ -108,6 +109,8 @@ void FCompilationEngine::CompileClassVarDec()
 	IncIndent();
 
 	// Expect:  ('static') | ('field') Keywords (checked by CompileClass())
+
+	// Store as string as we're going to advance the tokenzier.
 	const std::string Keyword = std::string(Tokenizer->Keyword());
 	const EKind		  Kind = Keyword == "static"
 			  ? EKind::STATIC
@@ -121,7 +124,7 @@ void FCompilationEngine::CompileClassVarDec()
 		return;
 	}
 
-	// Expect: varName (identifier)
+	// Expect: varName (identifier) -> At least one.
 	ClassSymTable.Define(std::string(Tokenizer->Identifier()), Keyword, Kind);
 	CompileIdentifier(Keyword, EUsage::Defined);
 
@@ -138,8 +141,13 @@ void FCompilationEngine::CompileClassVarDec()
 
 void FCompilationEngine::CompileSubroutineDec()
 {
+	// NOTE: There was a mistake here, instead of constructor I wrote 'static'
+	// which is not a real keyword for Subroutine Decs. If we want a static
+	// method we just use function. Instead of static I've replacted it with
+	// constructor. (In case I understand otherwise, we should keep it like that
+	// -> keeping this note for reference in case of confusion).
 	/**
-	 * ('static' | 'function' | 'method') ('void' | type) subroutineName
+	 ('constructor' | 'function' | 'method') ('void' | type) subroutineName '(' parameterList ')' subroutineBody
 	 * '(' parameterList ')' subroutineBody
 	 */
 	static constexpr std::string_view SubDecBegin = "<subroutineDec>\n";
@@ -150,7 +158,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	OutFile << SubDecBegin;
 	IncIndent();
 
-	// Expect: ('static'|'function'|'method') Keywords (checked by CompileClass())
+	// Expect: ('constructor'|'function'|'method') Keywords (checked by CompileClass())
 	OutputKeyword(Tokenizer->Keyword());
 
 	// Expect: ('void' | type)
