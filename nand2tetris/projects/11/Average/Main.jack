@@ -5,6 +5,10 @@
 
 // Inputs some numbers and computes their average
 class Main {
+   field int x, test1, test2, test3;
+   field boolean y;
+   static int pointCount;
+
    function void main() {
       var Array a; 
       var int length;

@@ -275,11 +275,16 @@ public:
 	bool OutputType();
 
 	/**
+	 * Helper function to get the type (either className -> Identifier or Keyword -> int, bool...)
+	 */
+	std::string GetType();
+
+	/**
 	 * @brief Outputs a comma-separated list of variable names.
 	 *
 	 * Processes and outputs each variable name preceded by a comma.
 	 */
-	void OutputCommaSeparatedVarNames(const std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used);
+	void OutputCommaSeparatedVarNames(ESymbolTableType SymTableType, std::string Type, EKind Kind, const std::string_view IdentifierCategory, EUsage Usage);
 
 	/**
 	 * @brief Compiles a subroutine call.
@@ -313,7 +318,7 @@ private:
 	static constexpr std::string_view SymEnd = " </symbol>\n";
 
 	// Identifier Categories
-	static constexpr std::string_view CatVar = "var";
+	static constexpr std::string_view VariableCategory = "var";
 	static constexpr std::string_view ArgumentCategory = "argument";
 	static constexpr std::string_view CatStatic = "static";
 	static constexpr std::string_view CatField = "field";

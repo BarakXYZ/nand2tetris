@@ -3,6 +3,7 @@
 #include "CompilationEngine.h"
 #include <iostream>
 #include "SymbolTable.h"
+#include "SymbolTableVisualizer.h"
 
 const std::unordered_set<std::string_view> FCompilationEngine::ValidTypeKeywords = {
 	"int", "char", "boolean"
@@ -57,6 +58,7 @@ void FCompilationEngine::CompileClass()
 	}
 
 	// Expect: 'className'
+	const std::string ClassName = std::string(Tokenizer->Identifier());
 	CompileIdentifier(ClassCategory, EUsage::Defined);
 
 	// Expect: '{'
@@ -94,6 +96,8 @@ void FCompilationEngine::CompileClass()
 
 	DecIndent();
 	OutFile << ClassEnd;
+
+	PrintSymbolTable(ClassSymTable, ClassName); // Debug
 }
 
 void FCompilationEngine::CompileClassVarDec()
@@ -118,6 +122,7 @@ void FCompilationEngine::CompileClassVarDec()
 	OutputKeyword(Keyword);
 
 	// Expect: type (keyword) || className (identifier)
+	std::string Type = GetType();
 	if (!OutputType()) // if this return false, we have an error in the in-file.
 	{
 		std::cerr << "Type error in CompileClassVarDec!\n";
@@ -125,11 +130,11 @@ void FCompilationEngine::CompileClassVarDec()
 	}
 
 	// Expect: varName (identifier) -> At least one.
-	ClassSymTable.Define(std::string(Tokenizer->Identifier()), Keyword, Kind);
+	ClassSymTable.Define(std::string(Tokenizer->Identifier()), Type, Kind);
 	CompileIdentifier(Keyword, EUsage::Defined);
 
 	// Expect: 0 or more comma separated varNames
-	OutputCommaSeparatedVarNames(Keyword, EUsage::Defined);
+	OutputCommaSeparatedVarNames(ESymbolTableType::Class, Type, Kind, Keyword, EUsage::Defined);
 
 	// Expect: ';' (Symbol)
 	OutputSymbol(';');
@@ -147,7 +152,6 @@ void FCompilationEngine::CompileSubroutineDec()
 	 */
 	static constexpr std::string_view SubDecBegin = "<subroutineDec>\n";
 	static constexpr std::string_view SubDecEnd = "</subroutineDec>\n";
-	FSymbolTable					  SubroutineSymTable;
 
 	OutputIndentation();
 	OutFile << SubDecBegin;
@@ -163,10 +167,9 @@ void FCompilationEngine::CompileSubroutineDec()
 	else
 		OutputType();
 
-	// TODO: Call define in SymbolTable?
-
-	// TODO: Add subroutine category
 	// Expect: subroutineName (identifier)
+	const std::string SubroutineName = std::string(Tokenizer->Identifier());
+	SubroutineSymTable = FSymbolTable();
 	CompileIdentifier(SubroutineCategory, EUsage::Defined);
 
 	// Expect: '(' (symbol))
@@ -185,6 +188,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	DecIndent();
 	OutputIndentation();
 	OutFile << SubDecEnd;
+	PrintSymbolTable(SubroutineSymTable, SubroutineName); // Debug
 }
 
 void FCompilationEngine::CompileParameterList()
@@ -197,21 +201,23 @@ void FCompilationEngine::CompileParameterList()
 	OutFile << ParamBegin;
 	IncIndent();
 
+	std::string Type = GetType();
 	if (OutputType()) // Check if empty parameterList
 	{
-		// TODO: Add category "argument"
 		// Expect: varName
-		CompileIdentifier();
+		SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::ARG);
+		CompileIdentifier(ArgumentCategory, EUsage::Defined);
 
 		// Expect: (',' type varName)*
 		while (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == ',')
 		{
 			OutputSymbol(',');
 
+			Type = GetType();
 			OutputType();
 
-			// TODO: Add category "argument"
-			CompileIdentifier();
+			SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::ARG);
+			CompileIdentifier(ArgumentCategory, EUsage::Defined);
 		}
 	}
 
@@ -264,15 +270,16 @@ void FCompilationEngine::CompileVarDec()
 	OutputKeyword("var");
 
 	// Expect: type
+	const std::string Type = GetType();
 	OutputType();
 
-	// TODO: Add category (var / local)
+	SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::VAR);
 
 	// Expect: varName (identifier)
-	CompileIdentifier();
+	CompileIdentifier(VariableCategory, EUsage::Defined);
 
 	// Expect: (',' varName)*
-	OutputCommaSeparatedVarNames();
+	OutputCommaSeparatedVarNames(ESymbolTableType::Subroutine, Type, EKind::VAR, VariableCategory, EUsage::Defined);
 
 	// Expect: ';' (symbol)
 	OutputSymbol(';');
@@ -760,6 +767,7 @@ void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCate
 		OutputIndentation();
 		OutFile << "</identifier>\n";
 
+		// In this case we're looking 1 token ahead, so no need to advance.
 		if (!bUseCachedIdentifier)
 			TryAdvanceTokenizer();
 	}
@@ -788,27 +796,49 @@ bool FCompilationEngine::OutputType()
 	/** 'int'|'char'|'boolean'|className */
 	const std::string_view Keyword = Tokenizer->Keyword();
 	const ETokenType	   TT = Tokenizer->TokenType();
-	if (TT == KEYWORD && ValidTypeKeywords.contains(Keyword))
+	if (TT == ETokenType::KEYWORD && ValidTypeKeywords.contains(Keyword))
 	{
 		OutputKeyword(Keyword);
 		return true;
 	}
-	else if (TT == IDENTIFIER) // This covers className? This is in fact used.
+	else if (TT == ETokenType::IDENTIFIER) // In cases of className
 	{
-		CompileIdentifier(ClassCategory, EUsage::Used /*class is used (not declared)*/);
+		CompileIdentifier(ClassCategory,
+			EUsage::Used /*class is used (not declared)*/);
 		return true;
 	}
 	else
 		return false;
 }
 
-void FCompilationEngine::OutputCommaSeparatedVarNames(const std::string_view IdentifierCategory, EUsage Usage)
+std::string FCompilationEngine::GetType()
+{
+	/** 'int'|'char'|'boolean'|className */
+	const std::string Keyword = std::string(Tokenizer->Keyword());
+	const ETokenType  TT = Tokenizer->TokenType();
+	if (TT == ETokenType::KEYWORD && ValidTypeKeywords.contains(Keyword))
+	{
+		return Keyword;
+	}
+	else if (TT == ETokenType::IDENTIFIER) // In cases of className
+	{
+		return std::string(Tokenizer->Identifier());
+	}
+	else
+		return "Invalid Type -> GetType()";
+}
+
+void FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableType, std::string Type, EKind Kind, const std::string_view IdentifierCategory, EUsage Usage)
 {
 	while (Tokenizer->Symbol() == ',')
 	{
 		OutputSymbol(',');
 
 		// Expect: varName (identifier)
+		FSymbolTable* const SymTablePtr = SymTableType == ESymbolTableType::Class
+			? &ClassSymTable
+			: &SubroutineSymTable;
+		SymTablePtr->Define(std::string(Tokenizer->Identifier()), Type, Kind);
 		CompileIdentifier(IdentifierCategory, Usage);
 	}
 }
