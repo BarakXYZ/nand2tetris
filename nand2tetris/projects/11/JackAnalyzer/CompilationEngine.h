@@ -320,8 +320,8 @@ private:
 	static constexpr std::string_view CatArg = "argument";
 	static constexpr std::string_view CatStatic = "static";
 	static constexpr std::string_view CatField = "field";
-	static constexpr std::string_view CatClass = "class";
-	static constexpr std::string_view CatSub = "subroutine";
+	static constexpr std::string_view ClassCategory = "class";
+	static constexpr std::string_view SubroutineCategory = "subroutine";
 
 	FSymbolTable ClassSymTable;
 	FSymbolTable SubroutineSymTable;

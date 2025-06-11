@@ -57,7 +57,7 @@ void FCompilationEngine::CompileClass()
 	}
 
 	// Expect: 'className'
-	CompileIdentifier("class", EUsage::Defined);
+	CompileIdentifier(ClassCategory, EUsage::Defined);
 
 	// Expect: '{'
 	if (Tokenizer->TokenType() == SYMBOL && Tokenizer->Symbol() == '{')
@@ -141,11 +141,6 @@ void FCompilationEngine::CompileClassVarDec()
 
 void FCompilationEngine::CompileSubroutineDec()
 {
-	// NOTE: There was a mistake here, instead of constructor I wrote 'static'
-	// which is not a real keyword for Subroutine Decs. If we want a static
-	// method we just use function. Instead of static I've replacted it with
-	// constructor. (In case I understand otherwise, we should keep it like that
-	// -> keeping this note for reference in case of confusion).
 	/**
 	 ('constructor' | 'function' | 'method') ('void' | type) subroutineName '(' parameterList ')' subroutineBody
 	 * '(' parameterList ')' subroutineBody
@@ -158,7 +153,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	OutFile << SubDecBegin;
 	IncIndent();
 
-	// Expect: ('constructor'|'function'|'method') Keywords (checked by CompileClass())
+	// Expect: ('constructor'|'function'|'method') Keywords (checked by CompileClass() in a 'while' loop)
 	OutputKeyword(Tokenizer->Keyword());
 
 	// Expect: ('void' | type)
@@ -170,7 +165,7 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// TODO: Add subroutine category
 	// Expect: subroutineName (identifier)
-	CompileIdentifier();
+	CompileIdentifier(SubroutineCategory, EUsage::Defined);
 
 	// Expect: '(' (symbol))
 	OutputSymbol('(');
@@ -787,7 +782,7 @@ bool FCompilationEngine::OutputType()
 	}
 	else if (TT == IDENTIFIER) // This covers className? This is in fact used.
 	{
-		CompileIdentifier("class", EUsage::Used /*class is used (not declared)*/);
+		CompileIdentifier(ClassCategory, EUsage::Used /*class is used (not declared)*/);
 		return true;
 	}
 	else
