@@ -163,6 +163,8 @@ void FCompilationEngine::CompileSubroutineDec()
 	else
 		OutputType();
 
+	// TODO: Call define in SymbolTable?
+
 	// TODO: Add subroutine category
 	// Expect: subroutineName (identifier)
 	CompileIdentifier(SubroutineCategory, EUsage::Defined);
@@ -170,7 +172,8 @@ void FCompilationEngine::CompileSubroutineDec()
 	// Expect: '(' (symbol))
 	OutputSymbol('(');
 
-	// Expect: parameterList (can be empty)
+	// Expect: parameterList (0 or more)
+	// TODO:
 	CompileParameterList();
 
 	// Expect: ')' (symbol))
@@ -433,9 +436,10 @@ void FCompilationEngine::CompileDo()
 	// Expect: 'do' (keyword)
 	OutputKeyword("do"); // Checked by CompileStatements
 
-	std::string Identifier = std::string(Tokenizer->Identifier());
+	// Cache before advancing the Tokenizer
+	CachedIdentifier = std::string(Tokenizer->Identifier());
 	TryAdvanceTokenizer();
-	CompileSubroutineCall(Identifier);
+	CompileSubroutineCall();
 	OutputSymbol(';');
 
 	DecIndent();
@@ -558,7 +562,7 @@ void FCompilationEngine::CompileTerm()
 		}
 		case IDENTIFIER:
 		{
-			const std::string Identifier = std::string(Tokenizer->Identifier());
+			CachedIdentifier = std::string(Tokenizer->Identifier());
 			// We need to look 1 more token ahead to determine the compilation
 			TryAdvanceTokenizer();
 			if (Tokenizer->TokenType() == SYMBOL)
@@ -567,18 +571,18 @@ void FCompilationEngine::CompileTerm()
 				if (Symbol == '[') // Array Entry
 				{
 					/** varName '[' expression ']' */
-					CompileIdentifier(Identifier);
+					CompileIdentifier(CachedIdentifier);
 					OutputSymbol('[');
 					CompileExpression();
 					OutputSymbol(']');
 				}
 				else if (Symbol == '(' || Symbol == '.') // Check if SubCall
-					CompileSubroutineCall(Identifier);
+					CompileSubroutineCall();
 				else
-					CompileIdentifier(Identifier); // varName (identifier);
+					CompileIdentifier(CachedIdentifier); // varName (identifier);
 			}
 			else
-				CompileIdentifier(Identifier); // varName (identifier);
+				CompileIdentifier(CachedIdentifier); // varName (identifier);
 
 			break;
 		}
@@ -635,32 +639,39 @@ void FCompilationEngine::CompileExpressionList()
 	OutFile << ExpListEnd;
 }
 
-void FCompilationEngine::CompileSubroutineCall(const std::string_view Identifier)
+void FCompilationEngine::CompileSubroutineCall()
 {
 	/**
 	 * subroutineName '(' expressionList ')' |
 	 *  (className | varName)'.'subroutineName '(' expressionList ')'
 	 */
 
+	// CachedIdentifier = Identifier;  // We don't really need this...
+	// It probably make more sense to cache the Identifier before calling
+	// CompileSubroutineCall()
 	const char Symbol = Tokenizer->Symbol();
 
 	if (Symbol == '(')
 	{
-		// Category: Argument
 		/** subroutineName '(' expressionList ')' */
-		CompileIdentifier(Identifier, "argument"); // subroutineName (id)
+		CompileIdentifier(SubroutineCategory, EUsage::Used,
+			true /*UseCachedIdentifier*/);
 		OutputSymbol('(');
-		CompileExpressionList();
+		CompileExpressionList(); // TODO: Look into the ExpressionList setup
 		OutputSymbol(')');
 	}
 
 	/** (className | varName)'.'subroutineName '('expressionList')' */
 	else if (Symbol == '.')
 	{
-		CompileIdentifier(Identifier); // (className | varName)
+		// TODO: Identify if className or varName by looking up in the SymbolTable?
+
+		// (className | varName)
+		CompileIdentifier(ClassCategory, EUsage::Used,
+			true /*UseCachedIdentifier*/);
 
 		OutputSymbol('.');
-		CompileIdentifier("subroutine");
+		CompileIdentifier(SubroutineCategory, EUsage::Used);
 
 		OutputSymbol('(');
 		CompileExpressionList();
@@ -709,9 +720,10 @@ void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 	TryAdvanceTokenizer();
 }
 
-void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory, EUsage Usage)
+void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCategory, EUsage Usage, bool bUseCachedIdentifier)
 {
-	if (Tokenizer->TokenType() == IDENTIFIER)
+	const std::string_view Identifier = bUseCachedIdentifier ? CachedIdentifier : Tokenizer->Identifier();
+	if (bUseCachedIdentifier || Tokenizer->TokenType() == IDENTIFIER)
 	{
 		OutputIndentation();
 		OutFile << "<identifier>\n";
@@ -719,7 +731,7 @@ void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCate
 
 		// Always output name
 		OutputIndentation();
-		OutFile << "<name> " << Tokenizer->Identifier() << " </name>\n";
+		OutFile << "<name> " << Identifier << " </name>\n";
 
 		// Always output category
 		OutputIndentation();
@@ -735,7 +747,7 @@ void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCate
 
 		if (SymTable)
 		{
-			const int Index = SymTable->IndexOf(Tokenizer->Identifier());
+			const int Index = SymTable->IndexOf(Identifier);
 			OutputIndentation();
 			OutFile << "<index> " << Index << "</index>\n";
 		}
@@ -748,7 +760,8 @@ void FCompilationEngine::CompileIdentifier(const std::string_view IdentifierCate
 		OutputIndentation();
 		OutFile << "</identifier>\n";
 
-		TryAdvanceTokenizer();
+		if (!bUseCachedIdentifier)
+			TryAdvanceTokenizer();
 	}
 }
 

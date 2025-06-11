@@ -23,6 +23,11 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
+          <identifier>
+            <name> Output </name>
+            <category> class </category>
+            <usage> used </usage>
+          </identifier>
           <symbol> . </symbol>
           <identifier>
             <name> printInt </name>

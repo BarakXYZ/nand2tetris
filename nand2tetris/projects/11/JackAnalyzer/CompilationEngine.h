@@ -201,7 +201,7 @@ public:
 	 *
 	 * Expects the current token to be an identifier and writes it with proper formatting.
 	 */
-	void CompileIdentifier(const std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used);
+	void CompileIdentifier(const std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used, bool bUseCachedIdentifier = false);
 
 	/**
 	 * @brief Outputs the provided identifier as a token.
@@ -286,11 +286,8 @@ public:
 	 *
 	 * Processes a subroutine call which may be in one of the two forms:
 	 * - subroutineName '(' expressionList ')'
-	 * - (className | varName) '.' subroutineName '(' expressionList ')'
-	 *
-	 * @param Identifier The initial identifier in the subroutine call.
 	 */
-	void CompileSubroutineCall(const std::string_view Identifier);
+	void CompileSubroutineCall();
 
 private:
 	/// Output file stream used for writing the compiled output.
@@ -317,11 +314,13 @@ private:
 
 	// Identifier Categories
 	static constexpr std::string_view CatVar = "var";
-	static constexpr std::string_view CatArg = "argument";
+	static constexpr std::string_view ArgumentCategory = "argument";
 	static constexpr std::string_view CatStatic = "static";
 	static constexpr std::string_view CatField = "field";
 	static constexpr std::string_view ClassCategory = "class";
 	static constexpr std::string_view SubroutineCategory = "subroutine";
+
+	std::string CachedIdentifier;
 
 	FSymbolTable ClassSymTable;
 	FSymbolTable SubroutineSymTable;
