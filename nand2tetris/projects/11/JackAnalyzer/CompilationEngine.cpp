@@ -795,14 +795,6 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 	}
 }
 
-void FCompilationEngine::CompileIdentifier(const std::string_view Identifier, const std::string_view IdentifierCategory)
-{
-	// Don't check in this override. Checking is done manually by the caller.
-	// Also, we won't advance in this override as we're 1 token ahead.
-	OutputIndentation();
-	OutFile << IdBegin << Identifier << IdEnd;
-}
-
 void FCompilationEngine::OutputKeyword(const std::string_view Keyword)
 {
 	static constexpr std::string_view KeyBegin = "<keyword> ";

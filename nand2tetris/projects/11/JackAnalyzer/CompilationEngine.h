@@ -203,16 +203,6 @@ public:
 	 */
 	void CompileIdentifier(std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used, bool bUseCachedIdentifier = false);
 
-	/**
-	 * @brief Outputs the provided identifier as a token.
-	 *
-	 * This override is used when a saved identifier is needed (and the current token
-	 * is already the active one).
-	 *
-	 * @param Identifier The identifier string to output.
-	 */
-	void CompileIdentifier(const std::string_view Identifier, const std::string_view IdentifierCategory);
-
 	std::string GetIdentifierCategory(const std::string Identifier);
 
 	/**
