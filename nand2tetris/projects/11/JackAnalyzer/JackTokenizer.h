@@ -213,4 +213,13 @@ public:
 		'{', '}', '(', ')', '[', ']', '.', ',', ';', '+', '-', '*', '/', '&',
 		'|', '<', '>', '=', '~'
 	};
+
+	// Tracks if we're inside a multi-line comment to properly skip input like:
+	//***********************************************************
+
+	/** Implements a graphical square.
+	The square has top-left x and y coordinates, and a size. */
+
+	//***********************************************************
+	bool InMultiLineComment = false;
 };

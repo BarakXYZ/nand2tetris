@@ -44,51 +44,100 @@ void FJackTokenizer::Advance()
 {
 	// If we have no tokens left from the previous line fetched, get the next
 	// line and process its tokens.
-	// else, continue until all tokens are removed from the tokens deque
 	if (CurrentlyParsedTokens.empty())
 	{
 		std::string CursorLine;
-		if (!std::getline(InFile >> std::ws, CursorLine)) // Fetch next line
+
+		// Keep reading lines until we find a non-comment line
+		while (std::getline(InFile >> std::ws, CursorLine))
 		{
-			// CurrentTokenType = ETokenType::NONE;
-			std::cout << "Invalid-Line found; Skipping...\n";
-			if (HasMoreTokens())
-				Advance();
+			// Handle multi-line comments
+			if (InMultiLineComment)
+			{
+				// Look for the end of multi-line comment
+				size_t endPos = CursorLine.find("*/");
+				if (endPos != std::string::npos)
+				{
+					InMultiLineComment = false;
+					// Continue processing the rest of the line after */
+					CursorLine = CursorLine.substr(endPos + 2);
+					// If the rest of the line is empty or just whitespace, continue to next line
+					if (CursorLine.find_first_not_of(" \t\r\n") == std::string::npos)
+						continue;
+				}
+				else
+					// Still inside multi-line comment, skip this entire line
+					continue;
+			}
+
+			// Check for start of multi-line comment
+			size_t multiLineStart = CursorLine.find("/*");
+			if (multiLineStart != std::string::npos)
+			{
+				// Check if the comment ends on the same line
+				size_t multiLineEnd = CursorLine.find("*/", multiLineStart + 2);
+				if (multiLineEnd != std::string::npos)
+				{
+					// Single-line /* ... */ comment
+					// Remove the comment portion and continue with the rest
+					std::string beforeComment = CursorLine.substr(0, multiLineStart);
+					std::string afterComment = CursorLine.substr(multiLineEnd + 2);
+					CursorLine = beforeComment + afterComment;
+					// If nothing left, continue to next line
+					if (CursorLine.find_first_not_of(" \t\r\n") == std::string::npos)
+					{
+						continue;
+					}
+				}
+				else
+				{
+					// Multi-line comment starts but doesn't end on this line
+					InMultiLineComment = true;
+					// Process any content before the comment start
+					CursorLine = CursorLine.substr(0, multiLineStart);
+					if (CursorLine.find_first_not_of(" \t\r\n") == std::string::npos)
+						continue;
+				}
+			}
+
+			// Skip single-line comments that start at the beginning
+			if (CursorLine.size() >= 2 && CursorLine[0] == '/' && CursorLine[1] == '/')
+			{
+				std::cout << "Comment-Line found: Skipping...\n";
+				continue;
+			}
+
+			// We have a valid line to process
+			break;
+		}
+
+		// If we couldn't get a valid line
+		if (CursorLine.empty() && !InFile)
+		{
+			std::cout << "No more valid lines to process\n";
 			return;
 		}
 
-		if (IsCommentLine(CursorLine)) // Skip comment lines
-		{
-			// CurrentTokenType = ETokenType::COMMENT;
-			std::cout << "Comment-Line found: Skipping...\n";
-			if (HasMoreTokens())
-				Advance();
-			return;
-		}
-
-		// We firstly want to check for String Constant, i.e. ("My Str Constant")
+		// Check for String Constant
 		if (IsValidStringConstant(CursorLine))
 		{
 			CurrentTokenType = ETokenType::STRING_CONST;
 			CurrentStringVal = std::move(CursorLine);
 			std::cout << "String Constant Found: " << CurrentStringVal << '\n';
-			return; // early return
+			return;
 		}
 
-		// For complex inputs like "(~(key = 0))", etc. we need to pre-process;
-		// i.e. split the line to valid separated tokens:
-		// Convert: (~(key = 0)) To: '(', '~', '(', 'key', '=', '0', ')', ')'
-		SplitLineToTokens(CursorLine); // Populates the CurrentlyParsedTokens
+		// Split the line into tokens
+		SplitLineToTokens(CursorLine);
 	}
 
+	// Process tokens from the queue (rest of the method remains the same)
 	std::string_view CurrentToken = CurrentlyParsedTokens.front();
 
 	if (CurrentToken.size() >= 2 && CurrentToken.front() == '"' && CurrentToken.back() == '"')
 	{
 		CurrentTokenType = ETokenType::STRING_CONST;
-		// Store without quotes
 		CurrentStringVal = CurrentToken.substr(1, CurrentToken.size() - 2);
-
 		std::cout << "String Constant Found: " << CurrentStringVal << '\n';
 	}
 	else if (KeywordSet.contains(CurrentToken))
@@ -116,7 +165,6 @@ void FJackTokenizer::Advance()
 	}
 	else
 	{
-		// If could not process any type of token, exit:
 		std::cerr << "Error: Could NOT Classify Token: " << CurrentToken << '\n';
 		std::exit(EXIT_FAILURE);
 	}
@@ -124,15 +172,12 @@ void FJackTokenizer::Advance()
 	CurrentlyParsedTokens.pop_front();
 }
 
-bool FJackTokenizer::IsCommentLine()
-{
-	const char FirstChar = CurrentLine.front();
-	return (FirstChar == '/' || FirstChar == '*');
-}
+// DEPRECATED:
+// This method is now less useful since it doesn't handle multi-line comments
+// Only check for single-line comments starting with //
 bool FJackTokenizer::IsCommentLine(const std::string_view InLine)
 {
-	const char FirstChar = InLine.front();
-	return (FirstChar == '/' || FirstChar == '*');
+	return InLine.size() >= 2 && InLine[0] == '/' && InLine[1] == '/';
 }
 
 ETokenType FJackTokenizer::TokenType() const
