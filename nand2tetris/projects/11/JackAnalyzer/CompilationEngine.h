@@ -296,6 +296,8 @@ public:
 	 */
 	void CompileSubroutineCall();
 
+	void HandleIfMethodImplicitArg(const std::string& FuncKeyword);
+
 private:
 	/// Output file stream used for writing the compiled output.
 	std::ofstream OutFile;
@@ -332,4 +334,6 @@ private:
 
 	FSymbolTable ClassSymTable;
 	FSymbolTable SubroutineSymTable;
+
+	std::string CompiledClassName;
 };

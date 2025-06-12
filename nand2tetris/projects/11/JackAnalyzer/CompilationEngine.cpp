@@ -58,7 +58,7 @@ void FCompilationEngine::CompileClass()
 	}
 
 	// Expect: 'className'
-	const std::string ClassName = std::string(Tokenizer->Identifier());
+	CompiledClassName = std::string(Tokenizer->Identifier());
 	CompileIdentifier(ClassCategory, EUsage::Declared);
 
 	// Expect: '{'
@@ -97,7 +97,7 @@ void FCompilationEngine::CompileClass()
 	DecIndent();
 	OutFile << ClassEnd;
 
-	PrintSymbolTable(ClassSymTable, ClassName); // Debug
+	PrintSymbolTable(ClassSymTable, CompiledClassName); // Debug
 }
 
 void FCompilationEngine::CompileClassVarDec()
@@ -153,12 +153,15 @@ void FCompilationEngine::CompileSubroutineDec()
 	static constexpr std::string_view SubDecBegin = "<subroutineDec>\n";
 	static constexpr std::string_view SubDecEnd = "</subroutineDec>\n";
 
+	SubroutineSymTable = FSymbolTable();
 	OutputIndentation();
 	OutFile << SubDecBegin;
 	IncIndent();
 
 	// Expect: ('constructor'|'function'|'method') Keywords (checked by CompileClass() in a 'while' loop)
-	OutputKeyword(Tokenizer->Keyword());
+	const std::string FuncKeyword = std::string(Tokenizer->Keyword());
+	HandleIfMethodImplicitArg(FuncKeyword);
+	OutputKeyword(FuncKeyword);
 
 	// Expect: ('void' | type)
 	static constexpr std::string_view Void = "void";
@@ -169,7 +172,6 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: subroutineName (identifier)
 	const std::string SubroutineName = std::string(Tokenizer->Identifier());
-	SubroutineSymTable = FSymbolTable();
 	CompileIdentifier(SubroutineCategory, EUsage::Declared);
 
 	// Expect: '(' (symbol))
@@ -860,5 +862,14 @@ void FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableT
 			: &SubroutineSymTable;
 		SymTablePtr->Define(std::string(Tokenizer->Identifier()), Type, Kind);
 		CompileIdentifier(IdentifierCategory, Usage);
+	}
+}
+
+void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeyword)
+{
+	static constexpr std::string This = "this";
+	if (FuncKeyword == "method")
+	{
+		SubroutineSymTable.Define(This, CompiledClassName, EKind::ARG);
 	}
 }
