@@ -25,7 +25,7 @@ inline std::string KindToString(EKind Kind)
 		case EKind::ARG:
 			return "argument";
 		case EKind::VAR:
-			return "var";
+			return "local";
 		case EKind::NONE:
 		default:
 			return "unknown";

@@ -13,7 +13,7 @@
 
 enum EUsage
 {
-	Defined,
+	Declared,
 	Used
 };
 
@@ -320,7 +320,7 @@ private:
 	static constexpr std::string_view SymEnd = " </symbol>\n";
 
 	// Identifier Categories
-	static constexpr std::string_view VariableCategory = "var";
+	static constexpr std::string_view VariableCategory = "local";
 	static constexpr std::string_view ArgumentCategory = "argument";
 	static constexpr std::string_view CatStatic = "static";
 	static constexpr std::string_view CatField = "field";

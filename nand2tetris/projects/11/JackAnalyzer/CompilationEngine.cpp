@@ -59,7 +59,7 @@ void FCompilationEngine::CompileClass()
 
 	// Expect: 'className'
 	const std::string ClassName = std::string(Tokenizer->Identifier());
-	CompileIdentifier(ClassCategory, EUsage::Defined);
+	CompileIdentifier(ClassCategory, EUsage::Declared);
 
 	// Expect: '{'
 	if (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == '{')
@@ -131,10 +131,10 @@ void FCompilationEngine::CompileClassVarDec()
 
 	// Expect: varName (identifier) -> At least one.
 	ClassSymTable.Define(std::string(Tokenizer->Identifier()), Type, Kind);
-	CompileIdentifier(Keyword, EUsage::Defined);
+	CompileIdentifier(Keyword, EUsage::Declared);
 
 	// Expect: 0 or more comma separated varNames
-	OutputCommaSeparatedVarNames(ESymbolTableType::Class, Type, Kind, Keyword, EUsage::Defined);
+	OutputCommaSeparatedVarNames(ESymbolTableType::Class, Type, Kind, Keyword, EUsage::Declared);
 
 	// Expect: ';' (Symbol)
 	OutputSymbol(';');
@@ -170,7 +170,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	// Expect: subroutineName (identifier)
 	const std::string SubroutineName = std::string(Tokenizer->Identifier());
 	SubroutineSymTable = FSymbolTable();
-	CompileIdentifier(SubroutineCategory, EUsage::Defined);
+	CompileIdentifier(SubroutineCategory, EUsage::Declared);
 
 	// Expect: '(' (symbol))
 	OutputSymbol('(');
@@ -206,7 +206,7 @@ void FCompilationEngine::CompileParameterList()
 	{
 		// Expect: varName
 		SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::ARG);
-		CompileIdentifier(ArgumentCategory, EUsage::Defined);
+		CompileIdentifier(ArgumentCategory, EUsage::Declared);
 
 		// Expect: (',' type varName)*
 		while (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ',')
@@ -217,7 +217,7 @@ void FCompilationEngine::CompileParameterList()
 			OutputType();
 
 			SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::ARG);
-			CompileIdentifier(ArgumentCategory, EUsage::Defined);
+			CompileIdentifier(ArgumentCategory, EUsage::Declared);
 		}
 	}
 
@@ -276,10 +276,10 @@ void FCompilationEngine::CompileVarDec()
 	SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::VAR);
 
 	// Expect: varName (identifier)
-	CompileIdentifier(VariableCategory, EUsage::Defined);
+	CompileIdentifier(VariableCategory, EUsage::Declared);
 
 	// Expect: (',' varName)*
-	OutputCommaSeparatedVarNames(ESymbolTableType::Subroutine, Type, EKind::VAR, VariableCategory, EUsage::Defined);
+	OutputCommaSeparatedVarNames(ESymbolTableType::Subroutine, Type, EKind::VAR, VariableCategory, EUsage::Declared);
 
 	// Expect: ';' (symbol)
 	OutputSymbol(';');
@@ -339,15 +339,6 @@ void FCompilationEngine::CompileLet()
 	OutputKeyword("let"); // Checked by CompileStatements
 
 	// Expect: varName (identifier)
-	// auto Pair = SubroutineSymTable.FindEntry(Tokenizer->Identifier());
-	// if (!Pair)
-	// 	Pair = ClassSymTable.FindEntry(Tokenizer->Identifier());
-	// if (!Pair)
-	// {
-	// 	std::cerr << "CompileLet() -> Identifier couldn't be found in both Subroutine or Class Symbol Tables.\n";
-	// 	exit(10);
-	// }
-	// CompileIdentifier(KindToString(Pair.value()->second.Kind), EUsage::Used);
 	CompileIdentifier(UnknownCategory, EUsage::Used);
 
 	// Expect: ('['expression']')? -> (i.e. 0 or 1)
@@ -587,7 +578,7 @@ void FCompilationEngine::CompileTerm()
 				if (Symbol == '[') // Array Entry
 				{
 					/** varName '[' expression ']' */
-					CompileIdentifier(CachedIdentifier);
+					CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
 					OutputSymbol('[');
 					CompileExpression();
 					OutputSymbol(']');
@@ -595,10 +586,10 @@ void FCompilationEngine::CompileTerm()
 				else if (Symbol == '(' || Symbol == '.') // Check if SubCall
 					CompileSubroutineCall();
 				else
-					CompileIdentifier(CachedIdentifier); // varName (identifier);
+					CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
 			}
 			else
-				CompileIdentifier(CachedIdentifier); // varName (identifier);
+				CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
 
 			break;
 		}
@@ -778,19 +769,19 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 		if (IdentifierCategory == "static" || IdentifierCategory == "field")
 			SymTable = &ClassSymTable;
 
-		else if (IdentifierCategory == "var" || IdentifierCategory == "argument")
+		else if (IdentifierCategory == "local" || IdentifierCategory == "argument")
 			SymTable = &SubroutineSymTable;
 
 		if (SymTable)
 		{
 			const int Index = SymTable->IndexOf(Identifier);
 			OutputIndentation();
-			OutFile << "<index> " << Index << "</index>\n";
+			OutFile << "<index> " << Index << " </index>\n";
 		}
 
 		// Always output usage
 		OutputIndentation();
-		OutFile << "<usage> " << (Usage == EUsage::Defined ? "defined" : "used") << " </usage>\n";
+		OutFile << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
 
 		DecIndent();
 		OutputIndentation();

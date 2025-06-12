@@ -5,9 +5,9 @@
 
 // Inputs some numbers and computes their average
 class Main {
-   field int x, test1, test2, test3;
+   field int x, test1;
    field boolean y;
-   static int pointCount;
+   static char pointCount;
 
    function void main() {
       var Array a; 
@@ -15,7 +15,8 @@ class Main {
       var int i, sum;
 
       let x = 50;
-      // let pointCount = pointCount + 1;
+      let test1 = x;
+      let pointCount = pointCount + 1;
       let length = Keyboard.readInt("How many numbers? ");
       let a = Array.new(length); // constructs the array
      

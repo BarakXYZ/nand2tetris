@@ -3,7 +3,7 @@
   <identifier>
     <name> Main </name>
     <category> class </category>
-    <usage> defined </usage>
+    <usage> declared </usage>
   </identifier>
   <symbol> { </symbol>
   <classVarDec>
@@ -12,29 +12,15 @@
     <identifier>
       <name> x </name>
       <category> field </category>
-      <index> 0</index>
-      <usage> defined </usage>
+      <index> 0 </index>
+      <usage> declared </usage>
     </identifier>
     <symbol> , </symbol>
     <identifier>
       <name> test1 </name>
       <category> field </category>
-      <index> 1</index>
-      <usage> defined </usage>
-    </identifier>
-    <symbol> , </symbol>
-    <identifier>
-      <name> test2 </name>
-      <category> field </category>
-      <index> 2</index>
-      <usage> defined </usage>
-    </identifier>
-    <symbol> , </symbol>
-    <identifier>
-      <name> test3 </name>
-      <category> field </category>
-      <index> 3</index>
-      <usage> defined </usage>
+      <index> 1 </index>
+      <usage> declared </usage>
     </identifier>
     <symbol> ; </symbol>
   </classVarDec>
@@ -44,19 +30,19 @@
     <identifier>
       <name> y </name>
       <category> field </category>
-      <index> 4</index>
-      <usage> defined </usage>
+      <index> 2 </index>
+      <usage> declared </usage>
     </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <classVarDec>
     <keyword> static </keyword>
-    <keyword> int </keyword>
+    <keyword> char </keyword>
     <identifier>
       <name> pointCount </name>
       <category> static </category>
-      <index> 0</index>
-      <usage> defined </usage>
+      <index> 0 </index>
+      <usage> declared </usage>
     </identifier>
     <symbol> ; </symbol>
   </classVarDec>
@@ -66,7 +52,7 @@
     <identifier>
       <name> main </name>
       <category> subroutine </category>
-      <usage> defined </usage>
+      <usage> declared </usage>
     </identifier>
     <symbol> ( </symbol>
     <parameterList>
@@ -83,9 +69,9 @@
         </identifier>
         <identifier>
           <name> a </name>
-          <category> var </category>
-          <index> 0</index>
-          <usage> defined </usage>
+          <category> local </category>
+          <index> 0 </index>
+          <usage> declared </usage>
         </identifier>
         <symbol> ; </symbol>
       </varDec>
@@ -94,9 +80,9 @@
         <keyword> int </keyword>
         <identifier>
           <name> length </name>
-          <category> var </category>
-          <index> 1</index>
-          <usage> defined </usage>
+          <category> local </category>
+          <index> 1 </index>
+          <usage> declared </usage>
         </identifier>
         <symbol> ; </symbol>
       </varDec>
@@ -105,16 +91,16 @@
         <keyword> int </keyword>
         <identifier>
           <name> i </name>
-          <category> var </category>
-          <index> 2</index>
-          <usage> defined </usage>
+          <category> local </category>
+          <index> 2 </index>
+          <usage> declared </usage>
         </identifier>
         <symbol> , </symbol>
         <identifier>
           <name> sum </name>
-          <category> var </category>
-          <index> 3</index>
-          <usage> defined </usage>
+          <category> local </category>
+          <index> 3 </index>
+          <usage> declared </usage>
         </identifier>
         <symbol> ; </symbol>
       </varDec>
@@ -124,7 +110,7 @@
           <identifier>
             <name> x </name>
             <category> field </category>
-            <index> 0</index>
+            <index> 0 </index>
             <usage> used </usage>
           </identifier>
           <symbol> = </symbol>
@@ -138,9 +124,55 @@
         <letStatement>
           <keyword> let </keyword>
           <identifier>
+            <name> test1 </name>
+            <category> field </category>
+            <index> 1 </index>
+            <usage> used </usage>
+          </identifier>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier>
+                <name> x </name>
+                <category> field </category>
+                <index> 0 </index>
+                <usage> used </usage>
+              </identifier>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier>
+            <name> pointCount </name>
+            <category> static </category>
+            <index> 0 </index>
+            <usage> used </usage>
+          </identifier>
+          <symbol> = </symbol>
+          <expression>
+            <term>
+              <identifier>
+                <name> pointCount </name>
+                <category> static </category>
+                <index> 0 </index>
+                <usage> used </usage>
+              </identifier>
+            </term>
+            <symbol> + </symbol>
+            <term>
+              <integerConstant> 1 </integerConstant>
+            </term>
+          </expression>
+          <symbol> ; </symbol>
+        </letStatement>
+        <letStatement>
+          <keyword> let </keyword>
+          <identifier>
             <name> length </name>
-            <category> var </category>
-            <index> 1</index>
+            <category> local </category>
+            <index> 1 </index>
             <usage> used </usage>
           </identifier>
           <symbol> = </symbol>
@@ -174,8 +206,8 @@
           <keyword> let </keyword>
           <identifier>
             <name> a </name>
-            <category> var </category>
-            <index> 0</index>
+            <category> local </category>
+            <index> 0 </index>
             <usage> used </usage>
           </identifier>
           <symbol> = </symbol>
@@ -196,6 +228,12 @@
               <expressionList>
                 <expression>
                   <term>
+                    <identifier>
+                      <name> length </name>
+                      <category> local </category>
+                      <index> 1 </index>
+                      <usage> used </usage>
+                    </identifier>
                   </term>
                 </expression>
               </expressionList>
@@ -208,8 +246,8 @@
           <keyword> let </keyword>
           <identifier>
             <name> i </name>
-            <category> var </category>
-            <index> 2</index>
+            <category> local </category>
+            <index> 2 </index>
             <usage> used </usage>
           </identifier>
           <symbol> = </symbol>
@@ -225,9 +263,21 @@
           <symbol> ( </symbol>
           <expression>
             <term>
+              <identifier>
+                <name> i </name>
+                <category> local </category>
+                <index> 2 </index>
+                <usage> used </usage>
+              </identifier>
             </term>
             <symbol> &lt; </symbol>
             <term>
+              <identifier>
+                <name> length </name>
+                <category> local </category>
+                <index> 1 </index>
+                <usage> used </usage>
+              </identifier>
             </term>
           </expression>
           <symbol> ) </symbol>
@@ -237,13 +287,19 @@
               <keyword> let </keyword>
               <identifier>
                 <name> a </name>
-                <category> var </category>
-                <index> 0</index>
+                <category> local </category>
+                <index> 0 </index>
                 <usage> used </usage>
               </identifier>
               <symbol> [ </symbol>
               <expression>
                 <term>
+                  <identifier>
+                    <name> i </name>
+                    <category> local </category>
+                    <index> 2 </index>
+                    <usage> used </usage>
+                  </identifier>
                 </term>
               </expression>
               <symbol> ] </symbol>
@@ -278,19 +334,37 @@
               <keyword> let </keyword>
               <identifier>
                 <name> sum </name>
-                <category> var </category>
-                <index> 3</index>
+                <category> local </category>
+                <index> 3 </index>
                 <usage> used </usage>
               </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
+                  <identifier>
+                    <name> sum </name>
+                    <category> local </category>
+                    <index> 3 </index>
+                    <usage> used </usage>
+                  </identifier>
                 </term>
                 <symbol> + </symbol>
                 <term>
+                  <identifier>
+                    <name> a </name>
+                    <category> local </category>
+                    <index> 0 </index>
+                    <usage> used </usage>
+                  </identifier>
                   <symbol> [ </symbol>
                   <expression>
                     <term>
+                      <identifier>
+                        <name> i </name>
+                        <category> local </category>
+                        <index> 2 </index>
+                        <usage> used </usage>
+                      </identifier>
                     </term>
                   </expression>
                   <symbol> ] </symbol>
@@ -302,13 +376,19 @@
               <keyword> let </keyword>
               <identifier>
                 <name> i </name>
-                <category> var </category>
-                <index> 2</index>
+                <category> local </category>
+                <index> 2 </index>
                 <usage> used </usage>
               </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
+                  <identifier>
+                    <name> i </name>
+                    <category> local </category>
+                    <index> 2 </index>
+                    <usage> used </usage>
+                  </identifier>
                 </term>
                 <symbol> + </symbol>
                 <term>
@@ -361,9 +441,21 @@
           <expressionList>
             <expression>
               <term>
+                <identifier>
+                  <name> sum </name>
+                  <category> local </category>
+                  <index> 3 </index>
+                  <usage> used </usage>
+                </identifier>
               </term>
               <symbol> / </symbol>
               <term>
+                <identifier>
+                  <name> length </name>
+                  <category> local </category>
+                  <index> 1 </index>
+                  <usage> used </usage>
+                </identifier>
               </term>
             </expression>
           </expressionList>
