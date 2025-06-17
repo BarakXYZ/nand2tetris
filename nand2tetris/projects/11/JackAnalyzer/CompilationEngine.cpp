@@ -859,7 +859,7 @@ void FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableT
 
 void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeyword)
 {
-	static constexpr std::string This = "this";
+	static const std::string This = "this";
 	if (FuncKeyword == "method")
 	{
 		SubroutineSymTable.Define(This, CompiledClassName, EKind::ARG);
