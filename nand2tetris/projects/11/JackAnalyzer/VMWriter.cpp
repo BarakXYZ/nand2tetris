@@ -22,4 +22,6 @@ FVMWriter::~FVMWriter()
 
 void FVMWriter::WriteFunction(const std::string& Name, int NumLocals)
 {
+	static constexpr std::string_view FuncKeyword = "function";
+	OutFileVM << FuncKeyword << ' ' << Name << ' ' << NumLocals;
 }

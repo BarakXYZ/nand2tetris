@@ -79,7 +79,7 @@ public:
 	 *
 	 * Does not handle the enclosing parentheses "()", only the inner parameter list.
 	 */
-	void CompileParameterList();
+	int CompileParameterList();
 
 	/**
 	 * @brief Compiles a subroutine's body.

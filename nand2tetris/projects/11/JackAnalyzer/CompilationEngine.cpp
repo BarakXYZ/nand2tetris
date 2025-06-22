@@ -184,8 +184,8 @@ void FCompilationEngine::CompileSubroutineDec()
 	OutputSymbol('(');
 
 	// Expect: parameterList (0 or more)
-	// TODO:
-	CompileParameterList();
+	const int NumOfArgs = CompileParameterList();
+	VMWriter->WriteFunction(CompiledClassName + "." + SubroutineName, NumOfArgs);
 
 	// Expect: ')' (symbol))
 	OutputSymbol(')');
@@ -199,11 +199,12 @@ void FCompilationEngine::CompileSubroutineDec()
 	PrintSymbolTable(SubroutineSymTable, SubroutineName); // Debug
 }
 
-void FCompilationEngine::CompileParameterList()
+int FCompilationEngine::CompileParameterList()
 {
 	/** ((type varName)(',' type varName)*)? */
 	static constexpr std::string_view ParamBegin = "<parameterList>\n";
 	static constexpr std::string_view ParamEnd = "</parameterList>\n";
+	int								  NumOfArgs = 0;
 
 	OutputIndentation();
 	OutFileXML << ParamBegin;
@@ -226,12 +227,15 @@ void FCompilationEngine::CompileParameterList()
 
 			SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::ARG);
 			CompileIdentifier(ArgumentCategory, EUsage::Declared);
+
+			++NumOfArgs;
 		}
 	}
 
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << ParamEnd;
+	return NumOfArgs;
 }
 
 void FCompilationEngine::CompileSubroutineBody()
