@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
-#include "AnalyzerUtils.h"
 #include "JackTokenizer.h"
 #include "CompilationEngine.h"
 #include "JackAnalyzer.h"
@@ -65,15 +64,12 @@ int JackAnalyzer::Run(const std::string& InFileName, std::string& OutFileName)
 
 bool JackAnalyzer::ProcessFile(const std::string& InFileName, std::string& OutFileName)
 {
-	OutFileName = AnalyzerUtils::ReplaceExtension(InFileName, ".xml");
-	std::cout << "Output file: " << OutFileName << '\n';
-
 	std::shared_ptr<FJackTokenizer> JackTokenizer =
 		std::make_shared<FJackTokenizer>(InFileName);
 
 	std::shared_ptr<FCompilationEngine> CompilationEngine =
 		std::make_shared<FCompilationEngine>(
-			InFileName, OutFileName, JackTokenizer);
+			InFileName, JackTokenizer);
 
 	CompilationEngine->CompileClass();
 	return true; // There isn't a way for this function to return false, so -_-

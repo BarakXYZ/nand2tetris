@@ -4,32 +4,47 @@
 #include <iostream>
 #include "SymbolTable.h"
 #include "SymbolTableVisualizer.h"
+#include "AnalyzerUtils.h"
 
 const std::unordered_set<std::string_view> FCompilationEngine::ValidTypeKeywords = {
 	"int", "char", "boolean"
 };
 
 FCompilationEngine::FCompilationEngine(
-	const std::string_view InFileName, const std::string& OutFileName,
+	const std::string&				InFileName,
 	std::shared_ptr<FJackTokenizer> JackTokenizer)
 {
-	InitNewEntry(OutFileName);
+	InitNewEntry(InFileName);
 	Tokenizer = JackTokenizer;
 };
 
 FCompilationEngine::~FCompilationEngine()
 {
-	if (OutFile.is_open())
-		OutFile.close();
+	if (OutFileXML.is_open())
+		OutFileXML.close();
+	if (OutFileVM.is_open())
+		OutFileVM.close();
 }
 
-bool FCompilationEngine::InitNewEntry(const std::string& outFileName)
+bool FCompilationEngine::InitNewEntry(const std::string& InFileName)
 {
+	const std::string OutFileNameXML = AnalyzerUtils::ReplaceExtension(InFileName, ".xml");
+	std::cout << "Output XML file: " << OutFileNameXML << '\n';
+
+	const std::string OutFileNameVM = AnalyzerUtils::ReplaceExtension(InFileName, ".vm");
+	std::cout << "Output VM file: " << OutFileNameVM << '\n';
+
 	// Create (open) the file for writing
-	OutFile.open(outFileName, std::ios::trunc);
-	if (!OutFile)
+	OutFileXML.open(OutFileNameXML, std::ios::trunc);
+	if (!OutFileXML)
 	{
-		std::cerr << "Error opening output file: " << outFileName << std::endl;
+		std::cerr << "Error opening XML output file: " << OutFileNameXML << std::endl;
+		return false;
+	}
+	OutFileVM.open(OutFileNameVM, std::ios::trunc);
+	if (!OutFileVM)
+	{
+		std::cerr << "Error opening VM output file: " << OutFileNameVM << std::endl;
 		return false;
 	}
 	return true;
@@ -47,7 +62,7 @@ void FCompilationEngine::CompileClass()
 	// Expect: 'class'
 	if (Tokenizer->TokenType() == ETokenType::KEYWORD && Tokenizer->Keyword() == "class")
 	{
-		OutFile << ClassBegin;
+		OutFileXML << ClassBegin;
 		IncIndent();
 		OutputKeyword("class");
 	}
@@ -95,7 +110,7 @@ void FCompilationEngine::CompileClass()
 		OutputSymbol('}', false /** Don't advance as we may be at the EOF */);
 
 	DecIndent();
-	OutFile << ClassEnd;
+	OutFileXML << ClassEnd;
 
 	PrintSymbolTable(ClassSymTable, CompiledClassName); // Debug
 }
@@ -109,7 +124,7 @@ void FCompilationEngine::CompileClassVarDec()
 	static constexpr std::string_view VarEnd = "</classVarDec>\n";
 
 	OutputIndentation();
-	OutFile << VarBegin;
+	OutFileXML << VarBegin;
 	IncIndent();
 
 	// Expect:  ('static') | ('field') Keywords (checked by CompileClass())
@@ -141,7 +156,7 @@ void FCompilationEngine::CompileClassVarDec()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << VarEnd;
+	OutFileXML << VarEnd;
 }
 
 void FCompilationEngine::CompileSubroutineDec()
@@ -155,7 +170,7 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	SubroutineSymTable = FSymbolTable();
 	OutputIndentation();
-	OutFile << SubDecBegin;
+	OutFileXML << SubDecBegin;
 	IncIndent();
 
 	// Expect: ('constructor'|'function'|'method') Keywords (checked by CompileClass() in a 'while' loop)
@@ -189,7 +204,7 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << SubDecEnd;
+	OutFileXML << SubDecEnd;
 	PrintSymbolTable(SubroutineSymTable, SubroutineName); // Debug
 }
 
@@ -200,7 +215,7 @@ void FCompilationEngine::CompileParameterList()
 	static constexpr std::string_view ParamEnd = "</parameterList>\n";
 
 	OutputIndentation();
-	OutFile << ParamBegin;
+	OutFileXML << ParamBegin;
 	IncIndent();
 
 	std::string Type = GetType();
@@ -225,7 +240,7 @@ void FCompilationEngine::CompileParameterList()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << ParamEnd;
+	OutFileXML << ParamEnd;
 }
 
 void FCompilationEngine::CompileSubroutineBody()
@@ -236,7 +251,7 @@ void FCompilationEngine::CompileSubroutineBody()
 	static constexpr std::string_view SubBodyEnd = "</subroutineBody>\n";
 
 	OutputIndentation();
-	OutFile << SubBodyBegin;
+	OutFileXML << SubBodyBegin;
 	IncIndent();
 
 	// Expect: '{' (symbol))
@@ -254,7 +269,7 @@ void FCompilationEngine::CompileSubroutineBody()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << SubBodyEnd;
+	OutFileXML << SubBodyEnd;
 }
 
 void FCompilationEngine::CompileVarDec()
@@ -265,7 +280,7 @@ void FCompilationEngine::CompileVarDec()
 	static constexpr std::string_view VarDecEnd = "</varDec>\n";
 
 	OutputIndentation();
-	OutFile << VarDecBegin;
+	OutFileXML << VarDecBegin;
 	IncIndent();
 
 	// Expect: 'var' (checked by subroutineBody in a while loop)
@@ -288,7 +303,7 @@ void FCompilationEngine::CompileVarDec()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << VarDecEnd;
+	OutFileXML << VarDecEnd;
 }
 
 void FCompilationEngine::CompileStatements()
@@ -308,7 +323,7 @@ void FCompilationEngine::CompileStatements()
 	};
 
 	OutputIndentation();
-	OutFile << StatementsBegin;
+	OutFileXML << StatementsBegin;
 	IncIndent();
 
 	auto it = (Tokenizer->TokenType() == ETokenType::KEYWORD)
@@ -324,7 +339,7 @@ void FCompilationEngine::CompileStatements()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << StatementsEnd;
+	OutFileXML << StatementsEnd;
 }
 
 void FCompilationEngine::CompileLet()
@@ -334,7 +349,7 @@ void FCompilationEngine::CompileLet()
 	static constexpr std::string_view LetEnd = "</letStatement>\n";
 
 	OutputIndentation();
-	OutFile << LetBegin;
+	OutFileXML << LetBegin;
 	IncIndent();
 
 	// Expect: 'let' (keyword)
@@ -364,7 +379,7 @@ void FCompilationEngine::CompileLet()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << LetEnd;
+	OutFileXML << LetEnd;
 }
 
 void FCompilationEngine::CompileIf()
@@ -374,7 +389,7 @@ void FCompilationEngine::CompileIf()
 	static constexpr std::string_view IfEnd = "</ifStatement>\n";
 
 	OutputIndentation();
-	OutFile << IfBegin;
+	OutFileXML << IfBegin;
 	IncIndent();
 
 	// Expect: 'if' (keyword)
@@ -401,7 +416,7 @@ void FCompilationEngine::CompileIf()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << IfEnd;
+	OutFileXML << IfEnd;
 }
 
 void FCompilationEngine::CompileWhile()
@@ -411,7 +426,7 @@ void FCompilationEngine::CompileWhile()
 	static constexpr std::string_view WhileEnd = "</whileStatement>\n";
 
 	OutputIndentation();
-	OutFile << WhileBegin;
+	OutFileXML << WhileBegin;
 	IncIndent();
 
 	// Expect: 'while' (keyword)
@@ -429,7 +444,7 @@ void FCompilationEngine::CompileWhile()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << WhileEnd;
+	OutFileXML << WhileEnd;
 }
 
 void FCompilationEngine::CompileDo()
@@ -439,7 +454,7 @@ void FCompilationEngine::CompileDo()
 	static constexpr std::string_view DoEnd = "</doStatement>\n";
 
 	OutputIndentation();
-	OutFile << DoBegin;
+	OutFileXML << DoBegin;
 	IncIndent();
 
 	// Expect: 'do' (keyword)
@@ -453,7 +468,7 @@ void FCompilationEngine::CompileDo()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << DoEnd;
+	OutFileXML << DoEnd;
 }
 
 void FCompilationEngine::CompileReturn()
@@ -463,7 +478,7 @@ void FCompilationEngine::CompileReturn()
 	static constexpr std::string_view ReturnEnd = "</returnStatement>\n";
 
 	OutputIndentation();
-	OutFile << ReturnBegin;
+	OutFileXML << ReturnBegin;
 	IncIndent();
 
 	// Expect: 'return' (keyword)
@@ -481,7 +496,7 @@ void FCompilationEngine::CompileReturn()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << ReturnEnd;
+	OutFileXML << ReturnEnd;
 }
 
 void FCompilationEngine::CompileExpression()
@@ -491,7 +506,7 @@ void FCompilationEngine::CompileExpression()
 	static constexpr std::string_view ExpressionEnd = "</expression>\n";
 
 	OutputIndentation();
-	OutFile << ExpressionBegin;
+	OutFileXML << ExpressionBegin;
 	IncIndent();
 
 	// Expect: 1 term
@@ -524,7 +539,7 @@ void FCompilationEngine::CompileExpression()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << ExpressionEnd;
+	OutFileXML << ExpressionEnd;
 }
 
 void FCompilationEngine::CompileTerm()
@@ -538,7 +553,7 @@ void FCompilationEngine::CompileTerm()
 	static constexpr std::string_view TermEnd = "</term>\n";
 
 	OutputIndentation();
-	OutFile << TermBegin;
+	OutFileXML << TermBegin;
 	IncIndent();
 
 	const ETokenType TT = Tokenizer->TokenType();
@@ -550,7 +565,7 @@ void FCompilationEngine::CompileTerm()
 			static constexpr std::string_view IntEnd = " </integerConstant>\n";
 
 			OutputIndentation();
-			OutFile << IntBegin << Tokenizer->IntVal() << IntEnd;
+			OutFileXML << IntBegin << Tokenizer->IntVal() << IntEnd;
 			TryAdvanceTokenizer();
 			break;
 		}
@@ -560,7 +575,7 @@ void FCompilationEngine::CompileTerm()
 			static constexpr std::string_view StrEnd = " </stringConstant>\n";
 
 			OutputIndentation();
-			OutFile << StrBegin << Tokenizer->StringVal() << StrEnd;
+			OutFileXML << StrBegin << Tokenizer->StringVal() << StrEnd;
 			TryAdvanceTokenizer();
 			break;
 		}
@@ -618,7 +633,7 @@ void FCompilationEngine::CompileTerm()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << TermEnd;
+	OutFileXML << TermEnd;
 }
 
 void FCompilationEngine::CompileExpressionList()
@@ -628,7 +643,7 @@ void FCompilationEngine::CompileExpressionList()
 	static constexpr std::string_view ExpListEnd = "</expressionList>\n";
 
 	OutputIndentation();
-	OutFile << ExpListBegin;
+	OutFileXML << ExpListBegin;
 	IncIndent();
 
 	// Check it's not an empty Expression List
@@ -645,7 +660,7 @@ void FCompilationEngine::CompileExpressionList()
 
 	DecIndent();
 	OutputIndentation();
-	OutFile << ExpListEnd;
+	OutFileXML << ExpListEnd;
 }
 
 void FCompilationEngine::CompileSubroutineCall()
@@ -698,8 +713,8 @@ void FCompilationEngine::TryAdvanceTokenizer()
 	else
 	{
 		std::cout << "TryAdvanceTokenizer: Has No Tokens left... Exiting...";
-		if (OutFile.is_open())
-			OutFile.close();
+		if (OutFileXML.is_open())
+			OutFileXML.close();
 		exit(0);
 	}
 }
@@ -716,7 +731,7 @@ void FCompilationEngine::OutputSymbol(char Symbol, bool bShouldAdvanceFile)
 	else
 	{
 		OutputIndentation();
-		OutFile << SymBegin << Symbol << SymEnd;
+		OutFileXML << SymBegin << Symbol << SymEnd;
 		if (bShouldAdvanceFile)
 			TryAdvanceTokenizer();
 	}
@@ -725,7 +740,7 @@ void FCompilationEngine::OutputSymbol(char Symbol, bool bShouldAdvanceFile)
 void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 {
 	OutputIndentation();
-	OutFile << SymBegin << Symbol << SymEnd;
+	OutFileXML << SymBegin << Symbol << SymEnd;
 	TryAdvanceTokenizer();
 }
 
@@ -747,12 +762,12 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 	if (bUseCachedIdentifier || Tokenizer->TokenType() == ETokenType::IDENTIFIER)
 	{
 		OutputIndentation();
-		OutFile << "<identifier>\n";
+		OutFileXML << "<identifier>\n";
 		IncIndent();
 
 		// Always output name
 		OutputIndentation();
-		OutFile << "<name> " << Identifier << " </name>\n";
+		OutFileXML << "<name> " << Identifier << " </name>\n";
 
 		// We're persisting the string through this var because we have a view.
 		std::string FoundCategory;
@@ -764,7 +779,7 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 
 		// Always output category
 		OutputIndentation();
-		OutFile << "<category> " << IdentifierCategory << " </category>\n";
+		OutFileXML << "<category> " << IdentifierCategory << " </category>\n";
 
 		// If it's a variable type, look up and output index
 		FSymbolTable* SymTable = nullptr;
@@ -778,16 +793,16 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 		{
 			const int Index = SymTable->IndexOf(Identifier);
 			OutputIndentation();
-			OutFile << "<index> " << Index << " </index>\n";
+			OutFileXML << "<index> " << Index << " </index>\n";
 		}
 
 		// Always output usage
 		OutputIndentation();
-		OutFile << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
+		OutFileXML << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
 
 		DecIndent();
 		OutputIndentation();
-		OutFile << "</identifier>\n";
+		OutFileXML << "</identifier>\n";
 
 		// In this case we're looking 1 token ahead, so no need to advance.
 		if (!bUseCachedIdentifier)
@@ -801,7 +816,7 @@ void FCompilationEngine::OutputKeyword(const std::string_view Keyword)
 	static constexpr std::string_view KeyEnd = " </keyword>\n";
 
 	OutputIndentation();
-	OutFile << KeyBegin << Keyword << KeyEnd;
+	OutFileXML << KeyBegin << Keyword << KeyEnd;
 	TryAdvanceTokenizer();
 }
 

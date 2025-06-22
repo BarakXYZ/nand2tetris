@@ -32,7 +32,7 @@ public:
 	 * @param JackTokenizer Shared pointer to a FJackTokenizer instance.
 	 */
 	FCompilationEngine(
-		const std::string_view InFileName, const std::string& OutFileName,
+		const std::string&				InFileName,
 		std::shared_ptr<FJackTokenizer> JackTokenizer);
 
 	/**
@@ -232,7 +232,7 @@ public:
 	{
 		for (int i = 0; i < IndentLevel; ++i)
 		{
-			OutFile << IndentInst;
+			OutFileXML << IndentInst;
 		}
 	}
 
@@ -290,7 +290,8 @@ public:
 
 private:
 	/// Output file stream used for writing the compiled output.
-	std::ofstream OutFile;
+	std::ofstream OutFileXML;
+	std::ofstream OutFileVM;
 	/// Shared pointer to the Jack tokenizer.
 	std::shared_ptr<FJackTokenizer> Tokenizer;
 	/// A constant string used for one level of indentation.
