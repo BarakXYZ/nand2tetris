@@ -2,6 +2,7 @@
 
 #include <string>
 #include <fstream>
+#include <unordered_map>
 
 /**
  * Enumeration for the different Memory Segments.
@@ -93,6 +94,13 @@ public:
 	 */
 	void Close();
 
+	const std::string_view GetSegAsStr(ESegment InSegment);
+
 private:
 	std::ofstream OutFileVM;
+
+	// Mapping of specific keywords to their descriptions.
+	std::unordered_map<ESegment, std::string_view> SegStrBySegEnum{
+		{ ESegment::ARG, "argument" }, { ESegment::CONST, "constant" }
+	};
 };

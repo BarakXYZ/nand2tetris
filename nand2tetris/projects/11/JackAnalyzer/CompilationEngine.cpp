@@ -560,7 +560,9 @@ void FCompilationEngine::CompileTerm()
 			static constexpr std::string_view IntEnd = " </integerConstant>\n";
 
 			OutputIndentation();
-			OutFileXML << IntBegin << Tokenizer->IntVal() << IntEnd;
+			const int IntValue = Tokenizer->IntVal();
+			OutFileXML << IntBegin << IntValue << IntEnd;
+			VMWriter->WritePush(ESegment::CONST, IntValue);
 			TryAdvanceTokenizer();
 			break;
 		}
@@ -676,15 +678,13 @@ void FCompilationEngine::CompileSubroutineCall()
 		CompileIdentifier(SubroutineCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);
 		OutputSymbol('(');
-		CompileExpressionList(); // TODO: Look into the ExpressionList setup
+		CompileExpressionList();
 		OutputSymbol(')');
 	}
 
 	/** (className | varName)'.'subroutineName '('expressionList')' */
 	else if (Symbol == '.')
 	{
-		// TODO: Identify if className or varName by looking up in the SymbolTable?
-
 		// (className | varName)
 		CompileIdentifier(ClassCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);

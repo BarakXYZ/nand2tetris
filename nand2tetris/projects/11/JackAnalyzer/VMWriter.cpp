@@ -23,5 +23,16 @@ FVMWriter::~FVMWriter()
 void FVMWriter::WriteFunction(const std::string& Name, int NumLocals)
 {
 	static constexpr std::string_view FuncKeyword = "function";
-	OutFileVM << FuncKeyword << ' ' << Name << ' ' << NumLocals;
+	OutFileVM << FuncKeyword << ' ' << Name << ' ' << NumLocals << '\n';
+}
+
+void FVMWriter::WritePush(ESegment Segment, int Index)
+{
+	static constexpr std::string_view PushKeyword = "push";
+	OutFileVM << PushKeyword << ' ' << GetSegAsStr(Segment) << ' ' << Index << '\n';
+}
+
+const std::string_view FVMWriter::GetSegAsStr(ESegment InSegment)
+{
+	return SegStrBySegEnum.find(InSegment)->second;
 }
