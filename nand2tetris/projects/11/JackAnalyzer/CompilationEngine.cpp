@@ -22,17 +22,12 @@ FCompilationEngine::~FCompilationEngine()
 {
 	if (OutFileXML.is_open())
 		OutFileXML.close();
-	if (OutFileVM.is_open())
-		OutFileVM.close();
 }
 
 bool FCompilationEngine::InitNewEntry(const std::string& InFileName)
 {
 	const std::string OutFileNameXML = AnalyzerUtils::ReplaceExtension(InFileName, ".xml");
 	std::cout << "Output XML file: " << OutFileNameXML << '\n';
-
-	const std::string OutFileNameVM = AnalyzerUtils::ReplaceExtension(InFileName, ".vm");
-	std::cout << "Output VM file: " << OutFileNameVM << '\n';
 
 	// Create (open) the file for writing
 	OutFileXML.open(OutFileNameXML, std::ios::trunc);
@@ -41,12 +36,8 @@ bool FCompilationEngine::InitNewEntry(const std::string& InFileName)
 		std::cerr << "Error opening XML output file: " << OutFileNameXML << std::endl;
 		return false;
 	}
-	OutFileVM.open(OutFileNameVM, std::ios::trunc);
-	if (!OutFileVM)
-	{
-		std::cerr << "Error opening VM output file: " << OutFileNameVM << std::endl;
-		return false;
-	}
+
+	VMWriter = std::make_unique<FVMWriter>(InFileName);
 	return true;
 }
 

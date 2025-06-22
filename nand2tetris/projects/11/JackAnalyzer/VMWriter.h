@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <fstream>
 
 /**
  * Enumeration for the different Memory Segments.
@@ -35,10 +36,12 @@ enum ECommand
 
 class FVMWriter
 {
+public:
 	/**
 	 * Creates a new output.vm file and prepares it for writing.
 	 */
-	FVMWriter(std::string InFile);
+	FVMWriter(const std::string& InFile);
+	~FVMWriter();
 
 	/**
 	 * Writes a VM push command.
@@ -78,7 +81,7 @@ class FVMWriter
 	/**
 	 * Writes a VM function command.
 	 */
-	void WriteFunction(std::string Name, int NumLocals);
+	void WriteFunction(const std::string& Name, int NumLocals);
 
 	/**
 	 * Writes a VM return command.
@@ -89,4 +92,7 @@ class FVMWriter
 	 * Closes the output file.
 	 */
 	void Close();
+
+private:
+	std::ofstream OutFileVM;
 };

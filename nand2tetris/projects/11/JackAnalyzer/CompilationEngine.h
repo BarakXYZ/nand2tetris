@@ -4,11 +4,10 @@
 
 #include <fstream>
 #include <memory>
-#include <array>
 #include <unordered_set>
-#include <unordered_map>
 #include <string_view>
 #include "JackTokenizer.h"
+#include "VMWriter.h"
 #include "SymbolTable.h"
 
 enum EUsage
@@ -289,24 +288,24 @@ public:
 	void HandleIfMethodImplicitArg(const std::string& FuncKeyword);
 
 private:
-	/// Output file stream used for writing the compiled output.
+	// Output file stream used for writing the compiled output.
 	std::ofstream OutFileXML;
-	std::ofstream OutFileVM;
-	/// Shared pointer to the Jack tokenizer.
+
+	// Shared pointer to the Jack tokenizer.
 	std::shared_ptr<FJackTokenizer> Tokenizer;
-	/// A constant string used for one level of indentation.
+	// A constant string used for one level of indentation.
 	static constexpr std::string_view IndentInst{ "  " };
-	/// Current indentation level.
+	// Current indentation level.
 	unsigned int IndentLevel{ 0 };
-	/// Counter for the number of times the tokenizer was advanced.
+	// Counter for the number of times the tokenizer was advanced.
 	unsigned long long AdvanceCounter{ 0 };
 
-	/// Set of valid keywords for type declarations.
+	// Set of valid keywords for type declarations.
 	static const std::unordered_set<std::string_view> ValidTypeKeywords;
 
-	/// Beginning tag for an identifier.
+	// Beginning tag for an identifier.
 	static constexpr std::string_view IdBegin = "<identifier> ";
-	/// Ending tag for an identifier.
+	// Ending tag for an identifier.
 	static constexpr std::string_view IdEnd = " </identifier>\n";
 
 	static constexpr std::string_view SymBegin = "<symbol> ";
@@ -327,4 +326,6 @@ private:
 	FSymbolTable SubroutineSymTable;
 
 	std::string CompiledClassName;
+
+	std::unique_ptr<FVMWriter> VMWriter;
 };
