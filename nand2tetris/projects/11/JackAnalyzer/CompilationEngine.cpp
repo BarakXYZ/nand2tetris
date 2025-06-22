@@ -507,6 +507,9 @@ void FCompilationEngine::CompileExpression()
 	// Expect: 1 term
 	CompileTerm();
 
+	// TODO: What about equals? (i.e. ==)
+	// It looks like we should have 9 symbols in total excluding mult
+	// so we're missing 1?
 	static const std::unordered_set<char> ValidOpSet = {
 		'+', '-', '*', '/', '&', '|', '<', '>', '='
 	};
@@ -517,12 +520,18 @@ void FCompilationEngine::CompileExpression()
 		{ '>', "&gt;" }
 	};
 
+	static const std::unordered_map<char, std::string> BuiltInMathOps = {
+		{ '*', "Math.multiply" },
+		{ '/', "Math.divide" },
+	};
+
 	// Expect: (op term)* (i.e. 0 or more)
 	while (Tokenizer->TokenType() == ETokenType::SYMBOL
 		&& ValidOpSet.contains(Tokenizer->Symbol()))
 	{
 		const char Symbol = Tokenizer->Symbol();
 		const auto SpecialIt = SpecialOpMap.find(Symbol);
+		const auto MathIt = BuiltInMathOps.find(Symbol);
 		// Either use the special symbol map or directly the Symbol
 		if (SpecialIt == SpecialOpMap.end())
 			OutputSymbol(Symbol);
@@ -530,6 +539,8 @@ void FCompilationEngine::CompileExpression()
 			OutputSymbol(SpecialIt->second);
 
 		CompileTerm();
+		if (MathIt != BuiltInMathOps.end())
+			VMWriter->WriteCall(MathIt->second, 2 /*Always 2 args?*/);
 	}
 
 	DecIndent();

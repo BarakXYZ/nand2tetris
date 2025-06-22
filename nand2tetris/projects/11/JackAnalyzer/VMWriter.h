@@ -76,6 +76,8 @@ public:
 
 	/**
 	 * Writes a VM call command.
+	 * Look into this to implement mult & div:
+	 * https://github.com/woai3c/nand2tetris/blob/master/12/Math.jack
 	 */
 	void WriteCall(std::string Name, int NumArgs);
 
@@ -99,8 +101,11 @@ public:
 private:
 	std::ofstream OutFileVM;
 
-	// Mapping of specific keywords to their descriptions.
 	std::unordered_map<ESegment, std::string_view> SegStrBySegEnum{
 		{ ESegment::ARG, "argument" }, { ESegment::CONST, "constant" }
+	};
+
+	std::unordered_map<ECommand, std::string_view> CmdStrByCmdEnum{
+		{ ECommand::ADD, "add" }
 	};
 };

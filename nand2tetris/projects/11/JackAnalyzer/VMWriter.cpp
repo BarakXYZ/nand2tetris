@@ -32,6 +32,12 @@ void FVMWriter::WritePush(ESegment Segment, int Index)
 	OutFileVM << PushKeyword << ' ' << GetSegAsStr(Segment) << ' ' << Index << '\n';
 }
 
+void FVMWriter::WriteCall(std::string Name, int NumArgs)
+{
+	static constexpr std::string_view CallKeyword = "call";
+	OutFileVM << CallKeyword << ' ' << Name << ' ' << NumArgs << '\n';
+}
+
 const std::string_view FVMWriter::GetSegAsStr(ESegment InSegment)
 {
 	return SegStrBySegEnum.find(InSegment)->second;
