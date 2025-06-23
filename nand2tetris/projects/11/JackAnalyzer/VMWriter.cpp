@@ -32,13 +32,63 @@ void FVMWriter::WritePush(ESegment Segment, int Index)
 	OutFileVM << PushKeyword << ' ' << GetSegAsStr(Segment) << ' ' << Index << '\n';
 }
 
+void FVMWriter::WritePop(ESegment Segment, int Index)
+{
+	static constexpr std::string_view PopKeyword = "pop";
+	OutFileVM << PopKeyword << ' ' << GetSegAsStr(Segment) << ' ' << Index << '\n';
+}
+
 void FVMWriter::WriteCall(std::string Name, int NumArgs)
 {
 	static constexpr std::string_view CallKeyword = "call";
 	OutFileVM << CallKeyword << ' ' << Name << ' ' << NumArgs << '\n';
 }
 
+void FVMWriter::WriteArithmetic(ECommand Command)
+{
+	std::string OpStr;
+	switch (Command)
+	{
+		case ECommand::ADD:
+		{
+			OpStr = "add";
+			break;
+		}
+		case ECommand::SUB:
+		{
+			OpStr = "sub";
+			break;
+		}
+		default:
+			OpStr = "invalid_op!";
+	}
+	OutFileVM << OpStr << '\n';
+}
+
+void FVMWriter::WriteReturn()
+{
+	static constexpr std::string_view RetKeyword = "return";
+	OutFileVM << RetKeyword << '\n';
+}
+
 const std::string_view FVMWriter::GetSegAsStr(ESegment InSegment)
 {
 	return SegStrBySegEnum.find(InSegment)->second;
+}
+
+ECommand FVMWriter::GetCommandOpByChar(char InOp)
+{
+	switch (InOp)
+	{
+		case ('+'):
+			return ECommand::ADD;
+		case ('-'):
+			return ECommand::SUB;
+		case ('&'):
+			return ECommand::AND;
+		case ('|'):
+			return ECommand::OR;
+		default:
+			return ECommand::INVALID;
+	}
 }

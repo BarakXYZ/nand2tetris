@@ -146,8 +146,9 @@ public:
 	 *
 	 * Processes an expression consisting of one term possibly followed by
 	 * one or more operator-term pairs.
+	 * return true if at least one symbol was found.
 	 */
-	void CompileExpression();
+	bool CompileExpression();
 
 	/**
 	 * @brief Compiles a term.
@@ -163,8 +164,9 @@ public:
 	 * @brief Compiles a comma-separated list of expressions.
 	 *
 	 * Processes a (possibly empty) list of expressions separated by commas.
+	 * return number of expressions in the list
 	 */
-	void CompileExpressionList();
+	int CompileExpressionList();
 
 	////////////////////////////////////////////////////////////
 	// Helper functions

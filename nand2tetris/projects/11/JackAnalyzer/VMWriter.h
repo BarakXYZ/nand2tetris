@@ -32,7 +32,8 @@ enum ECommand
 	LT,
 	AND,
 	OR,
-	NOT
+	NOT,
+	INVALID,
 };
 
 class FVMWriter
@@ -98,11 +99,20 @@ public:
 
 	const std::string_view GetSegAsStr(ESegment InSegment);
 
+	static ECommand GetCommandOpByChar(char InOp);
+
 private:
 	std::ofstream OutFileVM;
 
 	std::unordered_map<ESegment, std::string_view> SegStrBySegEnum{
-		{ ESegment::ARG, "argument" }, { ESegment::CONST, "constant" }
+		{ ESegment::ARG, "argument" },
+		{ ESegment::CONST, "constant" },
+		{ ESegment::TEMP, "temp" },
+		{ ESegment::LOCAL, "local" },
+		{ ESegment::STATIC, "static" },
+		{ ESegment::THAT, "that" },
+		{ ESegment::THIS, "this" },
+		{ ESegment::POINTER, "pointer" },
 	};
 
 	std::unordered_map<ECommand, std::string_view> CmdStrByCmdEnum{

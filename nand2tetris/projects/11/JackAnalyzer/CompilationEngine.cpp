@@ -171,8 +171,12 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: ('void' | type)
 	static constexpr std::string_view Void = "void";
+	bool							  bIsVoid = false;
 	if (Tokenizer->Keyword() == Void)
+	{
 		OutputKeyword(Void);
+		bIsVoid = true;
+	}
 	else
 		OutputType();
 
@@ -192,6 +196,12 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: subroutineBody
 	CompileSubroutineBody();
+	if (bIsVoid)
+	{
+		VMWriter->WritePop(ESegment::TEMP, 0);
+		VMWriter->WritePush(ESegment::CONST, 0);
+	}
+	VMWriter->WriteReturn();
 
 	DecIndent();
 	OutputIndentation();
@@ -494,7 +504,7 @@ void FCompilationEngine::CompileReturn()
 	OutFileXML << ReturnEnd;
 }
 
-void FCompilationEngine::CompileExpression()
+bool FCompilationEngine::CompileExpression()
 {
 	/** term(op term)* */
 	static constexpr std::string_view ExpressionBegin = "<expression>\n";
@@ -510,8 +520,15 @@ void FCompilationEngine::CompileExpression()
 	// TODO: What about equals? (i.e. ==)
 	// It looks like we should have 9 symbols in total excluding mult
 	// so we're missing 1?
+	// But maybe it's implicit that if we have 1 equal sign we must have 2?
 	static const std::unordered_set<char> ValidOpSet = {
 		'+', '-', '*', '/', '&', '|', '<', '>', '='
+	};
+
+	// We need to differentiate between these and the regular ops?
+	// In the grammar these are listed under Unary Ops
+	static const std::unordered_set<char> UnaryOps = {
+		'-', '~'
 	};
 
 	static const std::unordered_map<char, std::string_view> SpecialOpMap = {
@@ -525,27 +542,36 @@ void FCompilationEngine::CompileExpression()
 		{ '/', "Math.divide" },
 	};
 
+	bool bSymbolFound = false;
 	// Expect: (op term)* (i.e. 0 or more)
 	while (Tokenizer->TokenType() == ETokenType::SYMBOL
 		&& ValidOpSet.contains(Tokenizer->Symbol()))
 	{
+		bSymbolFound = true;
+
 		const char Symbol = Tokenizer->Symbol();
 		const auto SpecialIt = SpecialOpMap.find(Symbol);
 		const auto MathIt = BuiltInMathOps.find(Symbol);
 		// Either use the special symbol map or directly the Symbol
-		if (SpecialIt == SpecialOpMap.end())
-			OutputSymbol(Symbol);
-		else
+		if (SpecialIt != SpecialOpMap.end())
 			OutputSymbol(SpecialIt->second);
+		else // Regular Symbol:
+			OutputSymbol(Symbol);
 
 		CompileTerm();
 		if (MathIt != BuiltInMathOps.end())
-			VMWriter->WriteCall(MathIt->second, 2 /*Always 2 args?*/);
+			VMWriter->WriteCall(MathIt->second, 2 /*Always 2 args for mult&div*/);
+		else
+		{
+			// Regular op -> add, sub, or, etc.
+			VMWriter->WriteArithmetic(FVMWriter::GetCommandOpByChar(Symbol));
+		}
 	}
 
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << ExpressionEnd;
+	return bSymbolFound;
 }
 
 void FCompilationEngine::CompileTerm()
@@ -644,7 +670,7 @@ void FCompilationEngine::CompileTerm()
 	OutFileXML << TermEnd;
 }
 
-void FCompilationEngine::CompileExpressionList()
+int FCompilationEngine::CompileExpressionList()
 {
 	/** (expression(','expression)* )? */
 	static constexpr std::string_view ExpListBegin = "<expressionList>\n";
@@ -653,14 +679,16 @@ void FCompilationEngine::CompileExpressionList()
 	OutputIndentation();
 	OutFileXML << ExpListBegin;
 	IncIndent();
+	int NumOfExpressions = 0;
 
 	// Check it's not an empty Expression List
 	if (!(Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ')'))
 	{
-		CompileExpression();
+		NumOfExpressions = CompileExpression(); // 1 if an expression was found
 
 		while (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ',')
 		{
+			++NumOfExpressions;
 			OutputSymbol(',');
 			CompileExpression();
 		}
@@ -669,6 +697,7 @@ void FCompilationEngine::CompileExpressionList()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << ExpListEnd;
+	return NumOfExpressions;
 }
 
 void FCompilationEngine::CompileSubroutineCall()
@@ -689,8 +718,9 @@ void FCompilationEngine::CompileSubroutineCall()
 		CompileIdentifier(SubroutineCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);
 		OutputSymbol('(');
-		CompileExpressionList();
+		const int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')');
+		VMWriter->WriteCall(CachedIdentifier, NumOfExpressions);
 	}
 
 	/** (className | varName)'.'subroutineName '('expressionList')' */
@@ -701,11 +731,14 @@ void FCompilationEngine::CompileSubroutineCall()
 			true /*UseCachedIdentifier*/);
 
 		OutputSymbol('.');
+		// Cache the method call identifier (i.e. Class.MethodCall())
+		const std::string SecCachedId = std::string(Tokenizer->Identifier());
 		CompileIdentifier(SubroutineCategory, EUsage::Used);
 
 		OutputSymbol('(');
-		CompileExpressionList();
+		const int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')'); // ')'
+		VMWriter->WriteCall(CachedIdentifier + '.' + SecCachedId, NumOfExpressions);
 	}
 }
 
