@@ -223,6 +223,7 @@ int FCompilationEngine::CompileParameterList()
 	std::string Type = GetType();
 	if (OutputType()) // Check if empty parameterList
 	{
+		++NumOfArgs; // At least one arg found
 		// Expect: varName
 		SubroutineSymTable.Define(std::string(Tokenizer->Identifier()), Type, EKind::ARG);
 		CompileIdentifier(ArgumentCategory, EUsage::Declared);
