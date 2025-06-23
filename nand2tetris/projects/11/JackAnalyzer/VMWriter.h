@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SymbolTable.h"
 #include <string>
 #include <fstream>
 #include <unordered_map>
@@ -16,7 +17,8 @@ enum ESegment
 	THIS,
 	THAT,
 	POINTER,
-	TEMP
+	TEMP,
+	NONE,
 };
 
 /**
@@ -100,6 +102,7 @@ public:
 	const std::string_view GetSegAsStr(ESegment InSegment);
 
 	static ECommand GetCommandOpByChar(char InOp);
+	static ESegment GetSegmentByKind(EKind InKind);
 
 private:
 	std::ofstream OutFileVM;

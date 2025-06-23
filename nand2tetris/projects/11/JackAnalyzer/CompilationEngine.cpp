@@ -361,6 +361,7 @@ void FCompilationEngine::CompileLet()
 	OutputKeyword("let"); // Checked by CompileStatements
 
 	// Expect: varName (identifier)
+	std::string CachedId = std::string(Tokenizer->Identifier());
 	CompileIdentifier(UnknownCategory, EUsage::Used);
 
 	// Expect: ('['expression']')? -> (i.e. 0 or 1)
@@ -381,6 +382,9 @@ void FCompilationEngine::CompileLet()
 
 	// Expect: ';'
 	OutputSymbol(';');
+
+	const FIdentifierDetails IdDetails = GetIdDetails(CachedId);
+	VMWriter->WritePop(FVMWriter::GetSegmentByKind(IdDetails.Kind), IdDetails.Index);
 
 	DecIndent();
 	OutputIndentation();
@@ -513,6 +517,7 @@ bool FCompilationEngine::CompileExpression()
 	OutputIndentation();
 	OutFileXML << ExpressionBegin;
 	IncIndent();
+	bool bSymbolFound = false;
 
 	// Expect: 1 term
 	CompileTerm();
@@ -523,12 +528,6 @@ bool FCompilationEngine::CompileExpression()
 	// But maybe it's implicit that if we have 1 equal sign we must have 2?
 	static const std::unordered_set<char> ValidOpSet = {
 		'+', '-', '*', '/', '&', '|', '<', '>', '='
-	};
-
-	// We need to differentiate between these and the regular ops?
-	// In the grammar these are listed under Unary Ops
-	static const std::unordered_set<char> UnaryOps = {
-		'-', '~'
 	};
 
 	static const std::unordered_map<char, std::string_view> SpecialOpMap = {
@@ -542,7 +541,6 @@ bool FCompilationEngine::CompileExpression()
 		{ '/', "Math.divide" },
 	};
 
-	bool bSymbolFound = false;
 	// Expect: (op term)* (i.e. 0 or more)
 	while (Tokenizer->TokenType() == ETokenType::SYMBOL
 		&& ValidOpSet.contains(Tokenizer->Symbol()))
@@ -653,12 +651,21 @@ void FCompilationEngine::CompileTerm()
 				CompileExpression();
 				OutputSymbol(')');
 			}
-			// Handle unaryOp
-			else if (Symbol == '-' || Symbol == '~')
+
+			// Handle unaryOps ('-' and '~')
+			else if (Symbol == '-')
 			{
 				OutputSymbol(Symbol);
 				CompileTerm();
+				VMWriter->WriteArithmetic(ECommand::NEG);
 			}
+			else if (Symbol == '~')
+			{
+				OutputSymbol(Symbol);
+				CompileTerm();
+				VMWriter->WriteArithmetic(ECommand::NOT);
+			}
+
 			break;
 		}
 		default:
@@ -681,10 +688,11 @@ int FCompilationEngine::CompileExpressionList()
 	IncIndent();
 	int NumOfExpressions = 0;
 
-	// Check it's not an empty Expression List
+	// Check it's not an empty Expression List (at least 1 expression)
 	if (!(Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ')'))
 	{
-		NumOfExpressions = CompileExpression(); // 1 if an expression was found
+		++NumOfExpressions; // 1 Expression found
+		CompileExpression();
 
 		while (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == ',')
 		{
@@ -711,6 +719,9 @@ void FCompilationEngine::CompileSubroutineCall()
 	// It probably make more sense to cache the Identifier before calling
 	// CompileSubroutineCall()
 	const char Symbol = Tokenizer->Symbol();
+	// We might go through additional caching, and so, we need to
+	// cache the cache for the VMWriter.
+	const std::string FirstCachedId = CachedIdentifier;
 
 	if (Symbol == '(')
 	{
@@ -720,7 +731,7 @@ void FCompilationEngine::CompileSubroutineCall()
 		OutputSymbol('(');
 		const int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')');
-		VMWriter->WriteCall(CachedIdentifier, NumOfExpressions);
+		VMWriter->WriteCall(FirstCachedId, NumOfExpressions);
 	}
 
 	/** (className | varName)'.'subroutineName '('expressionList')' */
@@ -738,7 +749,7 @@ void FCompilationEngine::CompileSubroutineCall()
 		OutputSymbol('(');
 		const int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')'); // ')'
-		VMWriter->WriteCall(CachedIdentifier + '.' + SecCachedId, NumOfExpressions);
+		VMWriter->WriteCall(FirstCachedId + '.' + SecCachedId, NumOfExpressions);
 	}
 }
 
@@ -783,16 +794,41 @@ void FCompilationEngine::OutputSymbol(const std::string_view Symbol)
 	TryAdvanceTokenizer();
 }
 
-std::string FCompilationEngine::GetIdentifierCategory(const std::string Identifier)
+std::pair<EKind, ESymbolTableType> FCompilationEngine::GetIdCat(const std::string& Identifier)
 {
-	EKind Kind = SubroutineSymTable.KindOf(Identifier);
-	if (Kind == EKind::NONE
-		&& (Kind = ClassSymTable.KindOf(Identifier)) == EKind::NONE)
+	EKind			 Kind = SubroutineSymTable.KindOf(Identifier);
+	ESymbolTableType SymTableType = ESymbolTableType::Subroutine;
+	if (Kind == EKind::NONE)
 	{
-		std::cerr << "GetIdentifierCategory -> Identifier couldn't be found in both Subroutine or Class Symbol Tables.\n";
-		exit(99);
+		if ((Kind = ClassSymTable.KindOf(Identifier)) == EKind::NONE)
+		{
+			std::cerr << "GetIdCatAsStr -> Identifier couldn't be found in both Subroutine or Class Symbol Tables.\n";
+			exit(99);
+		}
+		else
+			SymTableType = ESymbolTableType::Class;
 	}
-	return KindToString(Kind);
+	return std::pair(Kind, SymTableType);
+}
+
+std::string FCompilationEngine::GetIdCatAsStr(const std::string& Identifier)
+{
+	return KindToString(GetIdCat(Identifier).first);
+}
+
+FIdentifierDetails FCompilationEngine::GetIdDetails(const std::string& Identifier)
+{
+	auto OptDetails = SubroutineSymTable.FindEntry(Identifier);
+	if (OptDetails == std::nullopt)
+	{
+		OptDetails = ClassSymTable.FindEntry(Identifier);
+		if (OptDetails == std::nullopt)
+		{
+			std::cerr << "GetIdDetails: Identifier could not be found!\n";
+			std::exit(99);
+		}
+	}
+	return OptDetails.value()->second;
 }
 
 void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, EUsage Usage, bool bUseCachedIdentifier)
@@ -812,7 +848,7 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 		std::string FoundCategory;
 		if (IdentifierCategory == UnknownCategory)
 		{
-			FoundCategory = GetIdentifierCategory(std::string(Identifier));
+			FoundCategory = GetIdCatAsStr(std::string(Identifier));
 			IdentifierCategory = FoundCategory;
 		}
 

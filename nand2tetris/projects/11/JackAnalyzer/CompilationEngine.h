@@ -204,8 +204,6 @@ public:
 	 */
 	void CompileIdentifier(std::string_view IdentifierCategory = "None", EUsage Usage = EUsage::Used, bool bUseCachedIdentifier = false);
 
-	std::string GetIdentifierCategory(const std::string Identifier);
-
 	/**
 	 * @brief Outputs a keyword token to the output file.
 	 *
@@ -288,6 +286,11 @@ public:
 	void CompileSubroutineCall();
 
 	void HandleIfMethodImplicitArg(const std::string& FuncKeyword);
+
+	std::pair<EKind, ESymbolTableType> GetIdCat(const std::string& Identifier);
+	std::string						   GetIdCatAsStr(const std::string& Identifier);
+
+	FIdentifierDetails GetIdDetails(const std::string& Identifier);
 
 private:
 	// Output file stream used for writing the compiled output.

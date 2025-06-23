@@ -59,6 +59,11 @@ void FVMWriter::WriteArithmetic(ECommand Command)
 			OpStr = "sub";
 			break;
 		}
+		case ECommand::NEG:
+		{
+			OpStr = "neg";
+			break;
+		}
 		default:
 			OpStr = "invalid_op!";
 	}
@@ -90,5 +95,24 @@ ECommand FVMWriter::GetCommandOpByChar(char InOp)
 			return ECommand::OR;
 		default:
 			return ECommand::INVALID;
+	}
+}
+
+ESegment FVMWriter::GetSegmentByKind(EKind InKind)
+{
+	switch (InKind)
+	{
+		case (EKind::FIELD):
+			return ESegment::THIS;
+		case (EKind::STATIC):
+			return ESegment::STATIC;
+		case (EKind::ARG):
+			return ESegment::ARG;
+		case (EKind::VAR):
+			return ESegment::LOCAL;
+
+		case (EKind::NONE):
+		default:
+			return ESegment::NONE;
 	}
 }
