@@ -441,6 +441,7 @@ void FCompilationEngine::CompileWhile()
 
 	// Expect: 'while' (keyword)
 	OutputKeyword("while"); // Checked by CompileStatements
+	// VMWriter->WriteLabel();
 
 	// Expect: '(' expression ')'
 	OutputSymbol('(');
@@ -614,6 +615,11 @@ void FCompilationEngine::CompileTerm()
 		}
 		case ETokenType::KEYWORD:
 		{
+			const std::string_view Keyword = Tokenizer->Keyword();
+			if (Keyword == "true")
+				VMWriter->WritePush(ESegment::CONST, 1);
+			else if (Keyword == "false")
+				VMWriter->WritePush(ESegment::CONST, 0);
 			OutputKeyword(Tokenizer->Keyword());
 			break;
 		}
