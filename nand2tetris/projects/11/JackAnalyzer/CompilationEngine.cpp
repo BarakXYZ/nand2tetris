@@ -196,11 +196,9 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: subroutineBody
 	CompileSubroutineBody();
-	if (bIsVoid)
-	{
-		VMWriter->WritePop(ESegment::TEMP, 0);
+	if (bIsVoid) // Push dummy value for void functions
 		VMWriter->WritePush(ESegment::CONST, 0);
-	}
+
 	VMWriter->WriteReturn();
 
 	DecIndent();
@@ -480,6 +478,10 @@ void FCompilationEngine::CompileDo()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << DoEnd;
+
+	// We should always clean up the returned value of a do,
+	// which is necessarily void-like.
+	VMWriter->WritePop(ESegment::TEMP, 0);
 }
 
 void FCompilationEngine::CompileReturn()
