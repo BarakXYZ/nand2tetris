@@ -64,6 +64,11 @@ void FVMWriter::WriteArithmetic(ECommand Command)
 			OpStr = "neg";
 			break;
 		}
+		case ECommand::NOT:
+		{
+			OpStr = "not";
+			break;
+		}
 		default:
 			OpStr = "invalid_op!";
 	}

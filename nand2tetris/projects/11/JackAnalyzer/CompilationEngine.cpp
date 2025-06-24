@@ -181,15 +181,15 @@ void FCompilationEngine::CompileSubroutineDec()
 		OutputType();
 
 	// Expect: subroutineName (identifier)
-	const std::string SubroutineName = std::string(Tokenizer->Identifier());
+	CompiledSubroutineName = std::string(Tokenizer->Identifier());
 	CompileIdentifier(SubroutineCategory, EUsage::Declared);
 
 	// Expect: '(' (symbol))
 	OutputSymbol('(');
 
 	// Expect: parameterList (0 or more)
-	const int NumOfArgs = CompileParameterList();
-	VMWriter->WriteFunction(CompiledClassName + "." + SubroutineName, NumOfArgs);
+	// const int NumOfArgs = CompileParameterList();
+	CompileParameterList();
 
 	// Expect: ')' (symbol))
 	OutputSymbol(')');
@@ -204,7 +204,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << SubDecEnd;
-	PrintSymbolTable(SubroutineSymTable, SubroutineName); // Debug
+	PrintSymbolTable(SubroutineSymTable, CompiledSubroutineName); // Debug
 }
 
 int FCompilationEngine::CompileParameterList()
@@ -261,9 +261,14 @@ void FCompilationEngine::CompileSubroutineBody()
 	// Expect: '{' (symbol))
 	OutputSymbol('{');
 
+	// We need to count the number of locals to properly allocate enough space.
+	int NumOfLocals{ 0 };
 	// Expect: varDec*
 	while (Tokenizer->Keyword() == "var")
-		CompileVarDec();
+	{
+		NumOfLocals += CompileVarDec();
+	}
+	VMWriter->WriteFunction(CompiledClassName + "." + CompiledSubroutineName, NumOfLocals);
 
 	// Expect: statements
 	CompileStatements();
@@ -276,7 +281,7 @@ void FCompilationEngine::CompileSubroutineBody()
 	OutFileXML << SubBodyEnd;
 }
 
-void FCompilationEngine::CompileVarDec()
+int FCompilationEngine::CompileVarDec()
 {
 	/** 'var' type varName (','varName)* ';' */
 
@@ -299,8 +304,9 @@ void FCompilationEngine::CompileVarDec()
 	// Expect: varName (identifier)
 	CompileIdentifier(VariableCategory, EUsage::Declared);
 
+	int NumOfVars{ 1 }; // We know we have at least 1 if we've reached here.
 	// Expect: (',' varName)*
-	OutputCommaSeparatedVarNames(ESymbolTableType::Subroutine, Type, EKind::VAR, VariableCategory, EUsage::Declared);
+	NumOfVars += OutputCommaSeparatedVarNames(ESymbolTableType::Subroutine, Type, EKind::VAR, VariableCategory, EUsage::Declared);
 
 	// Expect: ';' (symbol)
 	OutputSymbol(';');
@@ -308,6 +314,7 @@ void FCompilationEngine::CompileVarDec()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << VarDecEnd;
+	return NumOfVars;
 }
 
 void FCompilationEngine::CompileStatements()
@@ -612,6 +619,7 @@ void FCompilationEngine::CompileTerm()
 
 			OutputIndentation();
 			OutFileXML << StrBegin << Tokenizer->StringVal() << StrEnd;
+			// TODO: VM Writer: Write string
 			TryAdvanceTokenizer();
 			break;
 		}
@@ -619,9 +627,13 @@ void FCompilationEngine::CompileTerm()
 		{
 			const std::string_view Keyword = Tokenizer->Keyword();
 			if (Keyword == "true")
-				VMWriter->WritePush(ESegment::CONST, 1);
+			{
+				VMWriter->WritePush(ESegment::CONST, 0);
+				VMWriter->WriteArithmetic(ECommand::NOT); // to output 1
+			}
 			else if (Keyword == "false")
 				VMWriter->WritePush(ESegment::CONST, 0);
+			// TODO: Need to handle the 'null' & 'this' keywords too
 			OutputKeyword(Tokenizer->Keyword());
 			break;
 		}
@@ -643,11 +655,17 @@ void FCompilationEngine::CompileTerm()
 				}
 				else if (Symbol == '(' || Symbol == '.') // Check if SubCall
 					CompileSubroutineCall();
-				else
+				else // We actually reach here, checked and verified.
+				{
+					PushIdentifier(CachedIdentifier);
 					CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
+				}
 			}
-			else
+			else // I don't see any reach to here ever.
+			{
+				std::cout << "\n\n\n****REACHED SUS PLACE2****\n\n\n";
 				CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
+			}
 
 			break;
 		}
@@ -883,6 +901,13 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 		// Always output usage
 		OutputIndentation();
 		OutFileXML << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
+		// if (Usage == EUsage::Declared)
+		// {
+		// }
+		// else if (bUseCachedIdentifier && IdentifierCategory == "UnknownCategory") // Used
+		// {
+		// 	PushIdentifier(CachedIdentifier);
+		// }
 
 		DecIndent();
 		OutputIndentation();
@@ -941,8 +966,9 @@ std::string FCompilationEngine::GetType()
 		return "Invalid Type -> GetType()";
 }
 
-void FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableType, std::string Type, EKind Kind, const std::string_view IdentifierCategory, EUsage Usage)
+int FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableType, std::string Type, EKind Kind, const std::string_view IdentifierCategory, EUsage Usage)
 {
+	int NumOfVars = 0;
 	while (Tokenizer->Symbol() == ',')
 	{
 		OutputSymbol(',');
@@ -953,7 +979,9 @@ void FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableT
 			: &SubroutineSymTable;
 		SymTablePtr->Define(std::string(Tokenizer->Identifier()), Type, Kind);
 		CompileIdentifier(IdentifierCategory, Usage);
+		++NumOfVars;
 	}
+	return NumOfVars;
 }
 
 void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeyword)
@@ -963,4 +991,10 @@ void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeywor
 	{
 		SubroutineSymTable.Define(This, CompiledClassName, EKind::ARG);
 	}
+}
+
+void FCompilationEngine::PushIdentifier(std::string& Identifier)
+{
+	const FIdentifierDetails IdDetails = GetIdDetails(Identifier);
+	VMWriter->WritePush(FVMWriter::GetSegmentByKind(IdDetails.Kind), IdDetails.Index);
 }

@@ -93,7 +93,7 @@ public:
 	 *
 	 * Processes a 'var' declaration with one or more variable names.
 	 */
-	void CompileVarDec();
+	int CompileVarDec();
 
 	/**
 	 * @brief Compiles a sequence of statements.
@@ -275,7 +275,7 @@ public:
 	 *
 	 * Processes and outputs each variable name preceded by a comma.
 	 */
-	void OutputCommaSeparatedVarNames(ESymbolTableType SymTableType, std::string Type, EKind Kind, const std::string_view IdentifierCategory, EUsage Usage);
+	int OutputCommaSeparatedVarNames(ESymbolTableType SymTableType, std::string Type, EKind Kind, const std::string_view IdentifierCategory, EUsage Usage);
 
 	/**
 	 * @brief Compiles a subroutine call.
@@ -291,6 +291,8 @@ public:
 	std::string						   GetIdCatAsStr(const std::string& Identifier);
 
 	FIdentifierDetails GetIdDetails(const std::string& Identifier);
+
+	void PushIdentifier(std::string& Identifier);
 
 private:
 	// Output file stream used for writing the compiled output.
@@ -331,6 +333,7 @@ private:
 	FSymbolTable SubroutineSymTable;
 
 	std::string CompiledClassName;
+	std::string CompiledSubroutineName;
 
 	std::unique_ptr<FVMWriter> VMWriter;
 };
