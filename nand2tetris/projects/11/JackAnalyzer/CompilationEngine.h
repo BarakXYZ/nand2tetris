@@ -333,6 +333,7 @@ private:
 
 	FSymbolTable ClassSymTable;
 	FSymbolTable SubroutineSymTable;
+	bool		 bIsSubroutineVoid;
 
 	std::string CompiledClassName;
 	std::string CompiledSubroutineName;

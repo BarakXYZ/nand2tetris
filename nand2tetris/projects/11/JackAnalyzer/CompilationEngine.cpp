@@ -171,11 +171,10 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: ('void' | type)
 	static constexpr std::string_view Void = "void";
-	bool							  bIsVoid = false;
 	if (Tokenizer->Keyword() == Void)
 	{
 		OutputKeyword(Void);
-		bIsVoid = true;
+		bIsSubroutineVoid = true;
 	}
 	else
 		OutputType();
@@ -196,10 +195,6 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: subroutineBody
 	CompileSubroutineBody();
-	if (bIsVoid) // Push dummy value for void functions
-		VMWriter->WritePush(ESegment::CONST, 0);
-
-	VMWriter->WriteReturn();
 
 	DecIndent();
 	OutputIndentation();
@@ -440,7 +435,7 @@ void FCompilationEngine::CompileIf()
 		OutputSymbol('{');
 		CompileStatements();
 		OutputSymbol('}');
-		VMWriter->WriteGoto(IfLabelEnd + StrIfCounter);
+		VMWriter->WriteLabel(IfLabelEnd + StrIfCounter);
 	}
 
 	DecIndent();
@@ -543,6 +538,9 @@ void FCompilationEngine::CompileReturn()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << ReturnEnd;
+	if (bIsSubroutineVoid) // Push dummy value for void functions
+		VMWriter->WritePush(ESegment::CONST, 0);
+	VMWriter->WriteReturn();
 }
 
 bool FCompilationEngine::CompileExpression()
@@ -1028,6 +1026,7 @@ void FCompilationEngine::PushIdentifier(std::string& Identifier)
 void FCompilationEngine::ResetSubroutineSymbolTable()
 {
 	SubroutineSymTable = FSymbolTable();
+	bIsSubroutineVoid = false;
 	WhileCounter = -1;
 	IfCounter = -1;
 }
