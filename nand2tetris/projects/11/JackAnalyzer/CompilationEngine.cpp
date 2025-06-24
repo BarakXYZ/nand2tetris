@@ -384,8 +384,10 @@ void FCompilationEngine::CompileLet()
 	// Expect: ';'
 	OutputSymbol(';');
 
-	const FIdentifierDetails IdDetails = GetIdDetails(CachedId);
-	VMWriter->WritePop(FVMWriter::GetSegmentByKind(IdDetails.Kind), IdDetails.Index);
+	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(CachedId);
+	if (IdDetails != std::nullopt)
+		VMWriter->WritePop(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
+	// TODO: Not sure about this handling here!
 
 	DecIndent();
 	OutputIndentation();
@@ -789,6 +791,17 @@ void FCompilationEngine::CompileSubroutineCall()
 	else if (Symbol == '.')
 	{
 		// (className | varName)
+
+		// TODO: Work on this:
+		// const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(FirstCachedId);
+		// if (IdDetails == std::nullopt)
+		// 	CompileIdentifier(ClassCategory, EUsage::Used,
+		// 		true /*UseCachedIdentifier*/);
+		// else
+		// 	CompileIdentifier(VariableCategory, EUsage::Used,
+		// 		true /*UseCachedIdentifier*/);
+
+		// Then comment this:
 		CompileIdentifier(ClassCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);
 
@@ -867,24 +880,24 @@ std::string FCompilationEngine::GetIdCatAsStr(const std::string& Identifier)
 	return KindToString(GetIdCat(Identifier).first);
 }
 
-FIdentifierDetails FCompilationEngine::GetIdDetails(const std::string& Identifier)
+std::optional<FIdentifierDetails> FCompilationEngine::GetIdDetails(const std::string& Identifier)
 {
 	auto OptDetails = SubroutineSymTable.FindEntry(Identifier);
 	if (OptDetails == std::nullopt)
 	{
 		OptDetails = ClassSymTable.FindEntry(Identifier);
 		if (OptDetails == std::nullopt)
-		{
-			std::cerr << "GetIdDetails: Identifier could not be found!\n";
-			std::exit(99);
-		}
+			return std::nullopt;
 	}
 	return OptDetails.value()->second;
 }
 
 void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, EUsage Usage, bool bUseCachedIdentifier)
 {
-	const std::string_view Identifier = bUseCachedIdentifier ? CachedIdentifier : Tokenizer->Identifier();
+	const std::string_view Identifier = bUseCachedIdentifier
+		? CachedIdentifier
+		: Tokenizer->Identifier();
+
 	if (bUseCachedIdentifier || Tokenizer->TokenType() == ETokenType::IDENTIFIER)
 	{
 		OutputIndentation();
@@ -920,18 +933,16 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 			const int Index = SymTable->IndexOf(Identifier);
 			OutputIndentation();
 			OutFileXML << "<index> " << Index << " </index>\n";
+			// if (IdentifierCategory == "local" || IdentifierCategory == "field")
+			// {
+			// 	auto Details = GetIdDetails(std::string(Identifier));
+			// 	VMWriter->WritePush(FVMWriter::GetSegmentByKind(Details->Kind), Index);
+			// }
 		}
 
 		// Always output usage
 		OutputIndentation();
 		OutFileXML << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
-		// if (Usage == EUsage::Declared)
-		// {
-		// }
-		// else if (bUseCachedIdentifier && IdentifierCategory == "UnknownCategory") // Used
-		// {
-		// 	PushIdentifier(CachedIdentifier);
-		// }
 
 		DecIndent();
 		OutputIndentation();
@@ -1019,8 +1030,11 @@ void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeywor
 
 void FCompilationEngine::PushIdentifier(std::string& Identifier)
 {
-	const FIdentifierDetails IdDetails = GetIdDetails(Identifier);
-	VMWriter->WritePush(FVMWriter::GetSegmentByKind(IdDetails.Kind), IdDetails.Index);
+
+	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(Identifier);
+	if (IdDetails != std::nullopt)
+		VMWriter->WritePush(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
+	// TODO: Not sure about this handling here!
 }
 
 void FCompilationEngine::ResetSubroutineSymbolTable()

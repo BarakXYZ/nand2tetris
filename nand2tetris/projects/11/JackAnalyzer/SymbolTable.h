@@ -49,9 +49,8 @@ struct FIdentifierDetails
 	EKind		Kind;
 	int			Index;
 
-	    
-    FIdentifierDetails(std::string name, std::string type, EKind kind, int index)
-        : Name(std::move(name)), Type(std::move(type)), Kind(kind), Index(index) {}
+	FIdentifierDetails(std::string name, std::string type, EKind kind, int index)
+		: Name(std::move(name)), Type(std::move(type)), Kind(kind), Index(index) {}
 };
 
 struct FVarCounters

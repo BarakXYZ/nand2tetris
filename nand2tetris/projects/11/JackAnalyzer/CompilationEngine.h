@@ -290,7 +290,7 @@ public:
 	std::pair<EKind, ESymbolTableType> GetIdCat(const std::string& Identifier);
 	std::string						   GetIdCatAsStr(const std::string& Identifier);
 
-	FIdentifierDetails GetIdDetails(const std::string& Identifier);
+	std::optional<FIdentifierDetails> GetIdDetails(const std::string& Identifier);
 
 	void PushIdentifier(std::string& Identifier);
 
