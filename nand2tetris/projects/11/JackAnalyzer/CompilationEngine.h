@@ -294,6 +294,8 @@ public:
 
 	void PushIdentifier(std::string& Identifier);
 
+	void ResetSubroutineSymbolTable();
+
 private:
 	// Output file stream used for writing the compiled output.
 	std::ofstream OutFileXML;
@@ -336,4 +338,8 @@ private:
 	std::string CompiledSubroutineName;
 
 	std::unique_ptr<FVMWriter> VMWriter;
+
+	// Label Counters:
+	int WhileCounter{ -1 };
+	int IfCounter{ -1 };
 };

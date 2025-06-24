@@ -159,7 +159,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	static constexpr std::string_view SubDecBegin = "<subroutineDec>\n";
 	static constexpr std::string_view SubDecEnd = "</subroutineDec>\n";
 
-	SubroutineSymTable = FSymbolTable();
+	ResetSubroutineSymbolTable();
 	OutputIndentation();
 	OutFileXML << SubDecBegin;
 	IncIndent();
@@ -403,6 +403,10 @@ void FCompilationEngine::CompileIf()
 	static constexpr std::string_view IfBegin = "<ifStatement>\n";
 	static constexpr std::string_view IfEnd = "</ifStatement>\n";
 
+	static const std::string IfLabelTrue = "IF_TRUE";
+	static const std::string IfLabelFalse = "IF_FALSE";
+	static const std::string IfLabelEnd = "IF_END";
+
 	OutputIndentation();
 	OutFileXML << IfBegin;
 	IncIndent();
@@ -410,15 +414,24 @@ void FCompilationEngine::CompileIf()
 	// Expect: 'if' (keyword)
 	OutputKeyword("if"); // Checked by CompileStatements
 
+	++IfCounter;
+	const std::string StrIfCounter = std::to_string(IfCounter);
+
 	// Expect: '(' expression ')'
 	OutputSymbol('(');
 	CompileExpression();
 	OutputSymbol(')');
+	VMWriter->WriteIf(IfLabelTrue + StrIfCounter);
+	VMWriter->WriteGoto(IfLabelFalse + StrIfCounter);
+	VMWriter->WriteLabel(IfLabelTrue + StrIfCounter);
 
 	// Expect: '{' statments '}'
 	OutputSymbol('{');
 	CompileStatements();
 	OutputSymbol('}');
+
+	VMWriter->WriteGoto(IfLabelEnd + StrIfCounter);
+	VMWriter->WriteLabel(IfLabelFalse + StrIfCounter);
 
 	if (Tokenizer->TokenType() == ETokenType::KEYWORD && Tokenizer->Keyword() == "else")
 	{
@@ -427,6 +440,7 @@ void FCompilationEngine::CompileIf()
 		OutputSymbol('{');
 		CompileStatements();
 		OutputSymbol('}');
+		VMWriter->WriteGoto(IfLabelEnd + StrIfCounter);
 	}
 
 	DecIndent();
@@ -440,6 +454,9 @@ void FCompilationEngine::CompileWhile()
 	static constexpr std::string_view WhileBegin = "<whileStatement>\n";
 	static constexpr std::string_view WhileEnd = "</whileStatement>\n";
 
+	static const std::string WhileLabelExp = "WHILE_EXP";
+	static const std::string WhileLabelEnd = "WHILE_END";
+
 	OutputIndentation();
 	OutFileXML << WhileBegin;
 	IncIndent();
@@ -448,10 +465,17 @@ void FCompilationEngine::CompileWhile()
 	OutputKeyword("while"); // Checked by CompileStatements
 	// VMWriter->WriteLabel();
 
+	++WhileCounter;
+	VMWriter->WriteLabel(WhileLabelExp + std::to_string(WhileCounter));
+
 	// Expect: '(' expression ')'
 	OutputSymbol('(');
 	CompileExpression();
 	OutputSymbol(')');
+
+	// NOT the result of the expression and evalute it with a jump (if true):
+	VMWriter->WriteArithmetic(ECommand::NOT);
+	VMWriter->WriteIf(WhileLabelEnd + std::to_string(WhileCounter));
 
 	// Expect: '{' statments '}'
 	OutputSymbol('{');
@@ -461,6 +485,8 @@ void FCompilationEngine::CompileWhile()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << WhileEnd;
+	VMWriter->WriteGoto(WhileLabelExp + std::to_string(WhileCounter));
+	VMWriter->WriteLabel(WhileLabelEnd + std::to_string(WhileCounter));
 }
 
 void FCompilationEngine::CompileDo()
@@ -997,4 +1023,11 @@ void FCompilationEngine::PushIdentifier(std::string& Identifier)
 {
 	const FIdentifierDetails IdDetails = GetIdDetails(Identifier);
 	VMWriter->WritePush(FVMWriter::GetSegmentByKind(IdDetails.Kind), IdDetails.Index);
+}
+
+void FCompilationEngine::ResetSubroutineSymbolTable()
+{
+	SubroutineSymTable = FSymbolTable();
+	WhileCounter = -1;
+	IfCounter = -1;
 }

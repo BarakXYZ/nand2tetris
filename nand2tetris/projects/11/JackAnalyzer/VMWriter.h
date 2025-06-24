@@ -65,29 +65,29 @@ public:
 	/**
 	 * Writes a VM label command.
 	 */
-	void WriteLabel(std::string Label);
+	void WriteLabel(std::string_view Label);
 
 	/**
 	 * Writes a VM goto command.
 	 */
-	void WriteGoto(std::string Label);
+	void WriteGoto(std::string_view Label);
 
 	/**
 	 * Writes a VM if-goto command.
 	 */
-	void WriteIf(std::string Label);
+	void WriteIf(std::string_view Label);
 
 	/**
 	 * Writes a VM call command.
 	 * Look into this to implement mult & div:
 	 * https://github.com/woai3c/nand2tetris/blob/master/12/Math.jack
 	 */
-	void WriteCall(std::string Name, int NumArgs);
+	void WriteCall(std::string_view Name, int NumArgs);
 
 	/**
 	 * Writes a VM function command.
 	 */
-	void WriteFunction(const std::string& Name, int NumLocals);
+	void WriteFunction(const std::string_view Name, int NumLocals);
 
 	/**
 	 * Writes a VM return command.
