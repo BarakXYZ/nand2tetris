@@ -168,7 +168,7 @@ void FCompilationEngine::CompileSubroutineDec()
 	const std::string FuncKeyword = std::string(Tokenizer->Keyword());
 	HandleMethodImplicitThisArg(FuncKeyword);
 	OutputKeyword(FuncKeyword);
-	const bool bIsConstructorSubroutine = FuncKeyword == "constructor";
+	bIsConstructorSubroutine = FuncKeyword == "constructor";
 	// Expect: ('void' | type)
 	static constexpr std::string_view Void = "void";
 	if (Tokenizer->Keyword() == Void)
@@ -193,13 +193,6 @@ void FCompilationEngine::CompileSubroutineDec()
 	// Expect: ')' (symbol))
 	OutputSymbol(')');
 
-	if (bIsConstructorSubroutine) // Allocate memory for the constructor
-	{
-		VMWriter->WritePush(ESegment::CONST, ClassSymTable.VarTrackers.FieldCount);
-		VMWriter->WriteCall("Memory.alloc", 1);	  // OS func to allocate space
-		VMWriter->WritePop(ESegment::POINTER, 0); // Align ptr to access fields
-	}
-
 	// Expect: subroutineBody
 	CompileSubroutineBody();
 
@@ -207,6 +200,16 @@ void FCompilationEngine::CompileSubroutineDec()
 	OutputIndentation();
 	OutFileXML << SubDecEnd;
 	PrintSymbolTable(SubroutineSymTable, CompiledSubroutineName); // Debug
+}
+
+void FCompilationEngine::HandleIfConstructorSubroutine()
+{
+	if (bIsConstructorSubroutine) // Allocate memory for the constructor
+	{
+		VMWriter->WritePush(ESegment::CONST, ClassSymTable.VarTrackers.FieldCount);
+		VMWriter->WriteCall("Memory.alloc", 1);	  // OS func to allocate space
+		VMWriter->WritePop(ESegment::POINTER, 0); // Align ptr to access fields
+	}
 }
 
 int FCompilationEngine::CompileParameterList()
@@ -271,6 +274,7 @@ void FCompilationEngine::CompileSubroutineBody()
 		NumOfLocals += CompileVarDec();
 	}
 	VMWriter->WriteFunction(CompiledClassName + "." + CompiledSubroutineName, NumOfLocals);
+	HandleIfConstructorSubroutine();
 
 	// Expect: statements
 	CompileStatements();
