@@ -733,8 +733,15 @@ void FCompilationEngine::HandleCompileTermString()
 	static constexpr std::string_view StrEnd = " </stringConstant>\n";
 
 	OutputIndentation();
+	const std::string_view StringValue = Tokenizer->StringVal();
+	VMWriter->WritePush(ESegment::CONST, StringValue.length());
+	VMWriter->WriteCall("String.new", 1);
+	for (char c : StringValue)
+	{
+		VMWriter->WritePush(ESegment::CONST, int(c));
+		VMWriter->WriteCall("String.appendChar", 2);
+	}
 	OutFileXML << StrBegin << Tokenizer->StringVal() << StrEnd;
-	// TODO: VM Writer: Write string
 	TryAdvanceTokenizer();
 }
 
@@ -775,10 +782,16 @@ void FCompilationEngine::HandleCompileTermIdentifier()
 		if (Symbol == '[') // Array Entry
 		{
 			/** varName '[' expression ']' */
+			// PushIdentifier(CachedIdentifier); // Push Array's base address
 			CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
+
 			OutputSymbol('[');
 			CompileExpression();
 			OutputSymbol(']');
+
+			// We want to add the base address + the result of the expression
+			// VMWriter->WriteArithmetic(ECommand::ADD);
+			// VMWriter->WritePop(ESegment::POINTER, 1); // Align to pointer 1
 		}
 		else if (Symbol == '(' || Symbol == '.') // Check if SubCall
 			CompileSubroutineCall();
