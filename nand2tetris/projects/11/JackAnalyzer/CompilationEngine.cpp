@@ -453,7 +453,6 @@ void FCompilationEngine::CompileLet()
 		else
 			VMWriter->WritePop(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
 	}
-	// TODO: Not sure about this handling here!
 
 	DecIndent();
 	OutputIndentation();
@@ -634,10 +633,6 @@ bool FCompilationEngine::CompileExpression()
 	// Expect: 1 term
 	CompileTerm();
 
-	// TODO: What about equals? (i.e. ==)
-	// It looks like we should have 9 symbols in total excluding mult
-	// so we're missing 1?
-	// But maybe it's implicit that if we have 1 equal sign we must have 2?
 	static const std::unordered_set<char> ValidOpSet = {
 		'+', '-', '*', '/', '&', '|', '<', '>', '='
 	};
@@ -1183,8 +1178,6 @@ void FCompilationEngine::PushIdentifier(const std::string& Identifier)
 	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(Identifier);
 	if (IdDetails != std::nullopt)
 		VMWriter->WritePush(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
-
-	// TODO: Not sure about this handling here!
 }
 
 void FCompilationEngine::ResetSubroutineSymbolTable()
