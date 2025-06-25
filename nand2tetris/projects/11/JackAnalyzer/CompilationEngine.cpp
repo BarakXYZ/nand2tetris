@@ -768,13 +768,10 @@ void FCompilationEngine::CompileSubroutineCall()
 	 *  (className | varName)'.'subroutineName '(' expressionList ')'
 	 */
 
-	// CachedIdentifier = Identifier;  // We don't really need this...
-	// It probably make more sense to cache the Identifier before calling
-	// CompileSubroutineCall()
 	const char Symbol = Tokenizer->Symbol();
 	// We might go through additional caching, and so, we need to
 	// cache the cache for the VMWriter.
-	const std::string FirstCachedId = CachedIdentifier;
+	std::string FirstCachedId = CachedIdentifier;
 
 	if (Symbol == '(')
 	{
@@ -793,13 +790,21 @@ void FCompilationEngine::CompileSubroutineCall()
 		// (className | varName)
 
 		// TODO: Work on this:
-		// const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(FirstCachedId);
-		// if (IdDetails == std::nullopt)
-		// 	CompileIdentifier(ClassCategory, EUsage::Used,
-		// 		true /*UseCachedIdentifier*/);
-		// else
-		// 	CompileIdentifier(VariableCategory, EUsage::Used,
-		// 		true /*UseCachedIdentifier*/);
+		const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(CachedIdentifier);
+		bool									bIsIdVar = false;
+		if (IdDetails == std::nullopt)
+		{
+			std::cout << "\n\n**Class Category -> " << CachedIdentifier << "**\n\n";
+			// CompileIdentifier(ClassCategory, EUsage::Used,
+			// 	true /*UseCachedIdentifier*/);
+		}
+		else
+		{
+			bIsIdVar = true;
+			std::cout << "\n\n**Variable Category -> " << CachedIdentifier << "**\n\n";
+			// CompileIdentifier(VariableCategory, EUsage::Used,
+			// 	true /*UseCachedIdentifier*/);
+		}
 
 		// Then comment this:
 		CompileIdentifier(ClassCategory, EUsage::Used,
@@ -811,8 +816,17 @@ void FCompilationEngine::CompileSubroutineCall()
 		CompileIdentifier(SubroutineCategory, EUsage::Used);
 
 		OutputSymbol('(');
-		const int NumOfExpressions = CompileExpressionList();
+		int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')'); // ')'
+
+		if (bIsIdVar) // We need to use the type of the Identifier
+		{
+			const auto IdDetails = GetIdDetails(FirstCachedId);
+			PushIdentifier(FirstCachedId);	 // Push 'this'
+			FirstCachedId = IdDetails->Type; // Use the type class name
+			++NumOfExpressions;				 // Implicit 'this' should be passed
+		}
+
 		VMWriter->WriteCall(FirstCachedId + '.' + SecCachedId, NumOfExpressions);
 	}
 }
@@ -896,62 +910,62 @@ void FCompilationEngine::CompileIdentifier(std::string_view IdentifierCategory, 
 {
 	const std::string_view Identifier = bUseCachedIdentifier
 		? CachedIdentifier
+		// Currently parsed identifier, that may be 1 token ahead:
 		: Tokenizer->Identifier();
 
-	if (bUseCachedIdentifier || Tokenizer->TokenType() == ETokenType::IDENTIFIER)
+	if (!(bUseCachedIdentifier
+			|| Tokenizer->TokenType() == ETokenType::IDENTIFIER))
 	{
-		OutputIndentation();
-		OutFileXML << "<identifier>\n";
-		IncIndent();
-
-		// Always output name
-		OutputIndentation();
-		OutFileXML << "<name> " << Identifier << " </name>\n";
-
-		// We're persisting the string through this var because we have a view.
-		std::string FoundCategory;
-		if (IdentifierCategory == UnknownCategory)
-		{
-			FoundCategory = GetIdCatAsStr(std::string(Identifier));
-			IdentifierCategory = FoundCategory;
-		}
-
-		// Always output category
-		OutputIndentation();
-		OutFileXML << "<category> " << IdentifierCategory << " </category>\n";
-
-		// If it's a variable type, look up and output index
-		FSymbolTable* SymTable = nullptr;
-		if (IdentifierCategory == "static" || IdentifierCategory == "field")
-			SymTable = &ClassSymTable;
-
-		else if (IdentifierCategory == "local" || IdentifierCategory == "argument")
-			SymTable = &SubroutineSymTable;
-
-		if (SymTable)
-		{
-			const int Index = SymTable->IndexOf(Identifier);
-			OutputIndentation();
-			OutFileXML << "<index> " << Index << " </index>\n";
-			// if (IdentifierCategory == "local" || IdentifierCategory == "field")
-			// {
-			// 	auto Details = GetIdDetails(std::string(Identifier));
-			// 	VMWriter->WritePush(FVMWriter::GetSegmentByKind(Details->Kind), Index);
-			// }
-		}
-
-		// Always output usage
-		OutputIndentation();
-		OutFileXML << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
-
-		DecIndent();
-		OutputIndentation();
-		OutFileXML << "</identifier>\n";
-
-		// In this case we're looking 1 token ahead, so no need to advance.
-		if (!bUseCachedIdentifier)
-			TryAdvanceTokenizer();
+		std::cerr << "\n** Could not find an identifier! **\n\n";
+		return;
 	}
+
+	OutputIndentation();
+	OutFileXML << "<identifier>\n";
+	IncIndent();
+
+	// Always output the name of the identifier
+	OutputIndentation();
+	OutFileXML << "<name> " << Identifier << " </name>\n";
+
+	// We're persisting the string through this var because we have a view.
+	std::string FoundCategory;
+	if (IdentifierCategory == UnknownCategory)
+	{
+		FoundCategory = GetIdCatAsStr(std::string(Identifier));
+		IdentifierCategory = FoundCategory;
+	}
+
+	// Always output category
+	OutputIndentation();
+	OutFileXML << "<category> " << IdentifierCategory << " </category>\n";
+
+	// If it's a variable type, look up and output index
+	FSymbolTable* SymTable = nullptr;
+	if (IdentifierCategory == "static" || IdentifierCategory == "field")
+		SymTable = &ClassSymTable;
+
+	else if (IdentifierCategory == "local" || IdentifierCategory == "argument")
+		SymTable = &SubroutineSymTable;
+
+	if (SymTable)
+	{
+		const int Index = SymTable->IndexOf(Identifier);
+		OutputIndentation();
+		OutFileXML << "<index> " << Index << " </index>\n";
+	}
+
+	// Always output usage
+	OutputIndentation();
+	OutFileXML << "<usage> " << (Usage == EUsage::Declared ? "declared" : "used") << " </usage>\n";
+
+	DecIndent();
+	OutputIndentation();
+	OutFileXML << "</identifier>\n";
+
+	// In this case we're looking 1 token ahead, so no need to advance.
+	if (!bUseCachedIdentifier)
+		TryAdvanceTokenizer();
 }
 
 void FCompilationEngine::OutputKeyword(const std::string_view Keyword)
@@ -1021,19 +1035,19 @@ int FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableTy
 
 void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeyword)
 {
-	static const std::string This = "this";
+	static const std::string ThisKeyword = "this";
 	if (FuncKeyword == "method")
 	{
-		SubroutineSymTable.Define(This, CompiledClassName, EKind::ARG);
+		SubroutineSymTable.Define(ThisKeyword, CompiledClassName, EKind::ARG);
 	}
 }
 
 void FCompilationEngine::PushIdentifier(std::string& Identifier)
 {
-
 	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(Identifier);
 	if (IdDetails != std::nullopt)
 		VMWriter->WritePush(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
+
 	// TODO: Not sure about this handling here!
 }
 
