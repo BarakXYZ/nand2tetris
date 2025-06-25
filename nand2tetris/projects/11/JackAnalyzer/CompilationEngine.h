@@ -285,7 +285,7 @@ public:
 	 */
 	void CompileSubroutineCall();
 
-	void HandleIfMethodImplicitArg(const std::string& FuncKeyword);
+	void HandleMethodImplicitThisArg(const std::string& FuncKeyword);
 
 	std::pair<EKind, ESymbolTableType> GetIdCat(const std::string& Identifier);
 	std::string						   GetIdCatAsStr(const std::string& Identifier);

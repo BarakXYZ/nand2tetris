@@ -166,7 +166,7 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: ('constructor'|'function'|'method') Keywords (checked by CompileClass() in a 'while' loop)
 	const std::string FuncKeyword = std::string(Tokenizer->Keyword());
-	HandleIfMethodImplicitArg(FuncKeyword);
+	HandleMethodImplicitThisArg(FuncKeyword);
 	OutputKeyword(FuncKeyword);
 
 	// Expect: ('void' | type)
@@ -1033,7 +1033,7 @@ int FCompilationEngine::OutputCommaSeparatedVarNames(ESymbolTableType SymTableTy
 	return NumOfVars;
 }
 
-void FCompilationEngine::HandleIfMethodImplicitArg(const std::string& FuncKeyword)
+void FCompilationEngine::HandleMethodImplicitThisArg(const std::string& FuncKeyword)
 {
 	static const std::string ThisKeyword = "this";
 	if (FuncKeyword == "method")
