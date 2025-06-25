@@ -169,13 +169,6 @@ void FCompilationEngine::CompileSubroutineDec()
 	HandleMethodImplicitThisArg(FuncKeyword);
 	OutputKeyword(FuncKeyword);
 	const bool bIsConstructorSubroutine = FuncKeyword == "constructor";
-	if (bIsConstructorSubroutine) // Allocate memory for the constructor
-	{
-		VMWriter->WritePush(ESegment::CONST, ClassSymTable.VarTrackers.FieldCount);
-		VMWriter->WriteCall("Memory.alloc", 1);	  // OS func to allocate space
-		VMWriter->WritePop(ESegment::POINTER, 0); // Align ptr to access fields
-	}
-
 	// Expect: ('void' | type)
 	static constexpr std::string_view Void = "void";
 	if (Tokenizer->Keyword() == Void)
@@ -199,6 +192,13 @@ void FCompilationEngine::CompileSubroutineDec()
 
 	// Expect: ')' (symbol))
 	OutputSymbol(')');
+
+	if (bIsConstructorSubroutine) // Allocate memory for the constructor
+	{
+		VMWriter->WritePush(ESegment::CONST, ClassSymTable.VarTrackers.FieldCount);
+		VMWriter->WriteCall("Memory.alloc", 1);	  // OS func to allocate space
+		VMWriter->WritePop(ESegment::POINTER, 0); // Align ptr to access fields
+	}
 
 	// Expect: subroutineBody
 	CompileSubroutineBody();
@@ -692,27 +692,28 @@ void FCompilationEngine::HandleCompileTermString()
 
 void FCompilationEngine::HandleCompileTermKeyword()
 {
-	static const std::unordered_map<std::string_view, std::function<void()>> KeywordHandlers = {
-		{ "true", [this]() {
-			 VMWriter->WritePush(ESegment::CONST, 0);
-			 VMWriter->WriteArithmetic(ECommand::NOT); // to output 1
+	static const std::unordered_map<std::string_view, std::function<void(FVMWriter*)>> KeywordHandlers = {
+		{ "true", [](FVMWriter* vmWriter) {
+			 vmWriter->WritePush(ESegment::CONST, 0);
+			 vmWriter->WriteArithmetic(ECommand::NOT); // to output 1
 		 } },
-		{ "false", [this]() {
-			 VMWriter->WritePush(ESegment::CONST, 0);
+		{ "false", [](FVMWriter* vmWriter) {
+			 vmWriter->WritePush(ESegment::CONST, 0);
 		 } },
-		{ "null", [this]() {
-			 VMWriter->WritePush(ESegment::CONST, 0);
+		{ "null", [](FVMWriter* vmWriter) {
+			 vmWriter->WritePush(ESegment::CONST, 0);
 		 } },
-		{ "this", [this]() {
-			 VMWriter->WritePush(ESegment::POINTER, 0);
+		{ "this", [](FVMWriter* vmWriter) {
+			 vmWriter->WritePush(ESegment::POINTER, 0);
 		 } }
 	};
 
-	const auto Itr = KeywordHandlers.find(Tokenizer->Keyword());
+	const std::string_view Keyword = Tokenizer->Keyword();
+	const auto			   Itr = KeywordHandlers.find(Keyword);
 	if (Itr != KeywordHandlers.end())
-		Itr->second();
+		Itr->second(VMWriter.get()); // Pass the pointer
 
-	OutputKeyword(Tokenizer->Keyword());
+	OutputKeyword(Keyword);
 }
 
 void FCompilationEngine::HandleCompileTermIdentifier()
