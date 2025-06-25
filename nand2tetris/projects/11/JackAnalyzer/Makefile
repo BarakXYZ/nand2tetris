@@ -8,13 +8,18 @@ CXXFLAGS = -std=c++2a -Wall -Wextra
 SRCS = JackAnalyzer.cpp \
        JackTokenizer.cpp \
        CompilationEngine.cpp \
-       AnalyzerUtils.cpp
+       AnalyzerUtils.cpp \
+       SymbolTable.cpp \
+       VMWriter.cpp
 
 # Header files
 HDRS = JackAnalyzer.h \
        JackTokenizer.h \
        CompilationEngine.h \
-       AnalyzerUtils.h
+       AnalyzerUtils.h \
+       SymbolTable.h \
+       VMWriter.h
+
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
