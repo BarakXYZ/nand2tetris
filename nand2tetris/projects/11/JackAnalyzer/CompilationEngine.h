@@ -305,6 +305,8 @@ public:
 	bool HandleIfConstructorSubroutine();
 	bool HandleIfMethodSubroutine();
 
+	void CheckIfIdentifierDefined();
+
 private:
 	// Output file stream used for writing the compiled output.
 	std::ofstream OutFileXML;
@@ -345,6 +347,8 @@ private:
 	bool		 bIsSubroutineVoid;
 	bool		 bIsConstructorSubroutine;
 	bool		 bIsMethodSubroutine;
+
+	bool bIsIdentifierDefined;
 
 	std::string CompiledClassName;
 	std::string CompiledSubroutineName;

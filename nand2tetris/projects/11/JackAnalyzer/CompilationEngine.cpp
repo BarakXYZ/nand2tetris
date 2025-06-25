@@ -230,6 +230,21 @@ bool FCompilationEngine::HandleIfMethodSubroutine()
 	return false;
 }
 
+void FCompilationEngine::CheckIfIdentifierDefined()
+{
+	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(CachedIdentifier);
+	bIsIdentifierDefined = false;
+	if (IdDetails == std::nullopt)
+	{
+		std::cout << "\n\n**Class Category -> " << CachedIdentifier << "**\n\n";
+	}
+	else
+	{
+		bIsIdentifierDefined = true;
+		std::cout << "\n\n**Variable Category -> " << CachedIdentifier << "**\n\n";
+	}
+}
+
 int FCompilationEngine::CompileParameterList()
 {
 	/** ((type varName)(',' type varName)*)? */
@@ -443,7 +458,11 @@ void FCompilationEngine::CompileIf()
 	OutputKeyword("if"); // Checked by CompileStatements
 
 	++IfCounter;
-	const std::string StrIfCounter = std::to_string(IfCounter);
+	// We need to persist a local copy because we might enter additional if's
+	// that can alter the global counter. Thus we need to track the init value.
+	int LocalIfCounter = IfCounter;
+
+	const std::string StrIfCounter = std::to_string(LocalIfCounter);
 
 	// Expect: '(' expression ')'
 	OutputSymbol('(');
@@ -458,11 +477,11 @@ void FCompilationEngine::CompileIf()
 	CompileStatements();
 	OutputSymbol('}');
 
-	VMWriter->WriteGoto(IfLabelEnd + StrIfCounter);
-	VMWriter->WriteLabel(IfLabelFalse + StrIfCounter);
-
 	if (Tokenizer->TokenType() == ETokenType::KEYWORD && Tokenizer->Keyword() == "else")
 	{
+		VMWriter->WriteGoto(IfLabelEnd + StrIfCounter);
+		VMWriter->WriteLabel(IfLabelFalse + StrIfCounter);
+
 		OutputKeyword("else");
 
 		OutputSymbol('{');
@@ -470,6 +489,8 @@ void FCompilationEngine::CompileIf()
 		OutputSymbol('}');
 		VMWriter->WriteLabel(IfLabelEnd + StrIfCounter);
 	}
+	else
+		VMWriter->WriteLabel(IfLabelFalse + StrIfCounter);
 
 	DecIndent();
 	OutputIndentation();
@@ -494,7 +515,10 @@ void FCompilationEngine::CompileWhile()
 	// VMWriter->WriteLabel();
 
 	++WhileCounter;
-	VMWriter->WriteLabel(WhileLabelExp + std::to_string(WhileCounter));
+	// We need to persist a local copy because we might enter additional whiles
+	// that can alter the global counter. Thus we need to track the init value.
+	int LocalWhileCounter = WhileCounter;
+	VMWriter->WriteLabel(WhileLabelExp + std::to_string(LocalWhileCounter));
 
 	// Expect: '(' expression ')'
 	OutputSymbol('(');
@@ -503,18 +527,18 @@ void FCompilationEngine::CompileWhile()
 
 	// NOT the result of the expression and evalute it with a jump (if true):
 	VMWriter->WriteArithmetic(ECommand::NOT);
-	VMWriter->WriteIf(WhileLabelEnd + std::to_string(WhileCounter));
+	VMWriter->WriteIf(WhileLabelEnd + std::to_string(LocalWhileCounter));
 
 	// Expect: '{' statments '}'
 	OutputSymbol('{');
 	CompileStatements();
 	OutputSymbol('}');
 
+	VMWriter->WriteGoto(WhileLabelExp + std::to_string(LocalWhileCounter));
+	VMWriter->WriteLabel(WhileLabelEnd + std::to_string(LocalWhileCounter));
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << WhileEnd;
-	VMWriter->WriteGoto(WhileLabelExp + std::to_string(WhileCounter));
-	VMWriter->WriteLabel(WhileLabelEnd + std::to_string(WhileCounter));
 }
 
 void FCompilationEngine::CompileDo()
@@ -837,6 +861,7 @@ void FCompilationEngine::CompileSubroutineCall()
 	// We might go through additional caching, and so, we need to
 	// cache the cache for the VMWriter.
 	std::string FirstCachedId = CachedIdentifier;
+	CheckIfIdentifierDefined();
 
 	if (Symbol == '(')
 	{
@@ -844,8 +869,14 @@ void FCompilationEngine::CompileSubroutineCall()
 		CompileIdentifier(SubroutineCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);
 		OutputSymbol('(');
-		const int NumOfExpressions = CompileExpressionList();
+		int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')');
+		if (!bIsIdentifierDefined)
+		{
+			FirstCachedId.insert(0, CompiledClassName + '.');
+			++NumOfExpressions; // Implicit 'this'
+			VMWriter->WritePush(ESegment::POINTER, 0);
+		}
 		VMWriter->WriteCall(FirstCachedId, NumOfExpressions);
 	}
 
@@ -853,25 +884,6 @@ void FCompilationEngine::CompileSubroutineCall()
 	else if (Symbol == '.')
 	{
 		// (className | varName)
-
-		// TODO: Work on this:
-		const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(CachedIdentifier);
-		bool									bIsIdVar = false;
-		if (IdDetails == std::nullopt)
-		{
-			std::cout << "\n\n**Class Category -> " << CachedIdentifier << "**\n\n";
-			// CompileIdentifier(ClassCategory, EUsage::Used,
-			// 	true /*UseCachedIdentifier*/);
-		}
-		else
-		{
-			bIsIdVar = true;
-			std::cout << "\n\n**Variable Category -> " << CachedIdentifier << "**\n\n";
-			// CompileIdentifier(VariableCategory, EUsage::Used,
-			// 	true /*UseCachedIdentifier*/);
-		}
-
-		// Then comment this:
 		CompileIdentifier(ClassCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);
 
@@ -884,7 +896,7 @@ void FCompilationEngine::CompileSubroutineCall()
 		int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')'); // ')'
 
-		if (bIsIdVar) // We need to use the type of the Identifier
+		if (bIsIdentifierDefined) // We need to use the type of the Identifier
 		{
 			const auto IdDetails = GetIdDetails(FirstCachedId);
 			PushIdentifier(FirstCachedId);	 // Push 'this'
@@ -1120,8 +1132,9 @@ void FCompilationEngine::ResetSubroutineSymbolTable()
 {
 	SubroutineSymTable = FSymbolTable();
 	bIsSubroutineVoid = false;
-	WhileCounter = -1;
-	IfCounter = -1;
 	bIsConstructorSubroutine = false;
 	bIsMethodSubroutine = false;
+	bIsIdentifierDefined = true;
+	WhileCounter = -1;
+	IfCounter = -1;
 }
