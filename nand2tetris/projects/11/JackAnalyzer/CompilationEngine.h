@@ -292,7 +292,7 @@ public:
 
 	std::optional<FIdentifierDetails> GetIdDetails(const std::string& Identifier);
 
-	void PushIdentifier(std::string& Identifier);
+	void PushIdentifier(const std::string& Identifier);
 
 	void ResetSubroutineSymbolTable();
 
@@ -300,6 +300,7 @@ public:
 	void HandleCompileTermString();
 	void HandleCompileTermKeyword();
 	void HandleCompileTermIdentifier();
+	void HandleCompileTermArray(const std::string& CachedId);
 	void HandleCompileTermSymbol();
 
 	bool HandleIfConstructorSubroutine();

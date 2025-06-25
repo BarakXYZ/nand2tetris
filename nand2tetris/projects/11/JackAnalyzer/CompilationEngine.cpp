@@ -410,15 +410,21 @@ void FCompilationEngine::CompileLet()
 	// Expect: varName (identifier)
 	std::string CachedId = std::string(Tokenizer->Identifier());
 	CompileIdentifier(UnknownCategory, EUsage::Used);
+	bool bIsArrayAssignment = false;
 
-	// Expect: ('['expression']')? -> (i.e. 0 or 1)
+	// Expect: ('['expression']')? -> (i.e. 0 or 1)  -> i.e. Working with Array?
 	if (Tokenizer->TokenType() == ETokenType::SYMBOL && Tokenizer->Symbol() == '[')
 	{
+		bIsArrayAssignment = true;
+
 		OutputSymbol('[');
-
 		CompileExpression();
-
 		OutputSymbol(']');
+
+		// We want to add the base address + the result of the expression
+		PushIdentifier(CachedId); // Push Array's base address
+		VMWriter->WriteArithmetic(ECommand::ADD);
+		// VMWriter->WritePop(ESegment::POINTER, 1); // Align to pointer 1
 	}
 
 	// Expect: '='
@@ -432,7 +438,21 @@ void FCompilationEngine::CompileLet()
 
 	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(CachedId);
 	if (IdDetails != std::nullopt)
-		VMWriter->WritePop(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
+	{
+		if (bIsArrayAssignment)
+		{
+			// Store expression result in temp
+			VMWriter->WritePop(ESegment::TEMP, 0);
+			// Set THAT pointer to target address
+			VMWriter->WritePop(ESegment::POINTER, 1);
+			// Push expression result back to stack
+			VMWriter->WritePush(ESegment::TEMP, 0);
+			// Store value at array[index] location
+			VMWriter->WritePop(ESegment::THAT, 0);
+		}
+		else
+			VMWriter->WritePop(FVMWriter::GetSegmentByKind(IdDetails->Kind), IdDetails->Index);
+	}
 	// TODO: Not sure about this handling here!
 
 	DecIndent();
@@ -774,6 +794,7 @@ void FCompilationEngine::HandleCompileTermKeyword()
 void FCompilationEngine::HandleCompileTermIdentifier()
 {
 	CachedIdentifier = std::string(Tokenizer->Identifier());
+	const std::string LocalCachedId = CachedIdentifier;
 	// We need to look 1 more token ahead to determine the compilation
 	TryAdvanceTokenizer();
 	if (Tokenizer->TokenType() == ETokenType::SYMBOL)
@@ -782,16 +803,13 @@ void FCompilationEngine::HandleCompileTermIdentifier()
 		if (Symbol == '[') // Array Entry
 		{
 			/** varName '[' expression ']' */
-			// PushIdentifier(CachedIdentifier); // Push Array's base address
 			CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
 
 			OutputSymbol('[');
 			CompileExpression();
 			OutputSymbol(']');
 
-			// We want to add the base address + the result of the expression
-			// VMWriter->WriteArithmetic(ECommand::ADD);
-			// VMWriter->WritePop(ESegment::POINTER, 1); // Align to pointer 1
+			HandleCompileTermArray(LocalCachedId);
 		}
 		else if (Symbol == '(' || Symbol == '.') // Check if SubCall
 			CompileSubroutineCall();
@@ -807,6 +825,30 @@ void FCompilationEngine::HandleCompileTermIdentifier()
 		CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
 	}
 }
+
+void FCompilationEngine::HandleCompileTermArray(const std::string& CachedId)
+{
+	/**
+	 * We want to add the base address + the result of the expression
+	 * At this point, the stack contains the array index
+	 * (from CompileExpression)
+	 */
+
+	// Push Array's base address onto the stack
+	PushIdentifier(CachedId);
+
+	// Add index + base address to get target memory location
+	VMWriter->WriteArithmetic(ECommand::ADD);
+
+	// Now we need to access the array element at the calculated address
+
+	// Store the target address in POINTER[1] (THAT segment pointer)
+	VMWriter->WritePop(ESegment::POINTER, 1);
+
+	// Push the value at the target address (arr[index]) onto the stack
+	VMWriter->WritePush(ESegment::THAT, 0);
+}
+
 void FCompilationEngine::HandleCompileTermSymbol()
 {
 	const char Symbol = Tokenizer->Symbol();
@@ -1132,7 +1174,7 @@ void FCompilationEngine::HandleMethodImplicitThisArg(const std::string& FuncKeyw
 	}
 }
 
-void FCompilationEngine::PushIdentifier(std::string& Identifier)
+void FCompilationEngine::PushIdentifier(const std::string& Identifier)
 {
 	const std::optional<FIdentifierDetails> IdDetails = GetIdDetails(Identifier);
 	if (IdDetails != std::nullopt)
