@@ -923,6 +923,10 @@ void FCompilationEngine::CompileSubroutineCall()
 		/** subroutineName '(' expressionList ')' */
 		CompileIdentifier(SubroutineCategory, EUsage::Used,
 			true /*UseCachedIdentifier*/);
+
+		// Push 'pointer' as the first argument
+		VMWriter->WritePush(ESegment::POINTER, 0);
+
 		OutputSymbol('(');
 		int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')');
@@ -930,7 +934,6 @@ void FCompilationEngine::CompileSubroutineCall()
 		{
 			FirstCachedId.insert(0, CompiledClassName + '.');
 			++NumOfExpressions; // Implicit 'this'
-			VMWriter->WritePush(ESegment::POINTER, 0);
 		}
 		VMWriter->WriteCall(FirstCachedId, NumOfExpressions);
 	}
@@ -947,14 +950,15 @@ void FCompilationEngine::CompileSubroutineCall()
 		const std::string SecCachedId = std::string(Tokenizer->Identifier());
 		CompileIdentifier(SubroutineCategory, EUsage::Used);
 
+		const auto IdDetails = GetIdDetails(FirstCachedId);
+		PushIdentifier(FirstCachedId); // Push 'this' as the first argument
+
 		OutputSymbol('(');
 		int NumOfExpressions = CompileExpressionList();
 		OutputSymbol(')'); // ')'
 
 		if (bIsIdentifierDefined) // We need to use the type of the Identifier
 		{
-			const auto IdDetails = GetIdDetails(FirstCachedId);
-			PushIdentifier(FirstCachedId);	 // Push 'this'
 			FirstCachedId = IdDetails->Type; // Use the type class name
 			++NumOfExpressions;				 // Implicit 'this' should be passed
 		}
