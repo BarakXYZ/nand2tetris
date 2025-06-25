@@ -302,7 +302,8 @@ public:
 	void HandleCompileTermIdentifier();
 	void HandleCompileTermSymbol();
 
-	void HandleIfConstructorSubroutine();
+	bool HandleIfConstructorSubroutine();
+	bool HandleIfMethodSubroutine();
 
 private:
 	// Output file stream used for writing the compiled output.
@@ -343,6 +344,7 @@ private:
 	FSymbolTable SubroutineSymTable;
 	bool		 bIsSubroutineVoid;
 	bool		 bIsConstructorSubroutine;
+	bool		 bIsMethodSubroutine;
 
 	std::string CompiledClassName;
 	std::string CompiledSubroutineName;
