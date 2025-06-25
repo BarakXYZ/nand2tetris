@@ -168,6 +168,13 @@ void FCompilationEngine::CompileSubroutineDec()
 	const std::string FuncKeyword = std::string(Tokenizer->Keyword());
 	HandleMethodImplicitThisArg(FuncKeyword);
 	OutputKeyword(FuncKeyword);
+	const bool bIsConstructorSubroutine = FuncKeyword == "constructor";
+	if (bIsConstructorSubroutine) // Allocate memory for the constructor
+	{
+		VMWriter->WritePush(ESegment::CONST, ClassSymTable.VarTrackers.FieldCount);
+		VMWriter->WriteCall("Memory.alloc", 1);	  // OS func to allocate space
+		VMWriter->WritePop(ESegment::POINTER, 0); // Align ptr to access fields
+	}
 
 	// Expect: ('void' | type)
 	static constexpr std::string_view Void = "void";
@@ -628,97 +635,27 @@ void FCompilationEngine::CompileTerm()
 	{
 		case ETokenType::INT_CONST:
 		{
-			static constexpr std::string_view IntBegin = "<integerConstant> ";
-			static constexpr std::string_view IntEnd = " </integerConstant>\n";
-
-			OutputIndentation();
-			const int IntValue = Tokenizer->IntVal();
-			OutFileXML << IntBegin << IntValue << IntEnd;
-			VMWriter->WritePush(ESegment::CONST, IntValue);
-			TryAdvanceTokenizer();
+			HandleCompileTermInt();
 			break;
 		}
 		case ETokenType::STRING_CONST:
 		{
-			static constexpr std::string_view StrBegin = "<stringConstant> ";
-			static constexpr std::string_view StrEnd = " </stringConstant>\n";
-
-			OutputIndentation();
-			OutFileXML << StrBegin << Tokenizer->StringVal() << StrEnd;
-			// TODO: VM Writer: Write string
-			TryAdvanceTokenizer();
+			HandleCompileTermString();
 			break;
 		}
 		case ETokenType::KEYWORD:
 		{
-			const std::string_view Keyword = Tokenizer->Keyword();
-			if (Keyword == "true")
-			{
-				VMWriter->WritePush(ESegment::CONST, 0);
-				VMWriter->WriteArithmetic(ECommand::NOT); // to output 1
-			}
-			else if (Keyword == "false")
-				VMWriter->WritePush(ESegment::CONST, 0);
-			// TODO: Need to handle the 'null' & 'this' keywords too
-			OutputKeyword(Tokenizer->Keyword());
+			HandleCompileTermKeyword();
 			break;
 		}
 		case ETokenType::IDENTIFIER:
 		{
-			CachedIdentifier = std::string(Tokenizer->Identifier());
-			// We need to look 1 more token ahead to determine the compilation
-			TryAdvanceTokenizer();
-			if (Tokenizer->TokenType() == ETokenType::SYMBOL)
-			{
-				const char Symbol = Tokenizer->Symbol();
-				if (Symbol == '[') // Array Entry
-				{
-					/** varName '[' expression ']' */
-					CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
-					OutputSymbol('[');
-					CompileExpression();
-					OutputSymbol(']');
-				}
-				else if (Symbol == '(' || Symbol == '.') // Check if SubCall
-					CompileSubroutineCall();
-				else // We actually reach here, checked and verified.
-				{
-					PushIdentifier(CachedIdentifier);
-					CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
-				}
-			}
-			else // I don't see any reach to here ever.
-			{
-				std::cout << "\n\n\n****REACHED SUS PLACE2****\n\n\n";
-				CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
-			}
-
+			HandleCompileTermIdentifier();
 			break;
 		}
 		case ETokenType::SYMBOL:
 		{
-			const char Symbol = Tokenizer->Symbol();
-			if (Symbol == '(')
-			{
-				OutputSymbol('(');
-				CompileExpression();
-				OutputSymbol(')');
-			}
-
-			// Handle unaryOps ('-' and '~')
-			else if (Symbol == '-')
-			{
-				OutputSymbol(Symbol);
-				CompileTerm();
-				VMWriter->WriteArithmetic(ECommand::NEG);
-			}
-			else if (Symbol == '~')
-			{
-				OutputSymbol(Symbol);
-				CompileTerm();
-				VMWriter->WriteArithmetic(ECommand::NOT);
-			}
-
+			HandleCompileTermSymbol();
 			break;
 		}
 		default:
@@ -728,6 +665,109 @@ void FCompilationEngine::CompileTerm()
 	DecIndent();
 	OutputIndentation();
 	OutFileXML << TermEnd;
+}
+
+void FCompilationEngine::HandleCompileTermInt()
+{
+	static constexpr std::string_view IntBegin = "<integerConstant> ";
+	static constexpr std::string_view IntEnd = " </integerConstant>\n";
+
+	OutputIndentation();
+	const int IntValue = Tokenizer->IntVal();
+	OutFileXML << IntBegin << IntValue << IntEnd;
+	VMWriter->WritePush(ESegment::CONST, IntValue);
+	TryAdvanceTokenizer();
+}
+
+void FCompilationEngine::HandleCompileTermString()
+{
+	static constexpr std::string_view StrBegin = "<stringConstant> ";
+	static constexpr std::string_view StrEnd = " </stringConstant>\n";
+
+	OutputIndentation();
+	OutFileXML << StrBegin << Tokenizer->StringVal() << StrEnd;
+	// TODO: VM Writer: Write string
+	TryAdvanceTokenizer();
+}
+
+void FCompilationEngine::HandleCompileTermKeyword()
+{
+	static const std::unordered_map<std::string_view, std::function<void()>> KeywordHandlers = {
+		{ "true", [this]() {
+			 VMWriter->WritePush(ESegment::CONST, 0);
+			 VMWriter->WriteArithmetic(ECommand::NOT); // to output 1
+		 } },
+		{ "false", [this]() {
+			 VMWriter->WritePush(ESegment::CONST, 0);
+		 } },
+		{ "null", [this]() {
+			 VMWriter->WritePush(ESegment::CONST, 0);
+		 } },
+		{ "this", [this]() {
+			 VMWriter->WritePush(ESegment::POINTER, 0);
+		 } }
+	};
+
+	const auto Itr = KeywordHandlers.find(Tokenizer->Keyword());
+	if (Itr != KeywordHandlers.end())
+		Itr->second();
+
+	OutputKeyword(Tokenizer->Keyword());
+}
+
+void FCompilationEngine::HandleCompileTermIdentifier()
+{
+	CachedIdentifier = std::string(Tokenizer->Identifier());
+	// We need to look 1 more token ahead to determine the compilation
+	TryAdvanceTokenizer();
+	if (Tokenizer->TokenType() == ETokenType::SYMBOL)
+	{
+		const char Symbol = Tokenizer->Symbol();
+		if (Symbol == '[') // Array Entry
+		{
+			/** varName '[' expression ']' */
+			CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
+			OutputSymbol('[');
+			CompileExpression();
+			OutputSymbol(']');
+		}
+		else if (Symbol == '(' || Symbol == '.') // Check if SubCall
+			CompileSubroutineCall();
+		else // We actually reach here, checked and verified.
+		{
+			PushIdentifier(CachedIdentifier);
+			CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
+		}
+	}
+	else // I don't see any reach to here ever.
+	{
+		std::cout << "\n\n\n****REACHED SUS PLACE2****\n\n\n";
+		CompileIdentifier(UnknownCategory, EUsage::Used, true /*UseCachedIdentifier*/);
+	}
+}
+void FCompilationEngine::HandleCompileTermSymbol()
+{
+	const char Symbol = Tokenizer->Symbol();
+	if (Symbol == '(')
+	{
+		OutputSymbol('(');
+		CompileExpression();
+		OutputSymbol(')');
+	}
+
+	// Handle unaryOps ('-' and '~')
+	else if (Symbol == '-')
+	{
+		OutputSymbol(Symbol);
+		CompileTerm();
+		VMWriter->WriteArithmetic(ECommand::NEG);
+	}
+	else if (Symbol == '~')
+	{
+		OutputSymbol(Symbol);
+		CompileTerm();
+		VMWriter->WriteArithmetic(ECommand::NOT);
+	}
 }
 
 int FCompilationEngine::CompileExpressionList()

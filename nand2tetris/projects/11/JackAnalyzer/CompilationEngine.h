@@ -296,6 +296,12 @@ public:
 
 	void ResetSubroutineSymbolTable();
 
+	void HandleCompileTermInt();
+	void HandleCompileTermString();
+	void HandleCompileTermKeyword();
+	void HandleCompileTermIdentifier();
+	void HandleCompileTermSymbol();
+
 private:
 	// Output file stream used for writing the compiled output.
 	std::ofstream OutFileXML;
