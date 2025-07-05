@@ -36,11 +36,36 @@ class Math {
         return;
     }
 
+    // Returns true if the i-th bit of x is 1, false otherwise
+    function boolean bit(int x, int i) {
+        // The & operator will access the underlying bits
+        // so there's no need to do any conversions.
+        // 9 -> 1001, thus will result in true for the 1st and 4th bits.
+        if ((x & powersOfTwo[i]) = 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /** Returns the product of x and y. 
      *  When a Jack compiler detects the multiplication operator '*'
      *  in an expression, it handles it by invoking this method. 
      *  Thus, in Jack, x * y and Math.multiply(x,y) return the same value. */
     function int multiply(int x, int y) {
+        var int sum, xShifted, i;
+        let sum = 0;
+        let xShifted = x;
+        let i = 0;
+
+        while (i < n) {
+            if (bit(y, i)) {
+                let sum = sum + xShifted;
+            }
+            let xShifted = xShifted + xShifted;
+            let i = i + 1;
+        }
+        return sum;
     }
 
     /** Returns the integer part of x / y.
