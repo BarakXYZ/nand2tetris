@@ -32,7 +32,7 @@ class Math {
         let powersOfTwo[12] = 4096;
         let powersOfTwo[13] = 8192;
         let powersOfTwo[14] = 16384;
-        let powersOfTwo[15] = 32768;
+        let powersOfTwo[15] = 16384 + 16384;
         return;
     }
 
@@ -59,7 +59,7 @@ class Math {
         let i = 0;
 
         while (i < n) {
-            if (bit(y, i)) {
+            if (Math.bit(y, i)) {
                 let sum = sum + xShifted;
             }
             let xShifted = xShifted + xShifted;
@@ -91,7 +91,7 @@ class Math {
             let negateY = false;
         }
 
-        let result = divideAbs(absX, absY);
+        let result = Math.divideAbs(absX, absY);
 
         // Negate if signs are different
         if ((negateX & ~negateY) | (~negateX & negateY)) {
@@ -105,10 +105,10 @@ class Math {
         var int q, doubleQ;
         if ((y > x) | (y < 0)) { return 0; }
 
-        let q = divideAbs(x, y + y);
+        let q = Math.divideAbs(x, y + y);
         let doubleQ = q + q;
 
-        if ((x - multiply(doubleQ, y)) < y) {
+        if ((x - Math.multiply(doubleQ, y)) < y) {
             return doubleQ;
         } else {
             return doubleQ + 1;
@@ -122,10 +122,10 @@ class Math {
         let y = 0;
         let i = 7;  // Max bits for 16-bit square root numbers
         
-        while (i >= 0) {
+        while (i > -1) {
             let temp = y + powersOfTwo[i];
-            let tempSquared = temp * temp;
-            if ((tempSquared <= x) & (tempSquared > 0)) {
+            let tempSquared = Math.multiply(temp, temp);
+            if ((~(tempSquared > x)) & (tempSquared > 0)) {
                 let y = temp;
             }
             let i = i - 1;
