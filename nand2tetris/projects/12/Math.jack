@@ -117,6 +117,20 @@ class Math {
 
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
+        var int y, i, temp, tempSquared;
+
+        let y = 0;
+        let i = 7;  // Max bits for 16-bit sqaure root numbers
+        
+        while (i >= 0) {
+            let temp = y + powersOfTwo[i];
+            let tempSquared = temp * temp;
+            if ((tempSquared <= x) & (tempSquared > 0)) {
+                let y = temp;
+            }
+            let i = i - 1;
+        }
+        return y;
     }
 
     /** Returns the greater value. */
