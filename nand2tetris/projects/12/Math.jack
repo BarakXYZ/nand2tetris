@@ -15,7 +15,7 @@ class Math {
 
     // Initializes the Math library.
     function void init() {
-        let n = 16-1;
+        let n = 16;
         let powersOfTwo = Array.new(16);
         let powersOfTwo[0] = 1;
         let powersOfTwo[1] = 2;
