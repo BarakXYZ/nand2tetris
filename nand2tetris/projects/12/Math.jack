@@ -73,6 +73,46 @@ class Math {
      *  an an expression, it handles it by invoking this method.
      *  Thus, x/y and Math.divide(x,y) return the same value. */
     function int divide(int x, int y) {
+        var int absX, absY, result;
+        var boolean negateX, negateY;
+
+        if (x < 0) {
+            let absX = -x;
+            let negateX = true;
+        } else {
+            let absX = x;
+            let negateX = false;
+        }
+        if (y < 0) {
+            let absY = -y;
+            let negateY = true;
+        } else {
+            let absY = y;
+            let negateY = false;
+        }
+
+        let result = divideAbs(absX, absY);
+
+        // Negate if signs are different
+        if ((negateX & ~negateY) | (~negateX & negateY)) {
+            let result = -result;
+        }
+        return result;
+    }
+
+    // Divides only the positive absolute number numbers recursively.
+    function int divideAbs(int x, int y) {
+        var int q, doubleQ;
+        if ((y > x) | (y < 0)) { return 0; }
+
+        let q = divideAbs(x, y + y);
+        let doubleQ = q + q;
+
+        if ((x - (doubleQ * y)) < y) {
+            return doubleQ;
+        } else {
+            return doubleQ + 1;
+        }
     }
 
     /** Returns the integer part of the square root of x. */
