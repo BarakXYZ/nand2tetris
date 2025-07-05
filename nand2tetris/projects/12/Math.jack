@@ -108,7 +108,7 @@ class Math {
         let q = divideAbs(x, y + y);
         let doubleQ = q + q;
 
-        if ((x - (doubleQ * y)) < y) {
+        if ((x - multiply(doubleQ, y)) < y) {
             return doubleQ;
         } else {
             return doubleQ + 1;
@@ -120,7 +120,7 @@ class Math {
         var int y, i, temp, tempSquared;
 
         let y = 0;
-        let i = 7;  // Max bits for 16-bit sqaure root numbers
+        let i = 7;  // Max bits for 16-bit square root numbers
         
         while (i >= 0) {
             let temp = y + powersOfTwo[i];
