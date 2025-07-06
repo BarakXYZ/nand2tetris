@@ -44,25 +44,26 @@ class Memory {
     /** Finds an available RAM block of the given size and returns
      *  a reference to its base address. */
     function int alloc(int size) {
-        var int nextAddr, freeSize, reqSize, newSegAddr, RemainingSize;
+        var int currAddr, nextAddr, freeSize, reqSize, newSegAddr, RemainingSize;
 
         let reqSize = size + segDelta; // Reserve 2 additional words for the ptr & size
-
-        let freeSize = Memory.peek(freeList + 1);
-        let nextAddr = Memory.peek(freeList); // Next address to look at if not enough memory was found
+        let currAddr = freeList;
         
         while (true) {
+            let nextAddr = Memory.peek(currAddr); // Next address to look at if not enough memory was found
+            let freeSize = Memory.peek(currAddr + 1);
+
             if (~(freeSize < reqSize)) {
                 // Allocate
                 let RemainingSize = freeSize - reqSize;
-                let newSegAddr = freeList + segDelta + RemainingSize;
+                let newSegAddr = currAddr + segDelta + RemainingSize;
 
                 // The new segment should point to this segment as the next address to look at:
-                do Memory.poke(newSegAddr, freeList);
+                do Memory.poke(newSegAddr, currAddr);
                 do Memory.poke(newSegAddr + 1, size); // Store size info
 
                 // Update the size of the found segment
-                do Memory.poke(freeList + 1, RemainingSize);
+                do Memory.poke(currAddr + 1, RemainingSize);
                 
                 // The freeList should point to the new segment:
                 let freeList = newSegAddr;
@@ -74,8 +75,7 @@ class Memory {
                 return -1; 
             } else {
                 // Traverse to the next address
-                let freeSize = Memory.peek(nextAddr + 1);
-                let nextAddr = Memory.peek(nextAddr);
+                let currAddr = nextAddr;
             }
         }
         return -1;
