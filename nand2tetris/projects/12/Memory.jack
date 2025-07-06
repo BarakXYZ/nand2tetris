@@ -67,7 +67,7 @@ class Memory {
                 // The freeList should point to the new segment:
                 let freeList = newSegAddr;
 
-                return newSegAddr;
+                return newSegAddr + segDelta;  // Actual usable space for the user
             }
             if (nextAddr = 0) {
                 // A free size was not found; Potentially we can implement deFrag.
@@ -84,18 +84,20 @@ class Memory {
     /** De-allocates the given object (cast as an array) by making
      *  it available for future allocations. */
     function void deAlloc(Array o) {
-        var int nextAddr;
-        let nextAddr = Memory.peek(freeList);
+        var int currAddr, nextAddr;
+        let currAddr = freeList;
+        let nextAddr = Memory.peek(currAddr);
 
         while (true) {
             // Next address to traverse to
             if (nextAddr = 0) {
                 // Append to the end of the linked list
-                do Memory.poke(nextAddr, o);
+                do Memory.poke(currAddr, o);
                 do Memory.poke(o, 0);
                 return;
             } else {
-                let nextAddr = Memory.peek(nextAddr);
+                let currAddr = nextAddr;
+                let nextAddr = Memory.peek(currAddr);
             }
         }
         return;
