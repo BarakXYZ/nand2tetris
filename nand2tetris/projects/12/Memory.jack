@@ -84,7 +84,10 @@ class Memory {
     /** De-allocates the given object (cast as an array) by making
      *  it available for future allocations. */
     function void deAlloc(Array o) {
-        var int currAddr, nextAddr;
+        var int currAddr, nextAddr, baseAddrO;
+        // Because the user is passing to us the shifted, user usable array;
+        // We need to shift it back to the base address.
+        let baseAddrO = o - segDelta;
         let currAddr = freeList;
         let nextAddr = Memory.peek(currAddr);
 
@@ -92,8 +95,8 @@ class Memory {
             // Next address to traverse to
             if (nextAddr = 0) {
                 // Append to the end of the linked list
-                do Memory.poke(currAddr, o);
-                do Memory.poke(o, 0);
+                do Memory.poke(currAddr, baseAddrO);
+                do Memory.poke(baseAddrO, 0);
                 return;
             } else {
                 let currAddr = nextAddr;
