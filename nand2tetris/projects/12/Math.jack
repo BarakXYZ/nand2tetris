@@ -48,6 +48,10 @@ class Math {
         }
     }
 
+    function int pow(int pow) {
+        return powersOfTwo[pow];
+    }
+
     /** Returns the product of x and y. 
      *  When a Jack compiler detects the multiplication operator '*'
      *  in an expression, it handles it by invoking this method. 
