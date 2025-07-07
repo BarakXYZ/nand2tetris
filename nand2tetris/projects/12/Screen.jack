@@ -9,9 +9,13 @@
  * the screen is indexed (0,0).
  */
 class Screen {
+    static int baseAddr;
+    static boolean color;
 
     /** Initializes the Screen. */
     function void init() {
+        let baseAddr = 16384;
+        let color = true;
     }
 
     /** Erases the entire screen. */
@@ -21,10 +25,47 @@ class Screen {
     /** Sets the current color, to be used for all subsequent drawXXX commands.
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
+        let color = b;
     }
 
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
+        var int targetAddr, value, targetBit, i, accNum;
+
+        // Find memory address of the word containing pixel (x,y)
+        // Each row has 32 words (512 pixels ÷ 16),
+        // so skip 32*y words, then add x/16 for word within row
+        let targetAddr = (32 * y) + (x / 16) + baseAddr;
+
+        let value = Memory.peek(targetAddr); // Fetch the curr screen value at addr
+
+        // set the (x % 16)th bit of value to the current color.
+        // Because we're working in groups of 16, we need to figure out which
+        // bit position within the group to manipulate. So if the user wants 
+        // to manipulate x=329, it'll be bit position 9 (329 % 16) 
+        // within group 20 (329 / 16)
+        let targetBit = 15 & x; // 0000 0000 0000 1111 & ABCD ABCD ABCD ABCD
+
+        let i = 0;
+        let accNum = 1;
+
+        while (i < targetBit) {
+            // Shift the bit to the target position: 1,2,4,8 | bit1,bit2,bit3,bit4
+            let accNum = accNum + accNum;
+            let i = i + 1;
+        }
+        if (color) {
+            // OR operation (toggle ON)
+            let value = value | accNum;
+        } else {
+            // AND operation (toggle OFF):
+            // Flip all bits to 1 to preserve current state except target bit to
+            // toggle OFF
+            let accNum = -accNum;
+            let value = value & accNum;
+        }
+
+        do Memory.poke(targetAddr, value);
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
