@@ -120,13 +120,15 @@ class Screen {
         let diff = 0;
 
         while ((~(a > dx)) & (~(b > dy))) {
-            do Screen.drawPixel(x + a, y + b);
+            do Screen.drawPixel(x, y);
 
             if (diff < 0) {
                 let a = a + 1;
+                let x = x + xStep;
                 let diff = diff + dy;
             } else {
                 let b = b + 1;
+                let y = y + yStep;
                 let diff = diff - dx;
             }
         }
