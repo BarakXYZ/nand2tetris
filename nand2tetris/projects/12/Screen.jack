@@ -138,9 +138,38 @@ class Screen {
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      *  and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
+        var int yCur;
+        let yCur = y1;
+
+        while (~(yCur > y2)) {
+            do Screen.drawLine(x1, yCur, x2, yCur);
+            let yCur = yCur + 1;
+        }
+        return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
+        var int dy, dx;
+        
+        // Limit radius to prevent overflow
+        if (r > 181) {
+            let r = 181;
+        }
+        
+        let dy = -r;
+        
+        // Draw horizontal lines from top to bottom of circle
+        while (~(dy > r)) {
+            // Calculate horizontal distance using Pythagorean theorem
+            let dx = Math.sqrt((r * r) - (dy * dy));
+            
+            // Draw horizontal line across the circle at this height
+            do Screen.drawLine(x - dx, y + dy, x + dx, y + dy);
+            
+            let dy = dy + 1;
+        }
+        
+        return;
     }
 }
