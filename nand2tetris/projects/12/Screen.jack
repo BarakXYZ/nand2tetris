@@ -82,8 +82,8 @@ class Screen {
         let b = 0;
         let diff = 0;
 
-        while (~(x > dx) & ~(b > dy)) {
-            Screen.drawPixel(x+a, y+b);
+        while ((~(a > dx)) & (~(b > dy))) {
+            do Screen.drawPixel(x + a, y + b);
 
             if (diff < 0) {
                 let a = a + 1;
