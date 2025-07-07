@@ -75,7 +75,7 @@ class Screen {
             // AND operation (toggle OFF):
             // Flip all bits to 1 to preserve current state except target bit to
             // toggle OFF
-            let accNum = -accNum;
+            let accNum = ~accNum;
             let value = value & accNum;
         }
 
