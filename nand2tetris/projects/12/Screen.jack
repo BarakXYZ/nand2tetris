@@ -121,7 +121,7 @@ class Screen {
         if (dx = 0) {
             while (~(y = y2)) {
                 do Screen.drawPixel(x, y);
-                let y = y + xStep;
+                let y = y + yStep;
             }
             do Screen.drawPixel(x2, y2);
             return;
