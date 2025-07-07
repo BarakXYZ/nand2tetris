@@ -21,6 +21,18 @@ class Screen {
 
     /** Erases the entire screen. */
     function void clearScreen() {
+        var int addrCur, screenWords;
+        let addrCur = baseAddr;
+        
+        // Screen is 512x256 pixels = 8192 words (512/16 * 256)
+        let screenWords = 8192;
+        
+        while (screenWords > 0) {
+            do Memory.poke(addrCur, 0);
+            let addrCur = addrCur + 1;  // Move to next word
+            let screenWords = screenWords - 1;
+        }
+        return;
     }
 
     /** Sets the current color, to be used for all subsequent drawXXX commands.
