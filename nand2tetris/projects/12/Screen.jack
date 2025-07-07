@@ -95,6 +95,26 @@ class Screen {
             let yStep = 1;
         }
 
+        // Horizontal line
+        if (dy = 0) {
+            while (~(x = x2)) {
+                do Screen.drawPixel(x, y);
+                let x = x + xStep;
+            }
+            do Screen.drawPixel(x2, y2);
+            return;
+        }
+
+        // Vertical line
+        if (dx = 0) {
+            while (~(y = y2)) {
+                do Screen.drawPixel(x, y);
+                let y = y + xStep;
+            }
+            do Screen.drawPixel(x2, y2);
+            return;
+        }
+
         let a = 0;
         let b = 0;
         let diff = 0;
