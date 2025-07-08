@@ -275,18 +275,10 @@ class Output {
     /** Displays the given integer starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printInt(int i) {
-        var amountOfDigits;
+        var int amountOfDigits;
         var Array numArray;
-        let numArray Array.new(7);
+        let numArray = Array.new(7);
         let amountOfDigits = 0;
-
-        num = 255
-        digits = []
-        while num > 0:
-            digits.append(num % 10)
-            num //= 10
-        digits.reverse()
-        # Result: [2, 5, 5]
 
         if (i = 0) {
             do Output.printChar(i + numAsciiStart);
@@ -300,10 +292,11 @@ class Output {
         }
 
         while (amountOfDigits > 0) {
-            do Output.printChar(numArray[amountOfDigits] + numAsciiStart);
+            do Output.printChar(numArray[amountOfDigits-1] + numAsciiStart);
             let amountOfDigits = amountOfDigits - 1;
         }
 
+        do numArray.dispose();
         return;
     }
 
