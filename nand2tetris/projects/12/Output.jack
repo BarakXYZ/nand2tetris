@@ -193,9 +193,11 @@ class Output {
         let iW = i+charWidth;
         let jH = j+charHeight;
 
+        // TODO: Need to fix moveCursor handling. We should multiply? This isn't right.
+
         do Screen.setColor(false);
 
-        // Clear current location:
+        // Clear curr location (don't think we actually need to)
         // do Screen.drawRectangle(curX, curY, curXW, curYH);
 
         // Clear target location:
@@ -205,12 +207,20 @@ class Output {
         let curX = i;
         let curY = j;
 
-        // Draw cursor (should we?):
-        // do Screen.setColor(true);
-        // do Screen.drawLine(curX, curY, curXW, curY);
-        // do Screen.drawLine(curX, curY, curX, curYH);
-        // do Screen.drawLine(curX, curYH, curXW, curYH);
-        // do Screen.drawLine(curXW, curYH, curXW, curY);
+        // do Output.drawCursor();
+        return;
+    }
+
+    function void drawCursor() {
+        var int curXW, curYH, iW, jH;
+        let curXW = curX+charWidth;
+        let curYH = curY+charHeight;
+
+        do Screen.setColor(true);
+        do Screen.drawLine(curX, curY, curXW, curY);
+        do Screen.drawLine(curX, curY, curX, curYH);
+        do Screen.drawLine(curX, curYH, curXW, curYH);
+        do Screen.drawLine(curXW, curYH, curXW, curY);
         return;
     }
 
