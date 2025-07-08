@@ -19,7 +19,7 @@ class Output {
 
     // Character map for displaying characters
     static Array charMaps; 
-    static int curX, curY, charWidth, charHeight;
+    static int curX, curY, charWidth, charHeight, numAsciiStart;
 
     /** Initializes the screen, and locates the cursor at the screen's top-left. */
     function void init() {
@@ -28,6 +28,8 @@ class Output {
         let curY = 0;
         let charWidth = 8;
         let charHeight = 11;
+        let numAsciiStart = 48;
+
 
         do Output.moveCursor(0,0);
         return;
@@ -273,16 +275,49 @@ class Output {
     /** Displays the given integer starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printInt(int i) {
+        var amountOfDigits;
+        var Array numArray;
+        let numArray Array.new(7);
+        let amountOfDigits = 0;
+
+        num = 255
+        digits = []
+        while num > 0:
+            digits.append(num % 10)
+            num //= 10
+        digits.reverse()
+        # Result: [2, 5, 5]
+
+        if (i = 0) {
+            do Output.printChar(i + numAsciiStart);
+            return;
+        }
+
+        while (i > 0) {
+            let numArray[amountOfDigits] = i - ((i / 10) * 10);
+            let i = i / 10;
+            let amountOfDigits = amountOfDigits + 1;
+        }
+
+        while (amountOfDigits > 0) {
+            do Output.printChar(numArray[amountOfDigits] + numAsciiStart);
+            let amountOfDigits = amountOfDigits - 1;
+        }
+
         return;
     }
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
+        do Output.moveCursor(curX, curY + charHeight);
         return;
     }
 
     /** Moves the cursor one column back. */
     function void backSpace() {
+        if (~(curX < 11)) {
+            do Output.moveCursor(curX - charWidth, curY);
+        }
         return;
     }
 }
