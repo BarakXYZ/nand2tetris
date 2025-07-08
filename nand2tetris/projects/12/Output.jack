@@ -263,7 +263,7 @@ class Output {
         let charIndex = 0;
 
         while (charIndex < length) {
-            do printChar(s.charAt(charIndex));
+            do Output.printChar(s.charAt(charIndex));
             let charIndex = charIndex + 1;
         }
 
