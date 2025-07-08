@@ -13,13 +13,24 @@
  * character position on the screen is indexed (0,0). A cursor, implemented
  * as a small filled square, indicates where the next character will be displayed.
  */
+ // 11 * 23 = 253 -> Width
+ // 64 * 8  = 512 -> Height
 class Output {
 
     // Character map for displaying characters
     static Array charMaps; 
+    static int curX, curY, charWidth, charHeight;
 
     /** Initializes the screen, and locates the cursor at the screen's top-left. */
     function void init() {
+        do Output.initMap();
+        let curX = 0;
+        let curY = 0;
+        let charWidth = 8;
+        let charHeight = 11;
+
+        do Output.moveCursor(0,0);
+        return;
     }
 
     // Initializes the character map array
@@ -175,28 +186,57 @@ class Output {
     /** Moves the cursor to the j-th column of the i-th row,
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
+        var int curXW, curYH, iW, jH;
+        let curXW = curX+charWidth;
+        let curYH = curY+charHeight;
+        let iW = i+charWidth;
+        let iH = j+charHeight;
+
+        // Clear current location:
+        do Screen.setColor(false);
+        do Screen.drawRectangle(curX, curY, curXW, curYH);
+
+        // Clear target location:
+        do Screen.drawRectangle(i, j, iW, jH);
+
+        // Move cursor:
+        let curX = i;
+        let curY = j;
+
+        // Draw cursor:
+        do Screen.setColor(true);
+        do Screen.drawLine(curX, curY, curXW, curY);
+        do Screen.drawLine(curX, curY, curX, curYH);
+        do Screen.drawLine(curX, curYH, curXW, curYH);
+        do Screen.drawLine(curXW, curYH, curXW, curY);
+        return;
     }
 
     /** Displays the given character at the cursor location,
      *  and advances the cursor one column forward. */
     function void printChar(char c) {
+        return;
     }
 
     /** displays the given string starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printString(String s) {
+        return;
     }
 
     /** Displays the given integer starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printInt(int i) {
+        return;
     }
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
+        return;
     }
 
     /** Moves the cursor one column back. */
     function void backSpace() {
+        return;
     }
 }
