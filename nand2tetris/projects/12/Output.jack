@@ -191,8 +191,9 @@ class Output {
         let iW = i+charWidth;
         let jH = j+charHeight;
 
+        do Screen.setColor(false);
+
         // Clear current location:
-        // do Screen.setColor(false);
         // do Screen.drawRectangle(curX, curY, curXW, curYH);
 
         // Clear target location:
@@ -214,38 +215,37 @@ class Output {
     /** Displays the given character at the cursor location,
      *  and advances the cursor one column forward. */
     function void printChar(char c) {
-        var int offsetY, j, bitLimit, mapValue, mapValueTemp;
-        var boolean bCharExhausted;
+        var int offsetY, bit, bitMax, mapValue, mapValueTemp;
+        var boolean bLineExhausted;
         var Array map;
         let offsetY = 0;
-        let j = 5;
-        let bitLimit = 6;
-        let bCharExhausted = false;
+        let bitMax = 6;
+        let bit = bitMax;
+        let bLineExhausted = false;
         let map = Output.getMap(c);
-        // 32, 16, 8, 4, 2, 1
 
         do Screen.setColor(true);
 
         while (offsetY < charHeight) {
             let mapValue = map[offsetY];
 
-            while ((j > -1) & ~(bCharExhausted)) {
-                let mapValueTemp = mapValue - Math.pow(j);
+            // Powers to check from top to bottom: 32, 16, 8, 4, 2, 1
+            while ((bit > 0) & ~(bLineExhausted)) {
+                let mapValueTemp = mapValue - Math.pow(bit-1);
                 if (mapValueTemp > -1) {
-                    // do Screen.drawPixel(curX+(6-(j+1)), curY+offsetY);
-                    do Screen.drawPixel(curX+(6-j), curY+offsetY);
+                    do Screen.drawPixel((curX + bit), (curY + offsetY));
 
                     if (mapValueTemp = 0) {
-                        // if 0, number is fully exhausted (all pixels were drawn)
-                        let bCharExhausted = true;
+                        // if 0, number/line was fully exhausted (all pixels drew)
+                        let bLineExhausted = true;
                     }
 
                     let mapValue = mapValueTemp; // Safely found next greatest pow
                 }
-                let j = j - 1;
+                let bit = bit - 1;
             }
-            let j = 5;
-            let bCharExhausted = false;
+            let bit = bitMax;
+            let bLineExhausted = false;
 
             let offsetY = offsetY + 1;
         }
