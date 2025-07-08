@@ -258,6 +258,15 @@ class Output {
     /** displays the given string starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printString(String s) {
+        var int length, charIndex;
+        let length = s.length();
+        let charIndex = 0;
+
+        while (charIndex < length) {
+            do printChar(s.charAt(charIndex));
+            let charIndex = charIndex + 1;
+        }
+
         return;
     }
 
