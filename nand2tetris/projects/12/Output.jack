@@ -169,7 +169,6 @@ class Output {
         let map[8] = i;
         let map[9] = j;
         let map[10] = k;
-
         return;
     }
     
@@ -204,17 +203,47 @@ class Output {
         let curY = j;
 
         // Draw cursor (should we?):
-        do Screen.setColor(true);
-        do Screen.drawLine(curX, curY, curXW, curY);
-        do Screen.drawLine(curX, curY, curX, curYH);
-        do Screen.drawLine(curX, curYH, curXW, curYH);
-        do Screen.drawLine(curXW, curYH, curXW, curY);
+        // do Screen.setColor(true);
+        // do Screen.drawLine(curX, curY, curXW, curY);
+        // do Screen.drawLine(curX, curY, curX, curYH);
+        // do Screen.drawLine(curX, curYH, curXW, curYH);
+        // do Screen.drawLine(curXW, curYH, curXW, curY);
         return;
     }
 
     /** Displays the given character at the cursor location,
      *  and advances the cursor one column forward. */
     function void printChar(char c) {
+        var int offsetY, j, bitLimit, mapValue, mapValueTemp;
+        var Array map;
+        let offsetY = 0;
+        let j = 5;
+        let bitLimit = 6;
+        let map = Output.getMap(c);
+        // 32, 16, 8, 4, 2, 1
+
+        while (offsetY < charHeight) {
+            let mapValue = map[offsetY];
+
+            while (j > -1) {
+                let mapValueTemp = mapValue - Math.pow(j);
+                if (mapValueTemp > -1) {
+                    // do Screen.drawPixel(curX+(6-(j+1)), curY+offsetY);
+                    do Screen.drawPixel(curX+(6-j), curY+offsetY);
+
+                    if (mapValueTemp = 0) {
+                        // if 0, number is fully exhausted (all pixels were drawn)
+                        return;
+                    }
+
+                    let mapValue = mapValueTemp; // Safely found next greatest pow
+                }
+                let j = j - 1;
+            }
+            let j = 5;
+
+            let offsetY = offsetY + 1;
+        }
         return;
     }
 
