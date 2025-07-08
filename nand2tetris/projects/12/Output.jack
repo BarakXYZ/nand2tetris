@@ -190,7 +190,7 @@ class Output {
         let curXW = curX+charWidth;
         let curYH = curY+charHeight;
         let iW = i+charWidth;
-        let iH = j+charHeight;
+        let jH = j+charHeight;
 
         // Clear current location:
         do Screen.setColor(false);
@@ -203,7 +203,7 @@ class Output {
         let curX = i;
         let curY = j;
 
-        // Draw cursor:
+        // Draw cursor (should we?):
         do Screen.setColor(true);
         do Screen.drawLine(curX, curY, curXW, curY);
         do Screen.drawLine(curX, curY, curX, curYH);
