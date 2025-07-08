@@ -192,8 +192,8 @@ class Output {
         let jH = j+charHeight;
 
         // Clear current location:
-        do Screen.setColor(false);
-        do Screen.drawRectangle(curX, curY, curXW, curYH);
+        // do Screen.setColor(false);
+        // do Screen.drawRectangle(curX, curY, curXW, curYH);
 
         // Clear target location:
         do Screen.drawRectangle(i, j, iW, jH);
@@ -249,6 +249,9 @@ class Output {
 
             let offsetY = offsetY + 1;
         }
+
+        // Move cursor:
+        do Output.moveCursor(curX+charWidth, curY);
         return;
     }
 
