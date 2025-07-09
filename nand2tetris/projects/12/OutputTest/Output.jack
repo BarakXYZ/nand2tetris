@@ -188,8 +188,8 @@ class Output {
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
         var int curXW, curYH;
-        let curX = i * charWidth;
-        let curY = j * charHeight;
+        let curX = i * 8;
+        let curY = j * 11;
         let curXW = curX+charWidth;
         let curYH = curY+charHeight;
 
