@@ -309,6 +309,12 @@ class Output {
     function void printInt(int i) {
         var int amountOfDigits;
         var Array numArray;
+        
+        if (i < 0) {
+            let i = Math.abs(i);  // Work on the positive version
+            do Output.printChar(45); // Prefix with minus (i.e. '-')
+        }
+
         let numArray = Array.new(7);
         let amountOfDigits = 0;
 
@@ -341,7 +347,7 @@ class Output {
     /** Moves the cursor one column back. */
     function void backSpace() {
         if (curCol > 0) {
-            do Output.moveCursor(curRow, curCol-1);
+            do Output.moveCursor(curRow, (curCol - 1));
         }
         return;
     }
