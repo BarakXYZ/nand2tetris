@@ -187,32 +187,23 @@ class Output {
     /** Moves the cursor to the j-th column of the i-th row,
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
-        var int curXW, curYH, iW, jH;
+        var int curXW, curYH;
+        let curX = i * 8;
+        let curY = j * 11;
         let curXW = curX+charWidth;
         let curYH = curY+charHeight;
-        let iW = i+charWidth;
-        let jH = j+charHeight;
-
-        // TODO: Need to fix moveCursor handling. We should multiply? This isn't right.
 
         do Screen.setColor(false);
 
-        // Clear curr location (don't think we actually need to)
-        // do Screen.drawRectangle(curX, curY, curXW, curYH);
-
         // Clear target location:
-        do Screen.drawRectangle(i, j, iW, jH);
-
-        // Move cursor:
-        let curX = i;
-        let curY = j;
+        do Screen.drawRectangle(curX, curY, curXW, curYH);
 
         // do Output.drawCursor();
         return;
     }
 
     function void drawCursor() {
-        var int curXW, curYH, iW, jH;
+        var int curXW, curYH;
         let curXW = curX+charWidth;
         let curYH = curY+charHeight;
 
@@ -262,7 +253,7 @@ class Output {
             let offsetY = offsetY + 1;
         }
 
-        // Move cursor:
+        // Move cursor 1 step forward on X:
         do Output.moveCursor(curX+charWidth, curY);
         return;
     }
@@ -312,7 +303,7 @@ class Output {
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
-        do Output.moveCursor(curX, curY + charHeight);
+        do Output.moveCursor(0, curY + charHeight);
         return;
     }
 
