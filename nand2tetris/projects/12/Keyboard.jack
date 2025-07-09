@@ -6,9 +6,11 @@
  * A library for handling user input from the keyboard.
  */
 class Keyboard {
+    static int keyboardAddr;
 
     /** Initializes the keyboard. */
     function void init() {
+        let keyboardAddr = 24576;
     } 
 
     /**
@@ -32,18 +34,51 @@ class Keyboard {
      * F1 - F12 = 141 - 152
      */
     function char keyPressed() {
+        return Memory.peek(keyboardAddr);
     }
 
     /**	Waits until a key is pressed on the keyboard and released,
      *  then echoes the key to the screen, and returns the character 
      *  of the pressed key. */
     function char readChar() {
+        var int pressedKey;
+
+        while (Keyboard.keyPressed() = 0) {}
+        let pressedKey = Keyboard.keyPressed();
+        while (~(Keyboard.keyPressed() = 0)) {}
+
+        do Output.printChar(pressedKey);
+        return pressedKey;
     }
 
     /**	Displays the message on the screen, reads from the keyboard the entered
      *  text until a newline character is detected, echoes the text to the screen,
      *  and returns its value. Also handles user backspaces. */
     function String readLine(String message) {
+        var String str;
+        var char pressedChar;
+
+        do Output.printString(message);
+    
+    	let str = String.new(300);
+        let str = "";
+
+        while (true) {
+            let pressedChar = Keyboard.readChar();
+            // Check if newline
+            if (pressedChar = String.newLine()) {
+                do Output.println();
+                return str;
+            }
+            // Check if backspace
+            if (pressedChar = String.backSpace()) {
+                do str.eraseLastChar();
+                do Output.backspace();
+            }
+            do str.appendChar(pressedChar);
+            do Output.printChar(pressedChar);
+        }
+        return str;
     }   
 
     /** Displays the message on the screen, reads from the keyboard the entered
@@ -51,5 +86,33 @@ class Keyboard {
      *  and returns its integer value (until the first non-digit character in the
      *  entered text is detected). Also handles user backspaces. */
     function int readInt(String message) {
+        var String str;
+        var char pressedChar;
+        var int intValue;
+
+        do Output.printString(message);
+    
+    	let str = String.new(300);
+        let str = "";
+        let intValue = 0;
+
+        while (true) {
+            let pressedChar = Keyboard.readChar();
+            // Check if newline
+            if (pressedChar = String.newLine()) {
+                do Output.println();
+                let intValue = str.intValue();
+                do str.dispose();
+                return intValue;
+            }
+            // Check if backspace
+            if (pressedChar = String.backSpace()) {
+                do str.eraseLastChar();
+                do Output.backspace();
+            }
+            do str.appendChar(pressedChar);
+            do Output.printChar(pressedChar);
+        }
+        return intValue;
     }
 }
