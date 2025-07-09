@@ -44,41 +44,48 @@ class Memory {
     /** Finds an available RAM block of the given size and returns
      *  a reference to its base address. */
     function int alloc(int size) {
-        var int currAddr, nextAddr, freeSize, reqSize, newSegAddr, RemainingSize;
-
-        let reqSize = size + segDelta; // Reserve 2 additional words for the ptr & size
-        let currAddr = freeList;
+        var int curr, prev, next, freeSize, reqSize;
         
-        while (true) {
-            let nextAddr = Memory.peek(currAddr); // Next address to look at if not enough memory was found
-            let freeSize = Memory.peek(currAddr + 1);
-
+        let reqSize = size + segDelta;
+        let prev = 0;
+        let curr = freeList;
+        
+        while (~(curr = 0)) {
+            let freeSize = Memory.peek(curr + 1);
+            
             if (~(freeSize < reqSize)) {
-                // Allocate
-                let RemainingSize = freeSize - reqSize;
-                let newSegAddr = currAddr + segDelta + RemainingSize;
-
-                // The new segment should point to this segment as the next address to look at:
-                do Memory.poke(newSegAddr, currAddr);
-                do Memory.poke(newSegAddr + 1, size); // Store size info
-
-                // Update the size of the found segment
-                do Memory.poke(currAddr + 1, RemainingSize);
+                // Found a suitable block
+                if (freeSize = reqSize) {
+                    // Exact match - remove entire block from free list
+                    let next = Memory.peek(curr);
+                    if (prev = 0) {
+                        let freeList = next;
+                    } else {
+                        do Memory.poke(prev, next);
+                    }
+                } else {
+                    // Split the block
+                    let next = curr + reqSize;
+                    do Memory.poke(next, Memory.peek(curr));
+                    do Memory.poke(next + 1, freeSize - reqSize);
+                    
+                    if (prev = 0) {
+                        let freeList = next;
+                    } else {
+                        do Memory.poke(prev, next);
+                    }
+                }
                 
-                // The freeList should point to the new segment:
-                let freeList = newSegAddr;
-
-                return newSegAddr + segDelta;  // Actual usable space for the user
+                // Set up allocated block
+                do Memory.poke(curr + 1, size);
+                return curr + segDelta;
             }
-            if (nextAddr = 0) {
-                // A free size was not found; Potentially we can implement deFrag.
-                return -1; 
-            } else {
-                // Traverse to the next address
-                let currAddr = nextAddr;
-            }
+            
+            let prev = curr;
+            let curr = Memory.peek(curr);
         }
-        return -1;
+        
+        return -1;  // No suitable block found
     }
 
     /** De-allocates the given object (cast as an array) by making
