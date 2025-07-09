@@ -19,13 +19,13 @@ class Output {
 
     // Character map for displaying characters
     static Array charMaps; 
-    static int curX, curY, charWidth, charHeight, numAsciiStart;
+    static int curCol, curColScreen, curRow, curRowScreen, charWidth, charHeight, numAsciiStart;
 
     /** Initializes the screen, and locates the cursor at the screen's top-left. */
     function void init() {
         do Output.initMap();
-        let curX = 0;
-        let curY = 0;
+        let curCol = 0;
+        let curRow = 0;
         let charWidth = 8;
         let charHeight = 11;
         let numAsciiStart = 48;
@@ -83,7 +83,7 @@ class Output {
         do Output.create(64,30,51,51,59,59,59,27,3,30,0,0);  // @
         do Output.create(63,30,51,51,24,12,12,0,12,12,0,0);  // ?
 
-        do Output.create(65,0,0,0,0,0,0,0,0,0,0,0);          // A ** TO BE FILLED **
+        do Output.create(65,12,30,51,51,51,63,51,51,51,0,0); // A
         do Output.create(66,31,51,51,51,31,51,51,51,31,0,0); // B
         do Output.create(67,28,54,35,3,3,3,35,54,28,0,0);    // C
         do Output.create(68,15,27,51,51,51,51,51,27,15,0,0); // D
@@ -187,31 +187,62 @@ class Output {
     /** Moves the cursor to the j-th column of the i-th row,
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
-        var int curXW, curYH;
-        let curX = i * 8;
-        let curY = j * 11;
-        let curXW = curX+charWidth;
-        let curYH = curY+charHeight;
+        if (i > 22) {
+            do Output.resetCursor();
+        } else {
+            let curRowScreen = i * charHeight;
+        }
+
+        if (j > 63) {
+            do Output.resetCursor();
+        } else {
+            let curColScreen = j * charWidth;
+        }
+
+        // do Output.clearCursor();
+        // do Output.drawCursor();
+
+        let curRow = i;
+        let curCol = j;
+
+        return;
+    }
+
+    function void resetCursor() {
+        let curRowScreen = 0;
+        let curColScreen = 0;
+        let curRow = 0;
+        let curCol = 0;
+        return;
+    }
+
+    function void clearCursor() {
+        var int curClearColTarget, curClearRowTarget;
+        // let curClearColTarget = Math.min((curColScreen + charWidth), 511);
+        // let curClearRowTarget = Math.min((curRowScreen + charHeight), 255);
+
+        // Mabe this makes more sense, since we already have 1
+        // pixel for the existing location?
+        let curClearColTarget = curColScreen + charWidth-1;
+        let curClearRowTarget = curRowScreen + charHeight-1;
 
         do Screen.setColor(false);
 
         // Clear target location:
-        do Screen.drawRectangle(curX, curY, curXW, curYH);
-
-        // do Output.drawCursor();
+        do Screen.drawRectangle(curColScreen, curRowScreen, curClearColTarget, curClearRowTarget);
         return;
     }
 
     function void drawCursor() {
         var int curXW, curYH;
-        let curXW = curX+charWidth;
-        let curYH = curY+charHeight;
+        let curXW = curCol+charWidth;
+        let curYH = curRow+charHeight;
 
         do Screen.setColor(true);
-        do Screen.drawLine(curX, curY, curXW, curY);
-        do Screen.drawLine(curX, curY, curX, curYH);
-        do Screen.drawLine(curX, curYH, curXW, curYH);
-        do Screen.drawLine(curXW, curYH, curXW, curY);
+        do Screen.drawLine(curCol, curRow, curXW, curRow);
+        do Screen.drawLine(curCol, curRow, curCol, curYH);
+        do Screen.drawLine(curCol, curYH, curXW, curYH);
+        do Screen.drawLine(curXW, curYH, curXW, curRow);
         return;
     }
 
@@ -236,7 +267,7 @@ class Output {
             while ((bit > 0) & ~(bLineExhausted)) {
                 let mapValueTemp = mapValue - Math.pow(bit-1);
                 if (mapValueTemp > -1) {
-                    do Screen.drawPixel((curX + bit), (curY + offsetY));
+                    do Screen.drawPixel((curColScreen + bit), (curRowScreen + offsetY));
 
                     if (mapValueTemp = 0) {
                         // if 0, number/line was fully exhausted (all pixels drew)
@@ -254,7 +285,7 @@ class Output {
         }
 
         // Move cursor 1 step forward on X:
-        do Output.moveCursor(curX+charWidth, curY);
+        do Output.moveCursor(curRow, curCol+1);
         return;
     }
 
@@ -303,14 +334,14 @@ class Output {
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
-        do Output.moveCursor(0, curY + charHeight);
+        do Output.moveCursor(curRow+1, 0);
         return;
     }
 
     /** Moves the cursor one column back. */
     function void backSpace() {
-        if (~(curX < 11)) {
-            do Output.moveCursor(curX - charWidth, curY);
+        if (curCol > 0) {
+            do Output.moveCursor(curRow, curCol-1);
         }
         return;
     }
