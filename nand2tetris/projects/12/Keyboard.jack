@@ -11,6 +11,7 @@ class Keyboard {
     /** Initializes the keyboard. */
     function void init() {
         let keyboardAddr = 24576;
+        return;
     } 
 
     /**
@@ -61,7 +62,7 @@ class Keyboard {
         do Output.printString(message);
     
     	let str = String.new(300);
-        let str = "";
+        // let str = "";
 
         while (true) {
             let pressedChar = Keyboard.readChar();
@@ -72,11 +73,12 @@ class Keyboard {
             }
             // Check if backspace
             if (pressedChar = String.backSpace()) {
-                do str.eraseLastChar();
-                do Output.backspace();
+                if (str.length() > 0) {
+                    do str.eraseLastChar();
+                }
+            } else {
+                do str.appendChar(pressedChar);
             }
-            do str.appendChar(pressedChar);
-            do Output.printChar(pressedChar);
         }
         return str;
     }   
@@ -93,7 +95,7 @@ class Keyboard {
         do Output.printString(message);
     
     	let str = String.new(300);
-        let str = "";
+        // let str = "";
         let intValue = 0;
 
         while (true) {
@@ -107,11 +109,12 @@ class Keyboard {
             }
             // Check if backspace
             if (pressedChar = String.backSpace()) {
-                do str.eraseLastChar();
-                do Output.backspace();
+                if (str.length() > 0) {
+                    do str.eraseLastChar();
+                }
+            } else {
+                do str.appendChar(pressedChar);
             }
-            do str.appendChar(pressedChar);
-            do Output.printChar(pressedChar);
         }
         return intValue;
     }
