@@ -68,10 +68,6 @@ class Keyboard {
             let pressedChar = Keyboard.readChar();
             // Check if newline
             if (pressedChar = String.newLine()) {
-                // Not sure if we should or shouldn't print new lines. In the
-                // test program it looks like they don't expect new lines?
-                // But in the implementation notes they do mention it...
-                // I think this is anyway being handled from readChar()...?
                 // do Output.println();
                 return str;
             }
