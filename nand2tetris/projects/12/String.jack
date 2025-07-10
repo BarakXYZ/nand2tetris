@@ -81,7 +81,52 @@ class String {
     /** Returns the integer value of this string, 
      *  until a non-digit character is detected. */
     method int intValue() {
-        return -1;
+        var char c;
+        var int index, sum, charAsNum;
+        var boolean bWasDigitFound, bIsNegative, bWasNoneZeroDigitFound;
+
+        let bFoundDigit = false;
+        let bWasDigitFound = false;
+        let bWasNoneZeroDigitFound = false;
+
+        let sum = 0;
+
+        let index = length;
+        while(index > 0) {
+            let c = charAt(index-1);
+            // Check if minus sign (i.e. '-')
+            // Which is also considered the start of digits.
+            if (~(bIsNegative) & (c = 45)) {
+                let bIsNegative = true;
+            }
+            // Check if its a digit
+            if ((c > 47) & (c < 58)) {
+                // Process digit
+                let charAsNum = c - numAsciiStart; //  Convert to base 0-9
+                if (~(bWasNoneZeroDigitFound) & charAsNum = 0) {
+                    // Discard and skip trailing zeros.
+                } else {
+                    let bWasNoneZeroDigitFound = true;
+
+                    // Check if that's the first digit
+                    if (sum = 0) {
+                        let sum = c;
+                    } else {
+                        // Shift multiply by 10, and add the next digit.
+                        let sum = (sum * 10) + c;
+                    }
+                }
+                
+            } else {
+                // Return the sum if none-digit char was found after
+                // a digit was found.
+                if (bWasDigitFound) {
+                    return sum;
+                }
+                // else keep iterating until a digit is found, or str is exhausted
+            }
+        }
+        return sum; // Return accumlated sum or 0 if no digits were found.
     }
 
     /** Sets this string to hold a representation of the given value. */
