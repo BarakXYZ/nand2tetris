@@ -82,7 +82,7 @@ class String {
         var int numOfDigits;
         var Array numArray;
 
-        do String.clear(str, length);
+        do String.clear(str);
         let numArray = Array.new(100);
         
         if (val = 0) {
@@ -112,13 +112,13 @@ class String {
         return;
     }
     
-    function void clear(Array str, int length) {
-        var int i;
-        let i = length;
+    function void clear(String str) {
+        var int length;
+        let length = str.length();
 
-        while (i > 0) {
-            let i = i - 1;
-            let str[i] = 0;
+        while (length > 0) {
+            do str.eraseLastChar();
+            let length = length - 1;
         }
         return;
     }
