@@ -124,6 +124,8 @@ class String {
                 }
                 // else keep iterating until a digit is found, or str is exhausted
             }
+
+            let index = index - 1;
         }
         return sum; // Return accumlated sum or 0 if no digits were found.
     }
