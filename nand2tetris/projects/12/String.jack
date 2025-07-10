@@ -10,8 +10,8 @@
  * string-oriented operations.
  */
 class String {
-    static Array str;
-    static int length, internalMaxLength, numAsciiStart;
+    field Array str;
+    field int length, internalMaxLength, numAsciiStart;
 
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
@@ -20,6 +20,7 @@ class String {
         let length = 0;
         let internalMaxLength = maxLength;
         let numAsciiStart = 48;
+
         return this;
     }
 
