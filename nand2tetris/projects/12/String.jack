@@ -81,15 +81,14 @@ class String {
     /** Returns the integer value of this string, 
      *  until a non-digit character is detected. */
     method int intValue() {
-        var char c;
-        var int index, sum, charAsNum;
-        var boolean bWasDigitFound, bIsNegative, bWasNoneZeroDigitFound;
-
-        let bFoundDigit = false;
-        let bWasDigitFound = false;
-        let bWasNoneZeroDigitFound = false;
+        var int c, index, sum, charAsNum;
+        var boolean bWasDigitFound, bWasNoneZeroDigitFound, bIsNegative;
 
         let sum = 0;
+
+        let bWasDigitFound = false;
+        let bWasNoneZeroDigitFound = false;
+        let bIsNegative = false;
 
         let index = length;
         while(index > 0) {
