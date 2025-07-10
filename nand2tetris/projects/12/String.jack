@@ -96,18 +96,26 @@ class String {
 
             // Check if minus sign (i.e. '-')
             // Which is also considered the start of digits.
-            if (~(bIsNegative) & (c = 45)) {
-                let bIsNegative = true;
+            if (c = 45) {
+                if (bIsNegative) {
+                    // Two negative signs were found, which is time to return.
+                    return -sum;
+                } else {
+                    let bIsNegative = true;
+                }
             }
 
-            // Check if its a digit
+            // Check if its a digit (0-9)
             if ((c > 47) & (c < 58)) {
                 // Process digit
                 let charAsNum = c - numAsciiStart; //  Convert to base 0-9
+
+                // Handle leading zeros.
                 if (~(bWasNoneZeroDigitFound) & charAsNum = 0) {
                     // Discard and skip trailing zeros.
                     let bWasDigitFound = true;
                 } else {
+                    // Handle numbers 1-9:
                     let bWasDigitFound = true;
                     let bWasNoneZeroDigitFound = true;
 
@@ -119,8 +127,8 @@ class String {
                         let sum = (sum * 10) + charAsNum;
                     }
                 }
-            // Return the sum if none-digit char was found after
             } else {
+                // Return the sum if none-digit char was found after
                 // Check if at least one digit was found.
                 if (bWasNoneZeroDigitFound & bWasDigitFound) {
                     if (bIsNegative) {
