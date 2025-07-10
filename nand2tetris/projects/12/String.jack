@@ -142,7 +142,11 @@ class String {
 
             let index = index - 1;
         }
-        return sum; // Return accumlated sum or 0 if no digits were found.
+        if (bIsNegative) {
+            return -sum;
+        } else {
+            return sum;
+        }
     }
 
     /** Sets this string to hold a representation of the given value. */
