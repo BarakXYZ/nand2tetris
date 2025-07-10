@@ -90,9 +90,9 @@ class String {
         let bWasNoneZeroDigitFound = false;
         let bIsNegative = false;
 
-        let index = length;
-        while(index > 0) {
-            let c = charAt(index - 1);
+        let index = 0;
+        while(index < length) {
+            let c = charAt(index);
 
             // Check if minus sign (i.e. '-')
             // Which is also considered the start of digits.
@@ -140,7 +140,7 @@ class String {
                 // else keep iterating until a digit is found, or str is exhausted
             }
 
-            let index = index - 1;
+            let index = index + 1;
         }
         if (bIsNegative) {
             return -sum;
