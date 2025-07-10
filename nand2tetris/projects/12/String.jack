@@ -92,19 +92,23 @@ class String {
 
         let index = length;
         while(index > 0) {
-            let c = charAt(index-1);
+            let c = charAt(index - 1);
+
             // Check if minus sign (i.e. '-')
             // Which is also considered the start of digits.
             if (~(bIsNegative) & (c = 45)) {
                 let bIsNegative = true;
             }
+
             // Check if its a digit
             if ((c > 47) & (c < 58)) {
                 // Process digit
                 let charAsNum = c - numAsciiStart; //  Convert to base 0-9
                 if (~(bWasNoneZeroDigitFound) & charAsNum = 0) {
                     // Discard and skip trailing zeros.
+                    let bWasDigitFound = true;
                 } else {
+                    let bWasDigitFound = true;
                     let bWasNoneZeroDigitFound = true;
 
                     // Check if that's the first digit
@@ -115,11 +119,10 @@ class String {
                         let sum = (sum * 10) + charAsNum;
                     }
                 }
-                
+            // Return the sum if none-digit char was found after
             } else {
-                // Return the sum if none-digit char was found after
-                // a digit was found.
-                if (bWasDigitFound) {
+                // Check if at least one digit was found.
+                if (bWasNoneZeroDigitFound & bWasDigitFound) {
                     if (bIsNegative) {
                         return -sum;
                     } else {
