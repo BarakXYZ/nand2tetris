@@ -26,6 +26,7 @@ class String {
     /** Disposes this string. */
     method void dispose() {
         do str.dispose();
+        return;
     }
 
     /** Returns the current length of this string. */
@@ -89,7 +90,7 @@ class String {
         }
 
         if (val < 0) {
-            let val = Math.abs(i);  // Work on the positive version
+            let val = Math.abs(val);  // Work on the positive version
             do str.appendChar(45); // Prefix with minus (i.e. '-')
         }
 
@@ -116,7 +117,7 @@ class String {
 
         while (i > 0) {
             let i = i - 1;
-            do str.setCharAt(i) = 0;
+            do str.setCharAt(i, 0);
         }
         return;
     }
