@@ -120,7 +120,11 @@ class String {
                 // Return the sum if none-digit char was found after
                 // a digit was found.
                 if (bWasDigitFound) {
-                    return sum;
+                    if (bIsNegative) {
+                        return -sum;
+                    } else {
+                        return sum;
+                    }
                 }
                 // else keep iterating until a digit is found, or str is exhausted
             }
