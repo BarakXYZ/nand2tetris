@@ -11,7 +11,7 @@
  */
 class String {
     static Array str;
-    static int length, internalMaxLength;
+    static int length, internalMaxLength, numAsciiStart;
 
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
@@ -19,6 +19,7 @@ class String {
         let str = Array.new(maxLength);
         let length = 0;
         let internalMaxLength = maxLength;
+        let numAsciiStart = 48;
         return this;
     }
 
@@ -71,10 +72,53 @@ class String {
     /** Returns the integer value of this string, 
      *  until a non-digit character is detected. */
     method int intValue() {
+        return -1;
     }
 
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
+        var int numOfDigits;
+        var Array numArray;
+
+        do str.clear();
+        let numArray = Array.new(100);
+        
+        if (val = 0) {
+            do str.appendChar(numAsciiStart);
+            return;
+        }
+
+        if (val < 0) {
+            let val = Math.abs(i);  // Work on the positive version
+            do str.appendChar(45); // Prefix with minus (i.e. '-')
+        }
+
+        let numOfDigits = 0;
+
+        while (val > 0) {
+            let numArray[numOfDigits] = val - ((val / 10) * 10);
+            let val = val / 10;
+            let numOfDigits = numOfDigits + 1;
+        }
+
+        while (numOfDigits > 0) {
+            do str.appendChar(numArray[numOfDigits-1] + numAsciiStart);
+            let numOfDigits = numOfDigits - 1;
+        }
+
+        do numArray.dispose();
+        return;
+    }
+    
+    method void clear() {
+        var int i;
+        let i = length;
+
+        while (i > 0) {
+            let i = i - 1;
+            do str.setCharAt(i) = 0;
+        }
+        return;
     }
 
     /** Returns the new line character. */
