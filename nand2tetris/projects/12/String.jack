@@ -111,7 +111,7 @@ class String {
                 let charAsNum = c - numAsciiStart; //  Convert to base 0-9
 
                 // Handle leading zeros.
-                if (~(bWasNoneZeroDigitFound) & charAsNum = 0) {
+                if (~(bWasNoneZeroDigitFound) & (charAsNum = 0)) {
                     // Discard and skip trailing zeros.
                     let bWasDigitFound = true;
                 } else {
