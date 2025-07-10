@@ -109,10 +109,10 @@ class String {
 
                     // Check if that's the first digit
                     if (sum = 0) {
-                        let sum = c;
+                        let sum = charAsNum;
                     } else {
                         // Shift multiply by 10, and add the next digit.
-                        let sum = (sum * 10) + c;
+                        let sum = (sum * 10) + charAsNum;
                     }
                 }
                 
