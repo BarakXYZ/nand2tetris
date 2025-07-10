@@ -40,6 +40,7 @@ class String {
         if (j < (internalMaxLength - 1)) {
             return str[j];
         } else {
+            // Throw an error?
             return 0;
         }
     }
@@ -48,6 +49,8 @@ class String {
     method void setCharAt(int j, char c) {
         if (j < (internalMaxLength - 1)) {
             let str[j] = c;
+        } else {
+            // Throw an error?
         }
         return;
     }
@@ -58,6 +61,8 @@ class String {
             let str[length] = c;
             let length = length + 1;
             return str;
+        } else {
+            // Throw an error?
         }
         return str;
     }
@@ -67,6 +72,8 @@ class String {
         if (length > 0) {
             let length = length - 1;
             let str[length] = 0; // is 0 correct here for essentially "null"?
+        } else {
+            // Throw an error?
         }
         return;
     }
@@ -86,13 +93,13 @@ class String {
         let numArray = Array.new(100);
         
         if (val = 0) {
-            do str.appendChar(numAsciiStart);
+            do appendChar(numAsciiStart);
             return;
         }
 
         if (val < 0) {
             let val = Math.abs(val);  // Work on the positive version
-            do str.appendChar(45); // Prefix with minus (i.e. '-')
+            do appendChar(45); // Prefix with minus (i.e. '-')
         }
 
         let numOfDigits = 0;
@@ -104,7 +111,7 @@ class String {
         }
 
         while (numOfDigits > 0) {
-            do str.appendChar(numArray[numOfDigits-1] + numAsciiStart);
+            do appendChar(numArray[numOfDigits-1] + numAsciiStart);
             let numOfDigits = numOfDigits - 1;
         }
 
