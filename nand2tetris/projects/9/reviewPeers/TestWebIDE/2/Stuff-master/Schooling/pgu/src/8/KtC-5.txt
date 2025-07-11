@@ -1,1 +1,0 @@
-typedef is for assigning a different name to a data type in the C language.

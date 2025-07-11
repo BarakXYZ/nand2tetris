@@ -1,3 +1,0 @@
-movl _start, %eax would move whatever value that is stored at the address
-denoted by _start into %eax.  movl $_start, %eax would load the address of
-_start itself into %eax

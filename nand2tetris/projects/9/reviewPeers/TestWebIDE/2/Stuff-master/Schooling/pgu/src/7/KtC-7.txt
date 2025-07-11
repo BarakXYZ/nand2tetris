@@ -1,2 +1,0 @@
-A program should have as many different error codes as there are
-different errors.

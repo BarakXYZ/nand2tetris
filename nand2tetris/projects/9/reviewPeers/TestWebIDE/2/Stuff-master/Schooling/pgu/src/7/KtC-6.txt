@@ -1,3 +1,0 @@
-Recovery points are used for generalizing error recovery.  They reduce the
-number of recovery mechanisms needed.  Error messages should still be as
-specific as possible.

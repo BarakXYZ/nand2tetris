@@ -1,7 +1,0 @@
-class Main {
-
-    function void main() {
-        do Test.init();
-        return;  // test
-    }
-}
