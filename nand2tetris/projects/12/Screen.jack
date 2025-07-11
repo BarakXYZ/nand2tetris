@@ -79,9 +79,34 @@ class Screen {
         return;
     }
 
+    /** Helper function to draw a horizontal line segment within a single word */
+    function void drawHorizontalWord(int addr, int startBit, int endBit) {
+        var int mask, value, i;
+        
+        // Create mask for bits from startBit to endBit
+        let mask = 0;
+        let i = startBit;
+        while (~(i > endBit)) {
+            let mask = mask | Math.pow(i);
+            let i = i + 1;
+        }
+        
+        let value = Memory.peek(addr);
+        if (color) {
+            let value = value | mask;
+        } else {
+            let mask = ~mask;
+            let value = value & mask;
+        }
+        do Memory.poke(addr, value);
+        return;
+    }
+
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
         var int x, y, dx, dy, a, b, diff, xStep, yStep;
+        var int startAddr, endAddr, curAddr, startBit, endBit, temp;
+        
         let x = x1;
         let y = y1;
         let dx = x2-x1;
@@ -103,13 +128,42 @@ class Screen {
             let yStep = 1;
         }
 
-        // Horizontal line
+        // Horizontal line - optimize by drawing whole words at once
         if (dy = 0) {
-            while (~(x = x2)) {
-                do Screen.drawPixel(x, y);
-                let x = x + xStep;
+            // Ensure x1 <= x2 for easier processing
+            if (x1 > x2) {
+                let temp = x1;
+                let x1 = x2;
+                let x2 = temp;
             }
-            do Screen.drawPixel(x2, y2);
+            
+            let startAddr = (32 * y) + (x1 / 16) + baseAddr;
+            let endAddr = (32 * y) + (x2 / 16) + baseAddr;
+            let startBit = x1 & 15;
+            let endBit = x2 & 15;
+            
+            // If the line is within a single word
+            if (startAddr = endAddr) {
+                do Screen.drawHorizontalWord(startAddr, startBit, endBit);
+                return;
+            }
+            
+            // Draw the partial start word
+            do Screen.drawHorizontalWord(startAddr, startBit, 15);
+            
+            // Draw full words in between
+            let curAddr = startAddr + 1;
+            while (curAddr < endAddr) {
+                if (color) {
+                    do Memory.poke(curAddr, -1); // All 1s
+                } else {
+                    do Memory.poke(curAddr, 0);  // All 0s
+                }
+                let curAddr = curAddr + 1;
+            }
+            
+            // Draw the partial end word
+            do Screen.drawHorizontalWord(endAddr, 0, endBit);
             return;
         }
 
@@ -123,6 +177,7 @@ class Screen {
             return;
         }
 
+        // Diagonal line - use original algorithm
         let a = 0;
         let b = 0;
         let diff = 0;
