@@ -34,7 +34,7 @@ class Sys {
         
         // Master control value - adjust this to fine-tune timing
         // Try values between 1-10 to start
-        let master = 3; // In my case 3 is about right.
+        let master = 3;
         
         // Calculate loop iterations based on duration and master
         let outer1 = duration;
