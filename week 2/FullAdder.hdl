@@ -1,0 +1,57 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/FullAdder.hdl
+/**
+ * Computes the sum of three bits.
+ */
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    // Implemented by BarakXYZ 2024
+    PARTS:
+    HalfAdder(a=a, b=b, sum=sumAB, carry=carryAB);
+    HalfAdder(a=sumAB, b=c, sum=sum, carry=carryABC);
+    Or(a=carryAB, b=carryABC, out=carry);
+}
+
+/**
+Notice that when using a Half Adder we really only get a carry in the last possibility (1 1)
+That is also the only carry that is missing when simply trying to output sumAB + c (with an Half Adder)
+Therefore, when using Or, the only influence that we get, is on that last note. Everything else remains unchanged.
+
+0 0 0 = 0 0
+0 0 1 = 1 0
+0 1 0 = 1 0
+0 1 1 = 0 1
+1 0 0 = 1 0
+1 0 1 = 0 1
+1 1 0 = 0 1
+1 1 1 = 1 1 (Or kicks in with the change)
+
+Half Adder (A + B)
+0 0 = 0 0
+0 1 = 1 0
+1 0 = 1 0
+1 1 = 0 1
+
+Carry AB+C or Carry AB
+0 0 = 0
+0 1 = 1
+0 1 = 1
+1 0 = 1
+
+sumAB + c
+0 1 = 1 0
+1 1 = 0 1
+1 1 = 0 1
+0 1 = 1 0  (Need Or)
+
+sumAB + carryAB
+0 0 = 0 0
+1 0 = 1 0
+1 0 = 1 0
+0 1 = 1 0
+*/

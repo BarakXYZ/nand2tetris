@@ -1,0 +1,38 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Draws the current NPC sprite on screen + tracks and flips between its 2 different states (in the case of Shimon - Horizontal Flip like switch, in the case of the enemies: eye closed and opened, etc.)*// 
+class Draw {
+    static int counter;
+    static boolean isFlipped;
+
+    function void init() {
+        let isFlipped = true;
+        let counter = 0;
+        return;
+    }
+
+    function void sprite() {
+        if (counter = 25) {
+            let counter = 0;
+            do UserInterface.clearViewport();
+
+            if (~isFlipped) {
+                do Sprites.drawCurrentSelSprite(~isFlipped);
+                let isFlipped = ~isFlipped;
+            }
+            else {
+                do Sprites.drawCurrentSelSprite(~isFlipped);
+                let isFlipped = ~isFlipped;
+            }
+        }
+        else { let counter = counter + 1; }
+        return;
+    }
+
+    function void spriteDirect() {
+        do Sprites.drawCurrentSelSprite(~isFlipped);
+        let isFlipped = ~isFlipped;
+        return;
+    }
+}

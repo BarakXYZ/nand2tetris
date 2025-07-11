@@ -1,0 +1,77 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Sys.jack
+
+/**
+ * A library that supports various program execution services.
+ */
+class Sys {
+
+    /** Performs all the initializations required by the OS. */
+    function void init() {
+        do Memory.init();
+        do Math.init();
+        do Screen.init();
+        do Output.init();
+        do Keyboard.init();
+        do Main.main();
+        do Sys.halt();
+        return;
+    }
+
+    /** Halts the program execution. */
+    function void halt() {
+        while (true) {
+
+        }
+        return;
+    }
+
+    /** Waits approximately duration milliseconds and returns.  */
+    function void wait(int duration) {
+        var int master, outer1, outer2, outer3, inner;
+        
+        // Master control value - adjust this to fine-tune timing
+        // Try values between 1-10 to start
+        let master = 3; // In my case 3 is about right.
+        
+        // Calculate loop iterations based on duration and master
+        let outer1 = duration;
+        
+        while (outer1 > 0) {
+            let outer2 = master;
+            
+            while (outer2 > 0) {
+                let outer3 = master;
+                
+                while (outer3 > 0) {
+                    let inner = master * 10;  // Inner loop does more iterations
+                    
+                    while (inner > 0) {
+                        let inner = inner - 1;
+                    }
+                    
+                    let outer3 = outer3 - 1;
+                }
+                
+                let outer2 = outer2 - 1;
+            }
+            
+            let outer1 = outer1 - 1;
+        }
+        
+        return;
+    }
+
+    /** Displays the given error code in the form "ERR<errorCode>",
+     *  and halts the program's execution. */
+    function void error(int errorCode) {
+        do Output.printString("ERR");
+        do Output.printInt(errorCode);
+        do Sys.halt();
+        return;
+    }
+}
+//
+// Implemented by BarakXYZ 2025

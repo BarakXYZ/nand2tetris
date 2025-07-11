@@ -1,0 +1,41 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/Inc16.hdl
+/**
+ * 16-bit incrementer:
+ * out = in + 1
+ */
+CHIP Inc16 {
+    IN in[16];
+    OUT out[16];
+
+    // Implemented by BarakXYZ 2024
+    PARTS:
+    Add16(a=in, b[0]=true, out=out);
+}
+
+/*
+Took a few minutes to realize the syntax (lol) but pretty straight forward;
+Just literally adding 1 via Add16.
+
+Test 1
+10100011
+=
+10100100
+
+Test 2
+01011100
+=
+01011101
+
+Test 3
+11011111
+=
+11100000
+
+Test 4
+11011011
+=
+11011100
+*/

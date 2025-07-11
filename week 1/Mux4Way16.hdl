@@ -1,0 +1,44 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Mux4Way16.hdl
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel = 00
+ *       b if sel = 01
+ *       c if sel = 10
+ *       d if sel = 11
+ */
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+
+    // Implemented by BarakXYZ
+    // v2
+    PARTS:
+    Mux16(a=a, b=b, sel=sel[0], out=MuxAB);
+    Mux16(a=c, b=d, sel=sel[0], out=MuxCD);
+    Mux16(a=MuxAB, b=MuxCD, sel=sel[1], out=out);
+}
+
+/*
+    Implementation v2:
+    After finishing all chips, I've realized how much I over complicated things.
+    haha:)(:(
+--------------------------------------------------------------------------------
+    Implementation v1
+    Or(a=sel[0], b=sel[1], out=OrSel);
+    Mux16(a=a, b=b, sel=OrSel, out=MuxAB);
+
+    And(a=sel[0], b=sel[1], out=AndSel);
+    Mux16(a=c, b=d, sel=AndSel, out=MuxCD);
+    
+    Mux16(a=MuxAB, b=MuxCD, sel=sel[1], out=out);
+
+I was over thinking this one so hard, omg.
+In the end it was just realizing, if sel[1]=0, it will just pick AB
+else, it will pick CB.
+Looking at the table of truth for an hour helped. lol.
+It's kind of an inverted Demux in a way.
+
+*/

@@ -1,0 +1,46 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Or.hdl
+/**
+ * Or gate:
+ * if (a or b) out = 1, else out = 0 
+ */
+CHIP Or {
+    IN a, b;
+    OUT out;
+    
+    // Implemented by BarakXYZ 2024
+    PARTS:
+    Not(in=a, out=NotA);
+    Not(in=b, out=NotB);
+    Nand(a=NotA, b=NotB, out=out);
+   
+}
+
+/*
+Not like 'And', 'Or' is is different than 'Nand' only where:
+0,0 (Nand 1, Or 0), and at 1,1 (Nand 0, Or 1).
+We can negate both inputs to change the behavior of Nand only in 0,0 and 1,1
+to output Or.
+The middle (0,1 1,0) won't change by the negation since they'll still stay opposite.
+
+And
+0 0 = 0
+0 1 = 0
+1 0 = 0
+1 1 = 1
+
+Or
+0 0 = 0
+0 1 = 1
+1 0 = 1
+1 1 = 1
+
+Nand
+0 0 = 1
+0 1 = 1
+1 0 = 1
+1 1 = 0
+
+*/

@@ -1,0 +1,117 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+    static Array ram;
+    static Array heap;
+    static int freeList, segDelta;
+
+    /** Initializes the class. */
+    function void init() {
+        // Set base address of RAM to 0 so we can access at addresses: 0-32767
+        let ram = 0;
+        let heap = 2048; // Base address of the heap segment
+        let freeList = heap;
+
+        // .next: available free space
+        let heap[0] = 0;
+
+        // .size: The initial free available size of the heap segment
+        let heap[1] = 14335;
+
+        // The 2 additional words each segment should reserve for ptr & size
+        let segDelta = 2;
+        return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+        return ram[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+        let ram[address] = value;
+        return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+        var int curr, prev, next, freeSize, reqSize;
+        
+        let reqSize = size + segDelta;
+        let prev = 0;
+        let curr = freeList;
+        
+        while (~(curr = 0)) {
+            let freeSize = Memory.peek(curr + 1);
+            
+            if (~(freeSize < reqSize)) {
+                // Found a suitable block
+                if (freeSize = reqSize) {
+                    // Exact match - remove entire block from free list
+                    let next = Memory.peek(curr);
+                    if (prev = 0) {
+                        let freeList = next;
+                    } else {
+                        do Memory.poke(prev, next);
+                    }
+                } else {
+                    // Split the block
+                    let next = curr + reqSize;
+                    do Memory.poke(next, Memory.peek(curr));
+                    do Memory.poke(next + 1, freeSize - reqSize);
+                    
+                    if (prev = 0) {
+                        let freeList = next;
+                    } else {
+                        do Memory.poke(prev, next);
+                    }
+                }
+                
+                // Set up allocated block
+                do Memory.poke(curr + 1, size);
+                return curr + segDelta;
+            }
+            
+            let prev = curr;
+            let curr = Memory.peek(curr);
+        }
+        
+        return -1;  // No suitable block found
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+        var int currAddr, nextAddr, baseAddrO;
+        // Because the user is passing to us the shifted, user usable array;
+        // We need to shift it back to the base address.
+        let baseAddrO = o - segDelta;
+        let currAddr = freeList;
+        let nextAddr = Memory.peek(currAddr);
+
+        while (true) {
+            // Next address to traverse to
+            if (nextAddr = 0) {
+                // Append to the end of the linked list
+                do Memory.poke(currAddr, baseAddrO);
+                do Memory.poke(baseAddrO, 0);
+                return;
+            } else {
+                let currAddr = nextAddr;
+                let nextAddr = Memory.peek(currAddr);
+            }
+        }
+        return;
+    }    
+}
+//
+// Implemented by BarakXYZ 2025

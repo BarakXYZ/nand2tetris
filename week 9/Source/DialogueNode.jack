@@ -1,0 +1,571 @@
+//** Written & Designed by BarakXYZ (Barak Arosh Surian) in 2024
+// As part of Week 9 assignment @NAND2TETRIS by Shimon Shocken & Noam Nisan *//
+
+//** Construction and implementations of all the different Dialogue Nodes NPC's carry. Is also Responsible for drawing the nodes in the correct location (i.e. Rows and Columns). Dialogue Nodes will be initialized, disposed and updated during gameplay, upon quest completion, etc. *//
+class DialogueNode {
+
+    field boolean hasEnded;
+    field int currLine, dialogueLines, defaultDialogueLines;
+    field int subDialogueIndex, dialoguePages;
+    field String t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
+    field String t15, t16, t17, t18, t19, t20, t21, t22, t23;
+    field String td0, td1, td2, td3, td4;
+    field String tempDisposeStr;
+    field Array mainDialogueArr, defaultDialogueArr;
+    static char slashSymbol;
+    static int maxMainDialogue, maxDefaultDialogue;
+
+    function void init() {
+        let slashSymbol = 47;
+        let maxMainDialogue = 24;
+        let maxDefaultDialogue = 5;
+        return;
+    }
+
+    method void draw() {
+        var int i;
+        let i = 0;
+        do UserInterface.clearDialogueBox();
+
+        while (i < 4) {
+            do Output.moveCursor(16 + i, 22);
+            if (~(hasEnded)) { do Output.printString(mainDialogueArr[currLine+i]); }
+            else { do Output.printString(defaultDialogueArr[i]); }
+            let i = i + 1;
+        }
+
+        do drawDialogueEnumeration();
+        do UserInterface.drawDialogueBox();
+
+        if (~hasEnded) {
+            let subDialogueIndex = subDialogueIndex + 1;
+            let currLine = currLine + 4;
+            if (currLine = dialogueLines) {
+                let subDialogueIndex = 1;
+                let dialoguePages = 1;
+                let hasEnded = true;
+            }
+        }
+        return;
+    }
+
+    method void drawDialogueEnumeration() {
+        do Output.moveCursor(16, 60);
+        do Output.printInt(subDialogueIndex);
+        do Output.printChar(slashSymbol);
+        do Output.printInt(dialoguePages);
+        return;
+    }
+
+    method void end() {
+        let hasEnded = true;
+        return;
+    }
+    
+    method boolean hasEnded() {
+        return hasEnded;
+    }
+
+    method void initNodeParams(int aDialogueLines, int aDefaultDialogueLines) {
+        let dialogueLines = aDialogueLines;
+        let defaultDialogueLines = aDefaultDialogueLines;
+        let dialoguePages = dialogueLines / 4;
+        if (dialoguePages = 0) { let dialoguePages = 1; }
+        let subDialogueIndex = 1;
+        let currLine = 0;
+        return;
+    }
+
+    method void assignDialogueToArr() {
+
+        let mainDialogueArr = Array.new(maxMainDialogue);
+        let defaultDialogueArr = Array.new(maxDefaultDialogue);
+
+        let mainDialogueArr[0] = t0;
+        let mainDialogueArr[1] = t1;
+        let mainDialogueArr[2] = t2;
+        let mainDialogueArr[3] = t3;
+
+        let mainDialogueArr[4] = t4;
+        let mainDialogueArr[5] = t5;
+        let mainDialogueArr[6] = t6;
+        let mainDialogueArr[7] = t7;
+
+        let mainDialogueArr[8] = t8;
+        let mainDialogueArr[9] = t9;
+        let mainDialogueArr[10] = t10;
+        let mainDialogueArr[11] = t11;
+
+        let mainDialogueArr[12] = t12;
+        let mainDialogueArr[13] = t13;
+        let mainDialogueArr[14] = t14;
+        let mainDialogueArr[15] = t15;
+
+        let mainDialogueArr[16] = t16;
+        let mainDialogueArr[17] = t17;
+        let mainDialogueArr[18] = t18;
+        let mainDialogueArr[19] = t19;
+
+        let mainDialogueArr[20] = t20;
+        let mainDialogueArr[21] = t21;
+        let mainDialogueArr[22] = t22;
+        let mainDialogueArr[23] = t23;
+
+        let defaultDialogueArr[0] = td0;
+        let defaultDialogueArr[1] = td1;
+        let defaultDialogueArr[2] = td2;
+        let defaultDialogueArr[3] = td3;
+        let defaultDialogueArr[4] = td4;
+
+        return;
+    }
+
+    method void dispose() {
+        var int i;
+        let i = 0;
+
+        //** Dispose Strings *//
+        while (i < maxMainDialogue) {
+            let tempDisposeStr = mainDialogueArr[i];
+            do tempDisposeStr.dispose();
+            let i = i + 1;
+        } let i = 0;
+
+        while (i < maxDefaultDialogue) {
+            let tempDisposeStr = defaultDialogueArr[i];
+            do tempDisposeStr.dispose();
+            let i = i + 1;
+        }
+        
+        //** Dispose Arrays *//
+        do mainDialogueArr.dispose();
+        do defaultDialogueArr.dispose();
+
+        //** Dispose Object *//
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void fillStrBlank() {
+        var int i, offset;
+        let i = 0;
+        let offset = 4;
+        
+        if (defaultDialogueLines = 0) {
+            let td4 = " ";
+            let td3 = " ";
+            let td2 = " ";
+            let td1 = " ";
+            let td0 = " ";
+        }
+
+        if (dialogueLines < maxMainDialogue) {
+            let t23 = " ";
+            let t22 = " ";
+            let t21 = " ";
+            let t20 = " ";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t19 = " ";
+            let t18 = " ";
+            let t17 = " ";
+            let t16 = " ";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t15 = " ";
+            let t14 = " ";
+            let t13 = " ";
+            let t12 = " ";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t11 = " ";
+            let t10 = " ";
+            let t9 = " ";
+            let t8 = " ";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t7 = " ";
+            let t6 = " ";
+            let t5 = " ";
+            let t4 = " ";
+            let i = i + offset;
+        } else { return; }
+
+        if (dialogueLines < (maxMainDialogue - i)) {
+            let t3 = " ";
+            let t2 = " ";
+            let t1 = " ";
+            let t0 = " ";
+        } return;
+    }
+
+    //** NODES *//
+
+    constructor DialogueNode makeIntro() {
+        do initNodeParams(16, 0);
+        let hasEnded = false;
+
+        let t0 = "First things first: Please make sure";
+        let t1 = "to run this game on the non-web-IDE";
+        let t2 = "version of the VM Emulator. If you are";
+        let t3 = "already doing so, then let's start!";
+
+        let t4 = "Hello there young programmer!";
+        let t5 = "I'm glad you showed up.";
+        let t6 = "Before we move on to build a compiler,";
+        let t7 = "I have a few cool challenges for you!";
+
+        let t8 = "I want to make sure you have all the";
+        let t9 = "basics nailed down. So I've prepared";
+        let t10 = "a few interesting Assembly challenges";
+        let t11 = "for you to solve!";
+
+        let t12 = "They are... a bit involved...";
+        let t13 = "But no worries, we'll start with the";
+        let t14 = "big picture; go through everything";
+        let t15 = "step-by-step and get you up and running!";
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+    
+    constructor DialogueNode makeSHIMON1() {
+        do initNodeParams(24, 0);
+        let hasEnded = false;
+
+        let t0 = "This is the 'Challenge' pane.";
+        let t1 = "The Assembly code you'll need to solve";
+        let t2 = "will be shown within it.";
+        let t3 = "Each line has a corresponding number.";
+
+        let t4 = "Press 'C' to enter '[C]hallenge Mode'";
+        let t5 = "Then, start to type your answers.";
+        let t6 = "When you're ready, press 'Enter' to";
+        let t7 = "submit your response.";
+
+        let t8 = "You can also use the Up & Down arrows";
+        let t9 = "to navigate through the comment buffers.";
+        let t10 = "You have 4 'Answer Buffers' and";
+        let t11 = "11 convenient 'Comment Buffers'.";
+
+        let t12 = "The 'Answer Buffers' will be";
+        let t13 = "checked internally to see if your";
+        let t14 = "response was correct. The Comment Buffers";
+        let t15 = "will serve as helpers to track the flow";
+
+        let t16 = "of the Assembly program.";
+        let t17 = "Soon the challenges will become more";
+        let t18 = "difficult, and you'll... need them.";
+        let t19 = "        **muahahahah**";
+
+        let t20 = "Ok, let's move on...";
+        let t21 = "Here's your first challenge.";
+        let t22 = "Enjoy it while it's still... possible.";
+        let t23 = "            (^_^)";
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+    constructor DialogueNode makeSHIMON2() {
+        do initNodeParams(16, 0);
+        let hasEnded = false;
+
+        let t0 = "Nice job!";
+        let t1 = "I already see you got what it takes!";
+        let t2 = "Let's spice it up then...";
+        let t3 = "Here's the 'Content' pane.";
+
+        let t4 = "In it, you'll see the attributes";
+        let t5 = "of the currently selected memory cell.";
+        let t6 = "For example: my SymName=SHIMON";
+        let t7 = "Address=555, and Value=42 (set by you).";
+
+        let t8 = "It will also contain additional info";
+        let t9 = "which will help you solve the next";
+        let t10 = "challenges, so please look carefully!";
+        let t11 = " ";
+
+        let t12 = "Ok, let's move on...";
+        let t13 = "Here's your next challenge...";
+        let t14 = "Good luck and break a line!";
+        let t15 = "                            ";
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeSHIMON3() {
+        do initNodeParams(20, 4);
+        let hasEnded = false;
+
+        let t0 = "Pew! Pew! You got this, huh?!";
+        let t1 = "Let's move on... to the next level!";
+        let t2 = "Let me introduce the '[L]ookup' utility.";
+        let t3 = "You can use it to... lookup addresses! Da.";
+
+        let t4 = "By pressing 'L' or '@', you'll enter";
+        let t5 = "the '[L]ookup Mode', where you can type";
+        let t6 = "an address, look it up by hitting 'Enter'";
+        let t7 = "and face with what it holds!";
+
+        let t8 = "In this challenge, you will actually";
+        let t9 = "need to go lookup and solve another ";
+        let t10 = "address's challenge, discover its value,";
+        let t11 = "and then come back to my address by either";
+
+        let t12 = "looking up 'SHIMON' or '555' (both";
+        let t13 = "the SymName or Address will work)";
+        let t14 = "in order to complete this main challenge.";
+        let t15 = " ";
+
+        let t16 = "I'll be here waiting, good luck!";
+        let t17 = "Send my regards to... well, you'll see.";
+        let t18 = " ";
+        let t19 = " ";
+
+        let td0 = "Hey again!";
+        let td1 = "So... have you met GNIRUT?!";
+        let td2 = "Once you beat his challenge, you'll";
+        let td3 = "discover his value. Go get him, tiger!";
+        let td4 = " ";
+        
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeEnemyGNIRUT() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "I CAME, I SAW, I CRASHED.";
+        let td1 = "     ...Wh00p$...";
+        let td2 = "*#&(&@(*$&(&%)!*@#&(!*))";
+        let td3 = "^&#!@^!^@)#!)!)!)!)@*@";
+        let td4 = " ";
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeFriendGNIRUT() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "Thank you! You've saved me from a";
+        let td1 = "deadly segmentation fault!";
+        let td2 = "I owe you one (or zero) <3";
+        let td3 = " ";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+
+    constructor DialogueNode makeSHIMON4() {
+        do initNodeParams(8, 4);
+        let hasEnded = false;
+
+        let t0 = "Woohoo!";
+        let t1 = "You're definitely not messing around!";
+        let t2 = "We have 2 more challenges to go, but...";
+        let t3 = "they won't be easy...";
+
+        let t4 = "In this one you'll also need to face";
+        let t5 = "some jumping (goto) logic.";
+        let t6 = "Good luck!";
+        let t7 = " ";
+
+        let td0 = "Jump like a frog, yet think like a...";
+        let td1 = "borg?";
+        let td2 = "LOLO likes to jump, catch him!";
+        let td3 = "I count on you, jump kiddo jump!";
+        let td4 = " ";  // Without this, there's a bug. It's not being used though.
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeEnemyLOLO() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;  // Enemy Dialogue == true
+
+        let td0 = "I'm here.";
+        let td1 = "            I'm there.";
+        let td2 = "                         I'm everywhere!";
+        let td3 = "      You got no chance lo10!@";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeFriendLOLO() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "LILI LALA LOLO";
+        let td1 = "Thank you kind programmer!";
+        let td2 = "These chaotic creatures are annoying!";
+        let td3 = "Please continue with your great work <3";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeSHIMON5() {
+        do initNodeParams(16, 4);
+        let hasEnded = false;
+
+        let t0 = "Well well well... you've made it";
+        let t1 = "to the final challenge, huh?";
+        let t2 = "It won't be easy, but give it your";
+        let t3 = "best shoot!";
+
+        let t4 = "We'll combine all the different";
+        let t5 = "components for a master challenge.";
+        let t6 = "We'll also combine some OR & AND";
+        let t7 = "operations. Good luck! (you'll need it)";
+
+        let t8 = "This challenge will use bigger";
+        let t9 = "binary numbers. So feel free to use";
+        let t10 = "a notepad and a decimal to binary";
+        let t11 = "converter, as there's not enough space";
+
+        let t12 = "in the comment buffers for this one.";
+        let t13 = "But try to calculate the OR & AND comps";
+        let t14 = "by yourself. You can do it!";
+        let t15 = "Good luck!!";
+
+
+
+        let td0 = "IT'S THE FINAL COUNT DOWN";
+        let td1 = "TUTUTU TUUUU... TUTUTU TU TUUU...";
+        let td2 = "You got this!";
+        let td3 = " ";
+        let td4 = " ";  // Without this, there's a bug. It's not being used though.
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeEnemyNAND() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;  // Enemy Dialogue == true
+
+        let td0 = "You think it will AND?";
+        let td1 = "Well... it NOT.";
+        let td2 = "I mean... it won't.";
+        let td3 = "Sorry English no good :(";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeFriendNAND() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "ANOTHER ONE!";
+        let td1 = "Keep going!!!";
+        let td2 = " ";
+        let td3 = " ";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+
+    constructor DialogueNode makeEnemyTETRIS() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;  // Enemy Dialogue == true
+
+        let td0 = "That's it.";
+        let td1 = "You think you have what it takes?";
+        let td2 = "Let's push you to your limits!";
+        let td3 = " ";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeFriendTETRIS() {
+        do initNodeParams(0, 4);
+        let hasEnded = true;
+
+        let td0 = "You did it!";
+        let td1 = "Now just go to Shimon and connect";
+        let td2 = "the final dots!";
+        let td3 = " ";
+        let td4 = "DON'T DELETE - ";  // Without this there's a weird bug
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+
+    constructor DialogueNode makeSHIMON6() {
+        do initNodeParams(8, 4);
+        let hasEnded = false;
+
+        let t0 = "I knew you can do it!";
+        let t1 = "Congratulation young programmer!";
+        let t2 = "I'm sure you'll do great things in the";
+        let t3 = "future. Good luck with the compiler too!";
+
+        let t4 = "Thank you so much for sticking around";
+        let t5 = "till the very end! You're amazing!";
+        let t6 = "So... I guess.. Let's move on...?";
+        let t7 = "See you soon in week 10!";
+
+        let td0 = "Oh you're still here?!";
+        let td1 = "Sure, feel free to play around :)";
+        let td2 = "Just know that the code might break";
+        let td3 = "from here... (no guarantees :P)";
+        let td4 = " ";  // Without this, there's a bug. It's not being used though.
+
+        do fillStrBlank();
+        do assignDialogueToArr();
+
+        return this;
+    }
+}
